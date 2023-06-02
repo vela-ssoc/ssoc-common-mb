@@ -15,12 +15,12 @@ import (
 	"github.com/vela-ssoc/vela-common-mb/problem"
 )
 
-type Configurer interface {
+type SearchConfigurer interface {
 	Reset()
 	Load() (addr string, auth string, err error)
 }
 
-func NewConfigure() Configurer {
+func NewSearchConfigure() SearchConfigurer {
 	return &searchConfigure{}
 }
 

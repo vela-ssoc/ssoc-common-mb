@@ -86,12 +86,18 @@ type Subscribers struct {
 
 // Event 获取 event 事件订阅者，找不到返回 nil
 func (sub Subscribers) Event(key string) *Subscriber {
-	return sub.event[key]
+	if evt := sub.event; evt != nil {
+		return evt[key]
+	}
+	return nil
 }
 
 // Risk 获取风险事件订阅者，找不到返回 nil
 func (sub Subscribers) Risk(key string) *Subscriber {
-	return sub.risk[key]
+	if rsk := sub.risk; rsk != nil {
+		return rsk[key]
+	}
+	return nil
 }
 
 type subscriberMap map[string]*Subscriber

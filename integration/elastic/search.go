@@ -14,7 +14,7 @@ type Searcher interface {
 	Bulk(ctx context.Context, r io.Reader) (*BulkResponse, error)
 }
 
-func NewSearch(cfg Configurer, client netutil.HTTPClient) Searcher {
+func NewSearch(cfg SearchConfigurer, client netutil.HTTPClient) Searcher {
 	ua := "elastic-ssoc-broker-" + runtime.GOOS + "-" + runtime.GOARCH
 	return &esClient{
 		cfg:    cfg,
@@ -24,7 +24,7 @@ func NewSearch(cfg Configurer, client netutil.HTTPClient) Searcher {
 }
 
 type esClient struct {
-	cfg    Configurer
+	cfg    SearchConfigurer
 	client netutil.HTTPClient
 	ua     string
 }
