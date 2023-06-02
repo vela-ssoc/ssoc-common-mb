@@ -51,7 +51,7 @@ func (tc *tableColumn) inter(op, val string) (clause.Expression, error) {
 }
 
 func (tc *tableColumn) splitBatch(opr Operator, val string) (clause.Expression, error) {
-	sn := strings.Split(val, "|")
+	sn := strings.Split(val, ",")
 
 	anis := make([]any, 0, len(sn))
 	for _, s := range sn {
