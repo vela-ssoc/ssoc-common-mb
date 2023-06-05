@@ -18,9 +18,10 @@ type Client interface {
 
 func NewClient(cfg Configurer, cli netutil.HTTPClient, slog logback.Logger) Client {
 	return &client{
-		cfg:    cfg,
-		client: cli,
-		slog:   slog,
+		cfg:     cfg,
+		client:  cli,
+		slog:    slog,
+		timeout: 5 * time.Second,
 	}
 }
 
@@ -32,7 +33,7 @@ type client struct {
 }
 
 func (c *client) Send(parent context.Context, uids, gids []string, title, detail string) error {
-	if len(uids) == 0 || len(gids) == 0 {
+	if len(uids) == 0 && len(gids) == 0 {
 		c.slog.Warn("咚咚告警的用户 ID 和群组 ID 全部为空，跳过不发送")
 		return nil
 	}

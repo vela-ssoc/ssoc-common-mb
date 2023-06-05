@@ -17,20 +17,22 @@ type Searcher interface {
 func NewSearch(cfg SearchConfigurer, client netutil.HTTPClient) Searcher {
 	ua := "elastic-ssoc-broker-" + runtime.GOOS + "-" + runtime.GOARCH
 	return &esClient{
-		cfg:    cfg,
-		client: client,
-		ua:     ua,
+		cfg:     cfg,
+		client:  client,
+		ua:      ua,
+		timeout: 5 * time.Second,
 	}
 }
 
 type esClient struct {
-	cfg    SearchConfigurer
-	client netutil.HTTPClient
-	ua     string
+	cfg     SearchConfigurer
+	client  netutil.HTTPClient
+	ua      string
+	timeout time.Duration
 }
 
 func (es *esClient) Bulk(parent context.Context, r io.Reader) (*BulkResponse, error) {
-	ctx, cancel := context.WithTimeout(parent, 3*time.Second)
+	ctx, cancel := context.WithTimeout(parent, es.timeout)
 	defer cancel()
 
 	req, err := es.newRequest(ctx, http.MethodPost, "/_bulk", r)

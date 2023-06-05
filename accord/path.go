@@ -8,12 +8,14 @@ const (
 	PathThirdDiff    = "/third/diff"    // 三方文件变更
 	PathElasticReset = "/elastic/reset" // 三方文件变更
 	PathEmcReset     = "/emc/reset"     // 三方文件变更
+	PathStoreReset   = "/store/reset"   // 三方文件变更
 	FPTaskLoad       = PathPrefix + PathTaskLoad
 	FPTaskSync       = PathPrefix + PathTaskSync
 	FPTaskTable      = PathPrefix + PathTaskTable
 	FPThirdDiff      = PathPrefix + PathThirdDiff
 	FPElasticReset   = PathPrefix + PathElasticReset
 	FPEmcReset       = PathPrefix + PathEmcReset
+	FPStoreReset     = PathPrefix + PathStoreReset
 )
 
 type TaskLoadRequest struct {
@@ -25,6 +27,10 @@ type TaskLoadRequest struct {
 type TaskSyncRequest struct {
 	MinionID int64  `json:"minion_id"`
 	Inet     string `json:"inet"`
+}
+
+type StoreRestRequest struct {
+	ID string `json:"id"`
 }
 
 type ThirdDiff struct {
