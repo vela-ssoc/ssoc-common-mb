@@ -42,3 +42,7 @@ const (
 	ThirdUpdate = "update"
 	ThirdDelete = "delete"
 )
+
+type TaskTable struct {
+	TaskID int64 `json:"task_id"`
+}
