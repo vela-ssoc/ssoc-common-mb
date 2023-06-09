@@ -1,5 +1,7 @@
 package dynsql
 
+import "strconv"
+
 type IntEnumBuilder interface {
 	Set(val int, name string) IntEnumBuilder
 	build() Enums
@@ -27,7 +29,8 @@ func (ib *intEnumBuilder) build() Enums {
 	enums := make([]*enumItem, 0, len(ib.hm))
 	for _, od := range ib.orders {
 		name := ib.hm[od]
-		enums = append(enums, &enumItem{Val: od, Name: name})
+		val := strconv.FormatInt(int64(od), 10)
+		enums = append(enums, &enumItem{Val: val, Name: name})
 	}
 	return Enums{items: enums}
 }

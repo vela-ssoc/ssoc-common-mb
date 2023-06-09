@@ -28,8 +28,8 @@ func (e *boolEnumBuilder) False(name string) BoolEnumBuilder {
 func (e *boolEnumBuilder) build() Enums {
 	return Enums{
 		items: []*enumItem{
-			{Val: true, Name: e.trueName},
-			{Val: false, Name: e.falseName},
+			{Val: "true", Name: e.trueName},
+			{Val: "false", Name: e.falseName},
 		},
 	}
 }

@@ -1,9 +1,7 @@
 package dynsql
 
-import "strconv"
-
 type enumItem struct {
-	Val  any    `json:"key"`  // `json:"val"`
+	Val  string `json:"key"`  // `json:"val"`
 	Name string `json:"desc"` // `json:"name"`
 }
 
@@ -19,18 +17,7 @@ func (es Enums) toMap() map[string]struct{} {
 
 	ret := make(map[string]struct{}, size)
 	for _, e := range es.items {
-		switch elem := e.Val.(type) {
-		case string:
-			ret[elem] = struct{}{}
-		case int:
-			str := strconv.FormatInt(int64(elem), 10)
-			ret[str] = struct{}{}
-		case bool:
-			str := strconv.FormatBool(elem)
-			ret[str] = struct{}{}
-		default: // 枚举仅支持 string int bool 三种类型
-			return nil
-		}
+		ret[e.Val] = struct{}{}
 	}
 
 	return ret

@@ -143,3 +143,54 @@ func (mts MinionTags) Merge(minionID int64, fulls []string) (MinionTags, []strin
 
 	return ret, removes
 }
+
+func (mts MinionTags) Manual(mid int64, fulls []string) MinionTags {
+	hashmap := make(map[string]*MinionTag, len(mts))
+	for _, mt := range mts {
+		hashmap[mt.Tag] = mt
+	}
+	result := make(MinionTags, 0, len(fulls))
+	for _, str := range fulls {
+		mt, ok := hashmap[str]
+		if !ok { // 新增的 tag
+			result = append(result, &MinionTag{Tag: str, MinionID: mid, Kind: TkManual})
+			continue
+		}
+		result = append(result, mt)
+		delete(hashmap, str)
+	}
+	for _, mt := range result { // 永久标签不允许删除
+		if mt.Kind == TkLifelong {
+			result = append(result, mt)
+		}
+	}
+
+	return result
+}
+
+func (mts MinionTags) Minion(mid int64, fulls []string) MinionTags {
+	hashmap := make(map[string]*MinionTag, len(mts))
+	for _, mt := range mts {
+		hashmap[mt.Tag] = mt
+	}
+	result := make(MinionTags, 0, len(fulls))
+	for _, str := range fulls {
+		mt, ok := hashmap[str]
+		if !ok { // 新增的 tag
+			result = append(result, &MinionTag{Tag: str, MinionID: mid, Kind: TkManual})
+			continue
+		}
+		result = append(result, mt)
+		delete(hashmap, str)
+	}
+
+	for _, mt := range result {
+		// 永久标签和手动添加的标签不允许节点操作删除
+		tk := mt.Kind
+		if tk == TkLifelong || tk == TkManual {
+			result = append(result, mt)
+		}
+	}
+
+	return result
+}

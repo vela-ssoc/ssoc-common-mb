@@ -18,3 +18,20 @@ type RiskFile struct {
 func (RiskFile) TableName() string {
 	return "risk_file"
 }
+
+type RiskFiles []*RiskFile
+
+func (rfs RiskFiles) ChecksumKinds() map[string][]string {
+	size := len(rfs)
+	ret := make(map[string][]string, size)
+	for _, file := range rfs {
+		sum := file.Checksum
+		if kinds, exist := ret[sum]; exist {
+			ret[sum] = append(kinds, file.Kind)
+		} else {
+			ret[sum] = []string{file.Kind}
+		}
+	}
+
+	return ret
+}

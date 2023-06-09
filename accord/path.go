@@ -9,6 +9,7 @@ const (
 	PathElasticReset = "/elastic/reset" // 三方文件变更
 	PathEmcReset     = "/emc/reset"     // 三方文件变更
 	PathStoreReset   = "/store/reset"   // 三方文件变更
+	PathCmdbReset    = "/cmdb/reset"    // 三方文件变更
 	FPTaskLoad       = PathPrefix + PathTaskLoad
 	FPTaskSync       = PathPrefix + PathTaskSync
 	FPTaskTable      = PathPrefix + PathTaskTable
@@ -16,6 +17,7 @@ const (
 	FPElasticReset   = PathPrefix + PathElasticReset
 	FPEmcReset       = PathPrefix + PathEmcReset
 	FPStoreReset     = PathPrefix + PathStoreReset
+	FPCmdbReset      = PathPrefix + PathCmdbReset
 )
 
 type TaskLoadRequest struct {

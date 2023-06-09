@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"io"
 	"io/fs"
-	"log"
 	"mime"
 	"os"
 	"path/filepath"
@@ -109,7 +108,6 @@ func (f *file) nextSerial() error {
 	}
 
 	f.count += len(chk.data)
-	log.Printf("第 %d 片: %d", f.serial, f.count)
 
 	f.serial++ // 序号增加
 	f.buff = chk.data
