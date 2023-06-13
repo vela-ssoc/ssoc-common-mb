@@ -63,6 +63,7 @@ var (
 	SBOMMinion    *sBOMMinion
 	SBOMProject   *sBOMProject
 	SBOMVuln      *sBOMVuln
+	Startup       *startup
 	Store         *store
 	Substance     *substance
 	SubstanceTask *substanceTask
@@ -120,6 +121,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	SBOMMinion = &Q.SBOMMinion
 	SBOMProject = &Q.SBOMProject
 	SBOMVuln = &Q.SBOMVuln
+	Startup = &Q.Startup
 	Store = &Q.Store
 	Substance = &Q.Substance
 	SubstanceTask = &Q.SubstanceTask
@@ -178,6 +180,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		SBOMMinion:    newSBOMMinion(db, opts...),
 		SBOMProject:   newSBOMProject(db, opts...),
 		SBOMVuln:      newSBOMVuln(db, opts...),
+		Startup:       newStartup(db, opts...),
 		Store:         newStore(db, opts...),
 		Substance:     newSubstance(db, opts...),
 		SubstanceTask: newSubstanceTask(db, opts...),
@@ -237,6 +240,7 @@ type Query struct {
 	SBOMMinion    sBOMMinion
 	SBOMProject   sBOMProject
 	SBOMVuln      sBOMVuln
+	Startup       startup
 	Store         store
 	Substance     substance
 	SubstanceTask substanceTask
@@ -297,6 +301,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		SBOMMinion:    q.SBOMMinion.clone(db),
 		SBOMProject:   q.SBOMProject.clone(db),
 		SBOMVuln:      q.SBOMVuln.clone(db),
+		Startup:       q.Startup.clone(db),
 		Store:         q.Store.clone(db),
 		Substance:     q.Substance.clone(db),
 		SubstanceTask: q.SubstanceTask.clone(db),
@@ -364,6 +369,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		SBOMMinion:    q.SBOMMinion.replaceDB(db),
 		SBOMProject:   q.SBOMProject.replaceDB(db),
 		SBOMVuln:      q.SBOMVuln.replaceDB(db),
+		Startup:       q.Startup.replaceDB(db),
 		Store:         q.Store.replaceDB(db),
 		Substance:     q.Substance.replaceDB(db),
 		SubstanceTask: q.SubstanceTask.replaceDB(db),
@@ -421,6 +427,7 @@ type queryCtx struct {
 	SBOMMinion    *sBOMMinionDo
 	SBOMProject   *sBOMProjectDo
 	SBOMVuln      *sBOMVulnDo
+	Startup       *startupDo
 	Store         *storeDo
 	Substance     *substanceDo
 	SubstanceTask *substanceTaskDo
@@ -478,6 +485,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		SBOMMinion:    q.SBOMMinion.WithContext(ctx),
 		SBOMProject:   q.SBOMProject.WithContext(ctx),
 		SBOMVuln:      q.SBOMVuln.WithContext(ctx),
+		Startup:       q.Startup.WithContext(ctx),
 		Store:         q.Store.WithContext(ctx),
 		Substance:     q.Substance.WithContext(ctx),
 		SubstanceTask: q.SubstanceTask.WithContext(ctx),

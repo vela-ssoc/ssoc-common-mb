@@ -1,23 +1,27 @@
 package accord
 
 const (
-	PathPrefix       = "/api/v1"
-	PathTaskLoad     = "/task/load"     // 加载指定配置
-	PathTaskSync     = "/task/sync"     // 同步配置
-	PathTaskTable    = "/task/table"    // 同步配置
-	PathThirdDiff    = "/third/diff"    // 三方文件变更
-	PathElasticReset = "/elastic/reset" // 三方文件变更
-	PathEmcReset     = "/emc/reset"     // 三方文件变更
-	PathStoreReset   = "/store/reset"   // 三方文件变更
-	PathCmdbReset    = "/cmdb/reset"    // 三方文件变更
-	FPTaskLoad       = PathPrefix + PathTaskLoad
-	FPTaskSync       = PathPrefix + PathTaskSync
-	FPTaskTable      = PathPrefix + PathTaskTable
-	FPThirdDiff      = PathPrefix + PathThirdDiff
-	FPElasticReset   = PathPrefix + PathElasticReset
-	FPEmcReset       = PathPrefix + PathEmcReset
-	FPStoreReset     = PathPrefix + PathStoreReset
-	FPCmdbReset      = PathPrefix + PathCmdbReset
+	PathPrefix        = "/api/v1"
+	PathTaskLoad      = "/task/load"      // 加载指定配置
+	PathTaskSync      = "/task/sync"      // 同步配置
+	PathTaskTable     = "/task/table"     // 同步配置
+	PathThirdDiff     = "/third/diff"     // 三方文件变更
+	PathElasticReset  = "/elastic/reset"  // 三方文件变更
+	PathEmcReset      = "/emc/reset"      // 三方文件变更
+	PathStoreReset    = "/store/reset"    // 三方文件变更
+	PathCmdbReset     = "/cmdb/reset"     // 三方文件变更
+	PathNotifierReset = "/notifier/reset" // 三方文件变更
+	PathStartup       = "/startup"        // 三方文件变更
+	FPTaskLoad        = PathPrefix + PathTaskLoad
+	FPTaskSync        = PathPrefix + PathTaskSync
+	FPTaskTable       = PathPrefix + PathTaskTable
+	FPThirdDiff       = PathPrefix + PathThirdDiff
+	FPElasticReset    = PathPrefix + PathElasticReset
+	FPEmcReset        = PathPrefix + PathEmcReset
+	FPStoreReset      = PathPrefix + PathStoreReset
+	FPCmdbReset       = PathPrefix + PathCmdbReset
+	FPNotifierReset   = PathPrefix + PathNotifierReset
+	FPStartup         = PathPrefix + PathStartup
 )
 
 type TaskLoadRequest struct {
@@ -47,4 +51,8 @@ const (
 
 type TaskTable struct {
 	TaskID int64 `json:"task_id"`
+}
+
+type Startup struct {
+	ID int64 `json:"id"`
 }

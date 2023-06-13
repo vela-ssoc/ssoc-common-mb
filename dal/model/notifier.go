@@ -58,6 +58,13 @@ type Subscriber struct {
 	devops map[string]*Devops // 运维系统按照 mobile 去重
 }
 
+func (sub *Subscriber) Empty() bool {
+	return sub == nil || (len(sub.Dong) == 0 &&
+		len(sub.Email) == 0 &&
+		len(sub.Wechat) == 0 &&
+		len(sub.SMS) == 0)
+}
+
 func (sub *Subscriber) putDevops(way string, ntf *Notifier) {
 	mobile := ntf.Mobile
 	ops, ok := sub.devops[mobile]
@@ -113,7 +120,7 @@ func (sbm subscriberMap) put(key string, ntf *Notifier, code []byte) {
 		sbm[key] = sub
 	}
 
-	const dongType, emailType, wechatType, smsType = "dong", "email", "wechat", "sms"
+	const dongType, emailType, wechatType, smsType, callType = "dong", "email", "wechat", "sms", "call"
 	dong, email, mobile := ntf.Dong, ntf.Email, ntf.Mobile
 
 	for _, way := range ntf.Ways {
@@ -135,6 +142,10 @@ func (sbm subscriberMap) put(key string, ntf *Notifier, code []byte) {
 			if mobile != "" {
 				sub.SMS = append(sub.SMS, mobile)
 				sub.putDevops(smsType, ntf)
+			}
+		case callType:
+			if mobile != "" {
+				sub.putDevops(callType, ntf)
 			}
 		}
 	}

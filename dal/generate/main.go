@@ -65,6 +65,7 @@ func tables() []any {
 		model.SBOMMinion{},
 		model.SBOMProject{},
 		model.SBOMVuln{},
+		model.Startup{},
 		model.Store{},
 		model.Substance{},
 		model.SubstanceTask{},

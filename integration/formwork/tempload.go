@@ -16,8 +16,8 @@ type TmplLoader interface {
 	Load(ctx context.Context) (*template.Template, error)
 }
 
-func newTmplLoad(id string) TmplLoader {
-	return &tmplLoad{id: id}
+func newTmplLoad(id string, share bool) TmplLoader {
+	return &tmplLoad{id: id, shared: share}
 }
 
 type tmplLoad struct {
