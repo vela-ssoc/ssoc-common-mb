@@ -77,7 +77,7 @@ func (dc *devopsClient) Send(ctx context.Context, title, body string, users []*m
 		Notifier:       string(dat),
 	}
 
-	addr := "http://alert.eastmoney.com/api/v0.1/alerts"
+	addr := "http://yunwei.eastmoney.com:81/api/v0.1/alerts"
 	return dc.client.JSON(ctx, http.MethodPost, addr, req, &struct{}{}, nil)
 }
 

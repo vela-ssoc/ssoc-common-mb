@@ -15,16 +15,7 @@ import (
 	"github.com/vela-ssoc/vela-common-mb/problem"
 )
 
-type SearchConfigurer interface {
-	Reset()
-	Load() (addr string, auth string, err error)
-}
-
-func NewSearchConfigure() SearchConfigurer {
-	return &searchConfigure{}
-}
-
-func NewForwardConfigure(name string) ForwardConfigurer {
+func NewConfigure(name string) Configurer {
 	dialer := &net.Dialer{Timeout: 3 * time.Second}
 	tlsDialer := &tls.Dialer{NetDialer: dialer}
 	trip := &http.Transport{
@@ -38,65 +29,10 @@ func NewForwardConfigure(name string) ForwardConfigurer {
 	}
 }
 
-type searchConfigure struct {
-	mutex sync.RWMutex
-	done  bool
-	addr  string
-	auth  string
-	err   error
-}
-
-func (sc *searchConfigure) Reset() {
-	sc.mutex.Lock()
-	sc.done, sc.addr, sc.auth, sc.err = false, "", "", nil
-	sc.mutex.Unlock()
-}
-
-func (sc *searchConfigure) Load() (addr string, auth string, err error) {
-	var done bool
-	sc.mutex.RLock()
-	done, addr, auth, err = sc.done, sc.addr, sc.auth, sc.err
-	sc.mutex.RUnlock()
-	if done {
-		return
-	}
-	return sc.slowLoad()
-}
-
-func (sc *searchConfigure) slowLoad() (addr, auth string, err error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	sc.mutex.Lock()
-	defer sc.mutex.Unlock()
-	if sc.done {
-		return sc.addr, sc.auth, sc.err
-	}
-
-	tbl := query.Elastic
-	dat, err := tbl.WithContext(ctx).Where(tbl.Enable.Is(true)).First()
-	if err != nil {
-		sc.done, sc.err = true, err
-		return "", "", err
-	}
-
-	addr = dat.Host
-	if dat.Username != "" || dat.Password != "" {
-		bs64 := base64.StdEncoding.EncodeToString([]byte(dat.Username + ":" + dat.Password))
-		auth = "Basic " + bs64
-	}
-
-	sc.addr = addr
-	sc.auth = auth
-	sc.err = nil
-	sc.done = true
-
-	return addr, auth, nil
-}
-
-type ForwardConfigurer interface {
+type Configurer interface {
 	Reset()
 	Load(ctx context.Context) (http.Handler, error)
+	LoadAddr(ctx context.Context) (host, auth string, err error)
 }
 
 type forwardConfig struct {
@@ -106,6 +42,9 @@ type forwardConfig struct {
 	loaded bool
 	err    error
 	proxy  *httputil.ReverseProxy
+
+	addr string
+	auth string
 }
 
 func (fc *forwardConfig) Reset() {
@@ -121,32 +60,56 @@ func (fc *forwardConfig) Load(ctx context.Context) (http.Handler, error) {
 	if loaded {
 		return proxy, err
 	}
-	return fc.loadSlow(ctx)
+	p, _, _, exx := fc.loadSlow(ctx)
+
+	return p, exx
 }
 
-func (fc *forwardConfig) loadSlow(ctx context.Context) (http.Handler, error) {
+func (fc *forwardConfig) LoadAddr(ctx context.Context) (string, string, error) {
+	fc.mutex.RLock()
+	loaded, err, addr, auth := fc.loaded, fc.err, fc.addr, fc.auth
+	fc.mutex.RUnlock()
+	if loaded {
+		return addr, auth, err
+	}
+	_, dest, ath, err := fc.loadSlow(ctx)
+
+	return dest, ath, err
+}
+
+func (fc *forwardConfig) loadSlow(ctx context.Context) (http.Handler, string, string, error) {
 	fc.mutex.Lock()
 	defer fc.mutex.Unlock()
 	if fc.loaded {
-		return fc.proxy, fc.err
+		return fc.proxy, fc.addr, fc.auth, fc.err
 	}
 
+	fc.loaded = true
 	tbl := query.Elastic
 	dat, err := tbl.WithContext(ctx).Where(tbl.Enable.Is(true)).First()
 	if err != nil {
 		fc.err = err
-		return nil, err
+		return nil, "", "", err
+	}
+
+	var auth string
+	addr := dat.Host
+	if dat.Username != "" || dat.Password != "" {
+		bs64 := base64.StdEncoding.EncodeToString([]byte(dat.Username + ":" + dat.Password))
+		auth = "Basic " + bs64
 	}
 
 	proxy, err := fc.newProxy(dat.Host, dat.Username, dat.Password)
 	if err != nil {
 		fc.err = err
-		return nil, err
+		return nil, "", "", err
 	}
 	fc.proxy = proxy
 	fc.err = nil
+	fc.addr = addr
+	fc.auth = auth
 
-	return proxy, nil
+	return proxy, addr, auth, nil
 }
 
 // newProxy 初始化创建代理，支持 BasicAuth

@@ -34,7 +34,7 @@ func (st *sendTask) sendDong(dongs []string) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
 	defer cancel()
 
-	title, body := st.rend.RiskDong(ctx, st.dat, st.dat)
+	title, body := st.rend.EventDong(ctx, st.dat, st.dat)
 	err := st.dong.Send(ctx, dongs, nil, title, body)
 	st.slog.Infof("发送风险 %s 结果：%v", dongs, err)
 }

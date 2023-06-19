@@ -2,16 +2,17 @@ package accord
 
 const (
 	PathPrefix        = "/api/v1"
-	PathTaskLoad      = "/task/load"      // 加载指定配置
-	PathTaskSync      = "/task/sync"      // 同步配置
-	PathTaskTable     = "/task/table"     // 同步配置
-	PathThirdDiff     = "/third/diff"     // 三方文件变更
-	PathElasticReset  = "/elastic/reset"  // 三方文件变更
-	PathEmcReset      = "/emc/reset"      // 三方文件变更
-	PathStoreReset    = "/store/reset"    // 三方文件变更
-	PathCmdbReset     = "/cmdb/reset"     // 三方文件变更
-	PathNotifierReset = "/notifier/reset" // 三方文件变更
-	PathStartup       = "/startup"        // 三方文件变更
+	PathTaskLoad      = "/task/load"  // 加载指定配置
+	PathTaskSync      = "/task/sync"  // 同步配置
+	PathTaskTable     = "/task/table" // 同步配置
+	PathThirdDiff     = "/third/diff"
+	PathElasticReset  = "/elastic/reset"
+	PathEmcReset      = "/emc/reset"
+	PathStoreReset    = "/store/reset"
+	PathCmdbReset     = "/cmdb/reset"
+	PathNotifierReset = "/notifier/reset"
+	PathStartup       = "/startup"
+	PathUpgrade       = "/upgrade"
 	FPTaskLoad        = PathPrefix + PathTaskLoad
 	FPTaskSync        = PathPrefix + PathTaskSync
 	FPTaskTable       = PathPrefix + PathTaskTable
@@ -22,6 +23,7 @@ const (
 	FPCmdbReset       = PathPrefix + PathCmdbReset
 	FPNotifierReset   = PathPrefix + PathNotifierReset
 	FPStartup         = PathPrefix + PathStartup
+	FPUpgrade         = PathPrefix + PathUpgrade
 )
 
 type TaskLoadRequest struct {
@@ -54,5 +56,9 @@ type TaskTable struct {
 }
 
 type Startup struct {
+	ID int64 `json:"id"`
+}
+
+type Upgrade struct {
 	ID int64 `json:"id"`
 }
