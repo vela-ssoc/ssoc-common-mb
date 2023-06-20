@@ -32,6 +32,8 @@ func newStartup(db *gorm.DB, opts ...gen.DOOption) startup {
 	_startup.Logger = field.NewField(tableName, "logger")
 	_startup.Console = field.NewField(tableName, "console")
 	_startup.Extends = field.NewField(tableName, "extends")
+	_startup.Failed = field.NewBool(tableName, "failed")
+	_startup.Reason = field.NewString(tableName, "reason")
 	_startup.CreatedAt = field.NewTime(tableName, "created_at")
 	_startup.UpdatedAt = field.NewTime(tableName, "updated_at")
 
@@ -49,6 +51,8 @@ type startup struct {
 	Logger    field.Field
 	Console   field.Field
 	Extends   field.Field
+	Failed    field.Bool
+	Reason    field.String
 	CreatedAt field.Time
 	UpdatedAt field.Time
 
@@ -72,6 +76,8 @@ func (s *startup) updateTableName(table string) *startup {
 	s.Logger = field.NewField(table, "logger")
 	s.Console = field.NewField(table, "console")
 	s.Extends = field.NewField(table, "extends")
+	s.Failed = field.NewBool(table, "failed")
+	s.Reason = field.NewString(table, "reason")
 	s.CreatedAt = field.NewTime(table, "created_at")
 	s.UpdatedAt = field.NewTime(table, "updated_at")
 
@@ -96,12 +102,14 @@ func (s *startup) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *startup) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 7)
+	s.fieldMap = make(map[string]field.Expr, 9)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["node"] = s.Node
 	s.fieldMap["logger"] = s.Logger
 	s.fieldMap["console"] = s.Console
 	s.fieldMap["extends"] = s.Extends
+	s.fieldMap["failed"] = s.Failed
+	s.fieldMap["reason"] = s.Reason
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
 }

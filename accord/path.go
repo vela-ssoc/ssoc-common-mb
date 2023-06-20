@@ -60,5 +60,6 @@ type Startup struct {
 }
 
 type Upgrade struct {
-	ID int64 `json:"id"`
+	ID     int64  `json:"id"`
+	Semver string `json:"semver"`
 }
