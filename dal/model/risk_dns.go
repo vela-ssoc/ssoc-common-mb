@@ -17,3 +17,20 @@ type RiskDNS struct {
 func (RiskDNS) TableName() string {
 	return "risk_dns"
 }
+
+type RiskDNSs []*RiskDNS
+
+func (rds RiskDNSs) DomainKinds() map[string][]string {
+	size := len(rds)
+	ret := make(map[string][]string, size)
+	for _, rd := range rds {
+		domain := rd.Domain
+		if kinds, exist := ret[domain]; exist {
+			ret[domain] = append(kinds, rd.Kind)
+		} else {
+			ret[domain] = []string{rd.Kind}
+		}
+	}
+
+	return ret
+}

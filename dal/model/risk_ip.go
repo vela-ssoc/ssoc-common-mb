@@ -16,3 +16,19 @@ type RiskIP struct {
 func (RiskIP) TableName() string {
 	return "risk_ip"
 }
+
+type RiskIPs []*RiskIP
+
+func (ris RiskIPs) IPKinds() map[string][]string {
+	size := len(ris)
+	ret := make(map[string][]string, size)
+	for _, ip := range ris {
+		if kinds, exist := ret[ip.IP]; exist {
+			ret[ip.IP] = append(kinds, ip.Kind)
+		} else {
+			ret[ip.IP] = []string{ip.Kind}
+		}
+	}
+
+	return ret
+}

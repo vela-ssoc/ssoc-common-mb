@@ -168,28 +168,31 @@ func (mts MinionTags) Manual(mid int64, fulls []string) MinionTags {
 	return result
 }
 
-func (mts MinionTags) Minion(mid int64, fulls []string) MinionTags {
+func (mts MinionTags) Minion(mid int64, del, add []string) MinionTags {
 	hashmap := make(map[string]*MinionTag, len(mts))
 	for _, mt := range mts {
 		hashmap[mt.Tag] = mt
 	}
-	result := make(MinionTags, 0, len(fulls))
-	for _, str := range fulls {
+
+	for _, str := range del {
+		if mt, ok := hashmap[str]; ok && mt.Kind == TkMinion {
+			delete(hashmap, str)
+		}
+	}
+
+	result := make(MinionTags, 0, len(add))
+	for _, str := range add {
 		mt, ok := hashmap[str]
 		if !ok { // 新增的 tag
-			result = append(result, &MinionTag{Tag: str, MinionID: mid, Kind: TkManual})
+			result = append(result, &MinionTag{Tag: str, MinionID: mid, Kind: TkMinion})
 			continue
 		}
 		result = append(result, mt)
 		delete(hashmap, str)
 	}
 
-	for _, mt := range result {
-		// 永久标签和手动添加的标签不允许节点操作删除
-		tk := mt.Kind
-		if tk == TkLifelong || tk == TkManual {
-			result = append(result, mt)
-		}
+	for _, mt := range hashmap {
+		result = append(result, mt)
 	}
 
 	return result

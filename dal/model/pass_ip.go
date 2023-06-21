@@ -14,3 +14,19 @@ type PassIP struct {
 func (PassIP) TableName() string {
 	return "pass_ip"
 }
+
+type PassIPs []*PassIP
+
+func (pis PassIPs) IPKinds() map[string][]string {
+	size := len(pis)
+	ret := make(map[string][]string, size)
+	for _, ip := range pis {
+		if kinds, exist := ret[ip.IP]; exist {
+			ret[ip.IP] = append(kinds, ip.Kind)
+		} else {
+			ret[ip.IP] = []string{ip.Kind}
+		}
+	}
+
+	return ret
+}

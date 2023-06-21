@@ -16,3 +16,20 @@ type PassDNS struct {
 func (PassDNS) TableName() string {
 	return "pass_dns"
 }
+
+type PassDNSs []*PassDNS
+
+func (pds PassDNSs) DomainKinds() map[string][]string {
+	size := len(pds)
+	ret := make(map[string][]string, size)
+	for _, pd := range pds {
+		domain := pd.Domain
+		if kinds, exist := ret[domain]; exist {
+			ret[domain] = append(kinds, pd.Kind)
+		} else {
+			ret[domain] = []string{pd.Kind}
+		}
+	}
+
+	return ret
+}
