@@ -2,36 +2,27 @@ package elastic
 
 import (
 	"context"
-	"crypto/tls"
 	"encoding/base64"
 	"net"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
 	"sync"
-	"time"
 
 	"github.com/vela-ssoc/vela-common-mb/dal/query"
 	"github.com/vela-ssoc/vela-common-mb/problem"
 )
 
 func NewConfigure(name string) Configurer {
-	dialer := &net.Dialer{Timeout: 3 * time.Second}
-	tlsDialer := &tls.Dialer{NetDialer: dialer}
-	trip := &http.Transport{
-		DialContext:    dialer.DialContext,
-		DialTLSContext: tlsDialer.DialContext,
-	}
-
 	return &forwardConfig{
 		name: name,
-		trip: trip,
+		trip: http.DefaultTransport,
 	}
 }
 
 type Configurer interface {
 	Reset()
-	Load(ctx context.Context) (http.Handler, error)
+	Load(ctx context.Context) (*httputil.ReverseProxy, error)
 	LoadAddr(ctx context.Context) (host, auth string, err error)
 }
 
@@ -53,7 +44,7 @@ func (fc *forwardConfig) Reset() {
 	fc.mutex.Unlock()
 }
 
-func (fc *forwardConfig) Load(ctx context.Context) (http.Handler, error) {
+func (fc *forwardConfig) Load(ctx context.Context) (*httputil.ReverseProxy, error) {
 	fc.mutex.RLock()
 	loaded, err, proxy := fc.loaded, fc.err, fc.proxy
 	fc.mutex.RUnlock()
@@ -77,7 +68,7 @@ func (fc *forwardConfig) LoadAddr(ctx context.Context) (string, string, error) {
 	return dest, ath, err
 }
 
-func (fc *forwardConfig) loadSlow(ctx context.Context) (http.Handler, string, string, error) {
+func (fc *forwardConfig) loadSlow(ctx context.Context) (*httputil.ReverseProxy, string, string, error) {
 	fc.mutex.Lock()
 	defer fc.mutex.Unlock()
 	if fc.loaded {
