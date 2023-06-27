@@ -66,15 +66,16 @@ func (t *tmplLoad) slowLoad(ctx context.Context) (*template.Template, error) {
 		return t.tmpl, t.err
 	}
 
-	t.done = true
 	tbl := query.Store
 	dat, err := tbl.WithContext(ctx).Where(tbl.ID.Eq(t.id)).First()
 	if err != nil {
 		t.err = err
+		t.done = true
 		return nil, err
 	}
 	tmpl, err := template.New(t.id).Parse(string(dat.Value))
 	t.err, t.tmpl = err, tmpl
+	t.done = true
 
 	return tmpl, err
 }

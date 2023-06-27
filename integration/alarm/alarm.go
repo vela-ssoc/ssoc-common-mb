@@ -8,12 +8,12 @@ import (
 
 	"github.com/vela-ssoc/vela-common-mb/dal/model"
 	"github.com/vela-ssoc/vela-common-mb/dal/query"
+	"github.com/vela-ssoc/vela-common-mb/gopool"
 	"github.com/vela-ssoc/vela-common-mb/integration/devops"
 	"github.com/vela-ssoc/vela-common-mb/integration/dong"
 	"github.com/vela-ssoc/vela-common-mb/integration/formwork"
 	"github.com/vela-ssoc/vela-common-mb/integration/ntfmatch"
 	"github.com/vela-ssoc/vela-common-mb/logback"
-	"github.com/vela-ssoc/vela-common-mb/taskpool"
 )
 
 type Alerter interface {
@@ -22,7 +22,7 @@ type Alerter interface {
 }
 
 func UnifyAlerter(rend formwork.Render,
-	pool taskpool.Executor,
+	pool gopool.Executor,
 	match ntfmatch.Matcher,
 	slog logback.Logger,
 	dong dong.Client,
@@ -44,7 +44,7 @@ func UnifyAlerter(rend formwork.Render,
 
 type unifyAlert struct {
 	rend   formwork.Render
-	pool   taskpool.Executor
+	pool   gopool.Executor
 	match  ntfmatch.Matcher
 	slog   logback.Logger
 	dong   dong.Client

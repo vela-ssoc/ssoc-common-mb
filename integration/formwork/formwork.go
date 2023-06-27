@@ -85,13 +85,13 @@ func (ts *tmplStore) RiskDong(ctx context.Context, title, body any) (string, str
 
 func (ts *tmplStore) EventDong(ctx context.Context, title, body any) (string, string) {
 	tbuf, bbuf := new(bytes.Buffer), new(bytes.Buffer)
-	if err := ts.render(ctx, tbuf, ts.riskDongTitle, title); err != nil {
+	if err := ts.render(ctx, tbuf, ts.eventDongTitle, title); err != nil {
 		msg := fmt.Sprintf("事件通知标题渲染出错：%s", err)
 		ts.slog.Warn(msg)
 		tbuf.Reset()
 		tbuf.WriteString(msg)
 	}
-	if err := ts.render(ctx, bbuf, ts.riskDongBody, body); err != nil {
+	if err := ts.render(ctx, bbuf, ts.eventDongTitle, body); err != nil {
 		msg := fmt.Sprintf("事件通知内容渲染出错：%s", err)
 		ts.slog.Warn(msg)
 		bbuf.Reset()

@@ -12,7 +12,7 @@ import (
 // startupNode 节点配置项
 type startupNode struct {
 	ID     int64  `json:"id,string"`
-	DNS    string `json:"dns"       validate:"ip"`
+	DNS    string `json:"dns"       validate:"omitempty,ip"`
 	Prefix string `json:"prefix"`
 }
 

@@ -32,8 +32,8 @@ type alarmAudit struct {
 }
 
 func (ala *alarmAudit) Event(ctx context.Context, evt *model.Event) error {
-	if evt.MinionID == 0 || evt.Inet == "" {
-		ala.slog.Warn("event 缺少 minionID 或 inet，丢弃该 event")
+	if evt == nil || evt.MinionID == 0 || evt.Inet == "" {
+		ala.slog.Warnf("event 缺少 minionID 或 inet，丢弃该 event: %#v", evt)
 		return nil
 	}
 	evt.ID = 0
