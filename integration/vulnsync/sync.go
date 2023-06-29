@@ -13,7 +13,7 @@ import (
 
 var ErrSynchronizing = errors.New("漏洞正在同步")
 
-func New(sona sonatype.Searcher) *Synchro {
+func New(db *gorm.DB, sona sonatype.Searcher) *Synchro {
 	return &Synchro{
 		sona: sona,
 	}
