@@ -11,9 +11,9 @@ import (
 	"github.com/vela-ssoc/vela-common-mb/gopool"
 	"github.com/vela-ssoc/vela-common-mb/integration/devops"
 	"github.com/vela-ssoc/vela-common-mb/integration/dong"
-	"github.com/vela-ssoc/vela-common-mb/integration/formwork"
 	"github.com/vela-ssoc/vela-common-mb/integration/ntfmatch"
 	"github.com/vela-ssoc/vela-common-mb/logback"
+	"github.com/vela-ssoc/vela-common-mb/storage"
 )
 
 type Alerter interface {
@@ -21,7 +21,7 @@ type Alerter interface {
 	RiskSaveAndAlert(ctx context.Context, rsk *model.Risk) error
 }
 
-func UnifyAlerter(rend formwork.Render,
+func UnifyAlerter(store storage.Storer,
 	pool gopool.Executor,
 	match ntfmatch.Matcher,
 	slog logback.Logger,
@@ -32,7 +32,7 @@ func UnifyAlerter(rend formwork.Render,
 	random := rand.New(rand.NewSource(nano))
 
 	return &unifyAlert{
-		rend:   rend,
+		store:  store,
 		pool:   pool,
 		match:  match,
 		slog:   slog,
@@ -43,7 +43,7 @@ func UnifyAlerter(rend formwork.Render,
 }
 
 type unifyAlert struct {
-	rend   formwork.Render
+	store  storage.Storer
 	pool   gopool.Executor
 	match  ntfmatch.Matcher
 	slog   logback.Logger
@@ -82,11 +82,12 @@ func (ua *unifyAlert) EventSaveAndAlert(ctx context.Context, evt *model.Event) e
 	}
 
 	st := &sendTask{
-		sub:  sub,
-		rend: ua.rend,
-		slog: ua.slog,
-		dong: ua.dong,
-		dps:  ua.dps,
+		sub:   sub,
+		dat:   evt,
+		store: ua.store,
+		slog:  ua.slog,
+		dong:  ua.dong,
+		dps:   ua.dps,
 	}
 	ua.pool.Submit(st)
 
@@ -123,11 +124,12 @@ func (ua *unifyAlert) RiskSaveAndAlert(ctx context.Context, rsk *model.Risk) err
 	}
 
 	st := &sendTask{
-		sub:  sub,
-		rend: ua.rend,
-		slog: ua.slog,
-		dong: ua.dong,
-		dps:  ua.dps,
+		sub:   sub,
+		dat:   rsk,
+		store: ua.store,
+		slog:  ua.slog,
+		dong:  ua.dong,
+		dps:   ua.dps,
 	}
 	ua.pool.Submit(st)
 

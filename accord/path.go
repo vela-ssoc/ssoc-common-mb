@@ -9,7 +9,6 @@ const (
 	PathElasticReset  = "/elastic/reset"
 	PathEmcReset      = "/emc/reset"
 	PathStoreReset    = "/store/reset"
-	PathCmdbReset     = "/cmdb/reset"
 	PathNotifierReset = "/notifier/reset"
 	PathStartup       = "/startup"
 	PathUpgrade       = "/upgrade"
@@ -21,7 +20,6 @@ const (
 	FPElasticReset    = PathPrefix + PathElasticReset
 	FPEmcReset        = PathPrefix + PathEmcReset
 	FPStoreReset      = PathPrefix + PathStoreReset
-	FPCmdbReset       = PathPrefix + PathCmdbReset
 	FPNotifierReset   = PathPrefix + PathNotifierReset
 	FPStartup         = PathPrefix + PathStartup
 	FPUpgrade         = PathPrefix + PathUpgrade

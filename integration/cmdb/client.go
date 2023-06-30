@@ -112,7 +112,7 @@ func (rc *restClient) fetch(parent context.Context, inet string) (*model.Cmdb, e
 }
 
 func (rc *restClient) newRequest(ctx context.Context, inet string) (*http.Request, error) {
-	addr, err := rc.cfg.Load()
+	addr, err := rc.cfg.Load(ctx)
 	if err != nil {
 		return nil, err
 	}

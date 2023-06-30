@@ -13,7 +13,7 @@ require (
 	golang.org/x/net v0.11.0
 	gorm.io/driver/mysql v1.5.1
 	gorm.io/gen v0.3.22
-	gorm.io/gorm v1.25.1
+	gorm.io/gorm v1.25.2
 	gorm.io/plugin/dbresolver v1.4.1
 )
 

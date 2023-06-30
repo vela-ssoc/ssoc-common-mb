@@ -7,17 +7,17 @@ import (
 	"github.com/vela-ssoc/vela-common-mb/dal/model"
 	"github.com/vela-ssoc/vela-common-mb/integration/devops"
 	"github.com/vela-ssoc/vela-common-mb/integration/dong"
-	"github.com/vela-ssoc/vela-common-mb/integration/formwork"
 	"github.com/vela-ssoc/vela-common-mb/logback"
+	"github.com/vela-ssoc/vela-common-mb/storage"
 )
 
 type sendTask struct {
-	dat  any
-	sub  *model.Subscriber
-	rend formwork.Render
-	slog logback.Logger
-	dong dong.Client
-	dps  devops.Client
+	dat   any
+	sub   *model.Subscriber
+	store storage.Storer
+	slog  logback.Logger
+	dong  dong.Client
+	dps   devops.Client
 }
 
 func (st *sendTask) Run() {
@@ -34,7 +34,7 @@ func (st *sendTask) sendDong(dongs []string) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
 	defer cancel()
 
-	title, body := st.rend.EventDong(ctx, st.dat, st.dat)
+	title, body := st.store.EventDong(ctx, st.dat)
 	err := st.dong.Send(ctx, dongs, nil, title, body)
 	st.slog.Infof("发送风险 %s 结果：%v", dongs, err)
 }
