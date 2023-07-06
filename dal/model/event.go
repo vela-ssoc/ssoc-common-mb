@@ -43,31 +43,28 @@ func (evt Event) Remote() string {
 
 // ShortMsg 短消息
 func (evt Event) ShortMsg(size ...int) string {
-	return evt.shortString(evt.Msg, size...)
-}
-
-// ShortError 短错误信息
-func (evt Event) ShortError(size ...int) string {
-	return evt.shortString(evt.Error, size...)
-}
-
-func (Event) shortString(str string, size ...int) string {
-	if str == "" {
-		return ""
-	}
-
 	sz := 100
 	if len(size) > 0 && size[0] > 0 {
 		sz = size[0]
 	}
+	return evt.shortString(evt.Msg, sz)
+}
 
+// ShortError 短错误信息
+func (evt Event) ShortError(size ...int) string {
+	sz := 100
+	if len(size) > 0 && size[0] > 0 {
+		sz = size[0]
+	}
+	return evt.shortString(evt.Error, sz)
+}
+
+func (Event) shortString(str string, size int) string {
 	// len([]byte("你好世界")) == 12
 	// len([]rune("你好世界")) == 4
 	unicodes := []rune(str)
-	length := len(unicodes)
-	if sz <= length {
+	if size >= len(unicodes) {
 		return str
 	}
-
-	return string(unicodes[:sz]) + "..."
+	return string(unicodes[:size]) + "..."
 }

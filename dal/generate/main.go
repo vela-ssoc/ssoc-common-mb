@@ -25,7 +25,6 @@ func tables() []any {
 		model.BrokerStat{},
 		model.Certificate{},
 		model.Cmdb{},
-		model.Compound{},
 		model.Ding{},
 		model.Domain{},
 		model.Dong{},

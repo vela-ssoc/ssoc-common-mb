@@ -69,7 +69,7 @@ func Open(cfg Config, lgi logger.Interface) (*gorm.DB, *sql.DB, error) {
 	_ = db.Callback().
 		Create().
 		Before("gorm:create").
-		Register("generate_id", sn.plugin)
+		Register("generate_id", sn.autoID)
 
 	return db, sdb, nil
 }

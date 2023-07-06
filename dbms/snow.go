@@ -63,28 +63,11 @@ func (s *snow) nextID() int64 {
 	return (now-epoch)<<timeShift | (s.machineID << workerShift) | s.sequence
 }
 
-func (s *snow) plugin(db *gorm.DB) {
+func (s *snow) autoID(db *gorm.DB) {
 	stmt := db.Statement
 	shm := stmt.Schema
-	if shm == nil {
+	if stmt == nil || shm == nil {
 		return
-	}
-
-	idFunc := func(ctx context.Context, field *schema.Field, rv reflect.Value) {
-		if field == nil {
-			return
-		}
-		val, zero := field.ValueOf(ctx, rv)
-		if !zero {
-			return
-		}
-
-		switch val.(type) {
-		case int64:
-			_ = field.Set(ctx, rv, s.Int64())
-		case string:
-			_ = field.Set(ctx, rv, s.String())
-		}
 	}
 
 	pk := shm.PrioritizedPrimaryField
@@ -93,14 +76,31 @@ func (s *snow) plugin(db *gorm.DB) {
 	switch rv.Kind() {
 	case reflect.Slice, reflect.Array:
 		for i := 0; i < rv.Len(); i++ {
-			idFunc(ctx, pk, rv.Index(i))
+			s.setID(ctx, pk, rv.Index(i))
 		}
 	case reflect.Struct:
-		idFunc(ctx, pk, rv)
+		s.setID(ctx, pk, rv)
 	}
 }
 
-// machineID 根据mac计算本机机器码
+func (s *snow) setID(ctx context.Context, field *schema.Field, rv reflect.Value) {
+	if field == nil {
+		return
+	}
+	val, zero := field.ValueOf(ctx, rv)
+	if !zero {
+		return
+	}
+
+	switch val.(type) {
+	case int64:
+		_ = field.Set(ctx, rv, s.Int64())
+	case string:
+		_ = field.Set(ctx, rv, s.String())
+	}
+}
+
+// machineID 根据 mac 计算本机机器码
 // FIXME: 这种算法还是有相当大重复概率的. 但是实现简单, 实际上线后节点应该不会太多
 func machineID() int64 {
 	var mac net.HardwareAddr

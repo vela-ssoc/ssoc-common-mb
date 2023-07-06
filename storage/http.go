@@ -4,6 +4,8 @@ import (
 	"context"
 	"strings"
 	"sync"
+
+	"gorm.io/gorm"
 )
 
 type httpValuer interface {
@@ -12,11 +14,12 @@ type httpValuer interface {
 }
 
 type httpValue struct {
-	value Valuer
-	mutex sync.RWMutex
-	done  bool
-	addr  string
-	err   error
+	value    Valuer
+	callback string // 当数据库中不存在时，会使用该值作为配置
+	mutex    sync.RWMutex
+	done     bool
+	addr     string
+	err      error
 }
 
 func (hv *httpValue) ID() string {
@@ -60,14 +63,18 @@ func (hv *httpValue) loadSlow(ctx context.Context) (string, error) {
 		return hv.addr, hv.err
 	}
 
-	val, err := hv.value.Value(ctx)
-	if err != nil {
-		hv.err = err
-		hv.done = true
-		return "", err
+	var addr string
+	if val, err := hv.value.Value(ctx); err == nil {
+		addr = string(val)
+	} else {
+		if err == gorm.ErrRecordNotFound && hv.callback != "" {
+			addr = hv.callback
+		} else {
+			hv.err = err
+			hv.done = true
+			return "", err
+		}
 	}
-
-	addr := string(val)
 	if strings.Contains(addr, "?") {
 		addr += "&"
 	} else {

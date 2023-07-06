@@ -12,8 +12,8 @@ type Effect struct {
 	// 发布的 ID。与 Compound 结合使用：
 	// 如果 Compound 为 true 则该字段存放的是 Substance.ID。代表发布的是单个配置
 	// 如果 Compound 为 false 则该字段存放的是 Compound.ID。代表发布的是配置组合
-	EffectID  int64     `json:"effect_id,string"  gorm:"column:effect_id"`      // 与 Compound 结合使用
-	Compound  bool      `json:"compound"          gorm:"column:compound"`       // 是否是组合
+	EffectID int64 `json:"effect_id,string"  gorm:"column:effect_id"` // 与 Compound 结合使用
+	// Compound  bool      `json:"compound"          gorm:"column:compound"`       // 是否是组合
 	Enable    bool      `json:"enable"            gorm:"column:enable"`         // 同一次提交的 Enable 一样
 	Version   int64     `json:"version"           gorm:"column:version"`        // 同一次提交的 Version 一样
 	Exclusion []string  `json:"exclusion"         gorm:"column:exclusion;json"` // 排除的节点 IPv4
@@ -30,25 +30,16 @@ func (Effect) TableName() string {
 
 type Effects []*Effect
 
-func (es Effects) Exclusion(inet string) ([]int64, []int64) {
-	chm, shm := make(map[int64]struct{}, 32), make(map[int64]struct{}, 32)
-	comIDs, subIDs := make([]int64, 0, 32), make([]int64, 0, 32)
+func (es Effects) Exclusion(inet string) []int64 {
+	shm := make(map[int64]struct{}, 32)
+	subIDs := make([]int64, 0, 32)
 
 	for _, eff := range es {
 		if es.exclusion(eff.Exclusion, inet) {
 			continue
 		}
 
-		effID, com := eff.EffectID, eff.Compound
-		if com {
-			if _, exist := chm[effID]; exist {
-				continue
-			}
-			chm[effID] = struct{}{}
-			comIDs = append(comIDs, effID)
-			continue
-		}
-
+		effID := eff.EffectID
 		if _, exist := shm[effID]; exist {
 			continue
 		}
@@ -56,7 +47,7 @@ func (es Effects) Exclusion(inet string) ([]int64, []int64) {
 		subIDs = append(subIDs, effID)
 	}
 
-	return comIDs, subIDs
+	return subIDs
 }
 
 func (Effects) exclusion(exs []string, inet string) bool {
@@ -105,20 +96,12 @@ func (es Effects) Reduce() *EffectReduce {
 		UpdatedAt: h.UpdatedAt,
 	}
 	hm := make(map[string]struct{}, size)
-	comMap := make(map[int64]struct{}, size)
 	subMap := make(map[int64]struct{}, size)
 	for _, e := range es {
 		eid := e.EffectID
-		if e.Compound {
-			if _, ok := comMap[eid]; !ok {
-				comMap[eid] = struct{}{}
-				ret.Compounds = append(ret.Compounds, eid)
-			}
-		} else {
-			if _, ok := subMap[eid]; !ok {
-				subMap[eid] = struct{}{}
-				ret.Substances = append(ret.Substances, eid)
-			}
+		if _, ok := subMap[eid]; !ok {
+			subMap[eid] = struct{}{}
+			ret.Substances = append(ret.Substances, eid)
 		}
 		if _, ok := hm[e.Tag]; !ok {
 			hm[e.Tag] = struct{}{}
@@ -130,10 +113,10 @@ func (es Effects) Reduce() *EffectReduce {
 }
 
 type EffectReduce struct {
-	Name       string
-	SubmitID   int64
-	Tags       []string
-	Compounds  []int64
+	Name     string
+	SubmitID int64
+	Tags     []string
+	// Compounds  []int64
 	Substances []int64
 	Version    int64
 	Enable     bool

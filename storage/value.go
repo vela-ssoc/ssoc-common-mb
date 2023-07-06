@@ -26,7 +26,7 @@ type storeValue struct {
 }
 
 func (sv *storeValue) Invalid(dat []byte) bool {
-	if fn := sv.valid; fn == nil {
+	if fn := sv.valid; fn != nil {
 		return fn(dat)
 	}
 	return false

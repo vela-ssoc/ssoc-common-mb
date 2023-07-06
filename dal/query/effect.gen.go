@@ -32,7 +32,6 @@ func newEffect(db *gorm.DB, opts ...gen.DOOption) effect {
 	_effect.Name = field.NewString(tableName, "name")
 	_effect.Tag = field.NewString(tableName, "tag")
 	_effect.EffectID = field.NewInt64(tableName, "effect_id")
-	_effect.Compound = field.NewBool(tableName, "compound")
 	_effect.Enable = field.NewBool(tableName, "enable")
 	_effect.Version = field.NewInt64(tableName, "version")
 	_effect.Exclusion = field.NewField(tableName, "exclusion")
@@ -55,7 +54,6 @@ type effect struct {
 	Name      field.String
 	Tag       field.String
 	EffectID  field.Int64
-	Compound  field.Bool
 	Enable    field.Bool
 	Version   field.Int64
 	Exclusion field.Field
@@ -84,7 +82,6 @@ func (e *effect) updateTableName(table string) *effect {
 	e.Name = field.NewString(table, "name")
 	e.Tag = field.NewString(table, "tag")
 	e.EffectID = field.NewInt64(table, "effect_id")
-	e.Compound = field.NewBool(table, "compound")
 	e.Enable = field.NewBool(table, "enable")
 	e.Version = field.NewInt64(table, "version")
 	e.Exclusion = field.NewField(table, "exclusion")
@@ -114,13 +111,12 @@ func (e *effect) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (e *effect) fillFieldMap() {
-	e.fieldMap = make(map[string]field.Expr, 13)
+	e.fieldMap = make(map[string]field.Expr, 12)
 	e.fieldMap["id"] = e.ID
 	e.fieldMap["submit_id"] = e.SubmitID
 	e.fieldMap["name"] = e.Name
 	e.fieldMap["tag"] = e.Tag
 	e.fieldMap["effect_id"] = e.EffectID
-	e.fieldMap["compound"] = e.Compound
 	e.fieldMap["enable"] = e.Enable
 	e.fieldMap["version"] = e.Version
 	e.fieldMap["exclusion"] = e.Exclusion

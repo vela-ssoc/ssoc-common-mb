@@ -14,12 +14,18 @@ import (
 )
 
 type Storer interface {
+	// Reset 重置指定 ID 的 value 缓存
 	Reset(id string)
+
+	// Shared 是否与 broker 节点共享，manager 节点用到该功能。
 	Shared(id string) bool
+
+	// Invalid 校验某个 ID 的参数是否无效
 	Invalid(id string, val []byte) bool
 	LocalAddr(ctx context.Context) (string, error)
 	CmdbURL(ctx context.Context) (string, error)
 	SsoURL(ctx context.Context) (string, error)
+	AlarmURL(ctx context.Context) (string, error)
 	Startup(ctx context.Context) (*model.Startup, error)
 	Deploy(ctx context.Context, goos string, v any) *bytes.Buffer
 	LoginDong(ctx context.Context, v any) (title, body string)
@@ -38,14 +44,22 @@ func NewStore() Storer {
 		ret.localAddr = val
 	}
 	{
-		val := ret.newHTTP("global.cmdb.url", true)
+		callback := "http://yunwei.eastmoney.com:81/api/v0.1/ci/s"
+		val := ret.newHTTP("global.cmdb.url", true, callback)
 		ret.values[val.ID()] = val
 		ret.cmdbURL = val
 	}
 	{
-		val := ret.newHTTP("global.sso.url", false)
+		callback := "https://eastmoney-office.eastmoney.com/bd-cas/applogin?devTyp=pc"
+		val := ret.newHTTP("global.sso.url", false, callback)
 		ret.values[val.ID()] = val
 		ret.ssoURL = val
+	}
+	{
+		callback := "http://yunwei.eastmoney.com:81/api/v0.1/alerts"
+		val := ret.newHTTP("global.alarm.url", true, callback)
+		ret.values[val.ID()] = val
+		ret.alarmURL = val
 	}
 	{
 		val := ret.newValue("global.startup.param", true, validJSON)
@@ -99,6 +113,16 @@ func NewStore() Storer {
 		ret.riskDongBody = val
 	}
 	{
+		val := ret.newTmpl("global.risk.email.title", true)
+		ret.values[val.ID()] = val
+		ret.riskEmailTitle = val
+	}
+	{
+		val := ret.newTmpl("global.risk.email.tmpl", true)
+		ret.values[val.ID()] = val
+		ret.riskEmailBody = val
+	}
+	{
 		val := ret.newTmpl("global.risk.html.tmpl", false)
 		ret.values[val.ID()] = val
 		ret.riskHTML = val
@@ -112,6 +136,21 @@ func NewStore() Storer {
 		val := ret.newTmpl("global.event.dong.tmpl", true)
 		ret.values[val.ID()] = val
 		ret.eventDongBody = val
+	}
+	{
+		val := ret.newTmpl("global.event.dong.title", true)
+		ret.values[val.ID()] = val
+		ret.eventDongTitle = val
+	}
+	{
+		val := ret.newTmpl("global.event.email.tmpl", true)
+		ret.values[val.ID()] = val
+		ret.eventEmailTitle = val
+	}
+	{
+		val := ret.newTmpl("global.event.email.tmpl", false)
+		ret.values[val.ID()] = val
+		ret.eventEmailBody = val
 	}
 	{
 		val := ret.newTmpl("global.event.html.tmpl", false)
@@ -128,6 +167,7 @@ type storeDB struct {
 	localAddr    Valuer
 	cmdbURL      httpValuer
 	ssoURL       httpValuer
+	alarmURL     httpValuer
 	startupParam Valuer
 
 	deployLinuxTmpl   storeRender
@@ -138,12 +178,16 @@ type storeDB struct {
 	loginDongTitle storeRender
 	loginDongBody  storeRender
 
-	riskDongTitle  storeRender
-	riskDongBody   storeRender
-	riskHTML       storeRender
-	eventDongTitle storeRender
-	eventDongBody  storeRender
-	eventHTML      storeRender
+	riskDongTitle   storeRender
+	riskDongBody    storeRender
+	riskEmailTitle  storeRender
+	riskEmailBody   storeRender
+	riskHTML        storeRender
+	eventDongTitle  storeRender
+	eventDongBody   storeRender
+	eventEmailTitle storeRender
+	eventEmailBody  storeRender
+	eventHTML       storeRender
 }
 
 func (sdb *storeDB) Reset(id string) {
@@ -177,6 +221,10 @@ func (sdb *storeDB) CmdbURL(ctx context.Context) (string, error) {
 
 func (sdb *storeDB) SsoURL(ctx context.Context) (string, error) {
 	return sdb.ssoURL.Addr(ctx)
+}
+
+func (sdb *storeDB) AlarmURL(ctx context.Context) (string, error) {
+	return sdb.alarmURL.Addr(ctx)
 }
 
 func (sdb *storeDB) Startup(ctx context.Context) (*model.Startup, error) {
@@ -253,14 +301,15 @@ func (sdb *storeDB) newTmpl(id string, shared bool) storeRender {
 	}
 }
 
-func (sdb *storeDB) newHTTP(id string, shared bool) httpValuer {
+func (sdb *storeDB) newHTTP(id string, shared bool, cb string) httpValuer {
 	val := &storeValue{
 		id:     id,
 		shared: shared,
 		valid:  validHTTP,
 	}
 	return &httpValue{
-		value: val,
+		value:    val,
+		callback: cb,
 	}
 }
 
@@ -280,7 +329,7 @@ func validTmpl(dat []byte) bool {
 
 func validHTTP(dat []byte) bool {
 	u, err := url.Parse(string(dat))
-	if err != nil {
+	if err != nil || u.Host == "" {
 		return true
 	}
 	scheme := u.Scheme
