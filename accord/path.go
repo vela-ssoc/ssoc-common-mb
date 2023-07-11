@@ -13,6 +13,7 @@ const (
 	PathStartup       = "/startup"
 	PathUpgrade       = "/upgrade"
 	PathCommand       = "/command"
+	PathOffline       = "/command"
 	FPTaskLoad        = PathPrefix + PathTaskLoad
 	FPTaskSync        = PathPrefix + PathTaskSync
 	FPTaskTable       = PathPrefix + PathTaskTable
@@ -24,17 +25,13 @@ const (
 	FPStartup         = PathPrefix + PathStartup
 	FPUpgrade         = PathPrefix + PathUpgrade
 	FPCommand         = PathPrefix + PathCommand
+	FPOffline         = PathPrefix + PathOffline
 )
 
 type TaskLoadRequest struct {
 	MinionID    int64  `json:"minion_id"`
 	SubstanceID int64  `json:"substance_id"`
 	Inet        string `json:"inet"`
-}
-
-type TaskSyncRequest struct {
-	MinionID int64  `json:"minion_id"`
-	Inet     string `json:"inet"`
 }
 
 type StoreRestRequest struct {
@@ -65,6 +62,10 @@ type Upgrade struct {
 }
 
 type Command struct {
-	ID  int64  `json:"id,omitempty"`
-	Cmd string `json:"cmd"`
+	ID  []int64 `json:"id"`
+	Cmd string  `json:"cmd"`
+}
+
+type IDs struct {
+	ID []int64 `json:"id"`
 }
