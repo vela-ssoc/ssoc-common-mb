@@ -24,7 +24,7 @@ import (
 //}
 
 func AppendStream(file gridfs.File, v any) (gridfs.File, error) {
-	enc, err := ciphertext.EncryptJSON(v)
+	enc, err := ciphertext.EncryptPayload(v)
 	if err != nil {
 		return nil, err
 	}
