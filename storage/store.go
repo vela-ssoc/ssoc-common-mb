@@ -33,6 +33,8 @@ type Storer interface {
 	RiskHTML(ctx context.Context, v any) *bytes.Buffer
 	EventDong(ctx context.Context, v any) (title, body string)
 	EventHTML(ctx context.Context, v any) *bytes.Buffer
+	RiskYW(ctx context.Context, v any) (title, body string)
+	EventYW(ctx context.Context, v any) (title, body string)
 }
 
 func NewStore() Storer {
@@ -148,7 +150,7 @@ func NewStore() Storer {
 		ret.eventEmailTitle = val
 	}
 	{
-		val := ret.newTmpl("global.event.email.tmpl", false)
+		val := ret.newTmpl("global.event.email.tmpl", true)
 		ret.values[val.ID()] = val
 		ret.eventEmailBody = val
 	}
@@ -156,6 +158,26 @@ func NewStore() Storer {
 		val := ret.newTmpl("global.event.html.tmpl", false)
 		ret.values[val.ID()] = val
 		ret.eventHTML = val
+	}
+	{
+		val := ret.newTmpl("global.event.yunwei.title", true)
+		ret.values[val.ID()] = val
+		ret.riskYWTitle = val
+	}
+	{
+		val := ret.newTmpl("global.event.yunwei.tmpl", true)
+		ret.values[val.ID()] = val
+		ret.riskYWBody = val
+	}
+	{
+		val := ret.newTmpl("global.risk.yunwei.title", true)
+		ret.values[val.ID()] = val
+		ret.eventYWTitle = val
+	}
+	{
+		val := ret.newTmpl("global.risk.yunwei.tmpl", true)
+		ret.values[val.ID()] = val
+		ret.eventYWBody = val
 	}
 
 	return ret
@@ -182,11 +204,15 @@ type storeDB struct {
 	riskDongBody    storeRender
 	riskEmailTitle  storeRender
 	riskEmailBody   storeRender
+	riskYWTitle     storeRender
+	riskYWBody      storeRender
 	riskHTML        storeRender
 	eventDongTitle  storeRender
 	eventDongBody   storeRender
 	eventEmailTitle storeRender
 	eventEmailBody  storeRender
+	eventYWTitle    storeRender
+	eventYWBody     storeRender
 	eventHTML       storeRender
 }
 
@@ -261,6 +287,18 @@ func (sdb *storeDB) EventDong(ctx context.Context, v any) (string, string) {
 
 func (sdb *storeDB) EventHTML(ctx context.Context, v any) *bytes.Buffer {
 	return sdb.eventHTML.Rend(ctx, v)
+}
+
+func (sdb *storeDB) RiskYW(ctx context.Context, v any) (string, string) {
+	title := sdb.riskYWTitle.Rend(ctx, v)
+	body := sdb.riskYWBody.Rend(ctx, v)
+	return title.String(), body.String()
+}
+
+func (sdb *storeDB) EventYW(ctx context.Context, v any) (string, string) {
+	title := sdb.eventYWTitle.Rend(ctx, v)
+	body := sdb.eventYWBody.Rend(ctx, v)
+	return title.String(), body.String()
 }
 
 func (sdb *storeDB) Deploy(ctx context.Context, goos string, v any) *bytes.Buffer {
