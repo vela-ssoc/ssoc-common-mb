@@ -22,7 +22,6 @@ type Alerter interface {
 }
 
 func UnifyAlerter(store storage.Storer,
-	pool gopool.Executor,
 	match ntfmatch.Matcher,
 	slog logback.Logger,
 	dong dong.Client,
@@ -33,7 +32,7 @@ func UnifyAlerter(store storage.Storer,
 
 	return &unifyAlert{
 		store:  store,
-		pool:   pool,
+		pool:   gopool.New(32, 512, time.Minute),
 		match:  match,
 		slog:   slog,
 		dong:   dong,

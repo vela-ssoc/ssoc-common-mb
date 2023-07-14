@@ -35,8 +35,11 @@ func (st *sendTask) sendDong(dongs []string) {
 	defer cancel()
 
 	title, body := st.store.EventDong(ctx, st.dat)
-	err := st.dong.Send(ctx, dongs, nil, title, body)
-	st.slog.Infof("发送风险 %s 结果：%v", dongs, err)
+	if err := st.dong.Send(ctx, dongs, nil, title, body); err != nil {
+		st.slog.Warnf("发送风险 %s 失败：%s", dongs, err)
+	} else {
+		st.slog.Infof("发送风险 %s 成功")
+	}
 }
 
 func (st *sendTask) sendDevops(devs []*model.Devops) {

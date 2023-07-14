@@ -13,7 +13,6 @@ const (
 	PathStartup       = "/startup"
 	PathUpgrade       = "/upgrade"
 	PathCommand       = "/command"
-	PathOffline       = "/command"
 	FPTaskLoad        = PathPrefix + PathTaskLoad
 	FPTaskSync        = PathPrefix + PathTaskSync
 	FPTaskTable       = PathPrefix + PathTaskTable
@@ -25,7 +24,6 @@ const (
 	FPStartup         = PathPrefix + PathStartup
 	FPUpgrade         = PathPrefix + PathUpgrade
 	FPCommand         = PathPrefix + PathCommand
-	FPOffline         = PathPrefix + PathOffline
 )
 
 type TaskLoadRequest struct {
@@ -57,8 +55,8 @@ type Startup struct {
 }
 
 type Upgrade struct {
-	ID     int64  `json:"id"`
-	Semver string `json:"semver"`
+	ID     []int64 `json:"id"`
+	Semver string  `json:"semver"`
 }
 
 type Command struct {
