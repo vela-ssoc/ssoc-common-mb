@@ -140,11 +140,6 @@ func NewStore() Storer {
 		ret.eventDongBody = val
 	}
 	{
-		val := ret.newTmpl("global.event.dong.title", true)
-		ret.values[val.ID()] = val
-		ret.eventDongTitle = val
-	}
-	{
 		val := ret.newTmpl("global.event.email.tmpl", true)
 		ret.values[val.ID()] = val
 		ret.eventEmailTitle = val
