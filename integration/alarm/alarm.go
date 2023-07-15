@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/vela-ssoc/vela-common-mb/dal/model"
-	"github.com/vela-ssoc/vela-common-mb/dal/query"
 	"github.com/vela-ssoc/vela-common-mb/gopool"
 	"github.com/vela-ssoc/vela-common-mb/integration/devops"
 	"github.com/vela-ssoc/vela-common-mb/integration/dong"
@@ -32,7 +31,7 @@ func UnifyAlerter(store storage.Storer,
 
 	return &unifyAlert{
 		store:  store,
-		pool:   gopool.New(32, 512, time.Minute),
+		pool:   gopool.New(30, 1024, time.Minute),
 		match:  match,
 		slog:   slog,
 		dong:   dong,
@@ -68,27 +67,11 @@ func (ua *unifyAlert) EventSaveAndAlert(ctx context.Context, evt *model.Event) e
 		evt.Secret = hex.EncodeToString(buf)
 	}
 
-	// 入库保存
-	if err := query.Event.WithContext(ctx).Create(evt); err != nil || !evt.SendAlert {
-		return err
+	task := &eventTask{
+		unify: ua,
+		event: evt,
 	}
-
-	key := evt.FromCode
-	sub := ua.match.Event(ctx, key)
-	if sub == nil || sub.Empty() {
-		ua.slog.Infof("event 事件 %s 没有订阅者", key)
-		return nil
-	}
-
-	st := &sendTask{
-		sub:   sub,
-		dat:   evt,
-		store: ua.store,
-		slog:  ua.slog,
-		dong:  ua.dong,
-		dps:   ua.dps,
-	}
-	ua.pool.Submit(st)
+	ua.pool.Submit(task)
 
 	return nil
 }
@@ -110,27 +93,12 @@ func (ua *unifyAlert) RiskSaveAndAlert(ctx context.Context, rsk *model.Risk) err
 		ua.random.Read(buf)
 		rsk.Secret = hex.EncodeToString(buf)
 	}
-	// 入库保存
-	if err := query.Risk.WithContext(ctx).Create(rsk); err != nil || !rsk.SendAlert {
-		return err
-	}
 
-	key := rsk.FromCode
-	sub := ua.match.Risk(ctx, key)
-	if sub == nil || sub.Empty() {
-		ua.slog.Infof("风险 %s 没有订阅者", key)
-		return nil
+	task := &riskTask{
+		unify: ua,
+		risk:  rsk,
 	}
-
-	st := &sendTask{
-		sub:   sub,
-		dat:   rsk,
-		store: ua.store,
-		slog:  ua.slog,
-		dong:  ua.dong,
-		dps:   ua.dps,
-	}
-	ua.pool.Submit(st)
+	ua.pool.Submit(task)
 
 	return nil
 }
