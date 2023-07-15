@@ -47,7 +47,7 @@ func (et *riskTask) sendDong(ctx context.Context, dongs []string) {
 	if err := et.unify.dong.Send(ctx, dongs, nil, title, body); err != nil {
 		et.unify.slog.Warnf("发送风险 %s 失败：%s", dongs, err)
 	} else {
-		et.unify.slog.Infof("发送风险 %s 成功")
+		et.unify.slog.Infof("发送风险 %s 成功", dongs)
 	}
 }
 
