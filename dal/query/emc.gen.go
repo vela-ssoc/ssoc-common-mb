@@ -83,6 +83,8 @@ func (e emc) TableName() string { return e.emcDo.TableName() }
 
 func (e emc) Alias() string { return e.emcDo.Alias() }
 
+func (e emc) Columns(cols ...field.Expr) gen.Columns { return e.emcDo.Columns(cols...) }
+
 func (e *emc) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := e.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -156,10 +158,6 @@ func (e emcDo) Select(conds ...field.Expr) *emcDo {
 
 func (e emcDo) Where(conds ...gen.Condition) *emcDo {
 	return e.withDO(e.DO.Where(conds...))
-}
-
-func (e emcDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *emcDo {
-	return e.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (e emcDo) Order(conds ...field.Expr) *emcDo {

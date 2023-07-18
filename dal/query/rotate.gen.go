@@ -80,6 +80,8 @@ func (r rotate) TableName() string { return r.rotateDo.TableName() }
 
 func (r rotate) Alias() string { return r.rotateDo.Alias() }
 
+func (r rotate) Columns(cols ...field.Expr) gen.Columns { return r.rotateDo.Columns(cols...) }
+
 func (r *rotate) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := r.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -152,10 +154,6 @@ func (r rotateDo) Select(conds ...field.Expr) *rotateDo {
 
 func (r rotateDo) Where(conds ...gen.Condition) *rotateDo {
 	return r.withDO(r.DO.Where(conds...))
-}
-
-func (r rotateDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *rotateDo {
-	return r.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (r rotateDo) Order(conds ...field.Expr) *rotateDo {

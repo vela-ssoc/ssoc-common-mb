@@ -70,6 +70,8 @@ func (l loginRetry) TableName() string { return l.loginRetryDo.TableName() }
 
 func (l loginRetry) Alias() string { return l.loginRetryDo.Alias() }
 
+func (l loginRetry) Columns(cols ...field.Expr) gen.Columns { return l.loginRetryDo.Columns(cols...) }
+
 func (l *loginRetry) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := l.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -138,10 +140,6 @@ func (l loginRetryDo) Select(conds ...field.Expr) *loginRetryDo {
 
 func (l loginRetryDo) Where(conds ...gen.Condition) *loginRetryDo {
 	return l.withDO(l.DO.Where(conds...))
-}
-
-func (l loginRetryDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *loginRetryDo {
-	return l.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (l loginRetryDo) Order(conds ...field.Expr) *loginRetryDo {

@@ -80,6 +80,8 @@ func (e email) TableName() string { return e.emailDo.TableName() }
 
 func (e email) Alias() string { return e.emailDo.Alias() }
 
+func (e email) Columns(cols ...field.Expr) gen.Columns { return e.emailDo.Columns(cols...) }
+
 func (e *email) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := e.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -152,10 +154,6 @@ func (e emailDo) Select(conds ...field.Expr) *emailDo {
 
 func (e emailDo) Where(conds ...gen.Condition) *emailDo {
 	return e.withDO(e.DO.Where(conds...))
-}
-
-func (e emailDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *emailDo {
-	return e.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (e emailDo) Order(conds ...field.Expr) *emailDo {

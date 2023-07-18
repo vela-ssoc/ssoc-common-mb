@@ -92,6 +92,8 @@ func (d dong) TableName() string { return d.dongDo.TableName() }
 
 func (d dong) Alias() string { return d.dongDo.Alias() }
 
+func (d dong) Columns(cols ...field.Expr) gen.Columns { return d.dongDo.Columns(cols...) }
+
 func (d *dong) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := d.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -168,10 +170,6 @@ func (d dongDo) Select(conds ...field.Expr) *dongDo {
 
 func (d dongDo) Where(conds ...gen.Condition) *dongDo {
 	return d.withDO(d.DO.Where(conds...))
-}
-
-func (d dongDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *dongDo {
-	return d.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (d dongDo) Order(conds ...field.Expr) *dongDo {

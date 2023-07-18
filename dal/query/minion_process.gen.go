@@ -151,6 +151,10 @@ func (m minionProcess) TableName() string { return m.minionProcessDo.TableName()
 
 func (m minionProcess) Alias() string { return m.minionProcessDo.Alias() }
 
+func (m minionProcess) Columns(cols ...field.Expr) gen.Columns {
+	return m.minionProcessDo.Columns(cols...)
+}
+
 func (m *minionProcess) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := m.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -246,10 +250,6 @@ func (m minionProcessDo) Select(conds ...field.Expr) *minionProcessDo {
 
 func (m minionProcessDo) Where(conds ...gen.Condition) *minionProcessDo {
 	return m.withDO(m.DO.Where(conds...))
-}
-
-func (m minionProcessDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *minionProcessDo {
-	return m.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (m minionProcessDo) Order(conds ...field.Expr) *minionProcessDo {

@@ -79,6 +79,8 @@ func (m minionTag) TableName() string { return m.minionTagDo.TableName() }
 
 func (m minionTag) Alias() string { return m.minionTagDo.Alias() }
 
+func (m minionTag) Columns(cols ...field.Expr) gen.Columns { return m.minionTagDo.Columns(cols...) }
+
 func (m *minionTag) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := m.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -150,10 +152,6 @@ func (m minionTagDo) Select(conds ...field.Expr) *minionTagDo {
 
 func (m minionTagDo) Where(conds ...gen.Condition) *minionTagDo {
 	return m.withDO(m.DO.Where(conds...))
-}
-
-func (m minionTagDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *minionTagDo {
-	return m.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (m minionTagDo) Order(conds ...field.Expr) *minionTagDo {

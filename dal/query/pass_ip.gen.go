@@ -83,6 +83,8 @@ func (p passIP) TableName() string { return p.passIPDo.TableName() }
 
 func (p passIP) Alias() string { return p.passIPDo.Alias() }
 
+func (p passIP) Columns(cols ...field.Expr) gen.Columns { return p.passIPDo.Columns(cols...) }
+
 func (p *passIP) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := p.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -156,10 +158,6 @@ func (p passIPDo) Select(conds ...field.Expr) *passIPDo {
 
 func (p passIPDo) Where(conds ...gen.Condition) *passIPDo {
 	return p.withDO(p.DO.Where(conds...))
-}
-
-func (p passIPDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *passIPDo {
-	return p.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (p passIPDo) Order(conds ...field.Expr) *passIPDo {

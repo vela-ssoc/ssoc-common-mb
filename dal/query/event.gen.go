@@ -122,6 +122,8 @@ func (e event) TableName() string { return e.eventDo.TableName() }
 
 func (e event) Alias() string { return e.eventDo.Alias() }
 
+func (e event) Columns(cols ...field.Expr) gen.Columns { return e.eventDo.Columns(cols...) }
+
 func (e *event) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := e.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -208,10 +210,6 @@ func (e eventDo) Select(conds ...field.Expr) *eventDo {
 
 func (e eventDo) Where(conds ...gen.Condition) *eventDo {
 	return e.withDO(e.DO.Where(conds...))
-}
-
-func (e eventDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *eventDo {
-	return e.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (e eventDo) Order(conds ...field.Expr) *eventDo {

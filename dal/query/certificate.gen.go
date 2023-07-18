@@ -121,6 +121,8 @@ func (c certificate) TableName() string { return c.certificateDo.TableName() }
 
 func (c certificate) Alias() string { return c.certificateDo.Alias() }
 
+func (c certificate) Columns(cols ...field.Expr) gen.Columns { return c.certificateDo.Columns(cols...) }
+
 func (c *certificate) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := c.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -206,10 +208,6 @@ func (c certificateDo) Select(conds ...field.Expr) *certificateDo {
 
 func (c certificateDo) Where(conds ...gen.Condition) *certificateDo {
 	return c.withDO(c.DO.Where(conds...))
-}
-
-func (c certificateDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *certificateDo {
-	return c.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (c certificateDo) Order(conds ...field.Expr) *certificateDo {

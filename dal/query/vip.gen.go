@@ -110,6 +110,8 @@ func (v vIP) TableName() string { return v.vIPDo.TableName() }
 
 func (v vIP) Alias() string { return v.vIPDo.Alias() }
 
+func (v vIP) Columns(cols ...field.Expr) gen.Columns { return v.vIPDo.Columns(cols...) }
+
 func (v *vIP) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := v.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -192,10 +194,6 @@ func (v vIPDo) Select(conds ...field.Expr) *vIPDo {
 
 func (v vIPDo) Where(conds ...gen.Condition) *vIPDo {
 	return v.withDO(v.DO.Where(conds...))
-}
-
-func (v vIPDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *vIPDo {
-	return v.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (v vIPDo) Order(conds ...field.Expr) *vIPDo {

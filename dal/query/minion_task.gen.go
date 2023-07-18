@@ -112,6 +112,8 @@ func (m minionTask) TableName() string { return m.minionTaskDo.TableName() }
 
 func (m minionTask) Alias() string { return m.minionTaskDo.Alias() }
 
+func (m minionTask) Columns(cols ...field.Expr) gen.Columns { return m.minionTaskDo.Columns(cols...) }
+
 func (m *minionTask) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := m.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -194,10 +196,6 @@ func (m minionTaskDo) Select(conds ...field.Expr) *minionTaskDo {
 
 func (m minionTaskDo) Where(conds ...gen.Condition) *minionTaskDo {
 	return m.withDO(m.DO.Where(conds...))
-}
-
-func (m minionTaskDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *minionTaskDo {
-	return m.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (m minionTaskDo) Order(conds ...field.Expr) *minionTaskDo {

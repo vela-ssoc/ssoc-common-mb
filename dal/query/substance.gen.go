@@ -106,6 +106,8 @@ func (s substance) TableName() string { return s.substanceDo.TableName() }
 
 func (s substance) Alias() string { return s.substanceDo.Alias() }
 
+func (s substance) Columns(cols ...field.Expr) gen.Columns { return s.substanceDo.Columns(cols...) }
+
 func (s *substance) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := s.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -186,10 +188,6 @@ func (s substanceDo) Select(conds ...field.Expr) *substanceDo {
 
 func (s substanceDo) Where(conds ...gen.Condition) *substanceDo {
 	return s.withDO(s.DO.Where(conds...))
-}
-
-func (s substanceDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *substanceDo {
-	return s.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (s substanceDo) Order(conds ...field.Expr) *substanceDo {

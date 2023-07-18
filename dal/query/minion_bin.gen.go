@@ -106,6 +106,8 @@ func (m minionBin) TableName() string { return m.minionBinDo.TableName() }
 
 func (m minionBin) Alias() string { return m.minionBinDo.Alias() }
 
+func (m minionBin) Columns(cols ...field.Expr) gen.Columns { return m.minionBinDo.Columns(cols...) }
+
 func (m *minionBin) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := m.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -186,10 +188,6 @@ func (m minionBinDo) Select(conds ...field.Expr) *minionBinDo {
 
 func (m minionBinDo) Where(conds ...gen.Condition) *minionBinDo {
 	return m.withDO(m.DO.Where(conds...))
-}
-
-func (m minionBinDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *minionBinDo {
-	return m.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (m minionBinDo) Order(conds ...field.Expr) *minionBinDo {

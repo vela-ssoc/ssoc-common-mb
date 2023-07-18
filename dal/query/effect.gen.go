@@ -101,6 +101,8 @@ func (e effect) TableName() string { return e.effectDo.TableName() }
 
 func (e effect) Alias() string { return e.effectDo.Alias() }
 
+func (e effect) Columns(cols ...field.Expr) gen.Columns { return e.effectDo.Columns(cols...) }
+
 func (e *effect) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := e.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -180,10 +182,6 @@ func (e effectDo) Select(conds ...field.Expr) *effectDo {
 
 func (e effectDo) Where(conds ...gen.Condition) *effectDo {
 	return e.withDO(e.DO.Where(conds...))
-}
-
-func (e effectDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *effectDo {
-	return e.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (e effectDo) Order(conds ...field.Expr) *effectDo {

@@ -122,6 +122,8 @@ func (r risk) TableName() string { return r.riskDo.TableName() }
 
 func (r risk) Alias() string { return r.riskDo.Alias() }
 
+func (r risk) Columns(cols ...field.Expr) gen.Columns { return r.riskDo.Columns(cols...) }
+
 func (r *risk) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := r.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -208,10 +210,6 @@ func (r riskDo) Select(conds ...field.Expr) *riskDo {
 
 func (r riskDo) Where(conds ...gen.Condition) *riskDo {
 	return r.withDO(r.DO.Where(conds...))
-}
-
-func (r riskDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *riskDo {
-	return r.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (r riskDo) Order(conds ...field.Expr) *riskDo {

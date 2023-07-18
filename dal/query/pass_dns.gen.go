@@ -83,6 +83,8 @@ func (p passDNS) TableName() string { return p.passDNSDo.TableName() }
 
 func (p passDNS) Alias() string { return p.passDNSDo.Alias() }
 
+func (p passDNS) Columns(cols ...field.Expr) gen.Columns { return p.passDNSDo.Columns(cols...) }
+
 func (p *passDNS) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := p.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -156,10 +158,6 @@ func (p passDNSDo) Select(conds ...field.Expr) *passDNSDo {
 
 func (p passDNSDo) Where(conds ...gen.Condition) *passDNSDo {
 	return p.withDO(p.DO.Where(conds...))
-}
-
-func (p passDNSDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *passDNSDo {
-	return p.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (p passDNSDo) Order(conds ...field.Expr) *passDNSDo {

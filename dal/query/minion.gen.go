@@ -128,6 +128,8 @@ func (m minion) TableName() string { return m.minionDo.TableName() }
 
 func (m minion) Alias() string { return m.minionDo.Alias() }
 
+func (m minion) Columns(cols ...field.Expr) gen.Columns { return m.minionDo.Columns(cols...) }
+
 func (m *minion) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := m.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -216,10 +218,6 @@ func (m minionDo) Select(conds ...field.Expr) *minionDo {
 
 func (m minionDo) Where(conds ...gen.Condition) *minionDo {
 	return m.withDO(m.DO.Where(conds...))
-}
-
-func (m minionDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *minionDo {
-	return m.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (m minionDo) Order(conds ...field.Expr) *minionDo {

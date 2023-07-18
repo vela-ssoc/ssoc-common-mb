@@ -79,6 +79,8 @@ func (r resignation) TableName() string { return r.resignationDo.TableName() }
 
 func (r resignation) Alias() string { return r.resignationDo.Alias() }
 
+func (r resignation) Columns(cols ...field.Expr) gen.Columns { return r.resignationDo.Columns(cols...) }
+
 func (r *resignation) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := r.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -150,10 +152,6 @@ func (r resignationDo) Select(conds ...field.Expr) *resignationDo {
 
 func (r resignationDo) Where(conds ...gen.Condition) *resignationDo {
 	return r.withDO(r.DO.Where(conds...))
-}
-
-func (r resignationDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *resignationDo {
-	return r.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (r resignationDo) Order(conds ...field.Expr) *resignationDo {

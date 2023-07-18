@@ -82,6 +82,8 @@ func (j jobReport) TableName() string { return j.jobReportDo.TableName() }
 
 func (j jobReport) Alias() string { return j.jobReportDo.Alias() }
 
+func (j jobReport) Columns(cols ...field.Expr) gen.Columns { return j.jobReportDo.Columns(cols...) }
+
 func (j *jobReport) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := j.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -154,10 +156,6 @@ func (j jobReportDo) Select(conds ...field.Expr) *jobReportDo {
 
 func (j jobReportDo) Where(conds ...gen.Condition) *jobReportDo {
 	return j.withDO(j.DO.Where(conds...))
-}
-
-func (j jobReportDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *jobReportDo {
-	return j.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (j jobReportDo) Order(conds ...field.Expr) *jobReportDo {

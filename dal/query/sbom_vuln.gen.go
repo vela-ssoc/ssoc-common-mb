@@ -110,6 +110,8 @@ func (s sBOMVuln) TableName() string { return s.sBOMVulnDo.TableName() }
 
 func (s sBOMVuln) Alias() string { return s.sBOMVulnDo.Alias() }
 
+func (s sBOMVuln) Columns(cols ...field.Expr) gen.Columns { return s.sBOMVulnDo.Columns(cols...) }
+
 func (s *sBOMVuln) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := s.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -192,10 +194,6 @@ func (s sBOMVulnDo) Select(conds ...field.Expr) *sBOMVulnDo {
 
 func (s sBOMVulnDo) Where(conds ...gen.Condition) *sBOMVulnDo {
 	return s.withDO(s.DO.Where(conds...))
-}
-
-func (s sBOMVulnDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *sBOMVulnDo {
-	return s.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (s sBOMVulnDo) Order(conds ...field.Expr) *sBOMVulnDo {

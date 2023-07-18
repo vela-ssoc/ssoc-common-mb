@@ -97,6 +97,8 @@ func (j jobPolicy) TableName() string { return j.jobPolicyDo.TableName() }
 
 func (j jobPolicy) Alias() string { return j.jobPolicyDo.Alias() }
 
+func (j jobPolicy) Columns(cols ...field.Expr) gen.Columns { return j.jobPolicyDo.Columns(cols...) }
+
 func (j *jobPolicy) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := j.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -174,10 +176,6 @@ func (j jobPolicyDo) Select(conds ...field.Expr) *jobPolicyDo {
 
 func (j jobPolicyDo) Where(conds ...gen.Condition) *jobPolicyDo {
 	return j.withDO(j.DO.Where(conds...))
-}
-
-func (j jobPolicyDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *jobPolicyDo {
-	return j.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (j jobPolicyDo) Order(conds ...field.Expr) *jobPolicyDo {

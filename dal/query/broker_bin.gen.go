@@ -103,6 +103,8 @@ func (b brokerBin) TableName() string { return b.brokerBinDo.TableName() }
 
 func (b brokerBin) Alias() string { return b.brokerBinDo.Alias() }
 
+func (b brokerBin) Columns(cols ...field.Expr) gen.Columns { return b.brokerBinDo.Columns(cols...) }
+
 func (b *brokerBin) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := b.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -182,10 +184,6 @@ func (b brokerBinDo) Select(conds ...field.Expr) *brokerBinDo {
 
 func (b brokerBinDo) Where(conds ...gen.Condition) *brokerBinDo {
 	return b.withDO(b.DO.Where(conds...))
-}
-
-func (b brokerBinDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *brokerBinDo {
-	return b.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (b brokerBinDo) Order(conds ...field.Expr) *brokerBinDo {

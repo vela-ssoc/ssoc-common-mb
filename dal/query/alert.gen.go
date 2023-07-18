@@ -89,6 +89,8 @@ func (a alert) TableName() string { return a.alertDo.TableName() }
 
 func (a alert) Alias() string { return a.alertDo.Alias() }
 
+func (a alert) Columns(cols ...field.Expr) gen.Columns { return a.alertDo.Columns(cols...) }
+
 func (a *alert) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := a.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -164,10 +166,6 @@ func (a alertDo) Select(conds ...field.Expr) *alertDo {
 
 func (a alertDo) Where(conds ...gen.Condition) *alertDo {
 	return a.withDO(a.DO.Where(conds...))
-}
-
-func (a alertDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *alertDo {
-	return a.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (a alertDo) Order(conds ...field.Expr) *alertDo {

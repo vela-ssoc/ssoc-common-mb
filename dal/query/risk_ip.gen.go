@@ -86,6 +86,8 @@ func (r riskIP) TableName() string { return r.riskIPDo.TableName() }
 
 func (r riskIP) Alias() string { return r.riskIPDo.Alias() }
 
+func (r riskIP) Columns(cols ...field.Expr) gen.Columns { return r.riskIPDo.Columns(cols...) }
+
 func (r *riskIP) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := r.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -160,10 +162,6 @@ func (r riskIPDo) Select(conds ...field.Expr) *riskIPDo {
 
 func (r riskIPDo) Where(conds ...gen.Condition) *riskIPDo {
 	return r.withDO(r.DO.Where(conds...))
-}
-
-func (r riskIPDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *riskIPDo {
-	return r.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (r riskIPDo) Order(conds ...field.Expr) *riskIPDo {

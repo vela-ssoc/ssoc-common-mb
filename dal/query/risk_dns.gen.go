@@ -86,6 +86,8 @@ func (r riskDNS) TableName() string { return r.riskDNSDo.TableName() }
 
 func (r riskDNS) Alias() string { return r.riskDNSDo.Alias() }
 
+func (r riskDNS) Columns(cols ...field.Expr) gen.Columns { return r.riskDNSDo.Columns(cols...) }
+
 func (r *riskDNS) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := r.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -160,10 +162,6 @@ func (r riskDNSDo) Select(conds ...field.Expr) *riskDNSDo {
 
 func (r riskDNSDo) Where(conds ...gen.Condition) *riskDNSDo {
 	return r.withDO(r.DO.Where(conds...))
-}
-
-func (r riskDNSDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *riskDNSDo {
-	return r.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (r riskDNSDo) Order(conds ...field.Expr) *riskDNSDo {

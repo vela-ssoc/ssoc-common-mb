@@ -95,6 +95,8 @@ func (p plate) TableName() string { return p.plateDo.TableName() }
 
 func (p plate) Alias() string { return p.plateDo.Alias() }
 
+func (p plate) Columns(cols ...field.Expr) gen.Columns { return p.plateDo.Columns(cols...) }
+
 func (p *plate) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := p.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -172,10 +174,6 @@ func (p plateDo) Select(conds ...field.Expr) *plateDo {
 
 func (p plateDo) Where(conds ...gen.Condition) *plateDo {
 	return p.withDO(p.DO.Where(conds...))
-}
-
-func (p plateDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *plateDo {
-	return p.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (p plateDo) Order(conds ...field.Expr) *plateDo {

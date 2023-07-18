@@ -92,6 +92,8 @@ func (s startup) TableName() string { return s.startupDo.TableName() }
 
 func (s startup) Alias() string { return s.startupDo.Alias() }
 
+func (s startup) Columns(cols ...field.Expr) gen.Columns { return s.startupDo.Columns(cols...) }
+
 func (s *startup) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := s.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -168,10 +170,6 @@ func (s startupDo) Select(conds ...field.Expr) *startupDo {
 
 func (s startupDo) Where(conds ...gen.Condition) *startupDo {
 	return s.withDO(s.DO.Where(conds...))
-}
-
-func (s startupDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *startupDo {
-	return s.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (s startupDo) Order(conds ...field.Expr) *startupDo {

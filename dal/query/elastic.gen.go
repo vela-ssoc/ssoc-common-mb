@@ -31,6 +31,7 @@ func newElastic(db *gorm.DB, opts ...gen.DOOption) elastic {
 	_elastic.Host = field.NewString(tableName, "host")
 	_elastic.Username = field.NewString(tableName, "username")
 	_elastic.Password = field.NewString(tableName, "password")
+	_elastic.Hosts = field.NewField(tableName, "hosts")
 	_elastic.Desc = field.NewString(tableName, "desc")
 	_elastic.Enable = field.NewBool(tableName, "enable")
 
@@ -47,6 +48,7 @@ type elastic struct {
 	Host     field.String
 	Username field.String
 	Password field.String
+	Hosts    field.Field
 	Desc     field.String
 	Enable   field.Bool
 
@@ -69,6 +71,7 @@ func (e *elastic) updateTableName(table string) *elastic {
 	e.Host = field.NewString(table, "host")
 	e.Username = field.NewString(table, "username")
 	e.Password = field.NewString(table, "password")
+	e.Hosts = field.NewField(table, "hosts")
 	e.Desc = field.NewString(table, "desc")
 	e.Enable = field.NewBool(table, "enable")
 
@@ -83,6 +86,8 @@ func (e elastic) TableName() string { return e.elasticDo.TableName() }
 
 func (e elastic) Alias() string { return e.elasticDo.Alias() }
 
+func (e elastic) Columns(cols ...field.Expr) gen.Columns { return e.elasticDo.Columns(cols...) }
+
 func (e *elastic) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := e.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -93,11 +98,12 @@ func (e *elastic) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (e *elastic) fillFieldMap() {
-	e.fieldMap = make(map[string]field.Expr, 6)
+	e.fieldMap = make(map[string]field.Expr, 7)
 	e.fieldMap["id"] = e.ID
 	e.fieldMap["host"] = e.Host
 	e.fieldMap["username"] = e.Username
 	e.fieldMap["password"] = e.Password
+	e.fieldMap["hosts"] = e.Hosts
 	e.fieldMap["desc"] = e.Desc
 	e.fieldMap["enable"] = e.Enable
 }
@@ -156,10 +162,6 @@ func (e elasticDo) Select(conds ...field.Expr) *elasticDo {
 
 func (e elasticDo) Where(conds ...gen.Condition) *elasticDo {
 	return e.withDO(e.DO.Where(conds...))
-}
-
-func (e elasticDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *elasticDo {
-	return e.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (e elasticDo) Order(conds ...field.Expr) *elasticDo {

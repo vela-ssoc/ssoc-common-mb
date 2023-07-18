@@ -116,6 +116,8 @@ func (o oplog) TableName() string { return o.oplogDo.TableName() }
 
 func (o oplog) Alias() string { return o.oplogDo.Alias() }
 
+func (o oplog) Columns(cols ...field.Expr) gen.Columns { return o.oplogDo.Columns(cols...) }
+
 func (o *oplog) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := o.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -200,10 +202,6 @@ func (o oplogDo) Select(conds ...field.Expr) *oplogDo {
 
 func (o oplogDo) Where(conds ...gen.Condition) *oplogDo {
 	return o.withDO(o.DO.Where(conds...))
-}
-
-func (o oplogDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *oplogDo {
-	return o.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (o oplogDo) Order(conds ...field.Expr) *oplogDo {

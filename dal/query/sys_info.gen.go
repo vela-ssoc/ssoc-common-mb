@@ -125,6 +125,8 @@ func (s sysInfo) TableName() string { return s.sysInfoDo.TableName() }
 
 func (s sysInfo) Alias() string { return s.sysInfoDo.Alias() }
 
+func (s sysInfo) Columns(cols ...field.Expr) gen.Columns { return s.sysInfoDo.Columns(cols...) }
+
 func (s *sysInfo) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := s.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -212,10 +214,6 @@ func (s sysInfoDo) Select(conds ...field.Expr) *sysInfoDo {
 
 func (s sysInfoDo) Where(conds ...gen.Condition) *sysInfoDo {
 	return s.withDO(s.DO.Where(conds...))
-}
-
-func (s sysInfoDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *sysInfoDo {
-	return s.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (s sysInfoDo) Order(conds ...field.Expr) *sysInfoDo {

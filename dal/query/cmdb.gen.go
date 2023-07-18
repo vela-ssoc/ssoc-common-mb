@@ -236,6 +236,8 @@ func (c cmdb) TableName() string { return c.cmdbDo.TableName() }
 
 func (c cmdb) Alias() string { return c.cmdbDo.Alias() }
 
+func (c cmdb) Columns(cols ...field.Expr) gen.Columns { return c.cmdbDo.Columns(cols...) }
+
 func (c *cmdb) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := c.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -360,10 +362,6 @@ func (c cmdbDo) Select(conds ...field.Expr) *cmdbDo {
 
 func (c cmdbDo) Where(conds ...gen.Condition) *cmdbDo {
 	return c.withDO(c.DO.Where(conds...))
-}
-
-func (c cmdbDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *cmdbDo {
-	return c.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (c cmdbDo) Order(conds ...field.Expr) *cmdbDo {

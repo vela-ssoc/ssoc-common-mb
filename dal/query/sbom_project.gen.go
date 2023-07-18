@@ -139,6 +139,8 @@ func (s sBOMProject) TableName() string { return s.sBOMProjectDo.TableName() }
 
 func (s sBOMProject) Alias() string { return s.sBOMProjectDo.Alias() }
 
+func (s sBOMProject) Columns(cols ...field.Expr) gen.Columns { return s.sBOMProjectDo.Columns(cols...) }
+
 func (s *sBOMProject) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := s.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -230,10 +232,6 @@ func (s sBOMProjectDo) Select(conds ...field.Expr) *sBOMProjectDo {
 
 func (s sBOMProjectDo) Where(conds ...gen.Condition) *sBOMProjectDo {
 	return s.withDO(s.DO.Where(conds...))
-}
-
-func (s sBOMProjectDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *sBOMProjectDo {
-	return s.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (s sBOMProjectDo) Order(conds ...field.Expr) *sBOMProjectDo {

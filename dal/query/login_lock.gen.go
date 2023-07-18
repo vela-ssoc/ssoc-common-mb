@@ -76,6 +76,8 @@ func (l loginLock) TableName() string { return l.loginLockDo.TableName() }
 
 func (l loginLock) Alias() string { return l.loginLockDo.Alias() }
 
+func (l loginLock) Columns(cols ...field.Expr) gen.Columns { return l.loginLockDo.Columns(cols...) }
+
 func (l *loginLock) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := l.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -146,10 +148,6 @@ func (l loginLockDo) Select(conds ...field.Expr) *loginLockDo {
 
 func (l loginLockDo) Where(conds ...gen.Condition) *loginLockDo {
 	return l.withDO(l.DO.Where(conds...))
-}
-
-func (l loginLockDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *loginLockDo {
-	return l.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (l loginLockDo) Order(conds ...field.Expr) *loginLockDo {

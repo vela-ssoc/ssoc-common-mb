@@ -101,6 +101,8 @@ func (t third) TableName() string { return t.thirdDo.TableName() }
 
 func (t third) Alias() string { return t.thirdDo.Alias() }
 
+func (t third) Columns(cols ...field.Expr) gen.Columns { return t.thirdDo.Columns(cols...) }
+
 func (t *third) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := t.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -180,10 +182,6 @@ func (t thirdDo) Select(conds ...field.Expr) *thirdDo {
 
 func (t thirdDo) Where(conds ...gen.Condition) *thirdDo {
 	return t.withDO(t.DO.Where(conds...))
-}
-
-func (t thirdDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *thirdDo {
-	return t.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
 func (t thirdDo) Order(conds ...field.Expr) *thirdDo {
