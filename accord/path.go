@@ -8,6 +8,7 @@ const (
 	PathThirdDiff     = "/third/diff"
 	PathElasticReset  = "/elastic/reset"
 	PathEmcReset      = "/emc/reset"
+	PathEmailReset    = "/email/reset"
 	PathStoreReset    = "/store/reset"
 	PathNotifierReset = "/notifier/reset"
 	PathStartup       = "/startup"
@@ -19,6 +20,7 @@ const (
 	FPThirdDiff       = PathPrefix + PathThirdDiff
 	FPElasticReset    = PathPrefix + PathElasticReset
 	FPEmcReset        = PathPrefix + PathEmcReset
+	FPEmailReset      = PathPrefix + PathEmailReset
 	FPStoreReset      = PathPrefix + PathStoreReset
 	FPNotifierReset   = PathPrefix + PathNotifierReset
 	FPStartup         = PathPrefix + PathStartup
