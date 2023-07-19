@@ -7,7 +7,7 @@ require (
 	github.com/go-playground/universal-translator v0.18.1
 	github.com/go-playground/validator/v10 v10.14.1
 	github.com/go-sql-driver/mysql v1.7.1
-	github.com/vela-ssoc/vela-common-mba v0.0.0-20230713115403-0429001948f8
+	github.com/vela-ssoc/vela-common-mba v0.0.0-20230719021516-03e1b06fa5c8
 	github.com/xgfone/ship/v5 v5.3.1
 	go.uber.org/zap v1.24.0
 	golang.org/x/net v0.12.0
