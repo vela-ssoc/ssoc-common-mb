@@ -28,7 +28,7 @@ type notifyMatch struct {
 func (nm *notifyMatch) Reset() {
 	nm.mutex.Lock()
 	nm.loaded = false
-	defer nm.mutex.Unlock()
+	nm.mutex.Unlock()
 }
 
 func (nm *notifyMatch) Event(ctx context.Context, evtCode string) *model.Subscriber {
@@ -57,15 +57,16 @@ func (nm *notifyMatch) slowLoad(ctx context.Context) model.Subscribers {
 		return nm.subs
 	}
 
-	nm.loaded = true
 	tbl := query.Notifier
 	dats, err := tbl.WithContext(ctx).Find()
 	if err != nil {
 		nm.err = err
+		nm.loaded = true
 		return model.Subscribers{}
 	}
 	subs := model.Notifiers(dats).Subscribers()
 	nm.subs = subs
+	nm.loaded = true
 	nm.err = nil
 
 	return subs

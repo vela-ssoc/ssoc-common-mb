@@ -17,6 +17,7 @@ import (
 
 func NewConfigure(name string) Configurer {
 	return &elasticConfig{
+		trip: http.DefaultTransport,
 		name: name,
 	}
 }
@@ -28,6 +29,7 @@ type Configurer interface {
 
 type elasticConfig struct {
 	name   string
+	trip   http.RoundTripper
 	mutex  sync.RWMutex
 	load   bool
 	err    error
@@ -122,6 +124,7 @@ func (ec *elasticConfig) newNode(u *url.URL, auth string) http.Handler {
 	}
 
 	px := &httputil.ReverseProxy{
+		Transport:      ec.trip,
 		Rewrite:        rewriteFunc,
 		ModifyResponse: node.modifyResponse,
 		ErrorHandler:   node.errorHandler,
