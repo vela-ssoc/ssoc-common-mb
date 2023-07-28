@@ -28,14 +28,13 @@ func newBrokerBin(db *gorm.DB, opts ...gen.DOOption) brokerBin {
 	tableName := _brokerBin.brokerBinDo.TableName()
 	_brokerBin.ALL = field.NewAsterisk(tableName)
 	_brokerBin.ID = field.NewInt64(tableName, "id")
-	_brokerBin.FileID = field.NewInt64(tableName, "file_id")
 	_brokerBin.Name = field.NewString(tableName, "name")
+	_brokerBin.FileID = field.NewInt64(tableName, "file_id")
 	_brokerBin.Size = field.NewInt64(tableName, "size")
 	_brokerBin.Hash = field.NewString(tableName, "hash")
 	_brokerBin.Goos = field.NewString(tableName, "goos")
 	_brokerBin.Arch = field.NewString(tableName, "arch")
 	_brokerBin.Semver = field.NewString(tableName, "semver")
-	_brokerBin.Weight = field.NewInt64(tableName, "weight")
 	_brokerBin.Changelog = field.NewString(tableName, "changelog")
 	_brokerBin.CreatedAt = field.NewTime(tableName, "created_at")
 	_brokerBin.UpdatedAt = field.NewTime(tableName, "updated_at")
@@ -50,14 +49,13 @@ type brokerBin struct {
 
 	ALL       field.Asterisk
 	ID        field.Int64
-	FileID    field.Int64
 	Name      field.String
+	FileID    field.Int64
 	Size      field.Int64
 	Hash      field.String
 	Goos      field.String
 	Arch      field.String
 	Semver    field.String
-	Weight    field.Int64
 	Changelog field.String
 	CreatedAt field.Time
 	UpdatedAt field.Time
@@ -78,14 +76,13 @@ func (b brokerBin) As(alias string) *brokerBin {
 func (b *brokerBin) updateTableName(table string) *brokerBin {
 	b.ALL = field.NewAsterisk(table)
 	b.ID = field.NewInt64(table, "id")
-	b.FileID = field.NewInt64(table, "file_id")
 	b.Name = field.NewString(table, "name")
+	b.FileID = field.NewInt64(table, "file_id")
 	b.Size = field.NewInt64(table, "size")
 	b.Hash = field.NewString(table, "hash")
 	b.Goos = field.NewString(table, "goos")
 	b.Arch = field.NewString(table, "arch")
 	b.Semver = field.NewString(table, "semver")
-	b.Weight = field.NewInt64(table, "weight")
 	b.Changelog = field.NewString(table, "changelog")
 	b.CreatedAt = field.NewTime(table, "created_at")
 	b.UpdatedAt = field.NewTime(table, "updated_at")
@@ -115,16 +112,15 @@ func (b *brokerBin) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (b *brokerBin) fillFieldMap() {
-	b.fieldMap = make(map[string]field.Expr, 12)
+	b.fieldMap = make(map[string]field.Expr, 11)
 	b.fieldMap["id"] = b.ID
-	b.fieldMap["file_id"] = b.FileID
 	b.fieldMap["name"] = b.Name
+	b.fieldMap["file_id"] = b.FileID
 	b.fieldMap["size"] = b.Size
 	b.fieldMap["hash"] = b.Hash
 	b.fieldMap["goos"] = b.Goos
 	b.fieldMap["arch"] = b.Arch
 	b.fieldMap["semver"] = b.Semver
-	b.fieldMap["weight"] = b.Weight
 	b.fieldMap["changelog"] = b.Changelog
 	b.fieldMap["created_at"] = b.CreatedAt
 	b.fieldMap["updated_at"] = b.UpdatedAt

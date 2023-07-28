@@ -35,17 +35,18 @@ func (BrokerV2) TableName() string {
 
 // Broker 代理节点表
 type Broker struct {
-	ID          int64     `json:"id,string"    gorm:"column:id;primaryKey"` // broker 节点 ID
-	Name        string    `json:"name"         gorm:"column:name"`          // 名字
-	Servername  string    `json:"servername"   gorm:"column:servername"`    // servername minion 节点 TLS 认证用
-	LAN         []string  `json:"lan"          gorm:"column:lan;json"`      // 内网地址
-	VIP         []string  `json:"vip"          gorm:"column:vip;json"`      // 外网地址
-	Status      bool      `json:"status"       gorm:"column:status"`        // 状态
-	Secret      string    `json:"secret"       gorm:"column:secret"`        // 随机密钥防止恶意攻击
-	Bind        string    `json:"bind"         gorm:"column:bind"`          // 服务监听地址
-	HeartbeatAt time.Time `json:"heartbeat_at" gorm:"column:heartbeat_at"`  // 最近一次心跳时间
-	CreatedAt   time.Time `json:"created_at"   gorm:"column:created_at"`    // 创建时间
-	UpdatedAt   time.Time `json:"updated_at"   gorm:"column:updated_at"`    // 更新时间
+	ID          int64     `json:"id,string"      gorm:"column:id;primaryKey"` // broker 节点 ID
+	Name        string    `json:"name"           gorm:"column:name"`          // 名字
+	Servername  string    `json:"servername"     gorm:"column:servername"`    // servername minion 节点 TLS 认证用
+	LAN         []string  `json:"lan"            gorm:"column:lan;json"`      // 内网地址
+	VIP         []string  `json:"vip"            gorm:"column:vip;json"`      // 外网地址
+	Status      bool      `json:"status"         gorm:"column:status"`        // 状态
+	Secret      string    `json:"secret"         gorm:"column:secret"`        // 随机密钥防止恶意攻击
+	CertID      int64     `json:"cert_id,string" gorm:"column:cert_id"`       // 证书 ID
+	Bind        string    `json:"bind"           gorm:"column:bind"`          // 服务监听地址
+	HeartbeatAt time.Time `json:"heartbeat_at"   gorm:"column:heartbeat_at"`  // 最近一次心跳时间
+	CreatedAt   time.Time `json:"created_at"     gorm:"column:created_at"`    // 创建时间
+	UpdatedAt   time.Time `json:"updated_at"     gorm:"column:updated_at"`    // 更新时间
 }
 
 // TableName implement gorm schema.Tabler

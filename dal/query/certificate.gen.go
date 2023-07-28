@@ -29,18 +29,22 @@ func newCertificate(db *gorm.DB, opts ...gen.DOOption) certificate {
 	_certificate.ALL = field.NewAsterisk(tableName)
 	_certificate.ID = field.NewInt64(tableName, "id")
 	_certificate.Name = field.NewString(tableName, "name")
-	_certificate.Certificate = field.NewBytes(tableName, "certificate")
-	_certificate.PrivateKey = field.NewBytes(tableName, "private_key")
+	_certificate.Certificate = field.NewString(tableName, "certificate")
+	_certificate.PrivateKey = field.NewString(tableName, "private_key")
 	_certificate.Version = field.NewInt(tableName, "version")
-	_certificate.IssCountry = field.NewString(tableName, "iss_country")
-	_certificate.IssOrg = field.NewString(tableName, "iss_org")
+	_certificate.IssCountry = field.NewField(tableName, "iss_country")
+	_certificate.IssProvince = field.NewField(tableName, "iss_province")
+	_certificate.IssOrg = field.NewField(tableName, "iss_org")
 	_certificate.IssCN = field.NewString(tableName, "iss_cn")
-	_certificate.IssOrgUnit = field.NewString(tableName, "iss_org_unit")
-	_certificate.SubCountry = field.NewString(tableName, "sub_country")
-	_certificate.SubOrg = field.NewString(tableName, "sub_org")
-	_certificate.SubProvince = field.NewString(tableName, "sub_province")
+	_certificate.IssOrgUnit = field.NewField(tableName, "iss_org_unit")
+	_certificate.SubCountry = field.NewField(tableName, "sub_country")
+	_certificate.SubOrg = field.NewField(tableName, "sub_org")
+	_certificate.SubProvince = field.NewField(tableName, "sub_province")
 	_certificate.SubCN = field.NewString(tableName, "sub_cn")
 	_certificate.DNSNames = field.NewField(tableName, "dns_names")
+	_certificate.IPAddresses = field.NewField(tableName, "ip_addresses")
+	_certificate.EmailAddresses = field.NewField(tableName, "email_addresses")
+	_certificate.URIs = field.NewField(tableName, "uris")
 	_certificate.NotBefore = field.NewTime(tableName, "not_before")
 	_certificate.NotAfter = field.NewTime(tableName, "not_after")
 	_certificate.CreatedAt = field.NewTime(tableName, "created_at")
@@ -54,25 +58,29 @@ func newCertificate(db *gorm.DB, opts ...gen.DOOption) certificate {
 type certificate struct {
 	certificateDo certificateDo
 
-	ALL         field.Asterisk
-	ID          field.Int64
-	Name        field.String
-	Certificate field.Bytes
-	PrivateKey  field.Bytes
-	Version     field.Int
-	IssCountry  field.String
-	IssOrg      field.String
-	IssCN       field.String
-	IssOrgUnit  field.String
-	SubCountry  field.String
-	SubOrg      field.String
-	SubProvince field.String
-	SubCN       field.String
-	DNSNames    field.Field
-	NotBefore   field.Time
-	NotAfter    field.Time
-	CreatedAt   field.Time
-	UpdatedAt   field.Time
+	ALL            field.Asterisk
+	ID             field.Int64
+	Name           field.String
+	Certificate    field.String
+	PrivateKey     field.String
+	Version        field.Int
+	IssCountry     field.Field
+	IssProvince    field.Field
+	IssOrg         field.Field
+	IssCN          field.String
+	IssOrgUnit     field.Field
+	SubCountry     field.Field
+	SubOrg         field.Field
+	SubProvince    field.Field
+	SubCN          field.String
+	DNSNames       field.Field
+	IPAddresses    field.Field
+	EmailAddresses field.Field
+	URIs           field.Field
+	NotBefore      field.Time
+	NotAfter       field.Time
+	CreatedAt      field.Time
+	UpdatedAt      field.Time
 
 	fieldMap map[string]field.Expr
 }
@@ -91,18 +99,22 @@ func (c *certificate) updateTableName(table string) *certificate {
 	c.ALL = field.NewAsterisk(table)
 	c.ID = field.NewInt64(table, "id")
 	c.Name = field.NewString(table, "name")
-	c.Certificate = field.NewBytes(table, "certificate")
-	c.PrivateKey = field.NewBytes(table, "private_key")
+	c.Certificate = field.NewString(table, "certificate")
+	c.PrivateKey = field.NewString(table, "private_key")
 	c.Version = field.NewInt(table, "version")
-	c.IssCountry = field.NewString(table, "iss_country")
-	c.IssOrg = field.NewString(table, "iss_org")
+	c.IssCountry = field.NewField(table, "iss_country")
+	c.IssProvince = field.NewField(table, "iss_province")
+	c.IssOrg = field.NewField(table, "iss_org")
 	c.IssCN = field.NewString(table, "iss_cn")
-	c.IssOrgUnit = field.NewString(table, "iss_org_unit")
-	c.SubCountry = field.NewString(table, "sub_country")
-	c.SubOrg = field.NewString(table, "sub_org")
-	c.SubProvince = field.NewString(table, "sub_province")
+	c.IssOrgUnit = field.NewField(table, "iss_org_unit")
+	c.SubCountry = field.NewField(table, "sub_country")
+	c.SubOrg = field.NewField(table, "sub_org")
+	c.SubProvince = field.NewField(table, "sub_province")
 	c.SubCN = field.NewString(table, "sub_cn")
 	c.DNSNames = field.NewField(table, "dns_names")
+	c.IPAddresses = field.NewField(table, "ip_addresses")
+	c.EmailAddresses = field.NewField(table, "email_addresses")
+	c.URIs = field.NewField(table, "uris")
 	c.NotBefore = field.NewTime(table, "not_before")
 	c.NotAfter = field.NewTime(table, "not_after")
 	c.CreatedAt = field.NewTime(table, "created_at")
@@ -133,13 +145,14 @@ func (c *certificate) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (c *certificate) fillFieldMap() {
-	c.fieldMap = make(map[string]field.Expr, 18)
+	c.fieldMap = make(map[string]field.Expr, 22)
 	c.fieldMap["id"] = c.ID
 	c.fieldMap["name"] = c.Name
 	c.fieldMap["certificate"] = c.Certificate
 	c.fieldMap["private_key"] = c.PrivateKey
 	c.fieldMap["version"] = c.Version
 	c.fieldMap["iss_country"] = c.IssCountry
+	c.fieldMap["iss_province"] = c.IssProvince
 	c.fieldMap["iss_org"] = c.IssOrg
 	c.fieldMap["iss_cn"] = c.IssCN
 	c.fieldMap["iss_org_unit"] = c.IssOrgUnit
@@ -148,6 +161,9 @@ func (c *certificate) fillFieldMap() {
 	c.fieldMap["sub_province"] = c.SubProvince
 	c.fieldMap["sub_cn"] = c.SubCN
 	c.fieldMap["dns_names"] = c.DNSNames
+	c.fieldMap["ip_addresses"] = c.IPAddresses
+	c.fieldMap["email_addresses"] = c.EmailAddresses
+	c.fieldMap["uris"] = c.URIs
 	c.fieldMap["not_before"] = c.NotBefore
 	c.fieldMap["not_after"] = c.NotAfter
 	c.fieldMap["created_at"] = c.CreatedAt

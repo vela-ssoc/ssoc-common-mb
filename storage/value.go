@@ -71,10 +71,12 @@ func (sv *storeValue) slowLoad(ctx context.Context) ([]byte, error) {
 		sv.value = nil
 		sv.done = true
 		return nil, err
-	} else {
-		sv.err = nil
-		sv.value = dat.Value
-		sv.done = true
-		return dat.Value, nil
 	}
+
+	val := dat.Value
+	sv.err = nil
+	sv.value = val
+	sv.done = true
+
+	return val, nil
 }

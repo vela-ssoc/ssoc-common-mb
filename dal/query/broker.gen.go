@@ -34,6 +34,7 @@ func newBroker(db *gorm.DB, opts ...gen.DOOption) broker {
 	_broker.VIP = field.NewField(tableName, "vip")
 	_broker.Status = field.NewBool(tableName, "status")
 	_broker.Secret = field.NewString(tableName, "secret")
+	_broker.CertID = field.NewInt64(tableName, "cert_id")
 	_broker.Bind = field.NewString(tableName, "bind")
 	_broker.HeartbeatAt = field.NewTime(tableName, "heartbeat_at")
 	_broker.CreatedAt = field.NewTime(tableName, "created_at")
@@ -55,6 +56,7 @@ type broker struct {
 	VIP         field.Field
 	Status      field.Bool
 	Secret      field.String
+	CertID      field.Int64
 	Bind        field.String
 	HeartbeatAt field.Time
 	CreatedAt   field.Time
@@ -82,6 +84,7 @@ func (b *broker) updateTableName(table string) *broker {
 	b.VIP = field.NewField(table, "vip")
 	b.Status = field.NewBool(table, "status")
 	b.Secret = field.NewString(table, "secret")
+	b.CertID = field.NewInt64(table, "cert_id")
 	b.Bind = field.NewString(table, "bind")
 	b.HeartbeatAt = field.NewTime(table, "heartbeat_at")
 	b.CreatedAt = field.NewTime(table, "created_at")
@@ -110,7 +113,7 @@ func (b *broker) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (b *broker) fillFieldMap() {
-	b.fieldMap = make(map[string]field.Expr, 11)
+	b.fieldMap = make(map[string]field.Expr, 12)
 	b.fieldMap["id"] = b.ID
 	b.fieldMap["name"] = b.Name
 	b.fieldMap["servername"] = b.Servername
@@ -118,6 +121,7 @@ func (b *broker) fillFieldMap() {
 	b.fieldMap["vip"] = b.VIP
 	b.fieldMap["status"] = b.Status
 	b.fieldMap["secret"] = b.Secret
+	b.fieldMap["cert_id"] = b.CertID
 	b.fieldMap["bind"] = b.Bind
 	b.fieldMap["heartbeat_at"] = b.HeartbeatAt
 	b.fieldMap["created_at"] = b.CreatedAt

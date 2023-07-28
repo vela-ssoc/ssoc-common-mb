@@ -110,7 +110,7 @@ func NewStore() Storer {
 		ret.riskDongTitle = val
 	}
 	{
-		val := ret.newTmpl("global.risk.dong.tmpl", true)
+		val := ret.newTmpl("global.risk.dong.tmpl", true, ret.trimCRLF)
 		ret.values[val.ID()] = val
 		ret.riskDongBody = val
 	}
@@ -135,7 +135,7 @@ func NewStore() Storer {
 		ret.eventDongTitle = val
 	}
 	{
-		val := ret.newTmpl("global.event.dong.tmpl", true)
+		val := ret.newTmpl("global.event.dong.tmpl", true, ret.trimCRLF)
 		ret.values[val.ID()] = val
 		ret.eventDongBody = val
 	}
@@ -323,14 +323,15 @@ func (sdb *storeDB) newValue(id string, shared bool, valid func([]byte) bool) Va
 	}
 }
 
-func (sdb *storeDB) newTmpl(id string, shared bool) storeRender {
+func (sdb *storeDB) newTmpl(id string, shared bool, filter ...func([]byte) []byte) storeRender {
 	val := &storeValue{
 		id:     id,
 		shared: shared,
 		valid:  validTmpl,
 	}
 	return &storeTemplate{
-		value: val,
+		value:  val,
+		filter: filter,
 	}
 }
 
@@ -344,6 +345,10 @@ func (sdb *storeDB) newHTTP(id string, shared bool, cb string) httpValuer {
 		value:    val,
 		callback: cb,
 	}
+}
+
+func (sdb *storeDB) trimCRLF(dat []byte) []byte {
+	return bytes.ReplaceAll(dat, []byte("\n"), nil)
 }
 
 func validIP(dat []byte) bool {

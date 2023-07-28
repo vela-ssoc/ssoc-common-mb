@@ -14,11 +14,12 @@ type storeRender interface {
 }
 
 type storeTemplate struct {
-	value Valuer
-	mutex sync.RWMutex
-	done  bool
-	tmpl  *template.Template
-	err   error
+	filter []func([]byte) []byte
+	value  Valuer
+	mutex  sync.RWMutex
+	done   bool
+	tmpl   *template.Template
+	err    error
 }
 
 func (st *storeTemplate) Value(ctx context.Context) ([]byte, error) {
@@ -85,6 +86,10 @@ func (st *storeTemplate) slowLoad(ctx context.Context) (*template.Template, erro
 		st.err = err
 		st.done = true
 		return nil, err
+	}
+
+	for _, fn := range st.filter {
+		dat = fn(dat)
 	}
 
 	id := st.value.ID()
