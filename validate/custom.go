@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"reflect"
 	"regexp"
+	"strconv"
 	"strings"
 
 	unt "github.com/go-playground/universal-translator"
@@ -273,16 +274,35 @@ func filenameFunc(v *validator.Validate, t unt.Translator) {
 // dongFunc 咚咚校验器
 func dongFunc(v *validator.Validate, t unt.Translator) {
 	const tag = "dong"
-
-	// 集团咚咚号为6位纯数字
-	// 证券咚咚号为5位纯属字
-	reg := regexp.MustCompile("^[0-9]{5,6}$")
-
 	_ = v.RegisterValidation(tag, func(fl validator.FieldLevel) bool {
-		if field := fl.Field(); field.Kind() == reflect.String {
-			return reg.MatchString(field.String())
+		field := fl.Field()
+		if field.Kind() != reflect.String {
+			return false
 		}
-		return false
+		input := field.String()
+		length := len(input)
+		if length != 5 && length != 6 {
+			return false
+		}
+		serial := input
+		group := input[0]
+		if length == 5 && group != 'H' {
+			return false
+		}
+		if length == 5 {
+			if group != 'H' {
+				return false
+			}
+			serial = input[1:]
+		} else {
+			if group == 'Q' || group == 'Z' {
+				serial = input[1:]
+			}
+		}
+
+		num, _ := strconv.ParseInt(serial, 10, 64)
+
+		return num > 0
 	})
 	_ = v.RegisterTranslation(tag, t, func(ut unt.Translator) error {
 		return ut.Add(tag, "{0}必须是一个有效的咚咚号", true)
