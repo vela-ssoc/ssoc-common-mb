@@ -44,7 +44,7 @@ func (v *valueHTTP) validate(dat []byte) error {
 func (v *valueHTTP) loadURL(ctx context.Context) (*url.URL, error) {
 	v.mutex.RLock()
 	loaded, addr, err := v.loaded, v.addr, v.err
-	v.mutex.Unlock()
+	v.mutex.RUnlock()
 	if loaded {
 		return addr, err
 	}
