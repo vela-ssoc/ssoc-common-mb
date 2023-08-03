@@ -44,6 +44,8 @@ func newRisk(db *gorm.DB, opts ...gen.DOOption) risk {
 	_risk.SendAlert = field.NewBool(tableName, "send_alert")
 	_risk.Secret = field.NewString(tableName, "secret")
 	_risk.Status = field.NewUint8(tableName, "status")
+	_risk.Template = field.NewString(tableName, "template")
+	_risk.Metadata = field.NewField(tableName, "metadata")
 	_risk.OccurAt = field.NewTime(tableName, "occur_at")
 	_risk.CreatedAt = field.NewTime(tableName, "created_at")
 
@@ -73,6 +75,8 @@ type risk struct {
 	SendAlert  field.Bool
 	Secret     field.String
 	Status     field.Uint8
+	Template   field.String
+	Metadata   field.Field
 	OccurAt    field.Time
 	CreatedAt  field.Time
 
@@ -108,6 +112,8 @@ func (r *risk) updateTableName(table string) *risk {
 	r.SendAlert = field.NewBool(table, "send_alert")
 	r.Secret = field.NewString(table, "secret")
 	r.Status = field.NewUint8(table, "status")
+	r.Template = field.NewString(table, "template")
+	r.Metadata = field.NewField(table, "metadata")
 	r.OccurAt = field.NewTime(table, "occur_at")
 	r.CreatedAt = field.NewTime(table, "created_at")
 
@@ -134,7 +140,7 @@ func (r *risk) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (r *risk) fillFieldMap() {
-	r.fieldMap = make(map[string]field.Expr, 19)
+	r.fieldMap = make(map[string]field.Expr, 21)
 	r.fieldMap["id"] = r.ID
 	r.fieldMap["minion_id"] = r.MinionID
 	r.fieldMap["inet"] = r.Inet
@@ -152,6 +158,8 @@ func (r *risk) fillFieldMap() {
 	r.fieldMap["send_alert"] = r.SendAlert
 	r.fieldMap["secret"] = r.Secret
 	r.fieldMap["status"] = r.Status
+	r.fieldMap["template"] = r.Template
+	r.fieldMap["metadata"] = r.Metadata
 	r.fieldMap["occur_at"] = r.OccurAt
 	r.fieldMap["created_at"] = r.CreatedAt
 }

@@ -39,9 +39,13 @@ func (sc *ssoClient) Auth(ctx context.Context, uname, passwd string) error {
 	sum := md5.Sum([]byte(passwd))
 	pwd := hex.EncodeToString(sum[:])
 	query := url.Values{"usrNme": []string{uname}, "passwd": []string{pwd}}
-	addr += query.Encode()
+	// addr += query.Encode()
+	if addr.RawQuery != "" {
+		addr.RawQuery += "&"
+	}
+	addr.RawQuery += query.Encode()
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, addr, nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, addr.String(), nil)
 	if err != nil {
 		return err
 	}

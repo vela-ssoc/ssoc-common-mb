@@ -12,7 +12,7 @@ import (
 	"github.com/vela-ssoc/vela-common-mb/integration/dong"
 	"github.com/vela-ssoc/vela-common-mb/integration/ntfmatch"
 	"github.com/vela-ssoc/vela-common-mb/logback"
-	"github.com/vela-ssoc/vela-common-mb/storage"
+	"github.com/vela-ssoc/vela-common-mb/storage/v2"
 )
 
 type Alerter interface {

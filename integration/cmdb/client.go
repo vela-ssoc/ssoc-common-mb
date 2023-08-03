@@ -117,7 +117,10 @@ func (rc *restClient) newRequest(ctx context.Context, inet string) (*http.Reques
 		return nil, err
 	}
 	val := "q=private_ip:(" + inet + ")"
-	addr = addr + val
+	if addr.RawQuery != "" {
+		addr.RawQuery += "&"
+	}
+	addr.RawQuery += val
 
-	return http.NewRequestWithContext(ctx, http.MethodGet, addr, nil)
+	return http.NewRequestWithContext(ctx, http.MethodGet, addr.String(), nil)
 }

@@ -43,7 +43,7 @@ func (et *riskTask) Run() {
 }
 
 func (et *riskTask) sendDong(ctx context.Context, dongs []string) {
-	title, body := et.unify.store.RiskDong(ctx, et.risk)
+	title, body := et.unify.store.RiskDong(ctx, et.risk, et.risk.Template)
 	if err := et.unify.dong.Send(ctx, dongs, nil, title, body); err != nil {
 		et.unify.slog.Warnf("发送风险 %s 失败：%s", dongs, err)
 	} else {

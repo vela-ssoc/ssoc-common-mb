@@ -43,7 +43,7 @@ func (et *eventTask) Run() {
 }
 
 func (et *eventTask) sendDong(ctx context.Context, dongs []string) {
-	title, body := et.unify.store.EventDong(ctx, et.event)
+	title, body := et.unify.store.EventDong(ctx, et.event, "")
 	if err := et.unify.dong.Send(ctx, dongs, nil, title, body); err != nil {
 		et.unify.slog.Warnf("发送事件 %s 失败：%s", dongs, err)
 	} else {

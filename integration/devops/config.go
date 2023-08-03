@@ -2,12 +2,13 @@ package devops
 
 import (
 	"context"
+	"net/url"
 
-	"github.com/vela-ssoc/vela-common-mb/storage"
+	"github.com/vela-ssoc/vela-common-mb/storage/v2"
 )
 
 type Configurer interface {
-	Load(ctx context.Context) (string, error)
+	Load(ctx context.Context) (*url.URL, error)
 }
 
 func NewConfig(store storage.Storer) Configurer {
@@ -20,6 +21,6 @@ type config struct {
 	store storage.Storer
 }
 
-func (cfg *config) Load(ctx context.Context) (string, error) {
+func (cfg *config) Load(ctx context.Context) (*url.URL, error) {
 	return cfg.store.AlarmURL(ctx)
 }

@@ -2,12 +2,13 @@ package ssoauth
 
 import (
 	"context"
+	"net/url"
 
-	"github.com/vela-ssoc/vela-common-mb/storage"
+	"github.com/vela-ssoc/vela-common-mb/storage/v2"
 )
 
 type Configurer interface {
-	Load(context.Context) (addr string, err error)
+	Load(context.Context) (addr *url.URL, err error)
 }
 
 func NewConfigure(store storage.Storer) Configurer {
@@ -20,6 +21,6 @@ type fromDB struct {
 	store storage.Storer
 }
 
-func (f *fromDB) Load(ctx context.Context) (string, error) {
+func (f *fromDB) Load(ctx context.Context) (*url.URL, error) {
 	return f.store.SsoURL(ctx)
 }

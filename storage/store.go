@@ -8,6 +8,7 @@ import (
 	"net"
 	"net/url"
 	"strings"
+	"sync"
 	"text/template"
 
 	"github.com/vela-ssoc/vela-common-mb/dal/model"
@@ -179,6 +180,7 @@ func NewStore() Storer {
 }
 
 type storeDB struct {
+	mutex  sync.RWMutex
 	values map[string]Valuer
 
 	localAddr    Valuer

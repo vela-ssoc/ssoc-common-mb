@@ -43,7 +43,7 @@ func (dc *devopsClient) Send(ctx context.Context, title, body string, users []*m
 		Notifier:       string(dat),
 	}
 
-	return dc.cli.JSON(ctx, http.MethodPost, addr, req, &struct{}{}, nil)
+	return dc.cli.JSON(ctx, http.MethodPost, addr.String(), req, &struct{}{}, nil)
 }
 
 type request struct {
