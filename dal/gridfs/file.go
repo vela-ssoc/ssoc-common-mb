@@ -2,6 +2,7 @@ package gridfs
 
 import (
 	"database/sql"
+	"errors"
 	"io"
 	"io/fs"
 	"mime"
@@ -101,7 +102,7 @@ func (f *file) nextSerial() error {
 	var chk chunk
 	if err := f.db.QueryRow(rawSQL, f.id, f.serial).Scan(&chk.data); err != nil {
 		f.eof = true
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			return io.EOF
 		}
 		return err

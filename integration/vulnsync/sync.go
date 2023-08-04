@@ -15,6 +15,7 @@ var ErrSynchronizing = errors.New("漏洞正在同步")
 
 func New(db *gorm.DB, sona sonatype.Searcher) *Synchro {
 	return &Synchro{
+		db:   db,
 		sona: sona,
 	}
 }
