@@ -6,6 +6,7 @@ import "time"
 type Store struct {
 	ID        string    `json:"id"         gorm:"column:id;primaryKey"` // 数据 ID，就是 key
 	Value     []byte    `json:"value"      gorm:"column:value"`         // 数据的值
+	Escape    bool      `json:"escape"     gorm:"column:escape"`        // 是否对模板开启转义
 	Desc      string    `json:"desc"       gorm:"column:desc"`          // 说明
 	Version   int64     `json:"version"    gorm:"column:version"`       // 乐观锁
 	CreatedAt time.Time `json:"created_at" gorm:"column:created_at"`    // 创建时间

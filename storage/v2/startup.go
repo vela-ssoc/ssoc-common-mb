@@ -21,7 +21,7 @@ func (s *startupValue) id() string {
 	return s.under.id()
 }
 
-func (s *startupValue) load(ctx context.Context) ([]byte, error) {
+func (s *startupValue) load(ctx context.Context) (*model.Store, error) {
 	return s.under.load(ctx)
 }
 
@@ -68,7 +68,7 @@ func (s *startupValue) slowLoadStartup(ctx context.Context) (*model.Startup, err
 	}
 
 	startup := new(model.Startup)
-	err = json.Unmarshal(data, startup)
+	err = json.Unmarshal(data.Value, startup)
 	s.err = err
 	s.startup = startup
 	s.loaded = true

@@ -6,6 +6,8 @@ import (
 	"io"
 	"sync"
 	txt "text/template"
+
+	"github.com/vela-ssoc/vela-common-mb/dal/model"
 )
 
 type templateExecutor interface {
@@ -19,7 +21,6 @@ type tmplValuer interface {
 
 type valueTmpl struct {
 	under  valuer
-	escape bool
 	mutex  sync.RWMutex
 	loaded bool
 	tmpl   templateExecutor
@@ -30,7 +31,7 @@ func (v *valueTmpl) id() string {
 	return v.under.id()
 }
 
-func (v *valueTmpl) load(ctx context.Context) ([]byte, error) {
+func (v *valueTmpl) load(ctx context.Context) (*model.Store, error) {
 	return v.under.load(ctx)
 }
 
@@ -90,9 +91,9 @@ func (v *valueTmpl) slowLoadExecutor(ctx context.Context) (templateExecutor, err
 	return tmpl, err
 }
 
-func (v *valueTmpl) newExecutor(id string, data []byte) (templateExecutor, error) {
-	if v.escape {
-		return htm.New(id).Parse(string(data))
+func (v *valueTmpl) newExecutor(id string, data *model.Store) (templateExecutor, error) {
+	if data.Escape {
+		return htm.New(id).Parse(string(data.Value))
 	}
-	return txt.New(id).Parse(string(data))
+	return txt.New(id).Parse(string(data.Value))
 }

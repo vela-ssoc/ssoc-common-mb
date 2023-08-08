@@ -6,13 +6,14 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/vela-ssoc/vela-common-mb/dal/model"
 	"github.com/vela-ssoc/vela-common-mb/dal/query"
 	"gorm.io/gorm"
 )
 
 type valuer interface {
 	id() string
-	load(ctx context.Context) ([]byte, error)
+	load(ctx context.Context) (*model.Store, error)
 	forget() (shared bool)
 	validate([]byte) error
 }
@@ -40,7 +41,7 @@ type valueDB struct {
 	loaded bool
 
 	// value 数据
-	value []byte
+	value *model.Store
 
 	// err 是否从数据库加载出错了
 	err error
@@ -50,7 +51,7 @@ func (v *valueDB) id() string {
 	return v.uid
 }
 
-func (v *valueDB) load(ctx context.Context) ([]byte, error) {
+func (v *valueDB) load(ctx context.Context) (*model.Store, error) {
 	v.mutex.RLock()
 	loaded, value, err := v.loaded, v.value, v.err
 	v.mutex.RUnlock()
@@ -75,7 +76,7 @@ func (v *valueDB) validate(dat []byte) error {
 	return nil
 }
 
-func (v *valueDB) loadDB(ctx context.Context) ([]byte, error) {
+func (v *valueDB) loadDB(ctx context.Context) (*model.Store, error) {
 	v.mutex.Lock()
 	defer v.mutex.Unlock()
 	if v.loaded {
@@ -90,7 +91,7 @@ func (v *valueDB) loadDB(ctx context.Context) ([]byte, error) {
 	return value, err
 }
 
-func (v *valueDB) loadValue(ctx context.Context) ([]byte, error) {
+func (v *valueDB) loadValue(ctx context.Context) (*model.Store, error) {
 	uid := v.uid
 	var value []byte
 	tbl := query.Store
@@ -105,7 +106,8 @@ func (v *valueDB) loadValue(ctx context.Context) ([]byte, error) {
 		value = ffn(value)
 	}
 	if len(value) != 0 {
-		return value, nil
+		dat.Value = value
+		return dat, nil
 	}
 
 	if err == nil || errors.Is(err, gorm.ErrRecordNotFound) {

@@ -29,6 +29,7 @@ func newStore(db *gorm.DB, opts ...gen.DOOption) store {
 	_store.ALL = field.NewAsterisk(tableName)
 	_store.ID = field.NewString(tableName, "id")
 	_store.Value = field.NewBytes(tableName, "value")
+	_store.Escape = field.NewBool(tableName, "escape")
 	_store.Desc = field.NewString(tableName, "desc")
 	_store.Version = field.NewInt64(tableName, "version")
 	_store.CreatedAt = field.NewTime(tableName, "created_at")
@@ -45,6 +46,7 @@ type store struct {
 	ALL       field.Asterisk
 	ID        field.String
 	Value     field.Bytes
+	Escape    field.Bool
 	Desc      field.String
 	Version   field.Int64
 	CreatedAt field.Time
@@ -67,6 +69,7 @@ func (s *store) updateTableName(table string) *store {
 	s.ALL = field.NewAsterisk(table)
 	s.ID = field.NewString(table, "id")
 	s.Value = field.NewBytes(table, "value")
+	s.Escape = field.NewBool(table, "escape")
 	s.Desc = field.NewString(table, "desc")
 	s.Version = field.NewInt64(table, "version")
 	s.CreatedAt = field.NewTime(table, "created_at")
@@ -95,9 +98,10 @@ func (s *store) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *store) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 6)
+	s.fieldMap = make(map[string]field.Expr, 7)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["value"] = s.Value
+	s.fieldMap["escape"] = s.Escape
 	s.fieldMap["desc"] = s.Desc
 	s.fieldMap["version"] = s.Version
 	s.fieldMap["created_at"] = s.CreatedAt

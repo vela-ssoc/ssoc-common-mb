@@ -114,47 +114,47 @@ func NewStore() Storer {
 
 	{
 		tid, bid := uidDingTitle, uidDingTmpl
-		title := sdb.createTemplate(tid, false, true, sdb.filterCRLF)
-		body := sdb.createTemplate(bid, false, true, sdb.filterCRLF)
+		title := sdb.createTemplate(tid, false, sdb.filterCRLF)
+		body := sdb.createTemplate(bid, false, sdb.filterCRLF)
 		sdb.stores[tid] = title
 		sdb.stores[bid] = body
 	}
 	{
 		tid, bid := uidRiskDongTitle, uidRiskDongTmpl
-		title := sdb.createTemplate(tid, true, true, sdb.filterCRLF)
-		body := sdb.createTemplate(bid, true, true, sdb.filterCRLF)
+		title := sdb.createTemplate(tid, true, sdb.filterCRLF)
+		body := sdb.createTemplate(bid, true, sdb.filterCRLF)
 		sdb.stores[tid] = title
 		sdb.stores[bid] = body
 	}
 	{
 		tid, bid := uidRiskEmailTitle, uidRiskEmailTmpl
-		title := sdb.createTemplate(tid, true, true, nil)
-		body := sdb.createTemplate(bid, true, true, nil)
+		title := sdb.createTemplate(tid, true, nil)
+		body := sdb.createTemplate(bid, true, nil)
 		sdb.stores[tid] = title
 		sdb.stores[bid] = body
 	}
 	{
 		id := uidRiskHTMLTmpl
-		tmpl := sdb.createTemplate(id, false, true, nil)
+		tmpl := sdb.createTemplate(id, false, nil)
 		sdb.stores[id] = tmpl
 	}
 	{
 		tid, bid := uidEventDongTitle, uidEventDongTmpl
-		title := sdb.createTemplate(tid, true, true, sdb.filterCRLF)
-		body := sdb.createTemplate(bid, true, true, sdb.filterCRLF)
+		title := sdb.createTemplate(tid, true, sdb.filterCRLF)
+		body := sdb.createTemplate(bid, true, sdb.filterCRLF)
 		sdb.stores[tid] = title
 		sdb.stores[bid] = body
 	}
 	{
 		tid, bid := uidEventEmailTitle, uidEventEmailTmpl
-		title := sdb.createTemplate(tid, true, true, nil)
-		body := sdb.createTemplate(bid, true, true, nil)
+		title := sdb.createTemplate(tid, true, nil)
+		body := sdb.createTemplate(bid, true, nil)
 		sdb.stores[tid] = title
 		sdb.stores[bid] = body
 	}
 	{
 		id := uidEventHTMLTmpl
-		tmpl := sdb.createTemplate(id, false, true, nil)
+		tmpl := sdb.createTemplate(id, false, nil)
 		sdb.stores[id] = tmpl
 	}
 
@@ -179,7 +179,7 @@ func (sdb *storeDB) Validate(id string, data []byte) error {
 func (sdb *storeDB) LocalAddr(ctx context.Context) (string, error) {
 	val := sdb.getValue(uidLocalAddr)
 	data, err := val.load(ctx)
-	return string(data), err
+	return string(data.Value), err
 }
 
 func (sdb *storeDB) CmdbURL(ctx context.Context) (*url.URL, error) {
@@ -336,7 +336,7 @@ func (sdb *storeDB) getValue(id string) valuer {
 }
 
 func (sdb *storeDB) createAndGet(id string) valuer {
-	other := sdb.createTemplate(id, true, true, nil)
+	other := sdb.createTemplate(id, true, nil)
 	sdb.mutex.Lock()
 	v, ok := sdb.stores[id]
 	if !ok {
@@ -350,7 +350,7 @@ func (sdb *storeDB) createAndGet(id string) valuer {
 	return other
 }
 
-func (sdb *storeDB) createTemplate(id string, shared, escape bool, filter func([]byte) []byte) tmplValuer {
+func (sdb *storeDB) createTemplate(id string, shared bool, filter func([]byte) []byte) tmplValuer {
 	under := &valueDB{
 		uid:      id,
 		share:    shared, // 默认与 broker 共享
@@ -360,8 +360,7 @@ func (sdb *storeDB) createTemplate(id string, shared, escape bool, filter func([
 	}
 
 	return &valueTmpl{
-		under:  under,
-		escape: escape,
+		under: under,
 	}
 }
 

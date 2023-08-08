@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/url"
 	"sync"
+
+	"github.com/vela-ssoc/vela-common-mb/dal/model"
 )
 
 type httpValuer interface {
@@ -24,7 +26,7 @@ func (v *valueHTTP) id() string {
 	return v.under.id()
 }
 
-func (v *valueHTTP) load(ctx context.Context) ([]byte, error) {
+func (v *valueHTTP) load(ctx context.Context) (*model.Store, error) {
 	return v.under.load(ctx)
 }
 
@@ -67,7 +69,7 @@ func (v *valueHTTP) loadSlow(ctx context.Context) (*url.URL, error) {
 		return nil, err
 	}
 
-	u, exx := url.Parse(string(data))
+	u, exx := url.Parse(string(data.Value))
 	if exx != nil {
 		exx = fmt.Errorf("store %s 不是一个有效的 URL", uid)
 		v.err = exx
