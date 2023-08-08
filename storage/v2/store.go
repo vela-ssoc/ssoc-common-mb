@@ -179,7 +179,10 @@ func (sdb *storeDB) Validate(id string, data []byte) error {
 func (sdb *storeDB) LocalAddr(ctx context.Context) (string, error) {
 	val := sdb.getValue(uidLocalAddr)
 	data, err := val.load(ctx)
-	return string(data.Value), err
+	if err == nil && data != nil && len(data.Value) != 0 {
+		return string(data.Value), nil
+	}
+	return "", err
 }
 
 func (sdb *storeDB) CmdbURL(ctx context.Context) (*url.URL, error) {
