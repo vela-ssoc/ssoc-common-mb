@@ -81,8 +81,8 @@ func (v *valueTmpl) slowLoadExecutor(ctx context.Context) (templateExecutor, err
 		return nil, err
 	}
 
-	uid := v.under.id()
-	tmpl, err := v.newExecutor(uid, data)
+	uid := data.ID
+	tmpl, err := v.createTemplate(uid, string(data.Value), data.Escape)
 
 	v.tmpl = tmpl
 	v.err = err
@@ -91,9 +91,9 @@ func (v *valueTmpl) slowLoadExecutor(ctx context.Context) (templateExecutor, err
 	return tmpl, err
 }
 
-func (v *valueTmpl) newExecutor(id string, data *model.Store) (templateExecutor, error) {
-	if data.Escape {
-		return htm.New(id).Parse(string(data.Value))
+func (*valueTmpl) createTemplate(id, val string, escape bool) (templateExecutor, error) {
+	if escape {
+		return htm.New(id).Parse(val)
 	}
-	return txt.New(id).Parse(string(data.Value))
+	return txt.New(id).Parse(val)
 }
