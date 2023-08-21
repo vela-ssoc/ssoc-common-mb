@@ -2,72 +2,80 @@ package dong
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"sync"
 
+	"github.com/vela-ssoc/vela-common-mb/dal/model"
 	"github.com/vela-ssoc/vela-common-mb/dal/query"
 	"gorm.io/gorm"
 )
 
+func NewConfig() Configurer {
+	return &emcConfig{}
+}
+
 type Configurer interface {
-	Reset()
+	Forget()
 	Load(ctx context.Context) (addr, account, token string, err error)
 }
 
-func NewConfigure() Configurer {
-	return &configure{}
+type emcConfig struct {
+	mutex  sync.RWMutex
+	loaded bool
+	err    error
+	data   *model.Emc
 }
 
-type configure struct {
-	mutex   sync.RWMutex
-	loaded  bool
-	err     error
-	addr    string
-	account string
-	token   string
+func (ec *emcConfig) Forget() {
+	ec.mutex.Lock()
+	ec.loaded = false
+	ec.mutex.Unlock()
 }
 
-func (cf *configure) Reset() {
-	cf.mutex.Lock()
-	cf.loaded, cf.err, cf.addr, cf.account, cf.token = false, nil, "", "", ""
-	cf.mutex.Unlock()
-}
-
-func (cf *configure) Load(ctx context.Context) (string, string, string, error) {
-	cf.mutex.RLock()
-	loaded, err, addr, account, token := cf.loaded, cf.err, cf.addr, cf.account, cf.token
-	cf.mutex.RUnlock()
+func (ec *emcConfig) Load(ctx context.Context) (string, string, string, error) {
+	ec.mutex.RLock()
+	loaded, data, err := ec.loaded, ec.data, ec.err
+	ec.mutex.RUnlock()
 	if loaded {
-		return addr, account, token, err
+		if err != nil {
+			return "", "", "", err
+		}
+		return data.Host, data.Account, data.Token, nil
 	}
-	return cf.slowLoad(ctx)
+
+	return ec.slowLoad(ctx)
 }
 
-func (cf *configure) slowLoad(ctx context.Context) (string, string, string, error) {
-	cf.mutex.Lock()
-	defer cf.mutex.Unlock()
-	if cf.loaded {
-		return cf.addr, cf.account, cf.token, cf.err
-	}
+func (ec *emcConfig) slowLoad(ctx context.Context) (string, string, string, error) {
+	ec.mutex.Lock()
+	defer ec.mutex.Unlock()
 
-	cf.loaded = true
+	if ec.loaded {
+		if err := ec.err; err != nil {
+			return "", "", "", err
+		}
+		data := ec.data
+		return data.Host, data.Account, data.Token, nil
+	}
 
 	tbl := query.Emc
-	dat, err := tbl.WithContext(ctx).Where(tbl.Enable.Is(true)).First()
+	dat, err := tbl.WithContext(ctx).
+		Where(tbl.Enable.Is(true)).
+		First()
 	if err != nil {
-		if err == gorm.ErrRecordNotFound {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
 			err = fmt.Errorf("没有找到咚咚服务号配置")
-		} else {
-			cf.err = err
 		}
+		ec.err = err
+		ec.data = nil
+		ec.loaded = true
 		return "", "", "", err
 	}
-	account := dat.Account
-	token := dat.Token
-	addr := dat.Host
-	cf.account = account
-	cf.addr = addr
-	cf.token = token
 
-	return addr, account, token, nil
+	ec.err = nil
+	ec.data = dat
+	ec.loaded = true
+
+	return dat.Host, dat.Account, dat.Token, nil
 }

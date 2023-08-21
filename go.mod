@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/go-playground/locales v0.14.1
 	github.com/go-playground/universal-translator v0.18.1
-	github.com/go-playground/validator/v10 v10.15.0
+	github.com/go-playground/validator/v10 v10.15.1
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/vela-ssoc/vela-common-mba v0.0.0-20230719021516-03e1b06fa5c8
 	github.com/xgfone/ship/v5 v5.3.1
@@ -13,8 +13,8 @@ require (
 	golang.org/x/net v0.14.0
 	gorm.io/driver/mysql v1.5.1
 	gorm.io/gen v0.3.23
-	gorm.io/gorm v1.25.3
-	gorm.io/plugin/dbresolver v1.4.5
+	gorm.io/gorm v1.25.4
+	gorm.io/plugin/dbresolver v1.4.7
 )
 
 require (
