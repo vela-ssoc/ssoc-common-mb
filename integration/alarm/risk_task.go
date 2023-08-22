@@ -27,7 +27,7 @@ func (et *riskTask) Run() {
 
 	// 发送告警
 	key := rsk.FromCode
-	sub := et.unify.match.Event(ctx, key)
+	sub := et.unify.match.Risk(ctx, key)
 	if sub == nil || sub.Empty() {
 		et.unify.slog.Infof("risk 风险 %s 没有订阅者", key)
 		return
