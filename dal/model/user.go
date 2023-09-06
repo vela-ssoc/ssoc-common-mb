@@ -34,6 +34,7 @@ type User struct {
 	Dong      string         `json:"dong"       gorm:"column:dong"`          // 咚咚号(用于接收通知)
 	Enable    bool           `json:"enable"     gorm:"column:enable"`        // 是否启用
 	Domain    UserDomain     `json:"domain"     gorm:"column:domain"`        // 帐号归属域，1-本地账户 2-OA账户
+	AccessKey string         `json:"access_key" gorm:"column:access_key"`    // AccessKey
 	Token     string         `json:"-"          gorm:"column:token"`         // Token
 	CreatedAt time.Time      `json:"created_at" gorm:"column:created_at"`    // 创建时间
 	UpdatedAt time.Time      `json:"updated_at" gorm:"column:updated_at"`    // 更新时间
