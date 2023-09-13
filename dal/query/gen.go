@@ -20,6 +20,7 @@ var (
 	Alert         *alert
 	Broker        *broker
 	BrokerBin     *brokerBin
+	BrokerStat    *brokerStat
 	Certificate   *certificate
 	Cmdb          *cmdb
 	Ding          *ding
@@ -76,6 +77,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	Alert = &Q.Alert
 	Broker = &Q.Broker
 	BrokerBin = &Q.BrokerBin
+	BrokerStat = &Q.BrokerStat
 	Certificate = &Q.Certificate
 	Cmdb = &Q.Cmdb
 	Ding = &Q.Ding
@@ -133,6 +135,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		Alert:         newAlert(db, opts...),
 		Broker:        newBroker(db, opts...),
 		BrokerBin:     newBrokerBin(db, opts...),
+		BrokerStat:    newBrokerStat(db, opts...),
 		Certificate:   newCertificate(db, opts...),
 		Cmdb:          newCmdb(db, opts...),
 		Ding:          newDing(db, opts...),
@@ -191,6 +194,7 @@ type Query struct {
 	Alert         alert
 	Broker        broker
 	BrokerBin     brokerBin
+	BrokerStat    brokerStat
 	Certificate   certificate
 	Cmdb          cmdb
 	Ding          ding
@@ -250,6 +254,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		Alert:         q.Alert.clone(db),
 		Broker:        q.Broker.clone(db),
 		BrokerBin:     q.BrokerBin.clone(db),
+		BrokerStat:    q.BrokerStat.clone(db),
 		Certificate:   q.Certificate.clone(db),
 		Cmdb:          q.Cmdb.clone(db),
 		Ding:          q.Ding.clone(db),
@@ -316,6 +321,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		Alert:         q.Alert.replaceDB(db),
 		Broker:        q.Broker.replaceDB(db),
 		BrokerBin:     q.BrokerBin.replaceDB(db),
+		BrokerStat:    q.BrokerStat.replaceDB(db),
 		Certificate:   q.Certificate.replaceDB(db),
 		Cmdb:          q.Cmdb.replaceDB(db),
 		Ding:          q.Ding.replaceDB(db),
@@ -372,6 +378,7 @@ type queryCtx struct {
 	Alert         *alertDo
 	Broker        *brokerDo
 	BrokerBin     *brokerBinDo
+	BrokerStat    *brokerStatDo
 	Certificate   *certificateDo
 	Cmdb          *cmdbDo
 	Ding          *dingDo
@@ -428,6 +435,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		Alert:         q.Alert.WithContext(ctx),
 		Broker:        q.Broker.WithContext(ctx),
 		BrokerBin:     q.BrokerBin.WithContext(ctx),
+		BrokerStat:    q.BrokerStat.WithContext(ctx),
 		Certificate:   q.Certificate.WithContext(ctx),
 		Cmdb:          q.Cmdb.WithContext(ctx),
 		Ding:          q.Ding.WithContext(ctx),
