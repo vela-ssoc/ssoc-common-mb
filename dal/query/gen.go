@@ -18,6 +18,7 @@ import (
 var (
 	Q             = new(Query)
 	Alert         *alert
+	AuthTemp      *authTemp
 	Broker        *broker
 	BrokerBin     *brokerBin
 	BrokerStat    *brokerStat
@@ -75,6 +76,7 @@ var (
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
 	Alert = &Q.Alert
+	AuthTemp = &Q.AuthTemp
 	Broker = &Q.Broker
 	BrokerBin = &Q.BrokerBin
 	BrokerStat = &Q.BrokerStat
@@ -133,6 +135,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
 		db:            db,
 		Alert:         newAlert(db, opts...),
+		AuthTemp:      newAuthTemp(db, opts...),
 		Broker:        newBroker(db, opts...),
 		BrokerBin:     newBrokerBin(db, opts...),
 		BrokerStat:    newBrokerStat(db, opts...),
@@ -192,6 +195,7 @@ type Query struct {
 	db *gorm.DB
 
 	Alert         alert
+	AuthTemp      authTemp
 	Broker        broker
 	BrokerBin     brokerBin
 	BrokerStat    brokerStat
@@ -252,6 +256,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
 		db:            db,
 		Alert:         q.Alert.clone(db),
+		AuthTemp:      q.AuthTemp.clone(db),
 		Broker:        q.Broker.clone(db),
 		BrokerBin:     q.BrokerBin.clone(db),
 		BrokerStat:    q.BrokerStat.clone(db),
@@ -319,6 +324,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
 		db:            db,
 		Alert:         q.Alert.replaceDB(db),
+		AuthTemp:      q.AuthTemp.replaceDB(db),
 		Broker:        q.Broker.replaceDB(db),
 		BrokerBin:     q.BrokerBin.replaceDB(db),
 		BrokerStat:    q.BrokerStat.replaceDB(db),
@@ -376,6 +382,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 
 type queryCtx struct {
 	Alert         *alertDo
+	AuthTemp      *authTempDo
 	Broker        *brokerDo
 	BrokerBin     *brokerBinDo
 	BrokerStat    *brokerStatDo
@@ -433,6 +440,7 @@ type queryCtx struct {
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
 		Alert:         q.Alert.WithContext(ctx),
+		AuthTemp:      q.AuthTemp.WithContext(ctx),
 		Broker:        q.Broker.WithContext(ctx),
 		BrokerBin:     q.BrokerBin.WithContext(ctx),
 		BrokerStat:    q.BrokerStat.WithContext(ctx),

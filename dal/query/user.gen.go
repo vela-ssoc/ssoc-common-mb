@@ -36,6 +36,8 @@ func newUser(db *gorm.DB, opts ...gen.DOOption) user {
 	_user.Domain = field.NewUint8(tableName, "domain")
 	_user.AccessKey = field.NewString(tableName, "access_key")
 	_user.Token = field.NewString(tableName, "token")
+	_user.TotpSecret = field.NewString(tableName, "totp_secret")
+	_user.TotpBind = field.NewBool(tableName, "totp_bind")
 	_user.CreatedAt = field.NewTime(tableName, "created_at")
 	_user.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_user.IssueAt = field.NewField(tableName, "issue_at")
@@ -50,21 +52,23 @@ func newUser(db *gorm.DB, opts ...gen.DOOption) user {
 type user struct {
 	userDo userDo
 
-	ALL       field.Asterisk
-	ID        field.Int64
-	Username  field.String
-	Nickname  field.String
-	Password  field.String
-	Dong      field.String
-	Enable    field.Bool
-	Domain    field.Uint8
-	AccessKey field.String
-	Token     field.String
-	CreatedAt field.Time
-	UpdatedAt field.Time
-	IssueAt   field.Field
-	SessionAt field.Field
-	DeletedAt field.Field
+	ALL        field.Asterisk
+	ID         field.Int64
+	Username   field.String
+	Nickname   field.String
+	Password   field.String
+	Dong       field.String
+	Enable     field.Bool
+	Domain     field.Uint8
+	AccessKey  field.String
+	Token      field.String
+	TotpSecret field.String
+	TotpBind   field.Bool
+	CreatedAt  field.Time
+	UpdatedAt  field.Time
+	IssueAt    field.Field
+	SessionAt  field.Field
+	DeletedAt  field.Field
 
 	fieldMap map[string]field.Expr
 }
@@ -90,6 +94,8 @@ func (u *user) updateTableName(table string) *user {
 	u.Domain = field.NewUint8(table, "domain")
 	u.AccessKey = field.NewString(table, "access_key")
 	u.Token = field.NewString(table, "token")
+	u.TotpSecret = field.NewString(table, "totp_secret")
+	u.TotpBind = field.NewBool(table, "totp_bind")
 	u.CreatedAt = field.NewTime(table, "created_at")
 	u.UpdatedAt = field.NewTime(table, "updated_at")
 	u.IssueAt = field.NewField(table, "issue_at")
@@ -119,7 +125,7 @@ func (u *user) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (u *user) fillFieldMap() {
-	u.fieldMap = make(map[string]field.Expr, 14)
+	u.fieldMap = make(map[string]field.Expr, 16)
 	u.fieldMap["id"] = u.ID
 	u.fieldMap["username"] = u.Username
 	u.fieldMap["nickname"] = u.Nickname
@@ -129,6 +135,8 @@ func (u *user) fillFieldMap() {
 	u.fieldMap["domain"] = u.Domain
 	u.fieldMap["access_key"] = u.AccessKey
 	u.fieldMap["token"] = u.Token
+	u.fieldMap["totp_secret"] = u.TotpSecret
+	u.fieldMap["totp_bind"] = u.TotpBind
 	u.fieldMap["created_at"] = u.CreatedAt
 	u.fieldMap["updated_at"] = u.UpdatedAt
 	u.fieldMap["issue_at"] = u.IssueAt
