@@ -10,10 +10,10 @@ require (
 	github.com/vela-ssoc/vela-common-mba v0.0.0-20230830084957-da2ff0015ca5
 	github.com/xgfone/ship/v5 v5.3.1
 	go.uber.org/zap v1.26.0
-	golang.org/x/net v0.16.0
-	gorm.io/driver/mysql v1.5.1
+	golang.org/x/net v0.17.0
+	gorm.io/driver/mysql v1.5.2
 	gorm.io/gen v0.3.23
-	gorm.io/gorm v1.25.4
+	gorm.io/gorm v1.25.5
 	gorm.io/plugin/dbresolver v1.4.7
 )
 
