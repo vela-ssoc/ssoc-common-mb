@@ -1,6 +1,7 @@
 package vulnsync
 
 import (
+	"context"
 	"time"
 
 	"github.com/vela-ssoc/vela-common-mb/dal/model"
@@ -10,7 +11,7 @@ import (
 
 // Scan 全表扫描并预处理漏洞数据
 // sync 扫描前是否先同步漏洞库
-func (syn *Synchro) Scan(sync bool) error {
+func (syn *Synchro) Scan(ctx context.Context, sync bool) error {
 	if !syn.fulling.CompareAndSwap(false, true) {
 		return ErrSynchronizing
 	}
@@ -18,7 +19,7 @@ func (syn *Synchro) Scan(sync bool) error {
 
 	nonce := time.Now().UnixNano()
 	if sync {
-		if err := syn.vulnerability(true, nonce); err != nil {
+		if err := syn.vulnerability(ctx, true, nonce); err != nil {
 			return err
 		}
 	}

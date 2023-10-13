@@ -13,7 +13,7 @@ import (
 // Searcher 漏洞查询
 type Searcher interface {
 	// Search 通过 purl 查询漏洞库
-	Search([]string) ([]*model.SBOMVuln, error)
+	Search(ctx context.Context, purls []string) ([]*model.SBOMVuln, error)
 }
 
 func NewClient(cfg Configurer, cli netutil.HTTPClient) Searcher {
@@ -30,11 +30,11 @@ type sonaClient struct {
 	batch int
 }
 
-func (sc *sonaClient) Search(purls []string) ([]*model.SBOMVuln, error) {
+func (sc *sonaClient) Search(ctx context.Context, purls []string) ([]*model.SBOMVuln, error) {
 	if len(purls) == 0 {
 		return nil, nil
 	}
-	cts, err := sc.find(purls)
+	cts, err := sc.find(ctx, purls)
 	if err != nil {
 		return nil, err
 	}
@@ -45,25 +45,25 @@ func (sc *sonaClient) Search(purls []string) ([]*model.SBOMVuln, error) {
 	return ret, nil
 }
 
-func (sc *sonaClient) find(purls []string) (sonatypeComponents, error) {
+func (sc *sonaClient) find(ctx context.Context, purls []string) (sonatypeComponents, error) {
 	size := len(purls)
 	if size <= sc.batch {
-		return sc.query(purls)
+		return sc.query(ctx, purls)
 	}
 
 	sb := new(sonatypeBatch)
 
-	return sb.finds(sc, purls)
+	return sb.finds(ctx, sc, purls)
 }
 
-func (sc *sonaClient) query(purls []string) (sonatypeComponents, error) {
+func (sc *sonaClient) query(parent context.Context, purls []string) (sonatypeComponents, error) {
 	// 读取配置项
-	addr, auth, err := sc.cfg.Load(context.Background())
+	addr, auth, err := sc.cfg.Load(parent)
 	if err != nil {
 		return nil, err
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(parent, 10*time.Second)
 	defer cancel()
 
 	header := http.Header{"Authorization": []string{auth}}
@@ -82,7 +82,7 @@ type sonatypeBatch struct {
 	result sonatypeComponents
 }
 
-func (sb *sonatypeBatch) finds(st *sonaClient, purls []string) (sonatypeComponents, error) {
+func (sb *sonatypeBatch) finds(ctx context.Context, st *sonaClient, purls []string) (sonatypeComponents, error) {
 	batch := st.batch
 	for size := len(purls); size > 0; {
 		end := batch
@@ -94,7 +94,7 @@ func (sb *sonatypeBatch) finds(st *sonaClient, purls []string) (sonatypeComponen
 		purls = purls[end:]
 		sb.wg.Add(1)
 
-		go sb.find(st, shards)
+		go sb.find(ctx, st, shards)
 	}
 
 	sb.wg.Wait()
@@ -102,11 +102,11 @@ func (sb *sonatypeBatch) finds(st *sonaClient, purls []string) (sonatypeComponen
 	return sb.result, sb.err
 }
 
-func (sb *sonatypeBatch) find(st *sonaClient, purls []string) {
+func (sb *sonatypeBatch) find(ctx context.Context, st *sonaClient, purls []string) {
 	defer sb.wg.Done()
 
 	// 联网查询漏洞库
-	components, err := st.query(purls)
+	components, err := st.query(ctx, purls)
 
 	sb.mutex.Lock()
 	defer sb.mutex.Unlock()

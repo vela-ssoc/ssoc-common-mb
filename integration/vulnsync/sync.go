@@ -1,6 +1,7 @@
 package vulnsync
 
 import (
+	"context"
 	"errors"
 	"sync/atomic"
 	"time"
@@ -30,15 +31,15 @@ type Synchro struct {
 
 // Light 只同步更新漏洞数据
 // 根据系统中的现存的 purl 查询漏洞，获取最新的漏洞数据
-func (syn *Synchro) Light() error {
+func (syn *Synchro) Light(ctx context.Context) error {
 	nonce := time.Now().UnixNano()
 
-	return syn.vulnerability(false, nonce)
+	return syn.vulnerability(ctx, false, nonce)
 }
 
 // vulnerability 查询更新漏洞数据
 // pre 是否在查询漏洞的同时更新组件中的漏洞统计信息（会增加程序的处理耗时）
-func (syn *Synchro) vulnerability(pre bool, nonce int64) error {
+func (syn *Synchro) vulnerability(ctx context.Context, pre bool, nonce int64) error {
 	// 一般而言：漏洞同步全表扫描组件中的 purl，然后联网查询 purl 的漏洞数据。
 	// 整个操作即耗性能又耗时间，全局同时有一个同步操作就够了，防止并发调用。
 	if !syn.syncing.CompareAndSwap(false, true) {
@@ -53,7 +54,7 @@ func (syn *Synchro) vulnerability(pre bool, nonce int64) error {
 		if err := syn.db.Distinct("purl").Order("purl").
 			Offset(offset).Limit(limit).
 			Find(&cps).Error; err != nil {
-			if err == gorm.ErrRecordNotFound {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
 				return nil
 			} else {
 				return err
@@ -71,7 +72,7 @@ func (syn *Synchro) vulnerability(pre bool, nonce int64) error {
 		}
 
 		// 查询漏洞库（若运行出错也不影响下一批漏洞查询）
-		if vns, err := syn.sona.Search(purls); err == nil && len(vns) != 0 {
+		if vns, err := syn.sona.Search(ctx, purls); err == nil && len(vns) != 0 {
 			_ = syn.save(pre, vns, nonce) // 保存入库
 		}
 
