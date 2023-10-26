@@ -12,6 +12,6 @@ func (AuthTemp) TableName() string {
 	return "auth_temp"
 }
 
-func (t AuthTemp) Expired(from time.Time, du time.Duration) bool {
-	return t.CreatedAt.Add(du).Before(from)
+func (t AuthTemp) Expired(current time.Time, du time.Duration) bool {
+	return t.CreatedAt.Add(du).Before(current)
 }

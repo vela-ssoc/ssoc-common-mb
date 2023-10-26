@@ -30,6 +30,10 @@ func (MinionTask) TableName() string {
 	return "minion_task"
 }
 
+func (mt MinionTask) String() string {
+	return mt.Name + "[" + mt.Status + "]"
+}
+
 type TaskRunners []*TaskRunner
 
 // Scan implement sql.Scanner
