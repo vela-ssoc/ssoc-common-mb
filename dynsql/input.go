@@ -19,7 +19,7 @@ func (in Input) empty() bool {
 type filter struct {
 	Col string `json:"key"      validate:"required,lte=50"`
 	Op  string `json:"operator" validate:"omitempty,oneof=eq ne gt lt gte lte in notin like notlike"`
-	Val string `json:"value"    validate:"required,lte=100"`
+	Val string `json:"value"    validate:"lte=100"`
 }
 
 func (f *filter) UnmarshalBind(raw string) error {

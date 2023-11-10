@@ -43,6 +43,7 @@ func tables() []any {
 		model.Minion{},
 		model.MinionAccount{},
 		model.MinionBin{},
+		model.MinionCustomized{},
 		model.MinionGroup{},
 		model.MinionListen{},
 		model.MinionLogon{},

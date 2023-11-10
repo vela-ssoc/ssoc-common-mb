@@ -32,6 +32,10 @@ func newMinionBin(db *gorm.DB, opts ...gen.DOOption) minionBin {
 	_minionBin.Goos = field.NewString(tableName, "goos")
 	_minionBin.Arch = field.NewString(tableName, "arch")
 	_minionBin.Name = field.NewString(tableName, "name")
+	_minionBin.Customized = field.NewString(tableName, "customized")
+	_minionBin.Unstable = field.NewBool(tableName, "unstable")
+	_minionBin.Caution = field.NewString(tableName, "caution")
+	_minionBin.Ability = field.NewString(tableName, "ability")
 	_minionBin.Size = field.NewInt64(tableName, "size")
 	_minionBin.Hash = field.NewString(tableName, "hash")
 	_minionBin.Semver = field.NewString(tableName, "semver")
@@ -55,6 +59,10 @@ type minionBin struct {
 	Goos       field.String
 	Arch       field.String
 	Name       field.String
+	Customized field.String
+	Unstable   field.Bool
+	Caution    field.String
+	Ability    field.String
 	Size       field.Int64
 	Hash       field.String
 	Semver     field.String
@@ -84,6 +92,10 @@ func (m *minionBin) updateTableName(table string) *minionBin {
 	m.Goos = field.NewString(table, "goos")
 	m.Arch = field.NewString(table, "arch")
 	m.Name = field.NewString(table, "name")
+	m.Customized = field.NewString(table, "customized")
+	m.Unstable = field.NewBool(table, "unstable")
+	m.Caution = field.NewString(table, "caution")
+	m.Ability = field.NewString(table, "ability")
 	m.Size = field.NewInt64(table, "size")
 	m.Hash = field.NewString(table, "hash")
 	m.Semver = field.NewString(table, "semver")
@@ -118,12 +130,16 @@ func (m *minionBin) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (m *minionBin) fillFieldMap() {
-	m.fieldMap = make(map[string]field.Expr, 13)
+	m.fieldMap = make(map[string]field.Expr, 17)
 	m.fieldMap["id"] = m.ID
 	m.fieldMap["file_id"] = m.FileID
 	m.fieldMap["goos"] = m.Goos
 	m.fieldMap["arch"] = m.Arch
 	m.fieldMap["name"] = m.Name
+	m.fieldMap["customized"] = m.Customized
+	m.fieldMap["unstable"] = m.Unstable
+	m.fieldMap["caution"] = m.Caution
+	m.fieldMap["ability"] = m.Ability
 	m.fieldMap["size"] = m.Size
 	m.fieldMap["hash"] = m.Hash
 	m.fieldMap["semver"] = m.Semver

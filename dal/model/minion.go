@@ -47,6 +47,8 @@ type Minion struct {
 	BrokerID   int64        `json:"broker_id,string" gorm:"column:broker_id"`     // 上线所在 broker 节点 ID
 	BrokerName string       `json:"broker_name"      gorm:"column:broker_name"`   // broker 节点名字
 	Unload     bool         `json:"unload"           gorm:"column:unload"`        // 一旦开启则不加载任何配置脚本
+	Unstable   bool         `json:"unstable"         gorm:"column:unstable"`      // 是否不稳定版本
+	Customized string       `json:"customized"       gorm:"column:customized"`    // 定制版
 	OrgPath    string       `json:"org_path"         gorm:"column:org_path"`      // 部门路径
 	Identity   string       `json:"identity"         gorm:"column:identity"`      // 堡垒机用户
 	Category   string       `json:"category"         gorm:"column:category"`      // 部门信息

@@ -39,6 +39,8 @@ func newMinion(db *gorm.DB, opts ...gen.DOOption) minion {
 	_minion.BrokerID = field.NewInt64(tableName, "broker_id")
 	_minion.BrokerName = field.NewString(tableName, "broker_name")
 	_minion.Unload = field.NewBool(tableName, "unload")
+	_minion.Unstable = field.NewBool(tableName, "unstable")
+	_minion.Customized = field.NewString(tableName, "customized")
 	_minion.OrgPath = field.NewString(tableName, "org_path")
 	_minion.Identity = field.NewString(tableName, "identity")
 	_minion.Category = field.NewString(tableName, "category")
@@ -70,6 +72,8 @@ type minion struct {
 	BrokerID   field.Int64
 	BrokerName field.String
 	Unload     field.Bool
+	Unstable   field.Bool
+	Customized field.String
 	OrgPath    field.String
 	Identity   field.String
 	Category   field.String
@@ -107,6 +111,8 @@ func (m *minion) updateTableName(table string) *minion {
 	m.BrokerID = field.NewInt64(table, "broker_id")
 	m.BrokerName = field.NewString(table, "broker_name")
 	m.Unload = field.NewBool(table, "unload")
+	m.Unstable = field.NewBool(table, "unstable")
+	m.Customized = field.NewString(table, "customized")
 	m.OrgPath = field.NewString(table, "org_path")
 	m.Identity = field.NewString(table, "identity")
 	m.Category = field.NewString(table, "category")
@@ -140,7 +146,7 @@ func (m *minion) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (m *minion) fillFieldMap() {
-	m.fieldMap = make(map[string]field.Expr, 21)
+	m.fieldMap = make(map[string]field.Expr, 23)
 	m.fieldMap["id"] = m.ID
 	m.fieldMap["inet"] = m.Inet
 	m.fieldMap["inet6"] = m.Inet6
@@ -153,6 +159,8 @@ func (m *minion) fillFieldMap() {
 	m.fieldMap["broker_id"] = m.BrokerID
 	m.fieldMap["broker_name"] = m.BrokerName
 	m.fieldMap["unload"] = m.Unload
+	m.fieldMap["unstable"] = m.Unstable
+	m.fieldMap["customized"] = m.Customized
 	m.fieldMap["org_path"] = m.OrgPath
 	m.fieldMap["identity"] = m.Identity
 	m.fieldMap["category"] = m.Category
