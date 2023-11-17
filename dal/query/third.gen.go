@@ -34,6 +34,7 @@ func newThird(db *gorm.DB, opts ...gen.DOOption) third {
 	_third.Path = field.NewString(tableName, "path")
 	_third.Desc = field.NewString(tableName, "desc")
 	_third.Size = field.NewInt64(tableName, "size")
+	_third.Customized = field.NewString(tableName, "customized")
 	_third.Extension = field.NewString(tableName, "extension")
 	_third.CreatedID = field.NewInt64(tableName, "created_id")
 	_third.UpdatedID = field.NewInt64(tableName, "updated_id")
@@ -48,19 +49,20 @@ func newThird(db *gorm.DB, opts ...gen.DOOption) third {
 type third struct {
 	thirdDo thirdDo
 
-	ALL       field.Asterisk
-	ID        field.Int64
-	FileID    field.Int64
-	Name      field.String
-	Hash      field.String
-	Path      field.String
-	Desc      field.String
-	Size      field.Int64
-	Extension field.String
-	CreatedID field.Int64
-	UpdatedID field.Int64
-	CreatedAt field.Time
-	UpdatedAt field.Time
+	ALL        field.Asterisk
+	ID         field.Int64
+	FileID     field.Int64
+	Name       field.String
+	Hash       field.String
+	Path       field.String
+	Desc       field.String
+	Size       field.Int64
+	Customized field.String
+	Extension  field.String
+	CreatedID  field.Int64
+	UpdatedID  field.Int64
+	CreatedAt  field.Time
+	UpdatedAt  field.Time
 
 	fieldMap map[string]field.Expr
 }
@@ -84,6 +86,7 @@ func (t *third) updateTableName(table string) *third {
 	t.Path = field.NewString(table, "path")
 	t.Desc = field.NewString(table, "desc")
 	t.Size = field.NewInt64(table, "size")
+	t.Customized = field.NewString(table, "customized")
 	t.Extension = field.NewString(table, "extension")
 	t.CreatedID = field.NewInt64(table, "created_id")
 	t.UpdatedID = field.NewInt64(table, "updated_id")
@@ -113,7 +116,7 @@ func (t *third) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (t *third) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 12)
+	t.fieldMap = make(map[string]field.Expr, 13)
 	t.fieldMap["id"] = t.ID
 	t.fieldMap["file_id"] = t.FileID
 	t.fieldMap["name"] = t.Name
@@ -121,6 +124,7 @@ func (t *third) fillFieldMap() {
 	t.fieldMap["path"] = t.Path
 	t.fieldMap["desc"] = t.Desc
 	t.fieldMap["size"] = t.Size
+	t.fieldMap["customized"] = t.Customized
 	t.fieldMap["extension"] = t.Extension
 	t.fieldMap["created_id"] = t.CreatedID
 	t.fieldMap["updated_id"] = t.UpdatedID

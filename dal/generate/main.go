@@ -72,6 +72,7 @@ func tables() []any {
 		model.SubstanceTask{},
 		model.SysInfo{},
 		model.Third{},
+		model.ThirdCustomized{},
 		model.User{},
 		model.VIP{},
 	}

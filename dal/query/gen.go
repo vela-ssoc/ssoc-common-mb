@@ -70,6 +70,7 @@ var (
 	SubstanceTask    *substanceTask
 	SysInfo          *sysInfo
 	Third            *third
+	ThirdCustomized  *thirdCustomized
 	User             *user
 	VIP              *vIP
 )
@@ -129,6 +130,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	SubstanceTask = &Q.SubstanceTask
 	SysInfo = &Q.SysInfo
 	Third = &Q.Third
+	ThirdCustomized = &Q.ThirdCustomized
 	User = &Q.User
 	VIP = &Q.VIP
 }
@@ -189,6 +191,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		SubstanceTask:    newSubstanceTask(db, opts...),
 		SysInfo:          newSysInfo(db, opts...),
 		Third:            newThird(db, opts...),
+		ThirdCustomized:  newThirdCustomized(db, opts...),
 		User:             newUser(db, opts...),
 		VIP:              newVIP(db, opts...),
 	}
@@ -250,6 +253,7 @@ type Query struct {
 	SubstanceTask    substanceTask
 	SysInfo          sysInfo
 	Third            third
+	ThirdCustomized  thirdCustomized
 	User             user
 	VIP              vIP
 }
@@ -312,6 +316,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		SubstanceTask:    q.SubstanceTask.clone(db),
 		SysInfo:          q.SysInfo.clone(db),
 		Third:            q.Third.clone(db),
+		ThirdCustomized:  q.ThirdCustomized.clone(db),
 		User:             q.User.clone(db),
 		VIP:              q.VIP.clone(db),
 	}
@@ -381,6 +386,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		SubstanceTask:    q.SubstanceTask.replaceDB(db),
 		SysInfo:          q.SysInfo.replaceDB(db),
 		Third:            q.Third.replaceDB(db),
+		ThirdCustomized:  q.ThirdCustomized.replaceDB(db),
 		User:             q.User.replaceDB(db),
 		VIP:              q.VIP.replaceDB(db),
 	}
@@ -440,6 +446,7 @@ type queryCtx struct {
 	SubstanceTask    *substanceTaskDo
 	SysInfo          *sysInfoDo
 	Third            *thirdDo
+	ThirdCustomized  *thirdCustomizedDo
 	User             *userDo
 	VIP              *vIPDo
 }
@@ -499,6 +506,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		SubstanceTask:    q.SubstanceTask.WithContext(ctx),
 		SysInfo:          q.SysInfo.WithContext(ctx),
 		Third:            q.Third.WithContext(ctx),
+		ThirdCustomized:  q.ThirdCustomized.WithContext(ctx),
 		User:             q.User.WithContext(ctx),
 		VIP:              q.VIP.WithContext(ctx),
 	}
