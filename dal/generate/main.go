@@ -55,6 +55,7 @@ func tables() []any {
 		model.PassDNS{},
 		model.PassIP{},
 		model.Plate{},
+		model.Purl{},
 		model.Recipient{},
 		model.Resignation{},
 		model.Risk{},

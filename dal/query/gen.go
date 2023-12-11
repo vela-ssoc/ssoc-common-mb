@@ -53,6 +53,7 @@ var (
 	PassDNS          *passDNS
 	PassIP           *passIP
 	Plate            *plate
+	Purl             *purl
 	Recipient        *recipient
 	Resignation      *resignation
 	Risk             *risk
@@ -113,6 +114,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	PassDNS = &Q.PassDNS
 	PassIP = &Q.PassIP
 	Plate = &Q.Plate
+	Purl = &Q.Purl
 	Recipient = &Q.Recipient
 	Resignation = &Q.Resignation
 	Risk = &Q.Risk
@@ -174,6 +176,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		PassDNS:          newPassDNS(db, opts...),
 		PassIP:           newPassIP(db, opts...),
 		Plate:            newPlate(db, opts...),
+		Purl:             newPurl(db, opts...),
 		Recipient:        newRecipient(db, opts...),
 		Resignation:      newResignation(db, opts...),
 		Risk:             newRisk(db, opts...),
@@ -236,6 +239,7 @@ type Query struct {
 	PassDNS          passDNS
 	PassIP           passIP
 	Plate            plate
+	Purl             purl
 	Recipient        recipient
 	Resignation      resignation
 	Risk             risk
@@ -299,6 +303,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		PassDNS:          q.PassDNS.clone(db),
 		PassIP:           q.PassIP.clone(db),
 		Plate:            q.Plate.clone(db),
+		Purl:             q.Purl.clone(db),
 		Recipient:        q.Recipient.clone(db),
 		Resignation:      q.Resignation.clone(db),
 		Risk:             q.Risk.clone(db),
@@ -369,6 +374,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		PassDNS:          q.PassDNS.replaceDB(db),
 		PassIP:           q.PassIP.replaceDB(db),
 		Plate:            q.Plate.replaceDB(db),
+		Purl:             q.Purl.replaceDB(db),
 		Recipient:        q.Recipient.replaceDB(db),
 		Resignation:      q.Resignation.replaceDB(db),
 		Risk:             q.Risk.replaceDB(db),
@@ -429,6 +435,7 @@ type queryCtx struct {
 	PassDNS          *passDNSDo
 	PassIP           *passIPDo
 	Plate            *plateDo
+	Purl             *purlDo
 	Recipient        *recipientDo
 	Resignation      *resignationDo
 	Risk             *riskDo
@@ -489,6 +496,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		PassDNS:          q.PassDNS.WithContext(ctx),
 		PassIP:           q.PassIP.WithContext(ctx),
 		Plate:            q.Plate.WithContext(ctx),
+		Purl:             q.Purl.WithContext(ctx),
 		Recipient:        q.Recipient.WithContext(ctx),
 		Resignation:      q.Resignation.WithContext(ctx),
 		Risk:             q.Risk.WithContext(ctx),
