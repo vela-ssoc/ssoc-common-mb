@@ -284,25 +284,9 @@ func dongFunc(v *validator.Validate, t unt.Translator) {
 		if length != 5 && length != 6 {
 			return false
 		}
-		serial := input
-		group := input[0]
-		if length == 5 && group != 'H' {
-			return false
-		}
-		if length == 5 {
-			if group != 'H' {
-				return false
-			}
-			serial = input[1:]
-		} else {
-			if group == 'Q' || group == 'Z' {
-				serial = input[1:]
-			}
-		}
 
-		num, _ := strconv.ParseInt(serial, 10, 64)
-
-		return num > 0
+		_, err := strconv.ParseInt(input, 10, 64)
+		return err == nil
 	})
 	_ = v.RegisterTranslation(tag, t, func(ut unt.Translator) error {
 		return ut.Add(tag, "{0}必须是一个有效的咚咚号", true)
