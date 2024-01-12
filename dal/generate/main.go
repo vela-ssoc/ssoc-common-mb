@@ -38,6 +38,7 @@ func tables() []any {
 		model.JobCode{},
 		model.JobPolicy{},
 		model.JobReport{},
+		model.KVData{},
 		model.LoginLock{},
 		model.LoginRetry{},
 		model.Minion{},

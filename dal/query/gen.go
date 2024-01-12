@@ -36,6 +36,7 @@ var (
 	JobCode          *jobCode
 	JobPolicy        *jobPolicy
 	JobReport        *jobReport
+	KVData           *kVData
 	LoginLock        *loginLock
 	LoginRetry       *loginRetry
 	Minion           *minion
@@ -97,6 +98,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	JobCode = &Q.JobCode
 	JobPolicy = &Q.JobPolicy
 	JobReport = &Q.JobReport
+	KVData = &Q.KVData
 	LoginLock = &Q.LoginLock
 	LoginRetry = &Q.LoginRetry
 	Minion = &Q.Minion
@@ -159,6 +161,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		JobCode:          newJobCode(db, opts...),
 		JobPolicy:        newJobPolicy(db, opts...),
 		JobReport:        newJobReport(db, opts...),
+		KVData:           newKVData(db, opts...),
 		LoginLock:        newLoginLock(db, opts...),
 		LoginRetry:       newLoginRetry(db, opts...),
 		Minion:           newMinion(db, opts...),
@@ -222,6 +225,7 @@ type Query struct {
 	JobCode          jobCode
 	JobPolicy        jobPolicy
 	JobReport        jobReport
+	KVData           kVData
 	LoginLock        loginLock
 	LoginRetry       loginRetry
 	Minion           minion
@@ -286,6 +290,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		JobCode:          q.JobCode.clone(db),
 		JobPolicy:        q.JobPolicy.clone(db),
 		JobReport:        q.JobReport.clone(db),
+		KVData:           q.KVData.clone(db),
 		LoginLock:        q.LoginLock.clone(db),
 		LoginRetry:       q.LoginRetry.clone(db),
 		Minion:           q.Minion.clone(db),
@@ -357,6 +362,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		JobCode:          q.JobCode.replaceDB(db),
 		JobPolicy:        q.JobPolicy.replaceDB(db),
 		JobReport:        q.JobReport.replaceDB(db),
+		KVData:           q.KVData.replaceDB(db),
 		LoginLock:        q.LoginLock.replaceDB(db),
 		LoginRetry:       q.LoginRetry.replaceDB(db),
 		Minion:           q.Minion.replaceDB(db),
@@ -418,6 +424,7 @@ type queryCtx struct {
 	JobCode          *jobCodeDo
 	JobPolicy        *jobPolicyDo
 	JobReport        *jobReportDo
+	KVData           *kVDataDo
 	LoginLock        *loginLockDo
 	LoginRetry       *loginRetryDo
 	Minion           *minionDo
@@ -479,6 +486,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		JobCode:          q.JobCode.WithContext(ctx),
 		JobPolicy:        q.JobPolicy.WithContext(ctx),
 		JobReport:        q.JobReport.WithContext(ctx),
+		KVData:           q.KVData.WithContext(ctx),
 		LoginLock:        q.LoginLock.WithContext(ctx),
 		LoginRetry:       q.LoginRetry.WithContext(ctx),
 		Minion:           q.Minion.WithContext(ctx),

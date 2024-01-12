@@ -16,6 +16,7 @@ type SBOMVuln struct {
 	CWE         string    `json:"cwe"         gorm:"column:cwe"`             // CWE
 	Reference   string    `json:"reference"   gorm:"column:reference"`       // reference
 	References  []string  `json:"references"  gorm:"column:references;json"` // External References
+	FixVersion  string    `json:"fix_version" gorm:"column:fix_version"`     // 最新修复建议版本
 	Nonce       int64     `json:"-"           gorm:"column:nonce"`           // 批次 ID
 	CreatedAt   time.Time `json:"created_at"  gorm:"column:created_at"`      // 创建时间
 	UpdatedAt   time.Time `json:"updated_at"  gorm:"column:updated_at"`      // 更新时间
