@@ -39,7 +39,7 @@ func newSBOMVuln(db *gorm.DB, opts ...gen.DOOption) sBOMVuln {
 	_sBOMVuln.CWE = field.NewString(tableName, "cwe")
 	_sBOMVuln.Reference = field.NewString(tableName, "reference")
 	_sBOMVuln.References = field.NewField(tableName, "references")
-	_sBOMVuln.FixVersion = field.NewString(tableName, "fix_version")
+	_sBOMVuln.FixedVersion = field.NewString(tableName, "fixed_version")
 	_sBOMVuln.Nonce = field.NewInt64(tableName, "nonce")
 	_sBOMVuln.CreatedAt = field.NewTime(tableName, "created_at")
 	_sBOMVuln.UpdatedAt = field.NewTime(tableName, "updated_at")
@@ -52,23 +52,23 @@ func newSBOMVuln(db *gorm.DB, opts ...gen.DOOption) sBOMVuln {
 type sBOMVuln struct {
 	sBOMVulnDo sBOMVulnDo
 
-	ALL         field.Asterisk
-	ID          field.Int64
-	VulnID      field.String
-	PURL        field.String
-	Title       field.String
-	Description field.String
-	Score       field.Float64
-	Level       field.Uint8
-	Vector      field.String
-	CVE         field.String
-	CWE         field.String
-	Reference   field.String
-	References  field.Field
-	FixVersion  field.String
-	Nonce       field.Int64
-	CreatedAt   field.Time
-	UpdatedAt   field.Time
+	ALL          field.Asterisk
+	ID           field.Int64
+	VulnID       field.String
+	PURL         field.String
+	Title        field.String
+	Description  field.String
+	Score        field.Float64
+	Level        field.Uint8
+	Vector       field.String
+	CVE          field.String
+	CWE          field.String
+	Reference    field.String
+	References   field.Field
+	FixedVersion field.String
+	Nonce        field.Int64
+	CreatedAt    field.Time
+	UpdatedAt    field.Time
 
 	fieldMap map[string]field.Expr
 }
@@ -97,7 +97,7 @@ func (s *sBOMVuln) updateTableName(table string) *sBOMVuln {
 	s.CWE = field.NewString(table, "cwe")
 	s.Reference = field.NewString(table, "reference")
 	s.References = field.NewField(table, "references")
-	s.FixVersion = field.NewString(table, "fix_version")
+	s.FixedVersion = field.NewString(table, "fixed_version")
 	s.Nonce = field.NewInt64(table, "nonce")
 	s.CreatedAt = field.NewTime(table, "created_at")
 	s.UpdatedAt = field.NewTime(table, "updated_at")
@@ -138,7 +138,7 @@ func (s *sBOMVuln) fillFieldMap() {
 	s.fieldMap["cwe"] = s.CWE
 	s.fieldMap["reference"] = s.Reference
 	s.fieldMap["references"] = s.References
-	s.fieldMap["fix_version"] = s.FixVersion
+	s.fieldMap["fixed_version"] = s.FixedVersion
 	s.fieldMap["nonce"] = s.Nonce
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
