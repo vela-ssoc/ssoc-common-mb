@@ -57,8 +57,9 @@ type Startup struct {
 }
 
 type Upgrade struct {
-	ID     []int64 `json:"id"`
-	Semver string  `json:"semver"`
+	ID         []int64 `json:"id"`
+	Semver     string  `json:"semver"`     // 二进制版本号
+	Customized string  `json:"customized"` // 定制版本类型
 }
 
 type Command struct {
