@@ -29,12 +29,13 @@ func newKVData(db *gorm.DB, opts ...gen.DOOption) kVData {
 	_kVData.ALL = field.NewAsterisk(tableName)
 	_kVData.Bucket = field.NewString(tableName, "bucket")
 	_kVData.Key = field.NewString(tableName, "key")
-	_kVData.Value = field.NewBytes(tableName, "value")
+	_kVData.Value = field.NewString(tableName, "value")
 	_kVData.Count = field.NewInt64(tableName, "count")
 	_kVData.Lifetime = field.NewInt64(tableName, "lifetime")
 	_kVData.ExpiredAt = field.NewTime(tableName, "expired_at")
 	_kVData.CreatedAt = field.NewTime(tableName, "created_at")
 	_kVData.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_kVData.Version = field.NewInt64(tableName, "version")
 
 	_kVData.fillFieldMap()
 
@@ -47,12 +48,13 @@ type kVData struct {
 	ALL       field.Asterisk
 	Bucket    field.String
 	Key       field.String
-	Value     field.Bytes
+	Value     field.String
 	Count     field.Int64
 	Lifetime  field.Int64
 	ExpiredAt field.Time
 	CreatedAt field.Time
 	UpdatedAt field.Time
+	Version   field.Int64
 
 	fieldMap map[string]field.Expr
 }
@@ -71,12 +73,13 @@ func (k *kVData) updateTableName(table string) *kVData {
 	k.ALL = field.NewAsterisk(table)
 	k.Bucket = field.NewString(table, "bucket")
 	k.Key = field.NewString(table, "key")
-	k.Value = field.NewBytes(table, "value")
+	k.Value = field.NewString(table, "value")
 	k.Count = field.NewInt64(table, "count")
 	k.Lifetime = field.NewInt64(table, "lifetime")
 	k.ExpiredAt = field.NewTime(table, "expired_at")
 	k.CreatedAt = field.NewTime(table, "created_at")
 	k.UpdatedAt = field.NewTime(table, "updated_at")
+	k.Version = field.NewInt64(table, "version")
 
 	k.fillFieldMap()
 
@@ -101,7 +104,7 @@ func (k *kVData) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (k *kVData) fillFieldMap() {
-	k.fieldMap = make(map[string]field.Expr, 8)
+	k.fieldMap = make(map[string]field.Expr, 9)
 	k.fieldMap["bucket"] = k.Bucket
 	k.fieldMap["key"] = k.Key
 	k.fieldMap["value"] = k.Value
@@ -110,6 +113,7 @@ func (k *kVData) fillFieldMap() {
 	k.fieldMap["expired_at"] = k.ExpiredAt
 	k.fieldMap["created_at"] = k.CreatedAt
 	k.fieldMap["updated_at"] = k.UpdatedAt
+	k.fieldMap["version"] = k.Version
 }
 
 func (k kVData) clone(db *gorm.DB) kVData {
