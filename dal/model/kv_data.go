@@ -11,8 +11,16 @@ type KVData struct {
 	ExpiredAt time.Time     `json:"expired_at"      gorm:"column:expired_at"`        // 过期时间
 	CreatedAt time.Time     `json:"created_at"      gorm:"column:created_at"`        // 入库时间
 	UpdatedAt time.Time     `json:"updated_at"      gorm:"column:updated_at"`        // 最近更新时间
+	Version   int64         `json:"-"               gorm:"column:version"`           // 乐观锁
 }
 
 func (KVData) TableName() string {
 	return "kv_data"
+}
+
+func (d KVData) Expired(now time.Time) bool {
+	if d.Lifetime <= 0 {
+		return false
+	}
+	return d.ExpiredAt.Before(now)
 }
