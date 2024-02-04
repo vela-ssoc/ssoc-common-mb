@@ -29,7 +29,7 @@ func newKVData(db *gorm.DB, opts ...gen.DOOption) kVData {
 	_kVData.ALL = field.NewAsterisk(tableName)
 	_kVData.Bucket = field.NewString(tableName, "bucket")
 	_kVData.Key = field.NewString(tableName, "key")
-	_kVData.Value = field.NewString(tableName, "value")
+	_kVData.Value = field.NewBytes(tableName, "value")
 	_kVData.Count = field.NewInt64(tableName, "count")
 	_kVData.Lifetime = field.NewInt64(tableName, "lifetime")
 	_kVData.ExpiredAt = field.NewTime(tableName, "expired_at")
@@ -48,7 +48,7 @@ type kVData struct {
 	ALL       field.Asterisk
 	Bucket    field.String
 	Key       field.String
-	Value     field.String
+	Value     field.Bytes
 	Count     field.Int64
 	Lifetime  field.Int64
 	ExpiredAt field.Time
@@ -73,7 +73,7 @@ func (k *kVData) updateTableName(table string) *kVData {
 	k.ALL = field.NewAsterisk(table)
 	k.Bucket = field.NewString(table, "bucket")
 	k.Key = field.NewString(table, "key")
-	k.Value = field.NewString(table, "value")
+	k.Value = field.NewBytes(table, "value")
 	k.Count = field.NewInt64(table, "count")
 	k.Lifetime = field.NewInt64(table, "lifetime")
 	k.ExpiredAt = field.NewTime(table, "expired_at")
