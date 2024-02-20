@@ -18,6 +18,7 @@ func NewCache(db *sql.DB, path string) FS {
 	if path == "" {
 		path = os.TempDir()
 	}
+	_ = os.MkdirAll(path, os.ModePerm)
 
 	return &cacheFS{
 		dbfs:   cfs,
