@@ -12,7 +12,10 @@ import (
 	"time"
 )
 
-// NewCDN 带本地缓存的
+// NewCDN 带本地缓存的。
+//
+// Deprecated: 该缓存在线上运行时会出现文件无法下载的 BUG，
+// 已废弃请勿使用，新的接口为 [NewCache]。
 func NewCDN(db *sql.DB, dir string, min int64) FS {
 	gfs := NewFS(db)
 	if dir == "" {
