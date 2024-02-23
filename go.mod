@@ -9,7 +9,7 @@ require (
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/vela-ssoc/vela-common-mba v0.0.0-20240220012708-458dc14abc4c
 	github.com/xgfone/ship/v5 v5.3.1
-	go.uber.org/zap v1.26.0
+	go.uber.org/zap v1.27.0
 	golang.org/x/net v0.21.0
 	gorm.io/driver/mysql v1.5.4
 	gorm.io/gen v0.3.25
