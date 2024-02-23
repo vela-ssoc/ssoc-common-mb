@@ -36,6 +36,7 @@ var (
 	JobCode          *jobCode
 	JobPolicy        *jobPolicy
 	JobReport        *jobReport
+	KVAudit          *kVAudit
 	KVData           *kVData
 	LoginLock        *loginLock
 	LoginRetry       *loginRetry
@@ -61,7 +62,6 @@ var (
 	RiskDNS          *riskDNS
 	RiskFile         *riskFile
 	RiskIP           *riskIP
-	Rotate           *rotate
 	SBOMComponent    *sBOMComponent
 	SBOMMinion       *sBOMMinion
 	SBOMProject      *sBOMProject
@@ -98,6 +98,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	JobCode = &Q.JobCode
 	JobPolicy = &Q.JobPolicy
 	JobReport = &Q.JobReport
+	KVAudit = &Q.KVAudit
 	KVData = &Q.KVData
 	LoginLock = &Q.LoginLock
 	LoginRetry = &Q.LoginRetry
@@ -123,7 +124,6 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	RiskDNS = &Q.RiskDNS
 	RiskFile = &Q.RiskFile
 	RiskIP = &Q.RiskIP
-	Rotate = &Q.Rotate
 	SBOMComponent = &Q.SBOMComponent
 	SBOMMinion = &Q.SBOMMinion
 	SBOMProject = &Q.SBOMProject
@@ -161,6 +161,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		JobCode:          newJobCode(db, opts...),
 		JobPolicy:        newJobPolicy(db, opts...),
 		JobReport:        newJobReport(db, opts...),
+		KVAudit:          newKVAudit(db, opts...),
 		KVData:           newKVData(db, opts...),
 		LoginLock:        newLoginLock(db, opts...),
 		LoginRetry:       newLoginRetry(db, opts...),
@@ -186,7 +187,6 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		RiskDNS:          newRiskDNS(db, opts...),
 		RiskFile:         newRiskFile(db, opts...),
 		RiskIP:           newRiskIP(db, opts...),
-		Rotate:           newRotate(db, opts...),
 		SBOMComponent:    newSBOMComponent(db, opts...),
 		SBOMMinion:       newSBOMMinion(db, opts...),
 		SBOMProject:      newSBOMProject(db, opts...),
@@ -225,6 +225,7 @@ type Query struct {
 	JobCode          jobCode
 	JobPolicy        jobPolicy
 	JobReport        jobReport
+	KVAudit          kVAudit
 	KVData           kVData
 	LoginLock        loginLock
 	LoginRetry       loginRetry
@@ -250,7 +251,6 @@ type Query struct {
 	RiskDNS          riskDNS
 	RiskFile         riskFile
 	RiskIP           riskIP
-	Rotate           rotate
 	SBOMComponent    sBOMComponent
 	SBOMMinion       sBOMMinion
 	SBOMProject      sBOMProject
@@ -290,6 +290,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		JobCode:          q.JobCode.clone(db),
 		JobPolicy:        q.JobPolicy.clone(db),
 		JobReport:        q.JobReport.clone(db),
+		KVAudit:          q.KVAudit.clone(db),
 		KVData:           q.KVData.clone(db),
 		LoginLock:        q.LoginLock.clone(db),
 		LoginRetry:       q.LoginRetry.clone(db),
@@ -315,7 +316,6 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		RiskDNS:          q.RiskDNS.clone(db),
 		RiskFile:         q.RiskFile.clone(db),
 		RiskIP:           q.RiskIP.clone(db),
-		Rotate:           q.Rotate.clone(db),
 		SBOMComponent:    q.SBOMComponent.clone(db),
 		SBOMMinion:       q.SBOMMinion.clone(db),
 		SBOMProject:      q.SBOMProject.clone(db),
@@ -362,6 +362,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		JobCode:          q.JobCode.replaceDB(db),
 		JobPolicy:        q.JobPolicy.replaceDB(db),
 		JobReport:        q.JobReport.replaceDB(db),
+		KVAudit:          q.KVAudit.replaceDB(db),
 		KVData:           q.KVData.replaceDB(db),
 		LoginLock:        q.LoginLock.replaceDB(db),
 		LoginRetry:       q.LoginRetry.replaceDB(db),
@@ -387,7 +388,6 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		RiskDNS:          q.RiskDNS.replaceDB(db),
 		RiskFile:         q.RiskFile.replaceDB(db),
 		RiskIP:           q.RiskIP.replaceDB(db),
-		Rotate:           q.Rotate.replaceDB(db),
 		SBOMComponent:    q.SBOMComponent.replaceDB(db),
 		SBOMMinion:       q.SBOMMinion.replaceDB(db),
 		SBOMProject:      q.SBOMProject.replaceDB(db),
@@ -424,6 +424,7 @@ type queryCtx struct {
 	JobCode          *jobCodeDo
 	JobPolicy        *jobPolicyDo
 	JobReport        *jobReportDo
+	KVAudit          *kVAuditDo
 	KVData           *kVDataDo
 	LoginLock        *loginLockDo
 	LoginRetry       *loginRetryDo
@@ -449,7 +450,6 @@ type queryCtx struct {
 	RiskDNS          *riskDNSDo
 	RiskFile         *riskFileDo
 	RiskIP           *riskIPDo
-	Rotate           *rotateDo
 	SBOMComponent    *sBOMComponentDo
 	SBOMMinion       *sBOMMinionDo
 	SBOMProject      *sBOMProjectDo
@@ -486,6 +486,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		JobCode:          q.JobCode.WithContext(ctx),
 		JobPolicy:        q.JobPolicy.WithContext(ctx),
 		JobReport:        q.JobReport.WithContext(ctx),
+		KVAudit:          q.KVAudit.WithContext(ctx),
 		KVData:           q.KVData.WithContext(ctx),
 		LoginLock:        q.LoginLock.WithContext(ctx),
 		LoginRetry:       q.LoginRetry.WithContext(ctx),
@@ -511,7 +512,6 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		RiskDNS:          q.RiskDNS.WithContext(ctx),
 		RiskFile:         q.RiskFile.WithContext(ctx),
 		RiskIP:           q.RiskIP.WithContext(ctx),
-		Rotate:           q.Rotate.WithContext(ctx),
 		SBOMComponent:    q.SBOMComponent.WithContext(ctx),
 		SBOMMinion:       q.SBOMMinion.WithContext(ctx),
 		SBOMProject:      q.SBOMProject.WithContext(ctx),
