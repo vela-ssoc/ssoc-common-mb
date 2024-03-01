@@ -44,6 +44,7 @@ type Broker struct {
 	Secret      string    `json:"secret"         gorm:"column:secret"`        // 随机密钥防止恶意攻击
 	CertID      int64     `json:"cert_id,string" gorm:"column:cert_id"`       // 证书 ID
 	Bind        string    `json:"bind"           gorm:"column:bind"`          // 服务监听地址
+	Semver      string    `json:"semver"         gorm:"column:semver"`        // 版本号
 	HeartbeatAt time.Time `json:"heartbeat_at"   gorm:"column:heartbeat_at"`  // 最近一次心跳时间
 	CreatedAt   time.Time `json:"created_at"     gorm:"column:created_at"`    // 创建时间
 	UpdatedAt   time.Time `json:"updated_at"     gorm:"column:updated_at"`    // 更新时间
