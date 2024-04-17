@@ -21,7 +21,6 @@ type Config struct {
 	Net         string            `json:"net"           yaml:"net"`                                    // 连接协议
 	Addr        string            `json:"addr"          yaml:"addr"   validate:"required_without=DSN"` // 连接地址
 	DBName      string            `json:"dbname"        yaml:"dbname" validate:"required_without=DSN"` // 库名
-	Native      bool              `json:"native"        json:"native"`                                 // AllowNativePasswords
 	Params      map[string]string `json:"params"        yaml:"params"`                                 // 参数
 }
 
@@ -31,19 +30,13 @@ func (db Config) FormatDSN() string {
 		return dsn
 	}
 
-	protocol := db.Net
-	if protocol == "" {
-		protocol = "tcp"
-	}
-	cfg := &mysql.Config{
-		User:                 db.User,
-		Passwd:               db.Passwd,
-		Net:                  protocol,
-		Addr:                 db.Addr,
-		DBName:               db.DBName,
-		Params:               db.Params,
-		AllowNativePasswords: db.Native,
-	}
+	cfg := mysql.NewConfig()
+	cfg.User = db.User
+	cfg.Passwd = db.Passwd
+	cfg.Net = db.Net
+	cfg.Addr = db.Addr
+	cfg.DBName = db.DBName
+	cfg.Params = db.Params
 
 	return cfg.FormatDSN()
 }
