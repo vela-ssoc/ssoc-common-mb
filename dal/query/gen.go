@@ -27,6 +27,7 @@ var (
 	Ding             *ding
 	Domain           *domain
 	Dong             *dong
+	EagleEyeData     *eagleEyeData
 	Effect           *effect
 	Elastic          *elastic
 	Email            *email
@@ -89,6 +90,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	Ding = &Q.Ding
 	Domain = &Q.Domain
 	Dong = &Q.Dong
+	EagleEyeData = &Q.EagleEyeData
 	Effect = &Q.Effect
 	Elastic = &Q.Elastic
 	Email = &Q.Email
@@ -152,6 +154,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		Ding:             newDing(db, opts...),
 		Domain:           newDomain(db, opts...),
 		Dong:             newDong(db, opts...),
+		EagleEyeData:     newEagleEyeData(db, opts...),
 		Effect:           newEffect(db, opts...),
 		Elastic:          newElastic(db, opts...),
 		Email:            newEmail(db, opts...),
@@ -216,6 +219,7 @@ type Query struct {
 	Ding             ding
 	Domain           domain
 	Dong             dong
+	EagleEyeData     eagleEyeData
 	Effect           effect
 	Elastic          elastic
 	Email            email
@@ -281,6 +285,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		Ding:             q.Ding.clone(db),
 		Domain:           q.Domain.clone(db),
 		Dong:             q.Dong.clone(db),
+		EagleEyeData:     q.EagleEyeData.clone(db),
 		Effect:           q.Effect.clone(db),
 		Elastic:          q.Elastic.clone(db),
 		Email:            q.Email.clone(db),
@@ -353,6 +358,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		Ding:             q.Ding.replaceDB(db),
 		Domain:           q.Domain.replaceDB(db),
 		Dong:             q.Dong.replaceDB(db),
+		EagleEyeData:     q.EagleEyeData.replaceDB(db),
 		Effect:           q.Effect.replaceDB(db),
 		Elastic:          q.Elastic.replaceDB(db),
 		Email:            q.Email.replaceDB(db),
@@ -415,6 +421,7 @@ type queryCtx struct {
 	Ding             *dingDo
 	Domain           *domainDo
 	Dong             *dongDo
+	EagleEyeData     *eagleEyeDataDo
 	Effect           *effectDo
 	Elastic          *elasticDo
 	Email            *emailDo
@@ -477,6 +484,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		Ding:             q.Ding.WithContext(ctx),
 		Domain:           q.Domain.WithContext(ctx),
 		Dong:             q.Dong.WithContext(ctx),
+		EagleEyeData:     q.EagleEyeData.WithContext(ctx),
 		Effect:           q.Effect.WithContext(ctx),
 		Elastic:          q.Elastic.WithContext(ctx),
 		Email:            q.Email.WithContext(ctx),

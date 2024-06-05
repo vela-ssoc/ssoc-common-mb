@@ -29,6 +29,7 @@ func tables() []any {
 		model.Ding{},
 		model.Domain{},
 		model.Dong{},
+		model.EagleEyeData{},
 		model.Effect{},
 		model.Elastic{},
 		model.Email{},
