@@ -24,6 +24,7 @@ var (
 	BrokerStat       *brokerStat
 	Certificate      *certificate
 	Cmdb             *cmdb
+	Cmdb2            *cmdb2
 	Ding             *ding
 	Domain           *domain
 	Dong             *dong
@@ -87,6 +88,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	BrokerStat = &Q.BrokerStat
 	Certificate = &Q.Certificate
 	Cmdb = &Q.Cmdb
+	Cmdb2 = &Q.Cmdb2
 	Ding = &Q.Ding
 	Domain = &Q.Domain
 	Dong = &Q.Dong
@@ -151,6 +153,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		BrokerStat:       newBrokerStat(db, opts...),
 		Certificate:      newCertificate(db, opts...),
 		Cmdb:             newCmdb(db, opts...),
+		Cmdb2:            newCmdb2(db, opts...),
 		Ding:             newDing(db, opts...),
 		Domain:           newDomain(db, opts...),
 		Dong:             newDong(db, opts...),
@@ -216,6 +219,7 @@ type Query struct {
 	BrokerStat       brokerStat
 	Certificate      certificate
 	Cmdb             cmdb
+	Cmdb2            cmdb2
 	Ding             ding
 	Domain           domain
 	Dong             dong
@@ -282,6 +286,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		BrokerStat:       q.BrokerStat.clone(db),
 		Certificate:      q.Certificate.clone(db),
 		Cmdb:             q.Cmdb.clone(db),
+		Cmdb2:            q.Cmdb2.clone(db),
 		Ding:             q.Ding.clone(db),
 		Domain:           q.Domain.clone(db),
 		Dong:             q.Dong.clone(db),
@@ -355,6 +360,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		BrokerStat:       q.BrokerStat.replaceDB(db),
 		Certificate:      q.Certificate.replaceDB(db),
 		Cmdb:             q.Cmdb.replaceDB(db),
+		Cmdb2:            q.Cmdb2.replaceDB(db),
 		Ding:             q.Ding.replaceDB(db),
 		Domain:           q.Domain.replaceDB(db),
 		Dong:             q.Dong.replaceDB(db),
@@ -418,6 +424,7 @@ type queryCtx struct {
 	BrokerStat       *brokerStatDo
 	Certificate      *certificateDo
 	Cmdb             *cmdbDo
+	Cmdb2            *cmdb2Do
 	Ding             *dingDo
 	Domain           *domainDo
 	Dong             *dongDo
@@ -481,6 +488,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		BrokerStat:       q.BrokerStat.WithContext(ctx),
 		Certificate:      q.Certificate.WithContext(ctx),
 		Cmdb:             q.Cmdb.WithContext(ctx),
+		Cmdb2:            q.Cmdb2.WithContext(ctx),
 		Ding:             q.Ding.WithContext(ctx),
 		Domain:           q.Domain.WithContext(ctx),
 		Dong:             q.Dong.WithContext(ctx),

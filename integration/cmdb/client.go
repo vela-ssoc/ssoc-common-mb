@@ -4,8 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
+
+	"gorm.io/gen"
 
 	"github.com/vela-ssoc/vela-common-mb/dal/model"
 	"github.com/vela-ssoc/vela-common-mb/dal/query"
@@ -66,6 +69,60 @@ func (rc *restClient) Save(ctx context.Context, dat *model.Cmdb) error {
 	tbl := query.Cmdb
 	return tbl.WithContext(ctx).
 		Where(tbl.ID.Eq(dat.ID), tbl.Inet.Eq(dat.Inet)).
+		Save(dat)
+}
+
+func (rc *restClient) Save2(ctx context.Context, dat *model.Cmdb2) error {
+	if dat == nil || len(dat.PrivateIP) == 0 {
+		return nil
+	}
+
+	duties := make([]string, 0, 4)
+	for _, m := range dat.OpDuty.Main {
+		duties = append(duties, m.Username)
+	}
+	monTbl := query.Minion
+	assigns := []field.AssignExpr{
+		monTbl.Identity.Value(dat.BaoleijiIdentity),
+		monTbl.OpDuty.Value(strings.Join(duties, ",")),
+		monTbl.Comment.Value(dat.Comment),
+		monTbl.IBu.Value(dat.Department),
+		monTbl.IDC.Value(dat.IDC),
+	}
+
+	info, err := monTbl.WithContext(ctx).
+		Where(monTbl.ID.Eq(dat.ID), monTbl.Inet.Eq(dat.PrivateIP[0])).
+		UpdateColumnSimple(assigns...)
+	if err != nil || info.RowsAffected == 0 {
+		return err
+	}
+
+	tbl := query.Cmdb2
+	var where gen.Condition
+	switch dat.CIType {
+	case "server":
+		if sn := dat.SN; sn == "" {
+			where = tbl.SN.Eq(sn)
+		}
+	case "vserver", "vmware_server":
+		if uuid := dat.UUID; uuid != "" {
+			where = tbl.UUID.Eq(uuid)
+		}
+	case "public_cloud":
+		if id := dat.PublicCloudID; id != "" {
+			where = tbl.PublicCloudIDC.Eq(id)
+		}
+	case "docker":
+		if id := dat.InstanceID; id != "" {
+			where = tbl.InstanceID.Eq(id)
+		}
+	}
+	if where == nil {
+		return nil
+	}
+
+	return tbl.WithContext(ctx).
+		Where(where).
 		Save(dat)
 }
 
