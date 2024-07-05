@@ -7,6 +7,7 @@ package model
 // 容器：https://oa-pan.eastmoney.com/ddwiki/space/doc?spaceId=15&fileUuid=3ce158ee-31f8-4755-b7ad-0fb5c1a24ffb
 type Cmdb2 struct {
 	ID                      int64            `json:"-"                                    gorm:"column:id;primaryKey"`
+	Inet                    string           `json:"inet"                                 gorm:"column:inet"`
 	AppCluster              string           `json:"app_cluster,omitempty"                gorm:"column:app_cluster"`
 	AppDuty                 []*Cmdb2DutyMain `json:"app_duty,omitempty"                   gorm:"column:app_duty;serializer:json"`
 	AppID                   string           `json:"appid,omitempty"                      gorm:"column:appid"`

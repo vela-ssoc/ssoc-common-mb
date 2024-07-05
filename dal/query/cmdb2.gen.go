@@ -28,6 +28,7 @@ func newCmdb2(db *gorm.DB, opts ...gen.DOOption) cmdb2 {
 	tableName := _cmdb2.cmdb2Do.TableName()
 	_cmdb2.ALL = field.NewAsterisk(tableName)
 	_cmdb2.ID = field.NewInt64(tableName, "id")
+	_cmdb2.Inet = field.NewString(tableName, "inet")
 	_cmdb2.AppCluster = field.NewString(tableName, "app_cluster")
 	_cmdb2.AppDuty = field.NewField(tableName, "app_duty")
 	_cmdb2.AppID = field.NewString(tableName, "appid")
@@ -139,6 +140,7 @@ type cmdb2 struct {
 
 	ALL                     field.Asterisk
 	ID                      field.Int64
+	Inet                    field.String
 	AppCluster              field.String
 	AppDuty                 field.Field
 	AppID                   field.String
@@ -256,6 +258,7 @@ func (c cmdb2) As(alias string) *cmdb2 {
 func (c *cmdb2) updateTableName(table string) *cmdb2 {
 	c.ALL = field.NewAsterisk(table)
 	c.ID = field.NewInt64(table, "id")
+	c.Inet = field.NewString(table, "inet")
 	c.AppCluster = field.NewString(table, "app_cluster")
 	c.AppDuty = field.NewField(table, "app_duty")
 	c.AppID = field.NewString(table, "appid")
@@ -380,8 +383,9 @@ func (c *cmdb2) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (c *cmdb2) fillFieldMap() {
-	c.fieldMap = make(map[string]field.Expr, 101)
+	c.fieldMap = make(map[string]field.Expr, 102)
 	c.fieldMap["id"] = c.ID
+	c.fieldMap["inet"] = c.Inet
 	c.fieldMap["app_cluster"] = c.AppCluster
 	c.fieldMap["app_duty"] = c.AppDuty
 	c.fieldMap["appid"] = c.AppID
