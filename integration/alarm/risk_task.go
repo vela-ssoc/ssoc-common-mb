@@ -35,16 +35,16 @@ func (et *riskTask) Run() {
 
 	// 发送告警
 	if dongs := sub.Dong; len(dongs) != 0 {
-		et.sendDong(ctx, dongs)
+		et.sendDong(ctx, dongs, key)
 	}
 	if devs := sub.Devops; len(devs) != 0 {
 		et.sendDevops(ctx, devs)
 	}
 }
 
-func (et *riskTask) sendDong(ctx context.Context, dongs []string) {
+func (et *riskTask) sendDong(ctx context.Context, dongs []string, key string) {
 	title, body := et.unify.store.RiskDong(ctx, et.risk, et.risk.Template)
-	if err := et.unify.dong.Send(ctx, dongs, nil, title, body); err != nil {
+	if err := et.unify.dong.Send(ctx, dongs, []string{key}, title, body); err != nil {
 		et.unify.slog.Warnf("发送风险 %s 失败：%s", dongs, err)
 	} else {
 		et.unify.slog.Infof("发送风险 %s 成功", dongs)
