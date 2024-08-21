@@ -6,11 +6,15 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/vela-ssoc/vela-broker/bridge/telecom"
 	"github.com/vela-ssoc/vela-common-mba/netutil"
 )
 
-func NewSIEM(cli netutil.HTTPClient, siem telecom.SIEM) Client {
+type SIEMConfig struct {
+	URL   string `json:"url"   yaml:"url"`
+	Token string `json:"token" yaml:"token"`
+}
+
+func NewSIEM(cli netutil.HTTPClient, siem SIEMConfig) Client {
 	return &siemClient{
 		siem: siem,
 		cli:  cli,
@@ -18,7 +22,7 @@ func NewSIEM(cli netutil.HTTPClient, siem telecom.SIEM) Client {
 }
 
 type siemClient struct {
-	siem telecom.SIEM
+	siem SIEMConfig
 	cli  netutil.HTTPClient
 }
 
