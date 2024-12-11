@@ -31,7 +31,7 @@ func UnifyAlerter(store storage.Storer,
 
 	return &unifyAlert{
 		store:  store,
-		pool:   gopool.New(100, 20, time.Minute),
+		pool:   gopool.NewV2(1024),
 		match:  match,
 		slog:   slog,
 		dong:   dong,
@@ -42,7 +42,7 @@ func UnifyAlerter(store storage.Storer,
 
 type unifyAlert struct {
 	store  storage.Storer
-	pool   gopool.Executor
+	pool   gopool.Pool
 	match  ntfmatch.Matcher
 	slog   logback.Logger
 	dong   dong.Client
@@ -71,7 +71,7 @@ func (ua *unifyAlert) EventSaveAndAlert(ctx context.Context, evt *model.Event) e
 		unify: ua,
 		event: evt,
 	}
-	ua.pool.Submit(task)
+	ua.pool.Go(task.Run)
 
 	return nil
 }
@@ -98,7 +98,7 @@ func (ua *unifyAlert) RiskSaveAndAlert(ctx context.Context, rsk *model.Risk) err
 		unify: ua,
 		risk:  rsk,
 	}
-	ua.pool.Submit(task)
+	ua.pool.Go(task.Run)
 
 	return nil
 }
