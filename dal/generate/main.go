@@ -20,6 +20,7 @@ func main() {
 func tables() []any {
 	return []any{
 		model.Alert{},
+		model.AlertServer{},
 		model.AuthTemp{},
 		model.Broker{},
 		model.BrokerBin{},

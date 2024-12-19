@@ -18,6 +18,7 @@ import (
 var (
 	Q                = new(Query)
 	Alert            *alert
+	AlertServer      *alertServer
 	AuthTemp         *authTemp
 	Broker           *broker
 	BrokerBin        *brokerBin
@@ -82,6 +83,7 @@ var (
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
 	Alert = &Q.Alert
+	AlertServer = &Q.AlertServer
 	AuthTemp = &Q.AuthTemp
 	Broker = &Q.Broker
 	BrokerBin = &Q.BrokerBin
@@ -147,6 +149,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
 		db:               db,
 		Alert:            newAlert(db, opts...),
+		AlertServer:      newAlertServer(db, opts...),
 		AuthTemp:         newAuthTemp(db, opts...),
 		Broker:           newBroker(db, opts...),
 		BrokerBin:        newBrokerBin(db, opts...),
@@ -213,6 +216,7 @@ type Query struct {
 	db *gorm.DB
 
 	Alert            alert
+	AlertServer      alertServer
 	AuthTemp         authTemp
 	Broker           broker
 	BrokerBin        brokerBin
@@ -280,6 +284,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
 		db:               db,
 		Alert:            q.Alert.clone(db),
+		AlertServer:      q.AlertServer.clone(db),
 		AuthTemp:         q.AuthTemp.clone(db),
 		Broker:           q.Broker.clone(db),
 		BrokerBin:        q.BrokerBin.clone(db),
@@ -354,6 +359,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
 		db:               db,
 		Alert:            q.Alert.replaceDB(db),
+		AlertServer:      q.AlertServer.replaceDB(db),
 		AuthTemp:         q.AuthTemp.replaceDB(db),
 		Broker:           q.Broker.replaceDB(db),
 		BrokerBin:        q.BrokerBin.replaceDB(db),
@@ -418,6 +424,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 
 type queryCtx struct {
 	Alert            *alertDo
+	AlertServer      *alertServerDo
 	AuthTemp         *authTempDo
 	Broker           *brokerDo
 	BrokerBin        *brokerBinDo
@@ -482,6 +489,7 @@ type queryCtx struct {
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
 		Alert:            q.Alert.WithContext(ctx),
+		AlertServer:      q.AlertServer.WithContext(ctx),
 		AuthTemp:         q.AuthTemp.WithContext(ctx),
 		Broker:           q.Broker.WithContext(ctx),
 		BrokerBin:        q.BrokerBin.WithContext(ctx),
