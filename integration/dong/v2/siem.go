@@ -11,6 +11,10 @@ type SIEMConfig struct {
 	Token string // SIEM 服务调用 Token
 }
 
+func (sc SIEMConfig) SIEMConfigure(ctx context.Context) (*SIEMConfig, error) {
+	return &sc, nil
+}
+
 func (sc SIEMConfig) joinPath(str string) (*url.URL, error) {
 	pu, err := url.Parse(sc.URL)
 	if err != nil {

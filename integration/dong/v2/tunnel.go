@@ -17,5 +17,12 @@ type tunnelClient struct {
 
 func (tc *tunnelClient) Send(ctx context.Context, uids, gids []string, title, body string) error {
 	strURL := "http://vtun/alert/dong"
-	return tc.cli.send(ctx, strURL, nil, uids, gids, title, body)
+	data := &requestTunnelBody{
+		UserIDs:  uids,
+		GroupIDs: gids,
+		Detail:   body,
+		Title:    title,
+	}
+
+	return tc.cli.postJSON(ctx, strURL, data, nil)
 }

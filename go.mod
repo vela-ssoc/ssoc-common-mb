@@ -12,7 +12,7 @@ require (
 	github.com/vela-ssoc/vela-common-mba v0.0.0-20240705041659-14fcfa4b1df3
 	github.com/xgfone/ship/v5 v5.3.1
 	go.uber.org/zap v1.27.0
-	golang.org/x/net v0.32.0
+	golang.org/x/net v0.33.0
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gen v0.3.26
 	gorm.io/gorm v1.25.12
