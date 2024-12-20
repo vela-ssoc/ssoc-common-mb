@@ -56,8 +56,12 @@ func (ac *alertClient) Send(ctx context.Context, uids, gids []string, title, bod
 }
 
 func (ac *alertClient) sendSIEM(ctx context.Context, cfg *AlertConfig, uids, gids []string, title, body string) error {
+	var ruleID string
+	if len(gids) != 0 {
+		ruleID = gids[0]
+	}
 	data := &requestBody{
-		Prop: requestProp{JobNumbers: uids},
+		Prop: requestProp{JobNumbers: uids, RuleID: ruleID},
 		Data: requestData{Detail: body, Title: title},
 	}
 	header := http.Header{"Authorization": []string{cfg.Token}}
@@ -78,10 +82,9 @@ func (ac *alertClient) sendDong(ctx context.Context, cfg *AlertConfig, uids, gid
 	strURL := rawURL.String()
 
 	data := &requestDirectBody{
-		UserIDs:  strings.Join(uids, ","),
-		GroupIDs: strings.Join(gids, ","),
-		Title:    title,
-		Detail:   body,
+		UserIDs: strings.Join(uids, ","),
+		Title:   title,
+		Detail:  body,
 	}
 	header := http.Header{"Token": []string{cfg.Token}, "Account": []string{cfg.Account}}
 
