@@ -69,6 +69,7 @@ var (
 	SBOMMinion       *sBOMMinion
 	SBOMProject      *sBOMProject
 	SBOMVuln         *sBOMVuln
+	SIEMServer       *sIEMServer
 	Startup          *startup
 	Store            *store
 	Substance        *substance
@@ -134,6 +135,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	SBOMMinion = &Q.SBOMMinion
 	SBOMProject = &Q.SBOMProject
 	SBOMVuln = &Q.SBOMVuln
+	SIEMServer = &Q.SIEMServer
 	Startup = &Q.Startup
 	Store = &Q.Store
 	Substance = &Q.Substance
@@ -200,6 +202,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		SBOMMinion:       newSBOMMinion(db, opts...),
 		SBOMProject:      newSBOMProject(db, opts...),
 		SBOMVuln:         newSBOMVuln(db, opts...),
+		SIEMServer:       newSIEMServer(db, opts...),
 		Startup:          newStartup(db, opts...),
 		Store:            newStore(db, opts...),
 		Substance:        newSubstance(db, opts...),
@@ -267,6 +270,7 @@ type Query struct {
 	SBOMMinion       sBOMMinion
 	SBOMProject      sBOMProject
 	SBOMVuln         sBOMVuln
+	SIEMServer       sIEMServer
 	Startup          startup
 	Store            store
 	Substance        substance
@@ -335,6 +339,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		SBOMMinion:       q.SBOMMinion.clone(db),
 		SBOMProject:      q.SBOMProject.clone(db),
 		SBOMVuln:         q.SBOMVuln.clone(db),
+		SIEMServer:       q.SIEMServer.clone(db),
 		Startup:          q.Startup.clone(db),
 		Store:            q.Store.clone(db),
 		Substance:        q.Substance.clone(db),
@@ -410,6 +415,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		SBOMMinion:       q.SBOMMinion.replaceDB(db),
 		SBOMProject:      q.SBOMProject.replaceDB(db),
 		SBOMVuln:         q.SBOMVuln.replaceDB(db),
+		SIEMServer:       q.SIEMServer.replaceDB(db),
 		Startup:          q.Startup.replaceDB(db),
 		Store:            q.Store.replaceDB(db),
 		Substance:        q.Substance.replaceDB(db),
@@ -475,6 +481,7 @@ type queryCtx struct {
 	SBOMMinion       *sBOMMinionDo
 	SBOMProject      *sBOMProjectDo
 	SBOMVuln         *sBOMVulnDo
+	SIEMServer       *sIEMServerDo
 	Startup          *startupDo
 	Store            *storeDo
 	Substance        *substanceDo
@@ -540,6 +547,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		SBOMMinion:       q.SBOMMinion.WithContext(ctx),
 		SBOMProject:      q.SBOMProject.WithContext(ctx),
 		SBOMVuln:         q.SBOMVuln.WithContext(ctx),
+		SIEMServer:       q.SIEMServer.WithContext(ctx),
 		Startup:          q.Startup.WithContext(ctx),
 		Store:            q.Store.WithContext(ctx),
 		Substance:        q.Substance.WithContext(ctx),
