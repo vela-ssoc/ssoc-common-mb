@@ -1,25 +1,17 @@
-package main
+package entity
 
 import (
 	"github.com/vela-ssoc/vela-common-mb/dal/model"
-	"gorm.io/gen"
+	"gorm.io/gorm"
 )
 
-func main() {
-	g := gen.NewGenerator(gen.Config{
-		Mode:    gen.WithDefaultQuery,
-		OutPath: "./dal/query",
-	})
-
-	tbl := tables()
-	g.ApplyBasic(tbl...)
-
-	g.Execute()
+func Migrate(db *gorm.DB) error {
+	tbls := List()
+	return db.AutoMigrate(tbls...)
 }
 
-func tables() []any {
+func List() []any {
 	return []any{
-		model.Alert{},
 		model.AlertServer{},
 		model.AuthTemp{},
 		model.Broker{},
@@ -28,7 +20,6 @@ func tables() []any {
 		model.Certificate{},
 		model.Cmdb{},
 		model.Cmdb2{},
-		model.Ding{},
 		model.Domain{},
 		model.Dong{},
 		model.EagleEyeData{},

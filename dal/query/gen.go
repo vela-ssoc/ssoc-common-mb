@@ -17,7 +17,6 @@ import (
 
 var (
 	Q                = new(Query)
-	Alert            *alert
 	AlertServer      *alertServer
 	AuthTemp         *authTemp
 	Broker           *broker
@@ -26,7 +25,6 @@ var (
 	Certificate      *certificate
 	Cmdb             *cmdb
 	Cmdb2            *cmdb2
-	Ding             *ding
 	Domain           *domain
 	Dong             *dong
 	EagleEyeData     *eagleEyeData
@@ -83,7 +81,6 @@ var (
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
-	Alert = &Q.Alert
 	AlertServer = &Q.AlertServer
 	AuthTemp = &Q.AuthTemp
 	Broker = &Q.Broker
@@ -92,7 +89,6 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	Certificate = &Q.Certificate
 	Cmdb = &Q.Cmdb
 	Cmdb2 = &Q.Cmdb2
-	Ding = &Q.Ding
 	Domain = &Q.Domain
 	Dong = &Q.Dong
 	EagleEyeData = &Q.EagleEyeData
@@ -150,7 +146,6 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
 		db:               db,
-		Alert:            newAlert(db, opts...),
 		AlertServer:      newAlertServer(db, opts...),
 		AuthTemp:         newAuthTemp(db, opts...),
 		Broker:           newBroker(db, opts...),
@@ -159,7 +154,6 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		Certificate:      newCertificate(db, opts...),
 		Cmdb:             newCmdb(db, opts...),
 		Cmdb2:            newCmdb2(db, opts...),
-		Ding:             newDing(db, opts...),
 		Domain:           newDomain(db, opts...),
 		Dong:             newDong(db, opts...),
 		EagleEyeData:     newEagleEyeData(db, opts...),
@@ -218,7 +212,6 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 type Query struct {
 	db *gorm.DB
 
-	Alert            alert
 	AlertServer      alertServer
 	AuthTemp         authTemp
 	Broker           broker
@@ -227,7 +220,6 @@ type Query struct {
 	Certificate      certificate
 	Cmdb             cmdb
 	Cmdb2            cmdb2
-	Ding             ding
 	Domain           domain
 	Dong             dong
 	EagleEyeData     eagleEyeData
@@ -287,7 +279,6 @@ func (q *Query) Available() bool { return q.db != nil }
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
 		db:               db,
-		Alert:            q.Alert.clone(db),
 		AlertServer:      q.AlertServer.clone(db),
 		AuthTemp:         q.AuthTemp.clone(db),
 		Broker:           q.Broker.clone(db),
@@ -296,7 +287,6 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		Certificate:      q.Certificate.clone(db),
 		Cmdb:             q.Cmdb.clone(db),
 		Cmdb2:            q.Cmdb2.clone(db),
-		Ding:             q.Ding.clone(db),
 		Domain:           q.Domain.clone(db),
 		Dong:             q.Dong.clone(db),
 		EagleEyeData:     q.EagleEyeData.clone(db),
@@ -363,7 +353,6 @@ func (q *Query) WriteDB() *Query {
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
 		db:               db,
-		Alert:            q.Alert.replaceDB(db),
 		AlertServer:      q.AlertServer.replaceDB(db),
 		AuthTemp:         q.AuthTemp.replaceDB(db),
 		Broker:           q.Broker.replaceDB(db),
@@ -372,7 +361,6 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		Certificate:      q.Certificate.replaceDB(db),
 		Cmdb:             q.Cmdb.replaceDB(db),
 		Cmdb2:            q.Cmdb2.replaceDB(db),
-		Ding:             q.Ding.replaceDB(db),
 		Domain:           q.Domain.replaceDB(db),
 		Dong:             q.Dong.replaceDB(db),
 		EagleEyeData:     q.EagleEyeData.replaceDB(db),
@@ -429,7 +417,6 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 }
 
 type queryCtx struct {
-	Alert            *alertDo
 	AlertServer      *alertServerDo
 	AuthTemp         *authTempDo
 	Broker           *brokerDo
@@ -438,7 +425,6 @@ type queryCtx struct {
 	Certificate      *certificateDo
 	Cmdb             *cmdbDo
 	Cmdb2            *cmdb2Do
-	Ding             *dingDo
 	Domain           *domainDo
 	Dong             *dongDo
 	EagleEyeData     *eagleEyeDataDo
@@ -495,7 +481,6 @@ type queryCtx struct {
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
-		Alert:            q.Alert.WithContext(ctx),
 		AlertServer:      q.AlertServer.WithContext(ctx),
 		AuthTemp:         q.AuthTemp.WithContext(ctx),
 		Broker:           q.Broker.WithContext(ctx),
@@ -504,7 +489,6 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		Certificate:      q.Certificate.WithContext(ctx),
 		Cmdb:             q.Cmdb.WithContext(ctx),
 		Cmdb2:            q.Cmdb2.WithContext(ctx),
-		Ding:             q.Ding.WithContext(ctx),
 		Domain:           q.Domain.WithContext(ctx),
 		Dong:             q.Dong.WithContext(ctx),
 		EagleEyeData:     q.EagleEyeData.WithContext(ctx),
