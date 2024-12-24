@@ -6,7 +6,7 @@ import (
 
 	"gitee.com/opengauss/openGauss-connector-go-pq"
 	msql "github.com/go-sql-driver/mysql"
-	"github.com/ssoc/opengauss"
+	"github.com/vela-ssoc/opengauss"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
