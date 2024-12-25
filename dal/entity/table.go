@@ -28,6 +28,8 @@ func List() []any {
 		model.Email{},
 		model.Emc{},
 		model.Event{},
+		model.GridChunk{},
+		model.GridFile{},
 		model.Job{},
 		model.JobCode{},
 		model.JobPolicy{},

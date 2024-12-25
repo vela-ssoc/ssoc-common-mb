@@ -28,7 +28,6 @@ func newAlertServer(db *gorm.DB, opts ...gen.DOOption) alertServer {
 	tableName := _alertServer.alertServerDo.TableName()
 	_alertServer.ALL = field.NewAsterisk(tableName)
 	_alertServer.ID = field.NewInt64(tableName, "id")
-	_alertServer.Enabled = field.NewBool(tableName, "enabled")
 	_alertServer.Mode = field.NewString(tableName, "mode")
 	_alertServer.Name = field.NewString(tableName, "name")
 	_alertServer.URL = field.NewString(tableName, "url")
@@ -47,7 +46,6 @@ type alertServer struct {
 
 	ALL       field.Asterisk
 	ID        field.Int64
-	Enabled   field.Bool
 	Mode      field.String
 	Name      field.String
 	URL       field.String
@@ -72,7 +70,6 @@ func (a alertServer) As(alias string) *alertServer {
 func (a *alertServer) updateTableName(table string) *alertServer {
 	a.ALL = field.NewAsterisk(table)
 	a.ID = field.NewInt64(table, "id")
-	a.Enabled = field.NewBool(table, "enabled")
 	a.Mode = field.NewString(table, "mode")
 	a.Name = field.NewString(table, "name")
 	a.URL = field.NewString(table, "url")
@@ -106,9 +103,8 @@ func (a *alertServer) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (a *alertServer) fillFieldMap() {
-	a.fieldMap = make(map[string]field.Expr, 9)
+	a.fieldMap = make(map[string]field.Expr, 8)
 	a.fieldMap["id"] = a.ID
-	a.fieldMap["enabled"] = a.Enabled
 	a.fieldMap["mode"] = a.Mode
 	a.fieldMap["name"] = a.Name
 	a.fieldMap["url"] = a.URL

@@ -35,29 +35,29 @@ func (ms MinionStatus) String() string {
 
 // Minion 节点表
 type Minion struct {
-	ID         int64        `json:"id,string"        gorm:"column:id;primaryKey"` // 节点 ID
-	Inet       string       `json:"inet"             gorm:"column:inet"`          // 节点 IPv4
-	Inet6      string       `json:"inet6"            gorm:"column:inet6"`         // 节点 IPv6
-	MAC        string       `json:"mac"              gorm:"column:mac"`           // 节点 MAC 地址
-	Goos       string       `json:"goos"             gorm:"column:goos"`          // 节点操作系统 runtime.GOOS
-	Arch       string       `json:"arch"             gorm:"column:arch"`          // 节点架构 runtime.GOARCH
-	Edition    string       `json:"edition"          gorm:"column:edition"`       // 节点当前运行的版本
-	Status     MinionStatus `json:"status"           gorm:"column:status"`        // 1-未激活 2-已激活(离线) 3-在线 4-已删除
-	Uptime     sql.NullTime `json:"uptime"           gorm:"column:uptime"`        // 上线时间
-	BrokerID   int64        `json:"broker_id,string" gorm:"column:broker_id"`     // 上线所在 broker 节点 ID
-	BrokerName string       `json:"broker_name"      gorm:"column:broker_name"`   // broker 节点名字
-	Unload     bool         `json:"unload"           gorm:"column:unload"`        // 一旦开启则不加载任何配置脚本
-	Unstable   bool         `json:"unstable"         gorm:"column:unstable"`      // 是否不稳定版本
-	Customized string       `json:"customized"       gorm:"column:customized"`    // 定制版
-	OrgPath    string       `json:"org_path"         gorm:"column:org_path"`      // 部门路径
-	Identity   string       `json:"identity"         gorm:"column:identity"`      // 堡垒机用户
-	Category   string       `json:"category"         gorm:"column:category"`      // 部门信息
-	OpDuty     string       `json:"op_duty"          gorm:"column:op_duty"`       // 运维负责人
-	Comment    string       `json:"comment"          gorm:"column:comment"`       // 说明
-	IBu        string       `json:"ibu"              gorm:"column:ibu"`           // 部门
-	IDC        string       `json:"idc"              gorm:"column:idc"`           // IDC机房
-	CreatedAt  time.Time    `json:"created_at"       gorm:"column:created_at"`    // 创建时间
-	UpdatedAt  time.Time    `json:"updated_at"       gorm:"column:updated_at"`    // 修改时间
+	ID         int64        `json:"id,string"        gorm:"column:id;primaryKey;autoIncrement;comment:ID"`
+	Inet       string       `json:"inet"             gorm:"column:inet;varchar(15);not null;unique;comment:IPv4"`
+	Inet6      string       `json:"inet6"            gorm:"column:inet6;varchar(64);comment:IPv6"`
+	MAC        string       `json:"mac"              gorm:"column:mac;varchar(17);comment:MAC地址"`
+	Goos       string       `json:"goos"             gorm:"column:goos"`        // 节点操作系统 runtime.GOOS
+	Arch       string       `json:"arch"             gorm:"column:arch"`        // 节点架构 runtime.GOARCH
+	Edition    string       `json:"edition"          gorm:"column:edition"`     // 节点当前运行的版本
+	Status     MinionStatus `json:"status"           gorm:"column:status"`      // 1-未激活 2-已激活(离线) 3-在线 4-已删除
+	Uptime     sql.NullTime `json:"uptime"           gorm:"column:uptime"`      // 上线时间
+	BrokerID   int64        `json:"broker_id,string" gorm:"column:broker_id"`   // 上线所在 broker 节点 ID
+	BrokerName string       `json:"broker_name"      gorm:"column:broker_name"` // broker 节点名字
+	Unload     bool         `json:"unload"           gorm:"column:unload"`      // 一旦开启则不加载任何配置脚本
+	Unstable   bool         `json:"unstable"         gorm:"column:unstable"`    // 是否不稳定版本
+	Customized string       `json:"customized"       gorm:"column:customized"`  // 定制版
+	OrgPath    string       `json:"org_path"         gorm:"column:org_path"`    // 部门路径
+	Identity   string       `json:"identity"         gorm:"column:identity"`    // 堡垒机用户
+	Category   string       `json:"category"         gorm:"column:category"`    // 部门信息
+	OpDuty     string       `json:"op_duty"          gorm:"column:op_duty"`     // 运维负责人
+	Comment    string       `json:"comment"          gorm:"column:comment"`     // 说明
+	IBu        string       `json:"ibu"              gorm:"column:ibu"`         // 部门
+	IDC        string       `json:"idc"              gorm:"column:idc;varchar(255);comment:IDC"`
+	CreatedAt  time.Time    `json:"created_at"       gorm:"column:created_at;not null;default:now(3);comment:更新时间"`
+	UpdatedAt  time.Time    `json:"updated_at"       gorm:"column:updated_at;not null;default:now(3);comment:创建时间"`
 }
 
 // TableName implement gorm schema.Tabler

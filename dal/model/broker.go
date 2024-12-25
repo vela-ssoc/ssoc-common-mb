@@ -9,8 +9,8 @@ type Broker struct {
 	ID          int64     `json:"id,string"      gorm:"column:id;primaryKey;autoIncrement;comment:ID"`
 	Name        string    `json:"name"           gorm:"column:name;type:varchar(50);not null;unique;comment:名字"`
 	Servername  string    `json:"servername"     gorm:"column:servername;type:varchar(255);comment:ServerName"`
-	LAN         []string  `json:"lan"            gorm:"column:lan;type:json;comment:内网地址"`
-	VIP         []string  `json:"vip"            gorm:"column:vip;type:json;comment:外网地址"`
+	LAN         []string  `json:"lan"            gorm:"column:lan;type:json;serializer:json;comment:内网地址"`
+	VIP         []string  `json:"vip"            gorm:"column:vip;type:json;serializer:json;comment:外网地址"`
 	Status      bool      `json:"status"         gorm:"column:status;comment:是否在线"`
 	Secret      string    `json:"secret"         gorm:"column:secret;type:varchar(255);not null;comment:连接密钥"`
 	CertID      int64     `json:"cert_id,string" gorm:"column:cert_id;comment:挂载证书"`

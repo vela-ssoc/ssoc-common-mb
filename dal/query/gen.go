@@ -33,6 +33,8 @@ var (
 	Email            *email
 	Emc              *emc
 	Event            *event
+	GridChunk        *gridChunk
+	GridFile         *gridFile
 	Job              *job
 	JobCode          *jobCode
 	JobPolicy        *jobPolicy
@@ -97,6 +99,8 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	Email = &Q.Email
 	Emc = &Q.Emc
 	Event = &Q.Event
+	GridChunk = &Q.GridChunk
+	GridFile = &Q.GridFile
 	Job = &Q.Job
 	JobCode = &Q.JobCode
 	JobPolicy = &Q.JobPolicy
@@ -162,6 +166,8 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		Email:            newEmail(db, opts...),
 		Emc:              newEmc(db, opts...),
 		Event:            newEvent(db, opts...),
+		GridChunk:        newGridChunk(db, opts...),
+		GridFile:         newGridFile(db, opts...),
 		Job:              newJob(db, opts...),
 		JobCode:          newJobCode(db, opts...),
 		JobPolicy:        newJobPolicy(db, opts...),
@@ -228,6 +234,8 @@ type Query struct {
 	Email            email
 	Emc              emc
 	Event            event
+	GridChunk        gridChunk
+	GridFile         gridFile
 	Job              job
 	JobCode          jobCode
 	JobPolicy        jobPolicy
@@ -295,6 +303,8 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		Email:            q.Email.clone(db),
 		Emc:              q.Emc.clone(db),
 		Event:            q.Event.clone(db),
+		GridChunk:        q.GridChunk.clone(db),
+		GridFile:         q.GridFile.clone(db),
 		Job:              q.Job.clone(db),
 		JobCode:          q.JobCode.clone(db),
 		JobPolicy:        q.JobPolicy.clone(db),
@@ -369,6 +379,8 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		Email:            q.Email.replaceDB(db),
 		Emc:              q.Emc.replaceDB(db),
 		Event:            q.Event.replaceDB(db),
+		GridChunk:        q.GridChunk.replaceDB(db),
+		GridFile:         q.GridFile.replaceDB(db),
 		Job:              q.Job.replaceDB(db),
 		JobCode:          q.JobCode.replaceDB(db),
 		JobPolicy:        q.JobPolicy.replaceDB(db),
@@ -433,6 +445,8 @@ type queryCtx struct {
 	Email            *emailDo
 	Emc              *emcDo
 	Event            *eventDo
+	GridChunk        *gridChunkDo
+	GridFile         *gridFileDo
 	Job              *jobDo
 	JobCode          *jobCodeDo
 	JobPolicy        *jobPolicyDo
@@ -497,6 +511,8 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		Email:            q.Email.WithContext(ctx),
 		Emc:              q.Emc.WithContext(ctx),
 		Event:            q.Event.WithContext(ctx),
+		GridChunk:        q.GridChunk.WithContext(ctx),
+		GridFile:         q.GridFile.WithContext(ctx),
 		Job:              q.Job.WithContext(ctx),
 		JobCode:          q.JobCode.WithContext(ctx),
 		JobPolicy:        q.JobPolicy.WithContext(ctx),
