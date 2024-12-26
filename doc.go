@@ -2,6 +2,7 @@ package vela_common_mb
 
 import (
 	"github.com/go-playground/validator/v10"
+	"github.com/robfig/cron/v3"
 	"github.com/vela-ssoc/opengauss"
 	"github.com/vela-ssoc/vela-common-mba/netutil"
 	"github.com/xgfone/ship/v5"
@@ -18,4 +19,5 @@ var (
 	_ *ship.Ship
 	_ netutil.HTTPError
 	_ opengauss.Config
+	_ cron.Cron
 )
