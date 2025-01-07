@@ -1,4 +1,4 @@
-package logger
+package stdlog
 
 import (
 	"context"
@@ -32,9 +32,11 @@ func (s *skipHandler) Handle(ctx context.Context, record slog.Record) error {
 }
 
 func (s *skipHandler) WithAttrs(attrs []slog.Attr) slog.Handler {
-	return s.h.WithAttrs(attrs)
+	h := s.h.WithAttrs(attrs)
+	return &skipHandler{h: h, n: s.n}
 }
 
 func (s *skipHandler) WithGroup(name string) slog.Handler {
-	return s.h.WithGroup(name)
+	h := s.h.WithGroup(name)
+	return &skipHandler{h: h, n: s.n}
 }

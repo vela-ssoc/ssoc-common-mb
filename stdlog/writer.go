@@ -1,4 +1,4 @@
-package logger
+package stdlog
 
 import (
 	"io"

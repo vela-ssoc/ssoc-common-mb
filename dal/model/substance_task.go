@@ -4,7 +4,7 @@ import "time"
 
 // SubstanceTask mapped from table <substance_task>
 type SubstanceTask struct {
-	ID         int64     `json:"id,string"        gorm:"column:id;primaryKey;autoIncrement:true;comment:数据库 ID"`
+	ID         int64     `json:"id,string"        gorm:"column:id;primaryKey;autoIncrement:true;comment:ID"`
 	TaskID     int64     `json:"task_id,string"   gorm:"column:task_id;not null"`
 	MinionID   int64     `json:"minion_id,string" gorm:"column:minion_id;not null;comment:节点 ID"`
 	Inet       string    `json:"inet"             gorm:"column:inet;not null;comment:节点 IP"`
@@ -13,8 +13,8 @@ type SubstanceTask struct {
 	Failed     bool      `json:"failed"           gorm:"column:failed;not null;comment:是否下发失败"`
 	Reason     string    `json:"reason"           gorm:"column:reason;comment:如果失败，此处填写失败原因"`
 	Executed   bool      `json:"executed"         gorm:"column:executed;not null;comment:是否下发完毕"`
-	CreatedAt  time.Time `json:"created_at"       gorm:"column:created_at;not null;default:CURRENT_TIMESTAMP;comment:任务创建时间"`
-	UpdatedAt  time.Time `json:"updated_at"       gorm:"column:updated_at;not null;default:CURRENT_TIMESTAMP;comment:任务更新时间"`
+	CreatedAt  time.Time `json:"created_at"       gorm:"column:created_at;not null;default:now(3);comment:任务创建时间"`
+	UpdatedAt  time.Time `json:"updated_at"       gorm:"column:updated_at;not null;default:now(3);comment:任务更新时间"`
 }
 
 // TableName SubstanceTask's table name
