@@ -34,6 +34,7 @@ var (
 	Emc              *emc
 	Event            *event
 	ExtensionMarket  *extensionMarket
+	ExtensionRecord  *extensionRecord
 	GridChunk        *gridChunk
 	GridFile         *gridFile
 	Job              *job
@@ -76,6 +77,7 @@ var (
 	Substance        *substance
 	SubstanceTask    *substanceTask
 	SysInfo          *sysInfo
+	TaskExtension    *taskExtension
 	Third            *third
 	ThirdCustomized  *thirdCustomized
 	User             *user
@@ -101,6 +103,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	Emc = &Q.Emc
 	Event = &Q.Event
 	ExtensionMarket = &Q.ExtensionMarket
+	ExtensionRecord = &Q.ExtensionRecord
 	GridChunk = &Q.GridChunk
 	GridFile = &Q.GridFile
 	Job = &Q.Job
@@ -143,6 +146,7 @@ func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	Substance = &Q.Substance
 	SubstanceTask = &Q.SubstanceTask
 	SysInfo = &Q.SysInfo
+	TaskExtension = &Q.TaskExtension
 	Third = &Q.Third
 	ThirdCustomized = &Q.ThirdCustomized
 	User = &Q.User
@@ -169,6 +173,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		Emc:              newEmc(db, opts...),
 		Event:            newEvent(db, opts...),
 		ExtensionMarket:  newExtensionMarket(db, opts...),
+		ExtensionRecord:  newExtensionRecord(db, opts...),
 		GridChunk:        newGridChunk(db, opts...),
 		GridFile:         newGridFile(db, opts...),
 		Job:              newJob(db, opts...),
@@ -211,6 +216,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		Substance:        newSubstance(db, opts...),
 		SubstanceTask:    newSubstanceTask(db, opts...),
 		SysInfo:          newSysInfo(db, opts...),
+		TaskExtension:    newTaskExtension(db, opts...),
 		Third:            newThird(db, opts...),
 		ThirdCustomized:  newThirdCustomized(db, opts...),
 		User:             newUser(db, opts...),
@@ -238,6 +244,7 @@ type Query struct {
 	Emc              emc
 	Event            event
 	ExtensionMarket  extensionMarket
+	ExtensionRecord  extensionRecord
 	GridChunk        gridChunk
 	GridFile         gridFile
 	Job              job
@@ -280,6 +287,7 @@ type Query struct {
 	Substance        substance
 	SubstanceTask    substanceTask
 	SysInfo          sysInfo
+	TaskExtension    taskExtension
 	Third            third
 	ThirdCustomized  thirdCustomized
 	User             user
@@ -308,6 +316,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		Emc:              q.Emc.clone(db),
 		Event:            q.Event.clone(db),
 		ExtensionMarket:  q.ExtensionMarket.clone(db),
+		ExtensionRecord:  q.ExtensionRecord.clone(db),
 		GridChunk:        q.GridChunk.clone(db),
 		GridFile:         q.GridFile.clone(db),
 		Job:              q.Job.clone(db),
@@ -350,6 +359,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		Substance:        q.Substance.clone(db),
 		SubstanceTask:    q.SubstanceTask.clone(db),
 		SysInfo:          q.SysInfo.clone(db),
+		TaskExtension:    q.TaskExtension.clone(db),
 		Third:            q.Third.clone(db),
 		ThirdCustomized:  q.ThirdCustomized.clone(db),
 		User:             q.User.clone(db),
@@ -385,6 +395,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		Emc:              q.Emc.replaceDB(db),
 		Event:            q.Event.replaceDB(db),
 		ExtensionMarket:  q.ExtensionMarket.replaceDB(db),
+		ExtensionRecord:  q.ExtensionRecord.replaceDB(db),
 		GridChunk:        q.GridChunk.replaceDB(db),
 		GridFile:         q.GridFile.replaceDB(db),
 		Job:              q.Job.replaceDB(db),
@@ -427,6 +438,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		Substance:        q.Substance.replaceDB(db),
 		SubstanceTask:    q.SubstanceTask.replaceDB(db),
 		SysInfo:          q.SysInfo.replaceDB(db),
+		TaskExtension:    q.TaskExtension.replaceDB(db),
 		Third:            q.Third.replaceDB(db),
 		ThirdCustomized:  q.ThirdCustomized.replaceDB(db),
 		User:             q.User.replaceDB(db),
@@ -452,6 +464,7 @@ type queryCtx struct {
 	Emc              *emcDo
 	Event            *eventDo
 	ExtensionMarket  *extensionMarketDo
+	ExtensionRecord  *extensionRecordDo
 	GridChunk        *gridChunkDo
 	GridFile         *gridFileDo
 	Job              *jobDo
@@ -494,6 +507,7 @@ type queryCtx struct {
 	Substance        *substanceDo
 	SubstanceTask    *substanceTaskDo
 	SysInfo          *sysInfoDo
+	TaskExtension    *taskExtensionDo
 	Third            *thirdDo
 	ThirdCustomized  *thirdCustomizedDo
 	User             *userDo
@@ -519,6 +533,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		Emc:              q.Emc.WithContext(ctx),
 		Event:            q.Event.WithContext(ctx),
 		ExtensionMarket:  q.ExtensionMarket.WithContext(ctx),
+		ExtensionRecord:  q.ExtensionRecord.WithContext(ctx),
 		GridChunk:        q.GridChunk.WithContext(ctx),
 		GridFile:         q.GridFile.WithContext(ctx),
 		Job:              q.Job.WithContext(ctx),
@@ -561,6 +576,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		Substance:        q.Substance.WithContext(ctx),
 		SubstanceTask:    q.SubstanceTask.WithContext(ctx),
 		SysInfo:          q.SysInfo.WithContext(ctx),
+		TaskExtension:    q.TaskExtension.WithContext(ctx),
 		Third:            q.Third.WithContext(ctx),
 		ThirdCustomized:  q.ThirdCustomized.WithContext(ctx),
 		User:             q.User.WithContext(ctx),

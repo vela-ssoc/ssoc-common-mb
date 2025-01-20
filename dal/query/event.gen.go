@@ -31,15 +31,12 @@ func newEvent(db *gorm.DB, opts ...gen.DOOption) event {
 	_event.MinionID = field.NewInt64(tableName, "minion_id")
 	_event.Inet = field.NewString(tableName, "inet")
 	_event.Subject = field.NewString(tableName, "subject")
-	_event.RemoteAddr = field.NewString(tableName, "remote_addr")
-	_event.RemotePort = field.NewInt(tableName, "remote_port")
 	_event.FromCode = field.NewString(tableName, "from_code")
 	_event.Typeof = field.NewString(tableName, "typeof")
 	_event.User = field.NewString(tableName, "user")
 	_event.Auth = field.NewString(tableName, "auth")
 	_event.Msg = field.NewString(tableName, "msg")
 	_event.Error = field.NewString(tableName, "error")
-	_event.Region = field.NewString(tableName, "region")
 	_event.Level = field.NewField(tableName, "level")
 	_event.HaveRead = field.NewBool(tableName, "have_read")
 	_event.SendAlert = field.NewBool(tableName, "send_alert")
@@ -55,26 +52,23 @@ func newEvent(db *gorm.DB, opts ...gen.DOOption) event {
 type event struct {
 	eventDo eventDo
 
-	ALL        field.Asterisk
-	ID         field.Int64
-	MinionID   field.Int64
-	Inet       field.String
-	Subject    field.String
-	RemoteAddr field.String
-	RemotePort field.Int
-	FromCode   field.String
-	Typeof     field.String
-	User       field.String
-	Auth       field.String
-	Msg        field.String
-	Error      field.String
-	Region     field.String
-	Level      field.Field
-	HaveRead   field.Bool
-	SendAlert  field.Bool
-	Secret     field.String
-	OccurAt    field.Time
-	CreatedAt  field.Time
+	ALL       field.Asterisk
+	ID        field.Int64
+	MinionID  field.Int64
+	Inet      field.String
+	Subject   field.String
+	FromCode  field.String
+	Typeof    field.String
+	User      field.String
+	Auth      field.String
+	Msg       field.String
+	Error     field.String
+	Level     field.Field
+	HaveRead  field.Bool
+	SendAlert field.Bool
+	Secret    field.String
+	OccurAt   field.Time
+	CreatedAt field.Time
 
 	fieldMap map[string]field.Expr
 }
@@ -95,15 +89,12 @@ func (e *event) updateTableName(table string) *event {
 	e.MinionID = field.NewInt64(table, "minion_id")
 	e.Inet = field.NewString(table, "inet")
 	e.Subject = field.NewString(table, "subject")
-	e.RemoteAddr = field.NewString(table, "remote_addr")
-	e.RemotePort = field.NewInt(table, "remote_port")
 	e.FromCode = field.NewString(table, "from_code")
 	e.Typeof = field.NewString(table, "typeof")
 	e.User = field.NewString(table, "user")
 	e.Auth = field.NewString(table, "auth")
 	e.Msg = field.NewString(table, "msg")
 	e.Error = field.NewString(table, "error")
-	e.Region = field.NewString(table, "region")
 	e.Level = field.NewField(table, "level")
 	e.HaveRead = field.NewBool(table, "have_read")
 	e.SendAlert = field.NewBool(table, "send_alert")
@@ -134,20 +125,17 @@ func (e *event) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (e *event) fillFieldMap() {
-	e.fieldMap = make(map[string]field.Expr, 19)
+	e.fieldMap = make(map[string]field.Expr, 16)
 	e.fieldMap["id"] = e.ID
 	e.fieldMap["minion_id"] = e.MinionID
 	e.fieldMap["inet"] = e.Inet
 	e.fieldMap["subject"] = e.Subject
-	e.fieldMap["remote_addr"] = e.RemoteAddr
-	e.fieldMap["remote_port"] = e.RemotePort
 	e.fieldMap["from_code"] = e.FromCode
 	e.fieldMap["typeof"] = e.Typeof
 	e.fieldMap["user"] = e.User
 	e.fieldMap["auth"] = e.Auth
 	e.fieldMap["msg"] = e.Msg
 	e.fieldMap["error"] = e.Error
-	e.fieldMap["region"] = e.Region
 	e.fieldMap["level"] = e.Level
 	e.fieldMap["have_read"] = e.HaveRead
 	e.fieldMap["send_alert"] = e.SendAlert
