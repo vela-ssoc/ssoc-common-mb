@@ -84,8 +84,6 @@ github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcU
 github.com/stretchr/testify v1.8.4/go.mod h1:sz/lmYIOXD/1dqDmKjjqLyZ2RngseejIcXlSw2iwfAo=
 github.com/tjfoc/gmsm v1.4.1 h1:aMe1GlZb+0bLjn+cKTPEvvn9oUEBlJitaZiiBwsbgho=
 github.com/tjfoc/gmsm v1.4.1/go.mod h1:j4INPkHWMrhJb38G+J6W4Tw0AbuN8Thu3PbdVYhVcTE=
-github.com/vela-ssoc/opengauss v0.0.0-20241224084156-bb6fbf345cfc h1:zmeCHvrJj+KHgLsSVMb+8JxO0VIaizwxFdaU0XPN4dY=
-github.com/vela-ssoc/opengauss v0.0.0-20241224084156-bb6fbf345cfc/go.mod h1:zkaQYq9CJB+dStaO6SHeUon+4lVjDI8B2qF0Y/hXXJ0=
 github.com/vela-ssoc/opengauss v0.0.0-20250120051511-9f559eeb2c98 h1:kmu0A9+4qIJbstwYIor9pOLzJl7TC/GlJVoAPcx/5f4=
 github.com/vela-ssoc/opengauss v0.0.0-20250120051511-9f559eeb2c98/go.mod h1:IEDpwbEpaIywu204gdlVFsPU0vqiY6FxJmcW4ugNpdk=
 github.com/vela-ssoc/vela-common-mba v0.0.0-20240705041659-14fcfa4b1df3 h1:O0ovJrLCNg61WO/50GLaTFuQxHK+civH1b3Ra5S7quA=

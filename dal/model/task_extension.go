@@ -14,6 +14,12 @@ type TaskExtension struct {
 	Code         string          `json:"code"          gorm:"column:code;type:text;notnull;comment:执行代码"`
 	CodeSHA1     string          `json:"code_sha1"     gorm:"column:code_sha1;type:char(40);notnull;comment:执行代码SHA1"`
 	ContentQuote *ExtensionQuote `json:"content_quote" gorm:"column:content_quote;serializer:json;comment:插件引用"`
+	StepDone     bool            `json:"step_done"     gorm:"column:released;comment:步骤完成"`
+	Enabled      bool            `json:"enabled"       gorm:"column:enabled;comment:开启任务"`
+	Timeout      Duration        `json:"timeout"       gorm:"column:timeout;serializer:json;comment:超时时间"`
+	PushSize     int             `json:"push_size"     gorm:"column:push_size;comment:推送并发数"`
+	Filters      []string        `json:"filters"       gorm:"column:filters;serializer:json;comment:过滤节点"`
+	Excludes     []string        `json:"excludes"      gorm:"column:excludes;serializer:json;comment:排除节点"`
 	CreatedBy    Operator        `json:"created_by"    gorm:"column:created_by;type:json;notnull;serializer:json;comment:创建者"`
 	UpdatedBy    Operator        `json:"updated_by"    gorm:"column:updated_by;type:json;notnull;serializer:json;comment:更新者"`
 	CreatedAt    time.Time       `json:"created_at"    gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
@@ -42,4 +48,10 @@ func (e *ExtensionQuote) Scan(src any) error {
 
 func (e ExtensionQuote) Value() (driver.Value, error) {
 	return json.Marshal(e)
+}
+
+type TaskStatus struct {
+	Total   int `json:"total"`
+	Succeed int `json:"succeed"`
+	Failed  int `json:"failed"`
 }

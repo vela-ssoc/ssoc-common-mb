@@ -9,6 +9,7 @@ import (
 )
 
 type riskTask struct {
+	qry   *query.Query
 	unify *unifyAlert
 	risk  *model.Risk
 }
@@ -19,7 +20,7 @@ func (et *riskTask) Run() {
 
 	// 先入库保存
 	rsk := et.risk
-	tbl := query.Risk
+	tbl := et.qry.Risk
 	if err := tbl.WithContext(ctx).
 		Create(rsk); err != nil || !rsk.SendAlert {
 		return

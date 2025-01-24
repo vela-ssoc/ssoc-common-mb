@@ -1,4 +1,4 @@
-package dbms
+package sqldb
 
 import (
 	"context"

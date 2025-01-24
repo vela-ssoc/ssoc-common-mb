@@ -2,13 +2,7 @@ package entity
 
 import (
 	"github.com/vela-ssoc/vela-common-mb/dal/model"
-	"gorm.io/gorm"
 )
-
-func Migrate(db *gorm.DB) error {
-	tbls := List()
-	return db.AutoMigrate(tbls...)
-}
 
 func List() []any {
 	return []any{
@@ -32,6 +26,8 @@ func List() []any {
 		model.ExtensionRecord{},
 		model.GridChunk{},
 		model.GridFile{},
+		model.GridfsChunk{},
+		model.GridfsFile{},
 		model.Job{},
 		model.JobCode{},
 		model.JobPolicy{},
@@ -39,7 +35,6 @@ func List() []any {
 		model.KVAudit{},
 		model.KVData{},
 		model.LoginLock{},
-		model.LoginRetry{},
 		model.Minion{},
 		model.MinionAccount{},
 		model.MinionBin{},

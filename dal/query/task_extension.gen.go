@@ -33,6 +33,12 @@ func newTaskExtension(db *gorm.DB, opts ...gen.DOOption) taskExtension {
 	_taskExtension.Code = field.NewString(tableName, "code")
 	_taskExtension.CodeSHA1 = field.NewString(tableName, "code_sha1")
 	_taskExtension.ContentQuote = field.NewField(tableName, "content_quote")
+	_taskExtension.StepDone = field.NewBool(tableName, "released")
+	_taskExtension.Enabled = field.NewBool(tableName, "enabled")
+	_taskExtension.Timeout = field.NewField(tableName, "timeout")
+	_taskExtension.PushSize = field.NewInt(tableName, "push_size")
+	_taskExtension.Filters = field.NewField(tableName, "filters")
+	_taskExtension.Excludes = field.NewField(tableName, "excludes")
 	_taskExtension.CreatedBy = field.NewField(tableName, "created_by")
 	_taskExtension.UpdatedBy = field.NewField(tableName, "updated_by")
 	_taskExtension.CreatedAt = field.NewTime(tableName, "created_at")
@@ -53,6 +59,12 @@ type taskExtension struct {
 	Code         field.String
 	CodeSHA1     field.String
 	ContentQuote field.Field
+	StepDone     field.Bool
+	Enabled      field.Bool
+	Timeout      field.Field
+	PushSize     field.Int
+	Filters      field.Field
+	Excludes     field.Field
 	CreatedBy    field.Field
 	UpdatedBy    field.Field
 	CreatedAt    field.Time
@@ -79,6 +91,12 @@ func (t *taskExtension) updateTableName(table string) *taskExtension {
 	t.Code = field.NewString(table, "code")
 	t.CodeSHA1 = field.NewString(table, "code_sha1")
 	t.ContentQuote = field.NewField(table, "content_quote")
+	t.StepDone = field.NewBool(table, "released")
+	t.Enabled = field.NewBool(table, "enabled")
+	t.Timeout = field.NewField(table, "timeout")
+	t.PushSize = field.NewInt(table, "push_size")
+	t.Filters = field.NewField(table, "filters")
+	t.Excludes = field.NewField(table, "excludes")
 	t.CreatedBy = field.NewField(table, "created_by")
 	t.UpdatedBy = field.NewField(table, "updated_by")
 	t.CreatedAt = field.NewTime(table, "created_at")
@@ -111,13 +129,19 @@ func (t *taskExtension) GetFieldByName(fieldName string) (field.OrderExpr, bool)
 }
 
 func (t *taskExtension) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 10)
+	t.fieldMap = make(map[string]field.Expr, 16)
 	t.fieldMap["id"] = t.ID
 	t.fieldMap["name"] = t.Name
 	t.fieldMap["intro"] = t.Intro
 	t.fieldMap["code"] = t.Code
 	t.fieldMap["code_sha1"] = t.CodeSHA1
 	t.fieldMap["content_quote"] = t.ContentQuote
+	t.fieldMap["released"] = t.StepDone
+	t.fieldMap["enabled"] = t.Enabled
+	t.fieldMap["timeout"] = t.Timeout
+	t.fieldMap["push_size"] = t.PushSize
+	t.fieldMap["filters"] = t.Filters
+	t.fieldMap["excludes"] = t.Excludes
 	t.fieldMap["created_by"] = t.CreatedBy
 	t.fieldMap["updated_by"] = t.UpdatedBy
 	t.fieldMap["created_at"] = t.CreatedAt

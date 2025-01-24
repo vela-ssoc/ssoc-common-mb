@@ -79,6 +79,7 @@ func New() Validator {
 	vd.register(tagFunc)
 	vd.register(uniqueFunc)
 	vd.register(requiredIfFunc)
+	vd.register(cronFunc)
 	// vd.register(requiredWithoutFunc)
 	vd.register(semverFunc)
 

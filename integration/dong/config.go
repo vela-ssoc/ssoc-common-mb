@@ -11,8 +11,8 @@ import (
 	"gorm.io/gorm"
 )
 
-func NewConfig() Configurer {
-	return &emcConfig{}
+func NewConfig(qry *query.Query) Configurer {
+	return &emcConfig{qry: qry}
 }
 
 type Configurer interface {
@@ -21,6 +21,7 @@ type Configurer interface {
 }
 
 type emcConfig struct {
+	qry    *query.Query
 	mutex  sync.RWMutex
 	loaded bool
 	err    error
@@ -59,7 +60,7 @@ func (ec *emcConfig) slowLoad(ctx context.Context) (string, string, string, erro
 		return data.Host, data.Account, data.Token, nil
 	}
 
-	tbl := query.Emc
+	tbl := ec.qry.Emc
 	dat, err := tbl.WithContext(ctx).
 		Where(tbl.Enable.Is(true)).
 		First()

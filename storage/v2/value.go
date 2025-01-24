@@ -19,6 +19,8 @@ type valuer interface {
 }
 
 type valueDB struct {
+	qry *query.Query
+
 	// uid 数据库唯一 id
 	uid string
 
@@ -94,7 +96,7 @@ func (v *valueDB) loadDB(ctx context.Context) (*model.Store, error) {
 func (v *valueDB) loadValue(ctx context.Context) (*model.Store, error) {
 	uid := v.uid
 	var value []byte
-	tbl := query.Store
+	tbl := v.qry.Store
 	dat, err := tbl.WithContext(ctx).Where(tbl.ID.Eq(uid)).First()
 	if err == nil && dat != nil {
 		value = dat.Value

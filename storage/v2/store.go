@@ -10,6 +10,8 @@ import (
 	"net/url"
 	"sync"
 
+	"github.com/vela-ssoc/vela-common-mb/dal/query"
+
 	"github.com/vela-ssoc/vela-common-mb/dal/model"
 )
 
@@ -56,13 +58,13 @@ const (
 	uidEventHTMLTmpl   = "global.risk.html.tmpl"
 )
 
-func NewStore() Storer {
+func NewStore(qry *query.Query) Storer {
 	stores := make(map[string]valuer, 32)
 	sdb := &storeDB{stores: stores}
 
 	// 项目内置的参数
 	{
-		sdb.stores[uidLocalAddr] = &valueDB{uid: uidLocalAddr, valid: sdb.validIP}
+		sdb.stores[uidLocalAddr] = &valueDB{qry: qry, uid: uidLocalAddr, valid: sdb.validIP}
 	}
 	{
 		id := uidCmdbURL

@@ -10,6 +10,7 @@ import (
 
 	unt "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
+	"github.com/robfig/cron/v3"
 )
 
 // uniqueFunc unique 翻译
@@ -49,6 +50,24 @@ func requiredIfFunc(v *validator.Validate, t unt.Translator) {
 //		return str
 //	})
 //}
+
+func cronFunc(v *validator.Validate, t unt.Translator) {
+	const tagName = "cron"
+	_ = v.RegisterValidation(tagName, func(fl validator.FieldLevel) bool {
+		field := fl.Field()
+		if field.Kind() == reflect.String {
+			_, err := cron.ParseStandard(field.String())
+			return err == nil
+		}
+		return false
+	})
+	_ = v.RegisterTranslation(tagName, t, func(ut unt.Translator) error {
+		return ut.Add(tagName, "{0}必须是cron表达式", true)
+	}, func(ut unt.Translator, fe validator.FieldError) string {
+		s, _ := ut.T(tagName, fe.Field())
+		return s
+	})
+}
 
 // semverFunc 语义化版本号：https://semver.org/lang/zh-CN/
 func semverFunc(v *validator.Validate, t unt.Translator) {

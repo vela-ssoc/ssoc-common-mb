@@ -15,8 +15,9 @@ import (
 	"github.com/vela-ssoc/vela-common-mb/problem"
 )
 
-func NewConfigure(name string) Configurer {
+func NewConfigure(qry *query.Query, name string) Configurer {
 	return &elasticConfig{
+		qry:  qry,
 		trip: http.DefaultTransport,
 		name: name,
 	}
@@ -28,6 +29,7 @@ type Configurer interface {
 }
 
 type elasticConfig struct {
+	qry    *query.Query
 	name   string
 	trip   http.RoundTripper
 	mutex  sync.RWMutex
@@ -62,7 +64,7 @@ func (ec *elasticConfig) slowLoad(ctx context.Context) (http.Handler, error) {
 		return ec.handle, ec.err
 	}
 
-	tbl := query.Elastic
+	tbl := ec.qry.Elastic
 	data, err := tbl.WithContext(ctx).Where(tbl.Enable.Is(true)).First()
 	if err != nil {
 		ec.err = err

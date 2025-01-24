@@ -25,8 +25,9 @@ type Client interface {
 	FetchAndSave(ctx context.Context, id int64, inet string) error
 }
 
-func NewClient(cfg Configurer, client netutil.HTTPClient, slog logback.Logger) Client {
+func NewClient(qry *query.Query, cfg Configurer, client netutil.HTTPClient, slog logback.Logger) Client {
 	return &restClient{
+		qry:    qry,
 		cfg:    cfg,
 		client: client,
 		slog:   slog,
@@ -34,6 +35,7 @@ func NewClient(cfg Configurer, client netutil.HTTPClient, slog logback.Logger) C
 }
 
 type restClient struct {
+	qry    *query.Query
 	cfg    Configurer
 	client netutil.HTTPClient
 	slog   logback.Logger
@@ -48,7 +50,7 @@ func (rc *restClient) Save(ctx context.Context, dat *model.Cmdb) error {
 		return nil
 	}
 
-	monTbl := query.Minion
+	monTbl := rc.qry.Minion
 	assigns := []field.AssignExpr{
 		monTbl.OrgPath.Value(dat.OrgPath),
 		monTbl.Identity.Value(dat.BaoleijiIdentity),
@@ -66,7 +68,7 @@ func (rc *restClient) Save(ctx context.Context, dat *model.Cmdb) error {
 		return err
 	}
 
-	tbl := query.Cmdb
+	tbl := rc.qry.Cmdb
 	return tbl.WithContext(ctx).
 		Where(tbl.ID.Eq(dat.ID), tbl.Inet.Eq(dat.Inet)).
 		Save(dat)
@@ -81,7 +83,7 @@ func (rc *restClient) Save2(ctx context.Context, dat *model.Cmdb2) error {
 	for _, m := range dat.OpDuty.Main {
 		duties = append(duties, m.Username)
 	}
-	monTbl := query.Minion
+	monTbl := rc.qry.Minion
 	assigns := []field.AssignExpr{
 		monTbl.Identity.Value(dat.BaoleijiIdentity),
 		monTbl.OpDuty.Value(strings.Join(duties, ",")),
@@ -97,7 +99,7 @@ func (rc *restClient) Save2(ctx context.Context, dat *model.Cmdb2) error {
 		return err
 	}
 
-	tbl := query.Cmdb2
+	tbl := rc.qry.Cmdb2
 	var where gen.Condition
 	switch dat.CIType {
 	case "server":

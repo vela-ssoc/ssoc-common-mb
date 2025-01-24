@@ -3,18 +3,13 @@ package dal_test
 import (
 	"testing"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/entity"
+	"github.com/vela-ssoc/vela-common-mb/dal/model"
 	"gorm.io/gen"
 )
 
 func TestGen(t *testing.T) {
-	g := gen.NewGenerator(gen.Config{
-		Mode:    gen.WithDefaultQuery,
-		OutPath: "query",
-	})
-
-	tbls := entity.List()
-	g.ApplyBasic(tbls...)
-
+	cfg := gen.Config{OutPath: "query"}
+	g := gen.NewGenerator(cfg)
+	g.ApplyBasic(model.All()...)
 	g.Execute()
 }

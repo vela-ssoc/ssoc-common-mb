@@ -9,6 +9,7 @@ import (
 )
 
 type eventTask struct {
+	qry   *query.Query
 	unify *unifyAlert
 	event *model.Event
 }
@@ -19,7 +20,7 @@ func (et *eventTask) Run() {
 
 	// 先入库保存
 	evt := et.event
-	tbl := query.Event
+	tbl := et.qry.Event
 	if err := tbl.WithContext(ctx).
 		Create(et.event); err != nil || !evt.SendAlert {
 		return

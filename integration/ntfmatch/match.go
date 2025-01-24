@@ -14,11 +14,14 @@ type Matcher interface {
 	Risk(ctx context.Context, rskCode string) *model.Subscriber
 }
 
-func NewMatch() Matcher {
-	return &notifyMatch{}
+func NewMatch(qry *query.Query) Matcher {
+	return &notifyMatch{
+		qry: qry,
+	}
 }
 
 type notifyMatch struct {
+	qry    *query.Query
 	mutex  sync.RWMutex
 	loaded bool
 	err    error
@@ -57,7 +60,7 @@ func (nm *notifyMatch) slowLoad(ctx context.Context) model.Subscribers {
 		return nm.subs
 	}
 
-	tbl := query.Notifier
+	tbl := nm.qry.Notifier
 	dats, err := tbl.WithContext(ctx).Find()
 	if err != nil {
 		nm.err = err

@@ -15,144 +15,6 @@ import (
 	"gorm.io/plugin/dbresolver"
 )
 
-var (
-	Q                = new(Query)
-	AlertServer      *alertServer
-	AuthTemp         *authTemp
-	Broker           *broker
-	BrokerBin        *brokerBin
-	BrokerStat       *brokerStat
-	Certificate      *certificate
-	Cmdb             *cmdb
-	Cmdb2            *cmdb2
-	Domain           *domain
-	Dong             *dong
-	EagleEyeData     *eagleEyeData
-	Effect           *effect
-	Elastic          *elastic
-	Email            *email
-	Emc              *emc
-	Event            *event
-	ExtensionMarket  *extensionMarket
-	ExtensionRecord  *extensionRecord
-	GridChunk        *gridChunk
-	GridFile         *gridFile
-	Job              *job
-	JobCode          *jobCode
-	JobPolicy        *jobPolicy
-	JobReport        *jobReport
-	KVAudit          *kVAudit
-	KVData           *kVData
-	LoginLock        *loginLock
-	LoginRetry       *loginRetry
-	Minion           *minion
-	MinionAccount    *minionAccount
-	MinionBin        *minionBin
-	MinionCustomized *minionCustomized
-	MinionGroup      *minionGroup
-	MinionListen     *minionListen
-	MinionLogon      *minionLogon
-	MinionProcess    *minionProcess
-	MinionTag        *minionTag
-	MinionTask       *minionTask
-	Notifier         *notifier
-	Oplog            *oplog
-	PassDNS          *passDNS
-	PassIP           *passIP
-	Plate            *plate
-	Purl             *purl
-	Recipient        *recipient
-	Resignation      *resignation
-	Risk             *risk
-	RiskDNS          *riskDNS
-	RiskFile         *riskFile
-	RiskIP           *riskIP
-	SBOMComponent    *sBOMComponent
-	SBOMMinion       *sBOMMinion
-	SBOMProject      *sBOMProject
-	SBOMVuln         *sBOMVuln
-	SIEMServer       *sIEMServer
-	Startup          *startup
-	Store            *store
-	Substance        *substance
-	SubstanceTask    *substanceTask
-	SysInfo          *sysInfo
-	TaskExtension    *taskExtension
-	Third            *third
-	ThirdCustomized  *thirdCustomized
-	User             *user
-	VIP              *vIP
-)
-
-func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
-	*Q = *Use(db, opts...)
-	AlertServer = &Q.AlertServer
-	AuthTemp = &Q.AuthTemp
-	Broker = &Q.Broker
-	BrokerBin = &Q.BrokerBin
-	BrokerStat = &Q.BrokerStat
-	Certificate = &Q.Certificate
-	Cmdb = &Q.Cmdb
-	Cmdb2 = &Q.Cmdb2
-	Domain = &Q.Domain
-	Dong = &Q.Dong
-	EagleEyeData = &Q.EagleEyeData
-	Effect = &Q.Effect
-	Elastic = &Q.Elastic
-	Email = &Q.Email
-	Emc = &Q.Emc
-	Event = &Q.Event
-	ExtensionMarket = &Q.ExtensionMarket
-	ExtensionRecord = &Q.ExtensionRecord
-	GridChunk = &Q.GridChunk
-	GridFile = &Q.GridFile
-	Job = &Q.Job
-	JobCode = &Q.JobCode
-	JobPolicy = &Q.JobPolicy
-	JobReport = &Q.JobReport
-	KVAudit = &Q.KVAudit
-	KVData = &Q.KVData
-	LoginLock = &Q.LoginLock
-	LoginRetry = &Q.LoginRetry
-	Minion = &Q.Minion
-	MinionAccount = &Q.MinionAccount
-	MinionBin = &Q.MinionBin
-	MinionCustomized = &Q.MinionCustomized
-	MinionGroup = &Q.MinionGroup
-	MinionListen = &Q.MinionListen
-	MinionLogon = &Q.MinionLogon
-	MinionProcess = &Q.MinionProcess
-	MinionTag = &Q.MinionTag
-	MinionTask = &Q.MinionTask
-	Notifier = &Q.Notifier
-	Oplog = &Q.Oplog
-	PassDNS = &Q.PassDNS
-	PassIP = &Q.PassIP
-	Plate = &Q.Plate
-	Purl = &Q.Purl
-	Recipient = &Q.Recipient
-	Resignation = &Q.Resignation
-	Risk = &Q.Risk
-	RiskDNS = &Q.RiskDNS
-	RiskFile = &Q.RiskFile
-	RiskIP = &Q.RiskIP
-	SBOMComponent = &Q.SBOMComponent
-	SBOMMinion = &Q.SBOMMinion
-	SBOMProject = &Q.SBOMProject
-	SBOMVuln = &Q.SBOMVuln
-	SIEMServer = &Q.SIEMServer
-	Startup = &Q.Startup
-	Store = &Q.Store
-	Substance = &Q.Substance
-	SubstanceTask = &Q.SubstanceTask
-	SysInfo = &Q.SysInfo
-	TaskExtension = &Q.TaskExtension
-	Third = &Q.Third
-	ThirdCustomized = &Q.ThirdCustomized
-	User = &Q.User
-	VIP = &Q.VIP
-}
-
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
 		db:               db,
@@ -176,6 +38,8 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		ExtensionRecord:  newExtensionRecord(db, opts...),
 		GridChunk:        newGridChunk(db, opts...),
 		GridFile:         newGridFile(db, opts...),
+		GridfsChunk:      newGridfsChunk(db, opts...),
+		GridfsFile:       newGridfsFile(db, opts...),
 		Job:              newJob(db, opts...),
 		JobCode:          newJobCode(db, opts...),
 		JobPolicy:        newJobPolicy(db, opts...),
@@ -183,7 +47,6 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		KVAudit:          newKVAudit(db, opts...),
 		KVData:           newKVData(db, opts...),
 		LoginLock:        newLoginLock(db, opts...),
-		LoginRetry:       newLoginRetry(db, opts...),
 		Minion:           newMinion(db, opts...),
 		MinionAccount:    newMinionAccount(db, opts...),
 		MinionBin:        newMinionBin(db, opts...),
@@ -247,6 +110,8 @@ type Query struct {
 	ExtensionRecord  extensionRecord
 	GridChunk        gridChunk
 	GridFile         gridFile
+	GridfsChunk      gridfsChunk
+	GridfsFile       gridfsFile
 	Job              job
 	JobCode          jobCode
 	JobPolicy        jobPolicy
@@ -254,7 +119,6 @@ type Query struct {
 	KVAudit          kVAudit
 	KVData           kVData
 	LoginLock        loginLock
-	LoginRetry       loginRetry
 	Minion           minion
 	MinionAccount    minionAccount
 	MinionBin        minionBin
@@ -319,6 +183,8 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		ExtensionRecord:  q.ExtensionRecord.clone(db),
 		GridChunk:        q.GridChunk.clone(db),
 		GridFile:         q.GridFile.clone(db),
+		GridfsChunk:      q.GridfsChunk.clone(db),
+		GridfsFile:       q.GridfsFile.clone(db),
 		Job:              q.Job.clone(db),
 		JobCode:          q.JobCode.clone(db),
 		JobPolicy:        q.JobPolicy.clone(db),
@@ -326,7 +192,6 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		KVAudit:          q.KVAudit.clone(db),
 		KVData:           q.KVData.clone(db),
 		LoginLock:        q.LoginLock.clone(db),
-		LoginRetry:       q.LoginRetry.clone(db),
 		Minion:           q.Minion.clone(db),
 		MinionAccount:    q.MinionAccount.clone(db),
 		MinionBin:        q.MinionBin.clone(db),
@@ -398,6 +263,8 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		ExtensionRecord:  q.ExtensionRecord.replaceDB(db),
 		GridChunk:        q.GridChunk.replaceDB(db),
 		GridFile:         q.GridFile.replaceDB(db),
+		GridfsChunk:      q.GridfsChunk.replaceDB(db),
+		GridfsFile:       q.GridfsFile.replaceDB(db),
 		Job:              q.Job.replaceDB(db),
 		JobCode:          q.JobCode.replaceDB(db),
 		JobPolicy:        q.JobPolicy.replaceDB(db),
@@ -405,7 +272,6 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		KVAudit:          q.KVAudit.replaceDB(db),
 		KVData:           q.KVData.replaceDB(db),
 		LoginLock:        q.LoginLock.replaceDB(db),
-		LoginRetry:       q.LoginRetry.replaceDB(db),
 		Minion:           q.Minion.replaceDB(db),
 		MinionAccount:    q.MinionAccount.replaceDB(db),
 		MinionBin:        q.MinionBin.replaceDB(db),
@@ -467,6 +333,8 @@ type queryCtx struct {
 	ExtensionRecord  *extensionRecordDo
 	GridChunk        *gridChunkDo
 	GridFile         *gridFileDo
+	GridfsChunk      *gridfsChunkDo
+	GridfsFile       *gridfsFileDo
 	Job              *jobDo
 	JobCode          *jobCodeDo
 	JobPolicy        *jobPolicyDo
@@ -474,7 +342,6 @@ type queryCtx struct {
 	KVAudit          *kVAuditDo
 	KVData           *kVDataDo
 	LoginLock        *loginLockDo
-	LoginRetry       *loginRetryDo
 	Minion           *minionDo
 	MinionAccount    *minionAccountDo
 	MinionBin        *minionBinDo
@@ -536,6 +403,8 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		ExtensionRecord:  q.ExtensionRecord.WithContext(ctx),
 		GridChunk:        q.GridChunk.WithContext(ctx),
 		GridFile:         q.GridFile.WithContext(ctx),
+		GridfsChunk:      q.GridfsChunk.WithContext(ctx),
+		GridfsFile:       q.GridfsFile.WithContext(ctx),
 		Job:              q.Job.WithContext(ctx),
 		JobCode:          q.JobCode.WithContext(ctx),
 		JobPolicy:        q.JobPolicy.WithContext(ctx),
@@ -543,7 +412,6 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		KVAudit:          q.KVAudit.WithContext(ctx),
 		KVData:           q.KVData.WithContext(ctx),
 		LoginLock:        q.LoginLock.WithContext(ctx),
-		LoginRetry:       q.LoginRetry.WithContext(ctx),
 		Minion:           q.Minion.WithContext(ctx),
 		MinionAccount:    q.MinionAccount.WithContext(ctx),
 		MinionBin:        q.MinionBin.WithContext(ctx),
