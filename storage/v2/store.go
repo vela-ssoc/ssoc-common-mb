@@ -10,9 +10,8 @@ import (
 	"net/url"
 	"sync"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/query"
-
 	"github.com/vela-ssoc/vela-common-mb/dal/model"
+	"github.com/vela-ssoc/vela-common-mb/dal/query"
 )
 
 type Storer interface {
@@ -60,7 +59,7 @@ const (
 
 func NewStore(qry *query.Query) Storer {
 	stores := make(map[string]valuer, 32)
-	sdb := &storeDB{stores: stores}
+	sdb := &storeDB{qry: qry, stores: stores}
 
 	// 项目内置的参数
 	{
@@ -108,6 +107,7 @@ func NewStore(qry *query.Query) Storer {
 		id := uidStartupParam
 		value := &valueDB{
 			uid:      id,
+			qry:      qry,
 			share:    true,
 			callback: []byte(callback),
 		}
@@ -164,6 +164,7 @@ func NewStore(qry *query.Query) Storer {
 }
 
 type storeDB struct {
+	qry    *query.Query
 	mutex  sync.RWMutex
 	stores map[string]valuer
 }
@@ -358,6 +359,7 @@ func (sdb *storeDB) createAndGet(id string) valuer {
 func (sdb *storeDB) createTemplate(id string, shared bool, filter func([]byte) []byte) tmplValuer {
 	under := &valueDB{
 		uid:      id,
+		qry:      sdb.qry,
 		share:    shared, // 默认与 broker 共享
 		valid:    sdb.validateTmpl,
 		callback: []byte("{{ . }}"),
@@ -372,6 +374,7 @@ func (sdb *storeDB) createTemplate(id string, shared bool, filter func([]byte) [
 func (sdb *storeDB) createHTTP(id string, shared bool, cb string) httpValuer {
 	under := &valueDB{
 		uid:      id,
+		qry:      sdb.qry,
 		share:    shared,
 		valid:    sdb.validHTTP,
 		callback: []byte(cb),

@@ -56,14 +56,14 @@ func (c *Crontab) AddJob(name string, spec string, job cron.Job) error {
 	return err
 }
 
-func (c *Crontab) Schedule(name string, sch cron.Schedule, job cron.Job) {
+func (c *Crontab) Schedule(name string, sch cron.Schedule, cmd func()) {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
 
 	if id, ok := c.names[name]; ok {
 		c.crond.Remove(id)
 	}
-	id := c.crond.Schedule(sch, job)
+	id := c.crond.Schedule(sch, cron.FuncJob(cmd))
 	c.names[name] = id
 }
 

@@ -79,6 +79,8 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		Substance:        newSubstance(db, opts...),
 		SubstanceTask:    newSubstanceTask(db, opts...),
 		SysInfo:          newSysInfo(db, opts...),
+		TaskExecute:      newTaskExecute(db, opts...),
+		TaskExecuteItem:  newTaskExecuteItem(db, opts...),
 		TaskExtension:    newTaskExtension(db, opts...),
 		Third:            newThird(db, opts...),
 		ThirdCustomized:  newThirdCustomized(db, opts...),
@@ -151,6 +153,8 @@ type Query struct {
 	Substance        substance
 	SubstanceTask    substanceTask
 	SysInfo          sysInfo
+	TaskExecute      taskExecute
+	TaskExecuteItem  taskExecuteItem
 	TaskExtension    taskExtension
 	Third            third
 	ThirdCustomized  thirdCustomized
@@ -224,6 +228,8 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		Substance:        q.Substance.clone(db),
 		SubstanceTask:    q.SubstanceTask.clone(db),
 		SysInfo:          q.SysInfo.clone(db),
+		TaskExecute:      q.TaskExecute.clone(db),
+		TaskExecuteItem:  q.TaskExecuteItem.clone(db),
 		TaskExtension:    q.TaskExtension.clone(db),
 		Third:            q.Third.clone(db),
 		ThirdCustomized:  q.ThirdCustomized.clone(db),
@@ -304,6 +310,8 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		Substance:        q.Substance.replaceDB(db),
 		SubstanceTask:    q.SubstanceTask.replaceDB(db),
 		SysInfo:          q.SysInfo.replaceDB(db),
+		TaskExecute:      q.TaskExecute.replaceDB(db),
+		TaskExecuteItem:  q.TaskExecuteItem.replaceDB(db),
 		TaskExtension:    q.TaskExtension.replaceDB(db),
 		Third:            q.Third.replaceDB(db),
 		ThirdCustomized:  q.ThirdCustomized.replaceDB(db),
@@ -374,6 +382,8 @@ type queryCtx struct {
 	Substance        *substanceDo
 	SubstanceTask    *substanceTaskDo
 	SysInfo          *sysInfoDo
+	TaskExecute      *taskExecuteDo
+	TaskExecuteItem  *taskExecuteItemDo
 	TaskExtension    *taskExtensionDo
 	Third            *thirdDo
 	ThirdCustomized  *thirdCustomizedDo
@@ -444,6 +454,8 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		Substance:        q.Substance.WithContext(ctx),
 		SubstanceTask:    q.SubstanceTask.WithContext(ctx),
 		SysInfo:          q.SysInfo.WithContext(ctx),
+		TaskExecute:      q.TaskExecute.WithContext(ctx),
+		TaskExecuteItem:  q.TaskExecuteItem.WithContext(ctx),
 		TaskExtension:    q.TaskExtension.WithContext(ctx),
 		Third:            q.Third.WithContext(ctx),
 		ThirdCustomized:  q.ThirdCustomized.WithContext(ctx),

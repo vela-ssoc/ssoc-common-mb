@@ -35,10 +35,15 @@ func newTaskExtension(db *gorm.DB, opts ...gen.DOOption) taskExtension {
 	_taskExtension.ContentQuote = field.NewField(tableName, "content_quote")
 	_taskExtension.StepDone = field.NewBool(tableName, "released")
 	_taskExtension.Enabled = field.NewBool(tableName, "enabled")
+	_taskExtension.Cron = field.NewString(tableName, "cron")
+	_taskExtension.SpecificTimes = field.NewField(tableName, "specific_times")
 	_taskExtension.Timeout = field.NewField(tableName, "timeout")
 	_taskExtension.PushSize = field.NewInt(tableName, "push_size")
 	_taskExtension.Filters = field.NewField(tableName, "filters")
 	_taskExtension.Excludes = field.NewField(tableName, "excludes")
+	_taskExtension.ExecID = field.NewInt64(tableName, "exec_id")
+	_taskExtension.Status = field.NewField(tableName, "status")
+	_taskExtension.Finished = field.NewBool(tableName, "finished")
 	_taskExtension.CreatedBy = field.NewField(tableName, "created_by")
 	_taskExtension.UpdatedBy = field.NewField(tableName, "updated_by")
 	_taskExtension.CreatedAt = field.NewTime(tableName, "created_at")
@@ -52,23 +57,28 @@ func newTaskExtension(db *gorm.DB, opts ...gen.DOOption) taskExtension {
 type taskExtension struct {
 	taskExtensionDo taskExtensionDo
 
-	ALL          field.Asterisk
-	ID           field.Int64
-	Name         field.String
-	Intro        field.String
-	Code         field.String
-	CodeSHA1     field.String
-	ContentQuote field.Field
-	StepDone     field.Bool
-	Enabled      field.Bool
-	Timeout      field.Field
-	PushSize     field.Int
-	Filters      field.Field
-	Excludes     field.Field
-	CreatedBy    field.Field
-	UpdatedBy    field.Field
-	CreatedAt    field.Time
-	UpdatedAt    field.Time
+	ALL           field.Asterisk
+	ID            field.Int64
+	Name          field.String
+	Intro         field.String
+	Code          field.String
+	CodeSHA1      field.String
+	ContentQuote  field.Field
+	StepDone      field.Bool
+	Enabled       field.Bool
+	Cron          field.String
+	SpecificTimes field.Field
+	Timeout       field.Field
+	PushSize      field.Int
+	Filters       field.Field
+	Excludes      field.Field
+	ExecID        field.Int64
+	Status        field.Field
+	Finished      field.Bool
+	CreatedBy     field.Field
+	UpdatedBy     field.Field
+	CreatedAt     field.Time
+	UpdatedAt     field.Time
 
 	fieldMap map[string]field.Expr
 }
@@ -93,10 +103,15 @@ func (t *taskExtension) updateTableName(table string) *taskExtension {
 	t.ContentQuote = field.NewField(table, "content_quote")
 	t.StepDone = field.NewBool(table, "released")
 	t.Enabled = field.NewBool(table, "enabled")
+	t.Cron = field.NewString(table, "cron")
+	t.SpecificTimes = field.NewField(table, "specific_times")
 	t.Timeout = field.NewField(table, "timeout")
 	t.PushSize = field.NewInt(table, "push_size")
 	t.Filters = field.NewField(table, "filters")
 	t.Excludes = field.NewField(table, "excludes")
+	t.ExecID = field.NewInt64(table, "exec_id")
+	t.Status = field.NewField(table, "status")
+	t.Finished = field.NewBool(table, "finished")
 	t.CreatedBy = field.NewField(table, "created_by")
 	t.UpdatedBy = field.NewField(table, "updated_by")
 	t.CreatedAt = field.NewTime(table, "created_at")
@@ -129,7 +144,7 @@ func (t *taskExtension) GetFieldByName(fieldName string) (field.OrderExpr, bool)
 }
 
 func (t *taskExtension) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 16)
+	t.fieldMap = make(map[string]field.Expr, 21)
 	t.fieldMap["id"] = t.ID
 	t.fieldMap["name"] = t.Name
 	t.fieldMap["intro"] = t.Intro
@@ -138,10 +153,15 @@ func (t *taskExtension) fillFieldMap() {
 	t.fieldMap["content_quote"] = t.ContentQuote
 	t.fieldMap["released"] = t.StepDone
 	t.fieldMap["enabled"] = t.Enabled
+	t.fieldMap["cron"] = t.Cron
+	t.fieldMap["specific_times"] = t.SpecificTimes
 	t.fieldMap["timeout"] = t.Timeout
 	t.fieldMap["push_size"] = t.PushSize
 	t.fieldMap["filters"] = t.Filters
 	t.fieldMap["excludes"] = t.Excludes
+	t.fieldMap["exec_id"] = t.ExecID
+	t.fieldMap["status"] = t.Status
+	t.fieldMap["finished"] = t.Finished
 	t.fieldMap["created_by"] = t.CreatedBy
 	t.fieldMap["updated_by"] = t.UpdatedBy
 	t.fieldMap["created_at"] = t.CreatedAt

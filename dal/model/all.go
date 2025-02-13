@@ -63,6 +63,8 @@ func All() []any {
 		Substance{},
 		SubstanceTask{},
 		SysInfo{},
+		TaskExecute{},
+		TaskExecuteItem{},
 		TaskExtension{},
 		Third{},
 		ThirdCustomized{},
