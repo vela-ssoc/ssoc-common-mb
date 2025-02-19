@@ -8,12 +8,10 @@ import (
 	"sync"
 	"time"
 
-	"gorm.io/gen"
-
 	"github.com/vela-ssoc/vela-common-mb/dal/model"
 	"github.com/vela-ssoc/vela-common-mb/dal/query"
-	"github.com/vela-ssoc/vela-common-mb/logback"
 	"github.com/vela-ssoc/vela-common-mba/netutil"
+	"gorm.io/gen"
 	"gorm.io/gen/field"
 )
 
@@ -25,12 +23,11 @@ type Client interface {
 	FetchAndSave(ctx context.Context, id int64, inet string) error
 }
 
-func NewClient(qry *query.Query, cfg Configurer, client netutil.HTTPClient, slog logback.Logger) Client {
+func NewClient(qry *query.Query, cfg Configurer, client netutil.HTTPClient) Client {
 	return &restClient{
 		qry:    qry,
 		cfg:    cfg,
 		client: client,
-		slog:   slog,
 	}
 }
 
@@ -38,7 +35,6 @@ type restClient struct {
 	qry    *query.Query
 	cfg    Configurer
 	client netutil.HTTPClient
-	slog   logback.Logger
 	mutex  sync.RWMutex
 	done   bool
 	err    error
@@ -129,12 +125,8 @@ func (rc *restClient) Save2(ctx context.Context, dat *model.Cmdb2) error {
 }
 
 func (rc *restClient) FetchAndSave(ctx context.Context, id int64, inet string) error {
-	rc.slog.Debugf("fetchAndSave cmdb: %s(%d)", inet, id)
 	dat, err := rc.fetch(ctx, inet)
 	if err != nil || dat == nil {
-		if err != nil {
-			rc.slog.Warnf("查询 cmdb 错误：%s", err)
-		}
 		return err
 	}
 

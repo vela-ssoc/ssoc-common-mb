@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/vela-ssoc/vela-common-mb/dal/model"
+	"github.com/vela-ssoc/vela-common-mb/dal/query"
 	"github.com/vela-ssoc/vela-common-mb/gopool"
 	"github.com/vela-ssoc/vela-common-mb/integration/devops"
 	"github.com/vela-ssoc/vela-common-mb/integration/dong"
@@ -25,6 +26,7 @@ func UnifyAlerter(store storage.Storer,
 	slog logback.Logger,
 	dong dong.Client,
 	dps devops.Client,
+	qry *query.Query,
 ) Alerter {
 	nano := time.Now().UnixNano()
 	random := rand.New(rand.NewSource(nano))
@@ -37,6 +39,7 @@ func UnifyAlerter(store storage.Storer,
 		dong:   dong,
 		dps:    dps,
 		random: random,
+		qry:    qry,
 	}
 }
 
@@ -48,6 +51,7 @@ type unifyAlert struct {
 	dong   dong.Client
 	dps    devops.Client
 	random *rand.Rand
+	qry    *query.Query
 }
 
 func (ua *unifyAlert) EventSaveAndAlert(ctx context.Context, evt *model.Event) error {
@@ -70,6 +74,7 @@ func (ua *unifyAlert) EventSaveAndAlert(ctx context.Context, evt *model.Event) e
 	task := &eventTask{
 		unify: ua,
 		event: evt,
+		qry:   ua.qry,
 	}
 	ua.pool.Go(task.Run)
 

@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/vela-ssoc/vela-common-mb/logback"
 	"github.com/vela-ssoc/vela-common-mba/netutil"
 )
 
@@ -16,18 +15,16 @@ type Client interface {
 	Auth(ctx context.Context, uname, passwd string) error
 }
 
-func NewClient(cfg Configurer, client netutil.HTTPClient, slog logback.Logger) Client {
+func NewClient(cfg Configurer, client netutil.HTTPClient) Client {
 	return &ssoClient{
 		client: client,
 		cfg:    cfg,
-		slog:   slog,
 	}
 }
 
 type ssoClient struct {
 	client netutil.HTTPClient
 	cfg    Configurer
-	slog   logback.Logger
 }
 
 func (sc *ssoClient) Auth(ctx context.Context, uname, passwd string) error {

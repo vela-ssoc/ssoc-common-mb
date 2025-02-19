@@ -25,6 +25,8 @@ type WhereField struct {
 	operators []Operator
 	expr      field.Expr
 	opMap     map[string]Operator
+	enums     []string
+	valueType string
 }
 
 func (f WhereField) NameComment() (name, comment string) {
@@ -33,6 +35,14 @@ func (f WhereField) NameComment() (name, comment string) {
 
 func (f WhereField) Operators() []Operator {
 	return f.operators
+}
+
+func (f WhereField) Enums() []string {
+	return f.enums
+}
+
+func (f WhereField) Type() string {
+	return f.valueType
 }
 
 type WhereFields []*WhereField

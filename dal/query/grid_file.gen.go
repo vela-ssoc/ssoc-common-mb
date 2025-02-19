@@ -35,7 +35,7 @@ func newGridFile(db *gorm.DB, opts ...gen.DOOption) gridFile {
 	_gridFile.SHA1 = field.NewString(tableName, "sha1")
 	_gridFile.SHA256 = field.NewString(tableName, "sha256")
 	_gridFile.Size = field.NewInt64(tableName, "size")
-	_gridFile.Shard = field.NewInt(tableName, "shard")
+	_gridFile.ChunkSize = field.NewInt(tableName, "chunk_size")
 	_gridFile.CreatedAt = field.NewTime(tableName, "created_at")
 	_gridFile.UpdatedAt = field.NewTime(tableName, "updated_at")
 
@@ -56,7 +56,7 @@ type gridFile struct {
 	SHA1      field.String
 	SHA256    field.String
 	Size      field.Int64
-	Shard     field.Int
+	ChunkSize field.Int
 	CreatedAt field.Time
 	UpdatedAt field.Time
 
@@ -83,7 +83,7 @@ func (g *gridFile) updateTableName(table string) *gridFile {
 	g.SHA1 = field.NewString(table, "sha1")
 	g.SHA256 = field.NewString(table, "sha256")
 	g.Size = field.NewInt64(table, "size")
-	g.Shard = field.NewInt(table, "shard")
+	g.ChunkSize = field.NewInt(table, "chunk_size")
 	g.CreatedAt = field.NewTime(table, "created_at")
 	g.UpdatedAt = field.NewTime(table, "updated_at")
 
@@ -119,7 +119,7 @@ func (g *gridFile) fillFieldMap() {
 	g.fieldMap["sha1"] = g.SHA1
 	g.fieldMap["sha256"] = g.SHA256
 	g.fieldMap["size"] = g.Size
-	g.fieldMap["shard"] = g.Shard
+	g.fieldMap["chunk_size"] = g.ChunkSize
 	g.fieldMap["created_at"] = g.CreatedAt
 	g.fieldMap["updated_at"] = g.UpdatedAt
 }

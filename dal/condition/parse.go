@@ -21,7 +21,7 @@ func ParseModel(db *gorm.DB, tbl any, opts *ParserOptions) (*Cond, error) {
 	ordersNameMap := make(map[string]*OrderField, 8)
 	wheresNameMap := make(map[string]*WhereField, 8)
 	for _, f := range fields {
-		expr, ops := newField(table, f)
+		expr, ops, tp := newField(table, f)
 		name, comment := f.DBName, f.Comment
 		if comment == "" {
 			comment = f.Name
@@ -34,7 +34,10 @@ func ParseModel(db *gorm.DB, tbl any, opts *ParserOptions) (*Cond, error) {
 		}
 		if exp := parseWhereField(expr, opts); exp != nil {
 			opMap := ops.NameMap()
-			cond := &WhereField{name: name, comment: comment, expr: exp, operators: ops, opMap: opMap}
+			cond := &WhereField{name: name, comment: comment, expr: exp, operators: ops, opMap: opMap, valueType: tp}
+			if tp == "boolean" {
+				cond.enums = []string{"true", "false"}
+			}
 			wheres = append(wheres, cond)
 			wheresNameMap[name] = cond
 		}
@@ -64,11 +67,11 @@ func parseWhereField(f field.Expr, opts *ParserOptions) field.Expr {
 }
 
 // https://github.com/go-gorm/gen/blob/v0.3.26/internal/template/struct.go#L48
-func newField(tbl string, f *schema.Field) (field.Expr, operators) {
+func newField(tbl string, f *schema.Field) (field.Expr, operators, string) {
 	name := f.DBName
 	var expr field.Expr
 	realType := getFieldRealType(f.FieldType)
-	ops := typeAllowedOperator(realType)
+	ops, tp := typeAllowedOperator(realType)
 	switch realType {
 	case "string":
 		expr = field.NewString(tbl, name)
@@ -108,25 +111,29 @@ func newField(tbl string, f *schema.Field) (field.Expr, operators) {
 		expr = field.NewField(tbl, name)
 	}
 
-	return expr, ops
+	return expr, ops, tp
 }
 
-func typeAllowedOperator(realType string) operators {
+func typeAllowedOperator(realType string) (operators, string) {
 	switch realType {
 	case "string", "bytes", "[]byte", "json.RawMessage":
-		return operators{Eq, Neq, Gt, Gte, Lt, Lte, Like, NotLike, Regex, NotRegex, Between, NotBetween, In, NotIn}
+		ops := operators{Eq, Neq, Gt, Gte, Lt, Lte, Like, NotLike, Regex, NotRegex, Between, NotBetween, In, NotIn}
+		return ops, "string"
 	case "int", "int8", "int16", "int32", "int64",
 		"uint", "uint8", "uint16", "uin32", "uint64",
 		"float32", "float64":
-		return operators{Eq, Neq, Gt, Gte, Lt, Lte, Like, NotLike, Between, NotBetween, In, NotIn}
+		ops := operators{Eq, Neq, Gt, Gte, Lt, Lte, Like, NotLike, Between, NotBetween, In, NotIn}
+		return ops, "number"
 	case "bool":
-		return operators{Eq, Neq}
+		ops := operators{Eq, Neq}
+		return ops, "boolean"
 	case "time.Time":
-		return operators{Eq, Neq, Gt, Gte, Lt, Lte, Between, NotBetween, In, NotIn}
+		ops := operators{Eq, Neq, Gt, Gte, Lt, Lte, Between, NotBetween, In, NotIn}
+		return ops, "datetime"
 	case "serializer":
-		return operators{Eq, Neq, Gt, Gte, Lt, Lte, Like, Regex, In}
+		return operators{Eq, Neq, Gt, Gte, Lt, Lte, Like, Regex, In}, "object"
 	}
-	return operators{Eq, Neq, Gt, Gte, Lt, Lte, Like, In}
+	return operators{Eq, Neq, Gt, Gte, Lt, Lte, Like, In}, "object"
 }
 
 // getFieldRealType  get basic type of field.

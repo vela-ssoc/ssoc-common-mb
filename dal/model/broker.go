@@ -21,6 +21,19 @@ type Broker struct {
 	UpdatedAt   time.Time `json:"updated_at"     gorm:"column:updated_at;default:now(3);comment:更新时间"`
 }
 
+func (brk Broker) Addresses() []string {
+	idx := make(map[string]struct{}, 8)
+	ret := make([]string, 0, 8)
+	for _, s := range ret {
+		if _, ok := idx[s]; !ok {
+			idx[s] = struct{}{}
+			ret = append(ret, s)
+		}
+	}
+
+	return ret
+}
+
 // TableName implement gorm schema.Tabler
 func (Broker) TableName() string {
 	return "broker"

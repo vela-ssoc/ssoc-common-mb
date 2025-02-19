@@ -38,12 +38,6 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		ExtensionRecord:  newExtensionRecord(db, opts...),
 		GridChunk:        newGridChunk(db, opts...),
 		GridFile:         newGridFile(db, opts...),
-		GridfsChunk:      newGridfsChunk(db, opts...),
-		GridfsFile:       newGridfsFile(db, opts...),
-		Job:              newJob(db, opts...),
-		JobCode:          newJobCode(db, opts...),
-		JobPolicy:        newJobPolicy(db, opts...),
-		JobReport:        newJobReport(db, opts...),
 		KVAudit:          newKVAudit(db, opts...),
 		KVData:           newKVData(db, opts...),
 		LoginLock:        newLoginLock(db, opts...),
@@ -112,12 +106,6 @@ type Query struct {
 	ExtensionRecord  extensionRecord
 	GridChunk        gridChunk
 	GridFile         gridFile
-	GridfsChunk      gridfsChunk
-	GridfsFile       gridfsFile
-	Job              job
-	JobCode          jobCode
-	JobPolicy        jobPolicy
-	JobReport        jobReport
 	KVAudit          kVAudit
 	KVData           kVData
 	LoginLock        loginLock
@@ -187,12 +175,6 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		ExtensionRecord:  q.ExtensionRecord.clone(db),
 		GridChunk:        q.GridChunk.clone(db),
 		GridFile:         q.GridFile.clone(db),
-		GridfsChunk:      q.GridfsChunk.clone(db),
-		GridfsFile:       q.GridfsFile.clone(db),
-		Job:              q.Job.clone(db),
-		JobCode:          q.JobCode.clone(db),
-		JobPolicy:        q.JobPolicy.clone(db),
-		JobReport:        q.JobReport.clone(db),
 		KVAudit:          q.KVAudit.clone(db),
 		KVData:           q.KVData.clone(db),
 		LoginLock:        q.LoginLock.clone(db),
@@ -269,12 +251,6 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		ExtensionRecord:  q.ExtensionRecord.replaceDB(db),
 		GridChunk:        q.GridChunk.replaceDB(db),
 		GridFile:         q.GridFile.replaceDB(db),
-		GridfsChunk:      q.GridfsChunk.replaceDB(db),
-		GridfsFile:       q.GridfsFile.replaceDB(db),
-		Job:              q.Job.replaceDB(db),
-		JobCode:          q.JobCode.replaceDB(db),
-		JobPolicy:        q.JobPolicy.replaceDB(db),
-		JobReport:        q.JobReport.replaceDB(db),
 		KVAudit:          q.KVAudit.replaceDB(db),
 		KVData:           q.KVData.replaceDB(db),
 		LoginLock:        q.LoginLock.replaceDB(db),
@@ -341,12 +317,6 @@ type queryCtx struct {
 	ExtensionRecord  *extensionRecordDo
 	GridChunk        *gridChunkDo
 	GridFile         *gridFileDo
-	GridfsChunk      *gridfsChunkDo
-	GridfsFile       *gridfsFileDo
-	Job              *jobDo
-	JobCode          *jobCodeDo
-	JobPolicy        *jobPolicyDo
-	JobReport        *jobReportDo
 	KVAudit          *kVAuditDo
 	KVData           *kVDataDo
 	LoginLock        *loginLockDo
@@ -413,12 +383,6 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		ExtensionRecord:  q.ExtensionRecord.WithContext(ctx),
 		GridChunk:        q.GridChunk.WithContext(ctx),
 		GridFile:         q.GridFile.WithContext(ctx),
-		GridfsChunk:      q.GridfsChunk.WithContext(ctx),
-		GridfsFile:       q.GridfsFile.WithContext(ctx),
-		Job:              q.Job.WithContext(ctx),
-		JobCode:          q.JobCode.WithContext(ctx),
-		JobPolicy:        q.JobPolicy.WithContext(ctx),
-		JobReport:        q.JobReport.WithContext(ctx),
 		KVAudit:          q.KVAudit.WithContext(ctx),
 		KVData:           q.KVData.WithContext(ctx),
 		LoginLock:        q.LoginLock.WithContext(ctx),
