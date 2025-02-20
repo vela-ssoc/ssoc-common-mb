@@ -23,6 +23,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		Broker:           newBroker(db, opts...),
 		BrokerBin:        newBrokerBin(db, opts...),
 		BrokerStat:       newBrokerStat(db, opts...),
+		CASConfig:        newCASConfig(db, opts...),
 		Certificate:      newCertificate(db, opts...),
 		Cmdb:             newCmdb(db, opts...),
 		Cmdb2:            newCmdb2(db, opts...),
@@ -91,6 +92,7 @@ type Query struct {
 	Broker           broker
 	BrokerBin        brokerBin
 	BrokerStat       brokerStat
+	CASConfig        cASConfig
 	Certificate      certificate
 	Cmdb             cmdb
 	Cmdb2            cmdb2
@@ -160,6 +162,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		Broker:           q.Broker.clone(db),
 		BrokerBin:        q.BrokerBin.clone(db),
 		BrokerStat:       q.BrokerStat.clone(db),
+		CASConfig:        q.CASConfig.clone(db),
 		Certificate:      q.Certificate.clone(db),
 		Cmdb:             q.Cmdb.clone(db),
 		Cmdb2:            q.Cmdb2.clone(db),
@@ -236,6 +239,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		Broker:           q.Broker.replaceDB(db),
 		BrokerBin:        q.BrokerBin.replaceDB(db),
 		BrokerStat:       q.BrokerStat.replaceDB(db),
+		CASConfig:        q.CASConfig.replaceDB(db),
 		Certificate:      q.Certificate.replaceDB(db),
 		Cmdb:             q.Cmdb.replaceDB(db),
 		Cmdb2:            q.Cmdb2.replaceDB(db),
@@ -302,6 +306,7 @@ type queryCtx struct {
 	Broker           *brokerDo
 	BrokerBin        *brokerBinDo
 	BrokerStat       *brokerStatDo
+	CASConfig        *cASConfigDo
 	Certificate      *certificateDo
 	Cmdb             *cmdbDo
 	Cmdb2            *cmdb2Do
@@ -368,6 +373,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		Broker:           q.Broker.WithContext(ctx),
 		BrokerBin:        q.BrokerBin.WithContext(ctx),
 		BrokerStat:       q.BrokerStat.WithContext(ctx),
+		CASConfig:        q.CASConfig.WithContext(ctx),
 		Certificate:      q.Certificate.WithContext(ctx),
 		Cmdb:             q.Cmdb.WithContext(ctx),
 		Cmdb2:            q.Cmdb2.WithContext(ctx),

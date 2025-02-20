@@ -36,9 +36,9 @@ func (ms MinionStatus) String() string {
 // Minion 节点表
 type Minion struct {
 	ID         int64        `json:"id,string"        gorm:"column:id;primaryKey;autoIncrement;comment:ID"`
-	Inet       string       `json:"inet"             gorm:"column:inet;varchar(15);not null;unique;comment:IPv4"`
-	Inet6      string       `json:"inet6"            gorm:"column:inet6;varchar(64);comment:IPv6"`
-	MAC        string       `json:"mac"              gorm:"column:mac;varchar(17);comment:MAC地址"`
+	Inet       string       `json:"inet"             gorm:"column:inet;size:20;not null;unique;comment:IPv4"`
+	Inet6      string       `json:"inet6"            gorm:"column:inet6;size:64;comment:IPv6"`
+	MAC        string       `json:"mac"              gorm:"column:mac;size:17;comment:MAC地址"`
 	Goos       string       `json:"goos"             gorm:"column:goos"`        // 节点操作系统 runtime.GOOS
 	Arch       string       `json:"arch"             gorm:"column:arch"`        // 节点架构 runtime.GOARCH
 	Edition    string       `json:"edition"          gorm:"column:edition"`     // 节点当前运行的版本

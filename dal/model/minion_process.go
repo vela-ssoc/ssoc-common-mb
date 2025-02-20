@@ -4,7 +4,7 @@ import "time"
 
 // MinionProcess minion 节点收集上来的进程列表
 type MinionProcess struct {
-	ID           int64     `json:"id,string"        gorm:"column:id;primaryKey"`
+	ID           int64     `json:"id,string"        gorm:"column:id;primaryKey;autoIncrement;comment:ID"`
 	MinionID     int64     `json:"minion_id,string" gorm:"column:minion_id"`
 	Inet         string    `json:"inet"             gorm:"column:inet"`
 	Name         string    `json:"name"             gorm:"column:name"`

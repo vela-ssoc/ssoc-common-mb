@@ -20,6 +20,7 @@ type TaskExecuteItem struct {
 	Finished      bool            `json:"finished"         gorm:"column:finished;comment:是否执行完毕"`
 	Succeed       bool            `json:"succeed"          gorm:"column:succeed;comment:是否执行成功"`
 	Result        json.RawMessage `json:"result"           gorm:"column:result;comment:agent执行结果"`
+	ExpiredAt     time.Time       `json:"expired_at"       gorm:"column:expired_at;notnull;index;comment:任务过期时间"`
 	CreatedAt     time.Time       `json:"created_at"       gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
 	UpdatedAt     time.Time       `json:"updated_at"       gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
 }

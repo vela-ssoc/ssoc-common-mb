@@ -4,10 +4,10 @@ import "time"
 
 type MinionCustomized struct {
 	ID        int64     `json:"id,string"  gorm:"column:id;primaryKey"`
-	Name      string    `json:"name"       gorm:"column:name"`
-	Icon      string    `json:"icon"       gorm:"column:icon"`
-	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"`
-	CreatedAt time.Time `json:"created_at" gorm:"column:created_at"`
+	Name      string    `json:"name"       gorm:"column:name;size:10;unique"`
+	Icon      string    `json:"icon"       gorm:"column:icon;type:text"`
+	CreatedAt time.Time `json:"created_at" gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"column:created_at;notnull;default:now(3);comment:更新时间"`
 }
 
 func (MinionCustomized) TableName() string {
