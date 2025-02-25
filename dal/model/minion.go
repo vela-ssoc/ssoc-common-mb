@@ -39,25 +39,25 @@ type Minion struct {
 	Inet       string       `json:"inet"             gorm:"column:inet;size:20;not null;unique;comment:IPv4"`
 	Inet6      string       `json:"inet6"            gorm:"column:inet6;size:64;comment:IPv6"`
 	MAC        string       `json:"mac"              gorm:"column:mac;size:17;comment:MAC地址"`
-	Goos       string       `json:"goos"             gorm:"column:goos"`        // 节点操作系统 runtime.GOOS
-	Arch       string       `json:"arch"             gorm:"column:arch"`        // 节点架构 runtime.GOARCH
-	Edition    string       `json:"edition"          gorm:"column:edition"`     // 节点当前运行的版本
-	Status     MinionStatus `json:"status"           gorm:"column:status"`      // 1-未激活 2-已激活(离线) 3-在线 4-已删除
-	Uptime     sql.NullTime `json:"uptime"           gorm:"column:uptime"`      // 上线时间
-	BrokerID   int64        `json:"broker_id,string" gorm:"column:broker_id"`   // 上线所在 broker 节点 ID
-	BrokerName string       `json:"broker_name"      gorm:"column:broker_name"` // broker 节点名字
-	Unload     bool         `json:"unload"           gorm:"column:unload"`      // 一旦开启则不加载任何配置脚本
-	Unstable   bool         `json:"unstable"         gorm:"column:unstable"`    // 是否不稳定版本
-	Customized string       `json:"customized"       gorm:"column:customized"`  // 定制版
-	OrgPath    string       `json:"org_path"         gorm:"column:org_path"`    // 部门路径
-	Identity   string       `json:"identity"         gorm:"column:identity"`    // 堡垒机用户
-	Category   string       `json:"category"         gorm:"column:category"`    // 部门信息
-	OpDuty     string       `json:"op_duty"          gorm:"column:op_duty"`     // 运维负责人
-	Comment    string       `json:"comment"          gorm:"column:comment"`     // 说明
-	IBu        string       `json:"ibu"              gorm:"column:ibu"`         // 部门
-	IDC        string       `json:"idc"              gorm:"column:idc;varchar(255);comment:IDC"`
-	CreatedAt  time.Time    `json:"created_at"       gorm:"column:created_at;not null;default:now(3);comment:更新时间"`
-	UpdatedAt  time.Time    `json:"updated_at"       gorm:"column:updated_at;not null;default:now(3);comment:创建时间"`
+	Goos       string       `json:"goos"             gorm:"column:goos;size:10;comment:操作系统"`
+	Arch       string       `json:"arch"             gorm:"column:arch;size:10;comment:系统架构"`
+	Edition    string       `json:"edition"          gorm:"column:edition;size:50;comment:Agent版本"`
+	Status     MinionStatus `json:"status"           gorm:"column:status;comment:节点状态"`
+	Uptime     sql.NullTime `json:"uptime"           gorm:"column:uptime;comment:上线时间"`
+	BrokerID   int64        `json:"broker_id,string" gorm:"column:broker_id;comment:代理节点ID"`
+	BrokerName string       `json:"broker_name"      gorm:"column:broker_name;size:255;comment:代理节点"`
+	Unload     bool         `json:"unload"           gorm:"column:unload;comment:是否静默模式"`
+	Unstable   bool         `json:"unstable"         gorm:"column:unstable;comment:是否内测版本"`
+	Customized string       `json:"customized"       gorm:"column:customized;size:50;comment:定制版本"`
+	OrgPath    string       `json:"org_path"         gorm:"column:org_path;size:255;comment:部门路径"`
+	Identity   string       `json:"identity"         gorm:"column:identity;type:text;comment:堡垒机用户"`
+	Category   string       `json:"category"         gorm:"column:category;size:255;comment:部门信息"`
+	OpDuty     string       `json:"op_duty"          gorm:"column:op_duty;size:255;comment:运维负责人"`
+	Comment    string       `json:"comment"          gorm:"column:comment;type:text;comment:节点描述"`
+	IBu        string       `json:"ibu"              gorm:"column:ibu;size:100;comment:部门"`
+	IDC        string       `json:"idc"              gorm:"column:idc;size:50;comment:IDC"`
+	CreatedAt  time.Time    `json:"created_at"       gorm:"column:created_at;notnull;default:now(3);comment:更新时间"`
+	UpdatedAt  time.Time    `json:"updated_at"       gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
 }
 
 // TableName implement gorm schema.Tabler
@@ -87,66 +87,3 @@ func (ms Minions) BrokerMap() map[int64][]int64 {
 	}
 	return ret
 }
-
-//import (
-//	"database/sql"
-//	"time"
-//)
-//
-//// Minion 节点信息表
-//type Minion struct {
-//	ID         int64        `json:"id,string"        gorm:"column:id;primaryKey"` // ID
-//	Name       string       `json:"name"             gorm:"column:name"`          // 节点名字
-//	Inet       string       `json:"inet"             gorm:"column:inet"`          // IPv4
-//	Inet6      string       `json:"inet6"            gorm:"column:inet6"`         // IPv6
-//	Status     MinionStatus `json:"status"           gorm:"column:status"`        // 节点状态
-//	MAC        string       `json:"mac"              gorm:"column:mac"`           // MAC
-//	Goos       string       `json:"goos"             gorm:"column:goos"`          // Goos
-//	Arch       string       `json:"arch"             gorm:"column:arch"`          // Arch
-//	Semver     string       `json:"semver"           gorm:"column:semver"`        // 版本号
-//	CPU        int          `json:"cpu"              gorm:"column:cpu"`           // CPU 核心数
-//	PID        int          `json:"pid"              gorm:"column:pid"`           // 进程 PID
-//	Username   string       `json:"username"         gorm:"column:username"`      // 运行 agent 程序的 用户
-//	Hostname   string       `json:"hostname"         gorm:"column:hostname"`      // 主机名
-//	Workdir    string       `json:"workdir"          gorm:"column:workdir"`       // 工作目录
-//	Executable string       `json:"executable"       gorm:"column:executable"`    // 执行路径
-//	PingedAt   sql.NullTime `json:"pinged_at"        gorm:"column:pinged_at"`     // 最近一次 ping 的时间
-//	JoinedAt   sql.NullTime `json:"joined_at"        gorm:"column:joined_at"`     // 最近一次加入（连接）时间
-//	BrokerID   int64        `json:"broker_id,string" gorm:"column:broker_id"`     // 接入的代理节点 ID
-//	BrokerName string       `json:"broker_name"      gorm:"column:broker_name"`   // 接入的代理节点名字
-//	CreatedAt  time.Time    `json:"created_at"       gorm:"column:created_at"`    // 创建时间
-//	UpdatedAt  time.Time    `json:"updated_at"       gorm:"column:updated_at"`    // 更新时间
-//}
-//
-//// TableName gorm table name
-//func (Minion) TableName() string {
-//	return "minion"
-//}
-//
-//type MinionStatus uint8
-//
-//const (
-//	MinionInactive MinionStatus = iota // 未激活
-//	MinionOffline                      // 离线
-//	MinionOnline                       // 在线
-//	MinionRemove                       // 移除
-//)
-//
-//// Minions []*Minion
-//type Minions []*Minion
-//
-//// BrokerMap 整理为 key: brokerID; value: minionIDs
-//func (ms Minions) BrokerMap() map[int64][]int64 {
-//	ret := make(map[int64][]int64, 16)
-//	for _, m := range ms {
-//		minionIDs := ret[m.BrokerID]
-//		if minionIDs == nil {
-//			ss := make([]int64, 0, 32)
-//			ss = append(ss, m.ID)
-//			ret[m.BrokerID] = ss
-//		} else {
-//			ret[m.BrokerID] = append(minionIDs, m.ID)
-//		}
-//	}
-//	return ret
-//}

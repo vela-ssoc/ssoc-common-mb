@@ -1,6 +1,7 @@
 package condition
 
 import (
+	"fmt"
 	"reflect"
 
 	"gorm.io/gen/field"
@@ -71,6 +72,8 @@ func newField(tbl string, f *schema.Field) (field.Expr, operators, string) {
 	name := f.DBName
 	var expr field.Expr
 	realType := getFieldRealType(f.FieldType)
+	fmt.Printf("%s.%s DataType: %s, GormDataType: %s, FieldType: %s\n", tbl, f.DBName, f.DataType, f.GORMDataType, f.FieldType)
+
 	ops, tp := typeAllowedOperator(realType)
 	switch realType {
 	case "string":

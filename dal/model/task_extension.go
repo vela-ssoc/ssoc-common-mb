@@ -56,7 +56,30 @@ func (e ExtensionQuote) Value() (driver.Value, error) {
 }
 
 type TaskStatus struct {
-	Total   int `json:"total"`
-	Succeed int `json:"succeed"`
-	Failed  int `json:"failed"`
+	Total   int `json:"total"   gorm:"column:total"`
+	Succeed int `json:"succeed" gorm:"column:succeed"`
+	Failed  int `json:"failed"  gorm:"column:failed"`
+}
+
+func (ts TaskStatus) Finished() bool {
+	return ts.Succeed+ts.Failed >= ts.Total
+}
+
+func (ts *TaskStatus) Scan(src any) error {
+	bs, _ := src.([]byte)
+	return json.Unmarshal(bs, ts)
+}
+
+func (ts TaskStatus) Value() (driver.Value, error) {
+	return json.Marshal(ts)
+}
+
+type name struct {
+	Keyword  string   `json:"keyword"`
+	Tags     []string `json:"tags"`
+	MatchTag bool     `json:"match_tag"`
+}
+
+type DFF struct {
+	Field string `json:"field"`
 }
