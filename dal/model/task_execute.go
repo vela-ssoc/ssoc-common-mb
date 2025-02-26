@@ -20,7 +20,7 @@ type TaskExecute struct {
 	SpecificTimes []time.Time       `json:"specific_times,omitempty" gorm:"column:specific_times;type:json;serializer:json;comment:定点任务时间"`
 	Timeout       Duration          `json:"timeout"                  gorm:"column:timeout;serializer:json;comment:超时时间"`
 	PushSize      int               `json:"push_size"                gorm:"column:push_size;comment:推送并发数"`
-	Filters       []string          `json:"filters"                  gorm:"column:filters;type:json;serializer:json;comment:过滤节点"`
+	Filters       TaskExecuteFilter `json:"filters"                  gorm:"column:filters;type:json;serializer:json;comment:过滤节点"`
 	Excludes      []string          `json:"excludes"                 gorm:"column:excludes;serializer:json;comment:排除节点"`
 	CreatedBy     Operator          `json:"created_by"               gorm:"column:created_by;type:json;notnull;serializer:json;comment:任务创建者"`
 	UpdatedBy     Operator          `json:"updated_by"               gorm:"column:updated_by;type:json;notnull;serializer:json;comment:任务创建者"`

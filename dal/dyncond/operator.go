@@ -9,13 +9,13 @@ var (
 	Lte        = NewOperator("lte", "≤")
 	Like       = NewOperator("like", "LIKE")
 	NotLike    = NewOperator("notlike", "NOT LIKE")
-	Regex      = NewOperator("regex", "REGEX")
-	NotRegex   = NewOperator("notregex", "NOT REGEX")
 	Between    = NewOperator("between", "BETWEEN")
 	NotBetween = NewOperator("notbetween", "NOT BETWEEN")
 	In         = NewOperator("in", "IN")
 	NotIn      = NewOperator("notin", "NOT IN")
 	NotNull    = NewOperator("notnull", "NOT NULL")
+	// Regex      = NewOperator("regex", "REGEX") // OpenGauss 不支持
+	// NotRegex   = NewOperator("notregex", "NOT REGEX") // OpenGauss 不支持
 )
 
 var operators = map[string]Operator{
@@ -27,8 +27,6 @@ var operators = map[string]Operator{
 	Lte.key:        Lte,
 	Like.key:       Like,
 	NotLike.key:    NotLike,
-	Regex.key:      Regex,
-	NotRegex.key:   NotRegex,
 	Between.key:    Between,
 	NotBetween.key: NotBetween,
 	In.key:         In,

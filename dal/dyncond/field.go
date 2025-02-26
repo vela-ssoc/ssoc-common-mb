@@ -31,7 +31,7 @@ func parseFieldInfo(tableName string, f *schema.Field, stmt *gorm.Statement) fie
 	switch realType {
 	case "string":
 		info.expr = field.NewString(tableName, dbName)
-		info.operators = Operators{Eq, Neq, Gt, Gte, Lt, Lte, Like, NotLike, Regex, NotRegex, Between, NotBetween, In, NotIn}
+		info.operators = Operators{Eq, Neq, Gt, Gte, Lt, Lte, Like, NotLike, Between, NotBetween, In, NotIn}
 	case "int", "int8", "int16", "int32", "int64",
 		"uint", "uint8", "uint16", "uint32", "uint64":
 		info.expr = field.NewInt(tableName, dbName)

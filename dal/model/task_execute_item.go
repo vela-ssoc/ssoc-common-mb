@@ -6,6 +6,15 @@ import (
 	"time"
 )
 
+const (
+	TaskExecuteErrorCodeRunning = iota // 执行成功
+	TaskExecuteErrorCodeBroker         // Broker 错误
+	TaskExecuteErrorCodeAgent          // Agent 错误
+	TaskExecuteErrorCodeTimeout        // Agent 执行超时
+	TaskExecuteErrorCodeSucceed        // Agent 执行成功
+
+)
+
 type TaskExecuteItem struct {
 	ID            int64           `json:"id,string"        gorm:"column:id;primaryKey;autoIncrement;comment:ID"`
 	TaskID        int64           `json:"task_id,string"   gorm:"column:task_id;index:idx_task_id_exec_id;uniqueIndex:idx_task_id_exec_id_minion_id;comment:任务ID"`
@@ -19,6 +28,7 @@ type TaskExecuteItem struct {
 	MinionStatus  *TaskStepStatus `json:"minion_status"    gorm:"column:minion_status;serializer:json;comment:agent执行状态"`
 	Finished      bool            `json:"finished"         gorm:"column:finished;comment:是否执行完毕"`
 	Succeed       bool            `json:"succeed"          gorm:"column:succeed;comment:是否执行成功"`
+	ErrorCode     int             `json:"error_code"       gorm:"column:error_code;comment:错误码"` // 该错误码用于辅助搜索
 	Result        json.RawMessage `json:"result"           gorm:"column:result;comment:agent执行结果"`
 	ExpiredAt     time.Time       `json:"expired_at"       gorm:"column:expired_at;notnull;index;comment:任务过期时间"`
 	CreatedAt     time.Time       `json:"created_at"       gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`

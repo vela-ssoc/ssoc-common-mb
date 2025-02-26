@@ -3,11 +3,14 @@ package gridfs
 import (
 	"context"
 	"crypto/md5"
-	"database/sql"
 	"encoding/hex"
 	"io"
 	"io/fs"
+	"strconv"
 	"time"
+
+	"github.com/vela-ssoc/vela-common-mb/dal/model"
+	"github.com/vela-ssoc/vela-common-mb/dal/query"
 )
 
 type FS interface {
@@ -17,21 +20,23 @@ type FS interface {
 	Write(io.Reader, string) (File, error)
 }
 
-func NewFS(db *sql.DB) FS {
-	return &gridFS{db: db, burst: 60 * 1024}
+func NewFS(qry *query.Query) FS {
+	return &gridFS{qry: qry, burst: 60 * 1024}
 }
 
 type gridFS struct {
-	db    *sql.DB // 数据库连接
-	burst int     // 60K
+	qry   *query.Query // 数据库连接
+	burst int          // 60K
 }
 
 // Open 通过文件名打开文件
 func (f *gridFS) Open(name string) (fs.File, error) {
-	rawSQL := "SELECT id, size, name, checksum, created_at FROM gridfs_file WHERE `name` = ? ORDER BY `id` DESC LIMIT 1"
-	row := f.db.QueryRow(rawSQL, name)
-	fl := &file{db: f.db}
-	if err := row.Scan(&fl.id, &fl.size, &fl.name, &fl.checksum, &fl.createdAt); err != nil {
+	id, err := strconv.ParseInt(name, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	fl, err := f.OpenID(id)
+	if err != nil {
 		return nil, err
 	}
 
@@ -39,105 +44,136 @@ func (f *gridFS) Open(name string) (fs.File, error) {
 }
 
 func (f *gridFS) OpenID(id int64) (File, error) {
-	rawSQL := "SELECT id, size, name, checksum, created_at FROM gridfs_file WHERE `id` = ?"
-	row := f.db.QueryRow(rawSQL, id)
-	fl := &file{db: f.db}
-	if err := row.Scan(&fl.id, &fl.size, &fl.name, &fl.checksum, &fl.createdAt); err != nil {
+	tbl := f.qry.GridFile
+	gf, err := tbl.WithContext(context.Background()).
+		Where(tbl.ID.Eq(id)).
+		First()
+	if err != nil {
 		return nil, err
 	}
+
+	fl := &file{
+		id:        gf.ID,
+		name:      gf.Name,
+		size:      gf.Size,
+		checksum:  gf.Checksum,
+		createdAt: gf.CreatedAt,
+		qry:       f.qry,
+	}
+
 	return fl, nil
 }
 
 func (f *gridFS) Remove(id int64) error {
-	fileSQL := "DELETE FROM gridfs_file WHERE id = ?"
-	chkSQL := "DELETE FROM gridfs_chunk WHERE file_id = ?"
+	return f.qry.Transaction(func(tx *query.Query) error {
+		fileTbl, chunkTbl := tx.GridFile, tx.GridChunk
+		if _, err := chunkTbl.WithContext(context.Background()).
+			Where(chunkTbl.FileID.Eq(id)).
+			Delete(); err != nil {
+			return err
+		}
 
-	tx, err := f.db.BeginTx(context.Background(), &sql.TxOptions{})
-	if err != nil {
+		_, err := fileTbl.WithContext(context.Background()).
+			Where(fileTbl.ID.Eq(id)).
+			Delete()
+
 		return err
-	}
-	//goland:noinspection GoUnhandledErrorResult
-	defer tx.Rollback()
-
-	var over bool
-	defer func() {
-		if err != nil || !over {
-			_ = tx.Rollback()
-		}
-	}()
-
-	if _, err = tx.Exec(fileSQL, id); err == nil {
-		if _, err = tx.Exec(chkSQL, id); err == nil {
-			err = tx.Commit()
-		}
-	}
-	over = true
-
-	return err
+	})
 }
 
 func (f *gridFS) Write(r io.Reader, name string) (File, error) {
-	// 开启事务
-	opt := &sql.TxOptions{Isolation: sql.LevelReadCommitted}
-	tx, err := f.db.BeginTx(context.Background(), opt)
-	if err != nil {
-		return nil, err
-	}
-	//goland:noinspection GoUnhandledErrorResult
-	defer tx.Rollback()
-
-	burst := f.burst
 	createdAt := time.Now()
-	insertFile := "INSERT INTO gridfs_file(name, checksum, created_at) VALUE (?, ?, ?)"
-	ret, err := tx.Exec(insertFile, name, "", createdAt)
-	if err != nil {
-		return nil, err
-	}
-	fileID, err := ret.LastInsertId() // 拿到插入的 ID
-	if err != nil {
-		return nil, err
-	}
-
-	insertPart := "INSERT INTO gridfs_chunk (file_id, `serial`, `data`) VALUE (?, ?, ?)"
-	buf := make([]byte, burst)
-
+	fl := &model.GridFile{Name: name, CreatedAt: createdAt}
 	digest := md5.New()
 	tr := io.TeeReader(r, digest)
 
-	var n, serial int
-	var filesize int64
-	for {
-		if n, err = tr.Read(buf); err != nil {
-			if err == io.EOF {
-				err = nil
-			}
-			break
-		}
-		if _, err = tx.Exec(insertPart, fileID, serial, buf[:n]); err != nil {
-			break
-		}
-		serial++
-		filesize += int64(n)
-	}
+	if err := f.qry.Transaction(func(tx *query.Query) error {
+		fileTbl, chunkTbl := tx.GridFile, tx.GridChunk
+		fileDo := fileTbl.WithContext(context.Background())
+		chunkDo := chunkTbl.WithContext(context.Background())
 
-	if err == nil {
-		sum := hex.EncodeToString(digest.Sum(nil))
-		updateFile := "UPDATE gridfs_file SET size = ?, checksum = ? WHERE id = ?"
-		if _, err = tx.Exec(updateFile, filesize, sum, fileID); err == nil {
-			if err = tx.Commit(); err == nil {
-				fl := &file{
-					id:        fileID,
-					name:      name,
-					size:      filesize,
-					checksum:  sum,
-					createdAt: createdAt,
-					db:        f.db,
+		if err := fileDo.Create(fl); err != nil {
+			return err
+		}
+		fileID := fl.ID
+
+		var err error
+		var n, serial int
+		var filesize int64
+		for {
+			buf := make([]byte, f.burst)
+			if n, err = tr.Read(buf); err != nil {
+				if err == io.EOF {
+					err = nil
 				}
-
-				return fl, nil
+				break
 			}
+
+			chk := &model.GridChunk{
+				FileID: fileID,
+				Serial: serial,
+				Data:   buf[:n],
+			}
+			if err = chunkDo.Create(chk); err != nil {
+				return err
+			}
+
+			serial++
+			filesize += int64(n)
 		}
+
+		fl.Size = filesize
+		fl.Checksum = hex.EncodeToString(digest.Sum(nil))
+		_, err = fileDo.Updates(fl)
+
+		return err
+	}); err != nil {
+		return nil, err
 	}
 
-	return nil, err
+	cf := &file{
+		id:        fl.ID,
+		name:      fl.Name,
+		size:      fl.Size,
+		checksum:  fl.Checksum,
+		createdAt: fl.CreatedAt,
+		qry:       f.qry,
+	}
+
+	return cf, nil
+
+	//var n, serial int
+	//var filesize int64
+	//for {
+	//	if n, err = tr.Read(buf); err != nil {
+	//		if err == io.EOF {
+	//			err = nil
+	//		}
+	//		break
+	//	}
+	//	if _, err = tx.Exec(insertPart, fileID, serial, buf[:n]); err != nil {
+	//		break
+	//	}
+	//	serial++
+	//	filesize += int64(n)
+	//}
+	//
+	//if err == nil {
+	//	sum := hex.EncodeToString(digest.Sum(nil))
+	//	updateFile := "UPDATE gridfs_file SET size = ?, checksum = ? WHERE id = ?"
+	//	if _, err = tx.Exec(updateFile, filesize, sum, fileID); err == nil {
+	//		if err = tx.Commit(); err == nil {
+	//			fl := &file{
+	//				id:        fileID,
+	//				name:      name,
+	//				size:      filesize,
+	//				checksum:  sum,
+	//				createdAt: createdAt,
+	//				db:        f.db,
+	//			}
+	//
+	//			return fl, nil
+	//		}
+	//	}
+	//}
 }

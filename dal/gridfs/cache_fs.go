@@ -2,17 +2,18 @@ package gridfs
 
 import (
 	"crypto/md5"
-	"database/sql"
 	"io"
 	"io/fs"
 	"os"
 	"path/filepath"
 	"strconv"
 	"sync"
+
+	"github.com/vela-ssoc/vela-common-mb/dal/query"
 )
 
-func NewCache(db *sql.DB, path string) FS {
-	cfs := NewFS(db)
+func NewCache(qry *query.Query, path string) FS {
+	cfs := NewFS(qry)
 	intPID := os.Getpid()
 	pid := strconv.FormatInt(int64(intPID), 10)
 	if path == "" {

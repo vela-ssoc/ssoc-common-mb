@@ -5,7 +5,6 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/condition"
 	"github.com/vela-ssoc/vela-common-mb/dal/dyncond"
 	"github.com/vela-ssoc/vela-common-mb/param/errcode"
 )
@@ -21,6 +20,11 @@ type PageKeywordConditions struct {
 	Conditions
 }
 
+type PageConditions struct {
+	Pages
+	Conditions
+}
+
 type Conditions struct {
 	CondWhereInputs
 	CondOrderInputs
@@ -28,18 +32,6 @@ type Conditions struct {
 
 type CondOrderInputs struct {
 	Order []*CondOrderInput `json:"order" form:"order" query:"order" validate:"lte=10,dive"`
-}
-
-func (coi CondOrderInputs) Inputs() *condition.OrderInputs {
-	orders := coi.Order
-	inputs := make([]*condition.OrderInput, 0, len(orders))
-	for _, in := range orders {
-		if col := in.Name; col != "" {
-			data := &condition.OrderInput{Name: col, Desc: in.Desc}
-			inputs = append(inputs, data)
-		}
-	}
-	return &condition.OrderInputs{Inputs: inputs}
 }
 
 type CondOrderInput struct {

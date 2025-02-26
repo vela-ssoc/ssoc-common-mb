@@ -20,7 +20,7 @@ type TaskExtension struct {
 	SpecificTimes []time.Time        `json:"specific_times,omitempty" gorm:"column:specific_times;type:json;serializer:json;comment:定点任务时间"`
 	Timeout       Duration           `json:"timeout"                  gorm:"column:timeout;serializer:json;comment:超时时间"`
 	PushSize      int                `json:"push_size"                gorm:"column:push_size;comment:推送并发数"`
-	Filters       []string           `json:"filters"                  gorm:"column:filters;serializer:json;comment:过滤节点"`
+	Filters       TaskExecuteFilter  `json:"filters"                  gorm:"column:filters;serializer:json;comment:过滤节点"`
 	Excludes      []string           `json:"excludes"                 gorm:"column:excludes;serializer:json;comment:排除节点"`
 	ExecID        int64              `json:"exec_id,string"           gorm:"column:exec_id;comment:执行ID"`
 	Status        *TaskExecuteStatus `json:"status"                   gorm:"column:status;type:json;comment:最近一次任务状态"`
@@ -74,12 +74,26 @@ func (ts TaskStatus) Value() (driver.Value, error) {
 	return json.Marshal(ts)
 }
 
-type name struct {
-	Keyword  string   `json:"keyword"`
-	Tags     []string `json:"tags"`
-	MatchTag bool     `json:"match_tag"`
+type TaskExecuteFilter struct {
+	InetMode bool             `json:"inet_mode"`
+	Inets    []string         `json:"inets"`
+	Keyword  string           `json:"keyword"`
+	Filters  ConditionFilters `json:"filters"`
 }
 
-type DFF struct {
-	Field string `json:"field"`
+type ConditionFilter struct {
+	Key      string `json:"key"`
+	Operator string `json:"operator"`
+	Value    string `json:"value"`
+}
+
+type ConditionFilters []*ConditionFilter
+
+func (ts *TaskExecuteFilter) Scan(src any) error {
+	bs, _ := src.([]byte)
+	return json.Unmarshal(bs, ts)
+}
+
+func (ts TaskExecuteFilter) Value() (driver.Value, error) {
+	return json.Marshal(ts)
 }

@@ -169,10 +169,6 @@ func (tbl *Tables) fieldString(f field.String, input *WhereInput) field.Expr {
 			return f.Like(arg0)
 		}
 		return f.NotLike(arg0)
-	case Regex:
-		return f.Regexp(arg0)
-	case NotRegex:
-		return f.NotRegxp(arg0)
 	case Between, NotBetween:
 		arg1, exist := values.stringN(1)
 		if !exist {

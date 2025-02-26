@@ -1,6 +1,7 @@
 package gridfs
 
 import (
+	"context"
 	"database/sql"
 	"errors"
 	"io"
@@ -11,6 +12,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/vela-ssoc/vela-common-mb/dal/query"
 )
 
 type File interface {
@@ -31,10 +34,10 @@ type file struct {
 	checksum  string
 	createdAt time.Time
 
-	db     *sql.DB // 数据库连接
-	serial int     // 即将读取的文件分片序号
-	buff   []byte  // 文件分片缓存
-	eof    bool    // 是否读完了
+	qry    *query.Query // 数据库连接
+	serial int          // 即将读取的文件分片序号
+	buff   []byte       // 文件分片缓存
+	eof    bool         // 是否读完了
 	count  int
 }
 
@@ -69,7 +72,7 @@ func (f *file) Disposition() string {
 }
 
 func (f *file) Read(b []byte) (int, error) {
-	if f.db == nil {
+	if f.qry == nil {
 		return 0, io.ErrUnexpectedEOF
 	}
 	if f.eof {
@@ -97,10 +100,11 @@ func (f *file) Read(b []byte) (int, error) {
 }
 
 func (f *file) nextSerial() error {
-	rawSQL := "SELECT `data` FROM gridfs_chunk WHERE `file_id` = ? AND `serial` = ?"
-
-	var chk chunk
-	if err := f.db.QueryRow(rawSQL, f.id, f.serial).Scan(&chk.data); err != nil {
+	tbl := f.qry.GridChunk
+	chk, err := tbl.WithContext(context.Background()).
+		Where(tbl.FileID.Eq(f.id), tbl.Serial.Eq(f.serial)).
+		First()
+	if err != nil {
 		f.eof = true
 		if errors.Is(err, sql.ErrNoRows) {
 			return io.EOF
@@ -108,17 +112,9 @@ func (f *file) nextSerial() error {
 		return err
 	}
 
-	f.count += len(chk.data)
-
+	f.count += len(chk.Data)
 	f.serial++ // 序号增加
-	f.buff = chk.data
+	f.buff = chk.Data
 
 	return nil
-}
-
-type chunk struct {
-	id     int64  // 表 ID
-	fileID int64  // 所属文件 ID
-	data   []byte // 文件分片
-	serial int    // 文件分片序号 0-n
 }

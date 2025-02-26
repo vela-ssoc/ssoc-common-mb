@@ -8,5 +8,5 @@ type GridChunk struct {
 }
 
 func (GridChunk) TableName() string {
-	return "grid_chunk"
+	return "gridfs_chunk"
 }

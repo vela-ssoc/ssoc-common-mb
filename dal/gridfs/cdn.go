@@ -1,7 +1,6 @@
 package gridfs
 
 import (
-	"database/sql"
 	"io"
 	"io/fs"
 	"os"
@@ -10,14 +9,16 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"github.com/vela-ssoc/vela-common-mb/dal/query"
 )
 
 // NewCDN 带本地缓存的。
 //
 // Deprecated: 该缓存在线上运行时会出现文件无法下载的 BUG，
 // 已废弃请勿使用，新的接口为 [NewCache]。
-func NewCDN(db *sql.DB, dir string, min int64) FS {
-	gfs := NewFS(db)
+func NewCDN(qry *query.Query, dir string, min int64) FS {
+	gfs := NewFS(qry)
 	if dir == "" {
 		dir = os.TempDir()
 	}
