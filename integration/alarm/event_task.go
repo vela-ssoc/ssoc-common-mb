@@ -2,6 +2,7 @@ package alarm
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/vela-ssoc/vela-common-mb/dal/model"
@@ -30,7 +31,7 @@ func (et *eventTask) Run() {
 	key := evt.FromCode
 	sub := et.unify.match.Event(ctx, key)
 	if sub == nil || sub.Empty() {
-		et.unify.slog.Infof("event 事件 %s 没有订阅者", key)
+		et.unify.log.Info(fmt.Sprintf("event 事件 %s 没有订阅者", key))
 		return
 	}
 
@@ -46,14 +47,14 @@ func (et *eventTask) Run() {
 func (et *eventTask) sendDong(ctx context.Context, dongs []string, key string) {
 	title, body := et.unify.store.EventDong(ctx, et.event, "")
 	if err := et.unify.dong.Send(ctx, dongs, []string{key}, title, body); err != nil {
-		et.unify.slog.Warnf("发送事件 %s 失败：%s", dongs, err)
+		et.unify.log.Warn(fmt.Sprintf("发送事件 %s 失败：%s", dongs, err))
 	} else {
-		et.unify.slog.Infof("发送事件成功")
+		et.unify.log.Info("发送事件成功")
 	}
 }
 
 func (et *eventTask) sendDevops(ctx context.Context, devs []*model.Devops) {
 	// title, body := st.rend.RiskDong(ctx, st.dat, st.dat)
 	err := et.unify.dps.Send(ctx, "告警", "内容", devs)
-	et.unify.slog.Infof("发送 devops 事件 %s 结果：%v", devs, err)
+	et.unify.log.Info(fmt.Sprintf("发送 devops 事件 %s 结果：%v", devs, err))
 }

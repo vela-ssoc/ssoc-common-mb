@@ -29,13 +29,8 @@ func newGridFile(db *gorm.DB, opts ...gen.DOOption) gridFile {
 	_gridFile.ALL = field.NewAsterisk(tableName)
 	_gridFile.ID = field.NewInt64(tableName, "id")
 	_gridFile.Name = field.NewString(tableName, "name")
-	_gridFile.Extension = field.NewString(tableName, "extension")
-	_gridFile.MIME = field.NewString(tableName, "mime")
-	_gridFile.MD5 = field.NewString(tableName, "md5")
-	_gridFile.SHA1 = field.NewString(tableName, "sha1")
-	_gridFile.SHA256 = field.NewString(tableName, "sha256")
 	_gridFile.Size = field.NewInt64(tableName, "size")
-	_gridFile.ChunkSize = field.NewInt(tableName, "chunk_size")
+	_gridFile.Checksum = field.NewString(tableName, "checksum")
 	_gridFile.CreatedAt = field.NewTime(tableName, "created_at")
 	_gridFile.UpdatedAt = field.NewTime(tableName, "updated_at")
 
@@ -50,13 +45,8 @@ type gridFile struct {
 	ALL       field.Asterisk
 	ID        field.Int64
 	Name      field.String
-	Extension field.String
-	MIME      field.String
-	MD5       field.String
-	SHA1      field.String
-	SHA256    field.String
 	Size      field.Int64
-	ChunkSize field.Int
+	Checksum  field.String
 	CreatedAt field.Time
 	UpdatedAt field.Time
 
@@ -77,13 +67,8 @@ func (g *gridFile) updateTableName(table string) *gridFile {
 	g.ALL = field.NewAsterisk(table)
 	g.ID = field.NewInt64(table, "id")
 	g.Name = field.NewString(table, "name")
-	g.Extension = field.NewString(table, "extension")
-	g.MIME = field.NewString(table, "mime")
-	g.MD5 = field.NewString(table, "md5")
-	g.SHA1 = field.NewString(table, "sha1")
-	g.SHA256 = field.NewString(table, "sha256")
 	g.Size = field.NewInt64(table, "size")
-	g.ChunkSize = field.NewInt(table, "chunk_size")
+	g.Checksum = field.NewString(table, "checksum")
 	g.CreatedAt = field.NewTime(table, "created_at")
 	g.UpdatedAt = field.NewTime(table, "updated_at")
 
@@ -110,16 +95,11 @@ func (g *gridFile) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (g *gridFile) fillFieldMap() {
-	g.fieldMap = make(map[string]field.Expr, 11)
+	g.fieldMap = make(map[string]field.Expr, 6)
 	g.fieldMap["id"] = g.ID
 	g.fieldMap["name"] = g.Name
-	g.fieldMap["extension"] = g.Extension
-	g.fieldMap["mime"] = g.MIME
-	g.fieldMap["md5"] = g.MD5
-	g.fieldMap["sha1"] = g.SHA1
-	g.fieldMap["sha256"] = g.SHA256
 	g.fieldMap["size"] = g.Size
-	g.fieldMap["chunk_size"] = g.ChunkSize
+	g.fieldMap["checksum"] = g.Checksum
 	g.fieldMap["created_at"] = g.CreatedAt
 	g.fieldMap["updated_at"] = g.UpdatedAt
 }

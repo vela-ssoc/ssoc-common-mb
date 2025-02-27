@@ -2,12 +2,11 @@ package dong
 
 import (
 	"context"
+	"log/slog"
 	"net/http"
-
-	"github.com/vela-ssoc/vela-common-mb/logback"
 )
 
-func NewTunnel(cli *http.Client, log logback.Logger) Client {
+func NewTunnel(cli *http.Client, log *slog.Logger) Client {
 	return &tunnelClient{
 		cli: newCommonClient(cli),
 		log: log,
@@ -16,7 +15,7 @@ func NewTunnel(cli *http.Client, log logback.Logger) Client {
 
 type tunnelClient struct {
 	cli *commonClient
-	log logback.Logger
+	log *slog.Logger
 }
 
 func (tc *tunnelClient) Send(ctx context.Context, uids, gids []string, title, body string) error {
@@ -30,7 +29,7 @@ func (tc *tunnelClient) Send(ctx context.Context, uids, gids []string, title, bo
 	}
 	err := tc.cli.postJSON(ctx, strURL, data, nil)
 	if err != nil {
-		tc.log.Errorf("通过tunnel告警出错: %s", err)
+		tc.log.Error("通过tunnel告警出错", slog.Any("error", err))
 	}
 
 	return err

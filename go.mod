@@ -12,7 +12,6 @@ require (
 	github.com/vela-ssoc/opengauss v0.0.0-20250225051534-394ae9b84dcc
 	github.com/vela-ssoc/vela-common-mba v0.0.0-20250219065254-10cf1234dc53
 	github.com/xgfone/ship/v5 v5.3.1
-	go.uber.org/zap v1.27.0
 	golang.org/x/net v0.35.0
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 	gorm.io/driver/mysql v1.5.7
@@ -30,7 +29,6 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/tjfoc/gmsm v1.4.1 // indirect
-	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/crypto v0.35.0 // indirect
 	golang.org/x/mod v0.23.0 // indirect
 	golang.org/x/sync v0.11.0 // indirect

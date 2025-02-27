@@ -1,6 +1,12 @@
 package problem
 
-import "time"
+import (
+	"bytes"
+	"encoding/json"
+	"net/http"
+	"strconv"
+	"time"
+)
 
 // Details is Problem Details for HTTP APIs.
 // RFC7807 https://www.rfc-editor.org/rfc/rfc7807
@@ -31,4 +37,30 @@ type Details struct {
 	Method string `json:"method" xml:"method"`
 
 	Datetime time.Time `json:"datetime" xml:"datetime"`
+}
+
+func (d Details) JSON(w http.ResponseWriter) error {
+	code := d.Status
+	if code < http.StatusBadRequest || code >= 600 {
+		code = http.StatusBadRequest
+	}
+	buf := new(bytes.Buffer)
+	if err := json.NewEncoder(buf).Encode(d); err == nil {
+		size := int64(buf.Len())
+		w.Header().Set("Content-Length", strconv.FormatInt(size, 10))
+	}
+	w.Header().Set("Content-Type", "application/problem+json; charset=utf-8")
+	w.Header().Set("Content-Language", "zh")
+	w.WriteHeader(code)
+	_, err := buf.WriteTo(w)
+
+	return err
+}
+
+func (d Details) String() string {
+	return "problem detail, type='" + d.Type + "'" +
+		", title='" + d.Title + "'" +
+		", status=" + strconv.FormatInt(int64(d.Status), 10) +
+		", detail='" + d.Detail + "'" +
+		", instance='" + d.Instance + "'"
 }

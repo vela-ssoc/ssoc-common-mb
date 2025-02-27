@@ -39,8 +39,9 @@ func newTaskExecuteItem(db *gorm.DB, opts ...gen.DOOption) taskExecuteItem {
 	_taskExecuteItem.MinionStatus = field.NewField(tableName, "minion_status")
 	_taskExecuteItem.Finished = field.NewBool(tableName, "finished")
 	_taskExecuteItem.Succeed = field.NewBool(tableName, "succeed")
+	_taskExecuteItem.ErrorCode = field.NewInt(tableName, "error_code")
 	_taskExecuteItem.Result = field.NewBytes(tableName, "result")
-	_taskExecuteItem.ExpiredAt = field.NewTime(tableName, "created_at")
+	_taskExecuteItem.ExpiredAt = field.NewTime(tableName, "expired_at")
 	_taskExecuteItem.CreatedAt = field.NewTime(tableName, "created_at")
 	_taskExecuteItem.UpdatedAt = field.NewTime(tableName, "updated_at")
 
@@ -65,6 +66,7 @@ type taskExecuteItem struct {
 	MinionStatus  field.Field
 	Finished      field.Bool
 	Succeed       field.Bool
+	ErrorCode     field.Int
 	Result        field.Bytes
 	ExpiredAt     field.Time
 	CreatedAt     field.Time
@@ -97,8 +99,9 @@ func (t *taskExecuteItem) updateTableName(table string) *taskExecuteItem {
 	t.MinionStatus = field.NewField(table, "minion_status")
 	t.Finished = field.NewBool(table, "finished")
 	t.Succeed = field.NewBool(table, "succeed")
+	t.ErrorCode = field.NewInt(table, "error_code")
 	t.Result = field.NewBytes(table, "result")
-	t.ExpiredAt = field.NewTime(table, "created_at")
+	t.ExpiredAt = field.NewTime(table, "expired_at")
 	t.CreatedAt = field.NewTime(table, "created_at")
 	t.UpdatedAt = field.NewTime(table, "updated_at")
 
@@ -129,7 +132,7 @@ func (t *taskExecuteItem) GetFieldByName(fieldName string) (field.OrderExpr, boo
 }
 
 func (t *taskExecuteItem) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 16)
+	t.fieldMap = make(map[string]field.Expr, 17)
 	t.fieldMap["id"] = t.ID
 	t.fieldMap["task_id"] = t.TaskID
 	t.fieldMap["exec_id"] = t.ExecID
@@ -142,8 +145,9 @@ func (t *taskExecuteItem) fillFieldMap() {
 	t.fieldMap["minion_status"] = t.MinionStatus
 	t.fieldMap["finished"] = t.Finished
 	t.fieldMap["succeed"] = t.Succeed
+	t.fieldMap["error_code"] = t.ErrorCode
 	t.fieldMap["result"] = t.Result
-	t.fieldMap["created_at"] = t.ExpiredAt
+	t.fieldMap["expired_at"] = t.ExpiredAt
 	t.fieldMap["created_at"] = t.CreatedAt
 	t.fieldMap["updated_at"] = t.UpdatedAt
 }

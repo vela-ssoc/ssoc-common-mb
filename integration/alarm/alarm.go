@@ -3,6 +3,7 @@ package alarm
 import (
 	"context"
 	"encoding/hex"
+	"log/slog"
 	"math/rand"
 	"time"
 
@@ -10,9 +11,8 @@ import (
 	"github.com/vela-ssoc/vela-common-mb/dal/query"
 	"github.com/vela-ssoc/vela-common-mb/gopool"
 	"github.com/vela-ssoc/vela-common-mb/integration/devops"
-	"github.com/vela-ssoc/vela-common-mb/integration/dong"
+	"github.com/vela-ssoc/vela-common-mb/integration/dong/v2"
 	"github.com/vela-ssoc/vela-common-mb/integration/ntfmatch"
-	"github.com/vela-ssoc/vela-common-mb/logback"
 	"github.com/vela-ssoc/vela-common-mb/storage/v2"
 )
 
@@ -23,7 +23,7 @@ type Alerter interface {
 
 func UnifyAlerter(store storage.Storer,
 	match ntfmatch.Matcher,
-	slog logback.Logger,
+	log *slog.Logger,
 	dong dong.Client,
 	dps devops.Client,
 	qry *query.Query,
@@ -35,7 +35,7 @@ func UnifyAlerter(store storage.Storer,
 		store:  store,
 		pool:   gopool.NewV2(1024),
 		match:  match,
-		slog:   slog,
+		log:    log,
 		dong:   dong,
 		dps:    dps,
 		random: random,
@@ -47,7 +47,7 @@ type unifyAlert struct {
 	store  storage.Storer
 	pool   gopool.Pool
 	match  ntfmatch.Matcher
-	slog   logback.Logger
+	log    *slog.Logger
 	dong   dong.Client
 	dps    devops.Client
 	random *rand.Rand
@@ -56,7 +56,7 @@ type unifyAlert struct {
 
 func (ua *unifyAlert) EventSaveAndAlert(ctx context.Context, evt *model.Event) error {
 	if evt == nil {
-		ua.slog.Warn("event 为 nil 不作处理")
+		ua.log.Warn("event 为 nil 不作处理")
 		return nil
 	}
 
@@ -83,7 +83,7 @@ func (ua *unifyAlert) EventSaveAndAlert(ctx context.Context, evt *model.Event) e
 
 func (ua *unifyAlert) RiskSaveAndAlert(ctx context.Context, rsk *model.Risk) error {
 	if rsk == nil {
-		ua.slog.Warn("risk 为 nil 不作处理")
+		ua.log.Warn("risk 为 nil 不作处理")
 		return nil
 	}
 

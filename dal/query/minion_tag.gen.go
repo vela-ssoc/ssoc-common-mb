@@ -28,8 +28,8 @@ func newMinionTag(db *gorm.DB, opts ...gen.DOOption) minionTag {
 	tableName := _minionTag.minionTagDo.TableName()
 	_minionTag.ALL = field.NewAsterisk(tableName)
 	_minionTag.ID = field.NewInt64(tableName, "id")
-	_minionTag.Tag = field.NewString(tableName, "tag")
 	_minionTag.MinionID = field.NewInt64(tableName, "minion_id")
+	_minionTag.Tag = field.NewString(tableName, "tag")
 	_minionTag.Kind = field.NewInt8(tableName, "kind")
 
 	_minionTag.fillFieldMap()
@@ -42,8 +42,8 @@ type minionTag struct {
 
 	ALL      field.Asterisk
 	ID       field.Int64
-	Tag      field.String
 	MinionID field.Int64
+	Tag      field.String
 	Kind     field.Int8
 
 	fieldMap map[string]field.Expr
@@ -62,8 +62,8 @@ func (m minionTag) As(alias string) *minionTag {
 func (m *minionTag) updateTableName(table string) *minionTag {
 	m.ALL = field.NewAsterisk(table)
 	m.ID = field.NewInt64(table, "id")
-	m.Tag = field.NewString(table, "tag")
 	m.MinionID = field.NewInt64(table, "minion_id")
+	m.Tag = field.NewString(table, "tag")
 	m.Kind = field.NewInt8(table, "kind")
 
 	m.fillFieldMap()
@@ -93,8 +93,8 @@ func (m *minionTag) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 func (m *minionTag) fillFieldMap() {
 	m.fieldMap = make(map[string]field.Expr, 4)
 	m.fieldMap["id"] = m.ID
-	m.fieldMap["tag"] = m.Tag
 	m.fieldMap["minion_id"] = m.MinionID
+	m.fieldMap["tag"] = m.Tag
 	m.fieldMap["kind"] = m.Kind
 }
 

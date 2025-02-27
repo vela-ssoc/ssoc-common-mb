@@ -177,3 +177,14 @@ func (glh *gormLogHandler) WithGroup(name string) slog.Handler {
 		level:   glh.level,
 	}
 }
+
+func MappingGormLogLevel(lvl string) logger.LogLevel {
+	switch strings.ToUpper(lvl) {
+	case "ERROR":
+		return logger.Error
+	case "WARN":
+		return logger.Warn
+	default:
+		return logger.Info
+	}
+}

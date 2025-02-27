@@ -41,6 +41,7 @@ func newEvent(db *gorm.DB, opts ...gen.DOOption) event {
 	_event.HaveRead = field.NewBool(tableName, "have_read")
 	_event.SendAlert = field.NewBool(tableName, "send_alert")
 	_event.Secret = field.NewString(tableName, "secret")
+	_event.Metadata = field.NewField(tableName, "metadata")
 	_event.OccurAt = field.NewTime(tableName, "occur_at")
 	_event.CreatedAt = field.NewTime(tableName, "created_at")
 
@@ -67,6 +68,7 @@ type event struct {
 	HaveRead  field.Bool
 	SendAlert field.Bool
 	Secret    field.String
+	Metadata  field.Field
 	OccurAt   field.Time
 	CreatedAt field.Time
 
@@ -99,6 +101,7 @@ func (e *event) updateTableName(table string) *event {
 	e.HaveRead = field.NewBool(table, "have_read")
 	e.SendAlert = field.NewBool(table, "send_alert")
 	e.Secret = field.NewString(table, "secret")
+	e.Metadata = field.NewField(table, "metadata")
 	e.OccurAt = field.NewTime(table, "occur_at")
 	e.CreatedAt = field.NewTime(table, "created_at")
 
@@ -125,7 +128,7 @@ func (e *event) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (e *event) fillFieldMap() {
-	e.fieldMap = make(map[string]field.Expr, 16)
+	e.fieldMap = make(map[string]field.Expr, 17)
 	e.fieldMap["id"] = e.ID
 	e.fieldMap["minion_id"] = e.MinionID
 	e.fieldMap["inet"] = e.Inet
@@ -140,6 +143,7 @@ func (e *event) fillFieldMap() {
 	e.fieldMap["have_read"] = e.HaveRead
 	e.fieldMap["send_alert"] = e.SendAlert
 	e.fieldMap["secret"] = e.Secret
+	e.fieldMap["metadata"] = e.Metadata
 	e.fieldMap["occur_at"] = e.OccurAt
 	e.fieldMap["created_at"] = e.CreatedAt
 }
