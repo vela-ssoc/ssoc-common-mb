@@ -9,13 +9,13 @@ import (
 // TaskExtension 任务镜像。
 type TaskExtension struct {
 	ID            int64              `json:"id,string"                gorm:"column:id;primaryKey;autoIncrement;comment:ID"`
-	Name          string             `json:"name"                     gorm:"column:name;type:varchar(100);unique;comment:名字"`
-	Intro         string             `json:"intro"                    gorm:"column:intro;type:varchar(1000);comment:简介"`
+	Name          string             `json:"name"                     gorm:"column:name;size:100;unique;comment:名字"`
+	Intro         string             `json:"intro"                    gorm:"column:intro;size:1000;comment:简介"`
 	Code          string             `json:"code"                     gorm:"column:code;type:text;notnull;comment:执行代码"`
-	CodeSHA1      string             `json:"code_sha1"                gorm:"column:code_sha1;type:char(40);notnull;comment:执行代码SHA1"`
+	CodeSHA1      string             `json:"code_sha1"                gorm:"column:code_sha1;size:40;notnull;comment:执行代码SHA1"`
 	ContentQuote  *ExtensionQuote    `json:"content_quote"            gorm:"column:content_quote;serializer:json;comment:插件引用"`
-	StepDone      bool               `json:"step_done"                gorm:"column:released;comment:步骤完成"`
-	Enabled       bool               `json:"enabled"                  gorm:"column:enabled;comment:开启任务"`
+	StepDone      bool               `json:"step_done"                gorm:"column:released;notnull;default:false;comment:步骤完成"`
+	Enabled       bool               `json:"enabled"                  gorm:"column:enabled;notnull;default:false;comment:开启任务"`
 	Cron          string             `json:"cron,omitempty"           gorm:"column:cron;size:50;comment:定时任务表达式"`
 	SpecificTimes []time.Time        `json:"specific_times,omitempty" gorm:"column:specific_times;type:json;serializer:json;comment:定点任务时间"`
 	Timeout       Duration           `json:"timeout"                  gorm:"column:timeout;serializer:json;comment:超时时间"`

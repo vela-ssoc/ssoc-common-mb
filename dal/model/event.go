@@ -17,8 +17,8 @@ type Event struct {
 	Msg       string         `json:"msg"              gorm:"column:msg;type:text"`                      // 上报消息
 	Error     string         `json:"error"            gorm:"column:error;type:text"`                    // 错误信息
 	Level     EventLevel     `json:"level"            gorm:"column:level"`                              // 告警级别
-	HaveRead  bool           `json:"have_read"        gorm:"column:have_read"`                          // 是否已读确认
-	SendAlert bool           `json:"send_alert"       gorm:"column:send_alert"`                         // 是否需要发送告警
+	HaveRead  bool           `json:"have_read"        gorm:"column:have_read;notnull;default:false"`    // 是否已读确认
+	SendAlert bool           `json:"send_alert"       gorm:"column:send_alert;notnull;default:false"`   // 是否需要发送告警
 	Secret    string         `json:"-"                gorm:"column:secret;size:100"`                    // 如果告警，生成随机字符串防止恶意遍历
 	Metadata  map[string]any `json:"metadata"         gorm:"column:metadata;type:json;serializer:json"` // 附带数据
 	OccurAt   time.Time      `json:"occur_at"         gorm:"column:occur_at"`                           // 事件发生的时间

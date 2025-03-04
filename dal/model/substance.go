@@ -15,8 +15,8 @@ type Substance struct {
 	Version   int64     `json:"version"           gorm:"column:version"`       // 乐观锁
 	CreatedID int64     `json:"created_id,string" gorm:"column:created_id"`    // 创建者 ID
 	UpdatedID int64     `json:"updated_id,string" gorm:"column:updated_id"`    // 最后一个修改者 ID
-	CreatedAt time.Time `json:"created_at"        gorm:"column:created_at"`    // 创建时间
-	UpdatedAt time.Time `json:"updated_at"        gorm:"column:updated_at"`    // 最后一次修改时间
+	CreatedAt time.Time `json:"created_at" gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"column:created_at;notnull;default:now(3);comment:更新时间"`
 }
 
 // TableName implement gorm schema.Tabler

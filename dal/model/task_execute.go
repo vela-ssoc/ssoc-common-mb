@@ -12,7 +12,7 @@ type TaskExecute struct {
 	Name          string            `json:"name"                     gorm:"column:name;type:varchar(100);comment:名字"`
 	Intro         string            `json:"intro"                    gorm:"column:intro;type:varchar(1000);comment:简介"`
 	Status        TaskExecuteStatus `json:"status"                   gorm:"column:status;type:json;comment:执行状态"`
-	Finished      bool              `json:"finished"                 gorm:"column:finished;comment:是否结束"`
+	Finished      bool              `json:"finished"                 gorm:"column:finished;notnull;default:false;comment:是否结束"`
 	Code          string            `json:"code"                     gorm:"column:code;type:text;notnull;comment:执行代码"`
 	CodeSHA1      string            `json:"code_sha1"                gorm:"column:code_sha1;type:char(40);notnull;comment:执行代码SHA1"`
 	ContentQuote  *ExtensionQuote   `json:"content_quote"            gorm:"column:content_quote;type:json;serializer:json;comment:插件引用"`

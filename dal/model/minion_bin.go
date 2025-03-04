@@ -13,7 +13,7 @@ type MinionBin struct {
 	Unstable   bool      `json:"unstable"   gorm:"column:unstable;notnull;default:false;comment:内测版本"`
 	Caution    string    `json:"caution"    gorm:"column:caution;type:text;comment:注意事项"`
 	Ability    string    `json:"ability"    gorm:"column:ability;type:text;comment:功能说明"`
-	Size       int64     `json:"size"       gorm:"column:size"`
+	Size       int64     `json:"size"       gorm:"column:size;comment:文件大小"`
 	Hash       string    `json:"hash"       gorm:"column:hash;size:50;comment:文件哈希"`
 	Changelog  string    `json:"changelog"  gorm:"column:changelog;type:text;comment:变更日志"`
 	Semver     Semver    `json:"semver"     gorm:"column:semver;size:50;comment:版本号"`

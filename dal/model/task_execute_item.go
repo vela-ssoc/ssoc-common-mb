@@ -27,8 +27,8 @@ type TaskExecuteItem struct {
 	ManagerStatus *TaskStepStatus `json:"manager_status"   gorm:"column:manager_status;serializer:json;comment:manager执行状态"`
 	BrokerStatus  *TaskStepStatus `json:"broker_status"    gorm:"column:broker_status;serializer:json;comment:broker执行状态"`
 	MinionStatus  *TaskStepStatus `json:"minion_status"    gorm:"column:minion_status;serializer:json;comment:agent执行状态"`
-	Finished      bool            `json:"finished"         gorm:"column:finished;comment:是否执行完毕"`
-	Succeed       bool            `json:"succeed"          gorm:"column:succeed;comment:是否执行成功"`
+	Finished      bool            `json:"finished"         gorm:"column:finished;notnull;default:false;comment:是否执行完毕"`
+	Succeed       bool            `json:"succeed"          gorm:"column:succeed;notnull;default:false;comment:是否执行成功"`
 	ErrorCode     int             `json:"error_code"       gorm:"column:error_code;notnull;default:0;comment:错误码"` // 该错误码用于辅助搜索
 	Result        json.RawMessage `json:"result"           gorm:"column:result;comment:agent执行结果"`
 	ExpiredAt     time.Time       `json:"expired_at"       gorm:"column:expired_at;notnull;index;comment:任务过期时间"`

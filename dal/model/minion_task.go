@@ -12,7 +12,7 @@ type MinionTask struct {
 	SubstanceID int64       `json:"substance_id,string" gorm:"column:substance_id"`
 	MinionID    int64       `json:"minion_id,string"    gorm:"column:minion_id"`
 	Inet        string      `json:"inet"                gorm:"column:inet;size:20"`
-	Dialect     bool        `json:"dialect"             gorm:"column:dialect"`
+	Dialect     bool        `json:"dialect"             gorm:"column:dialect;notnull;default:false"`
 	Name        string      `json:"name"                gorm:"column:name;size:100"`                // 配置名称
 	Link        string      `json:"link"                gorm:"column:link;size:255"`                // 外链
 	Status      string      `json:"status"              gorm:"column:status;size:10"`               // 运行状态

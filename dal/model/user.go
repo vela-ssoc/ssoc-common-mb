@@ -32,17 +32,17 @@ type User struct {
 	Nickname   string         `json:"nickname"   gorm:"column:nickname;size:50;comment:昵称"`
 	Password   string         `json:"-"          gorm:"column:password;size:255;comment:密码"`
 	Dong       string         `json:"dong"       gorm:"column:dong;size:10;comment:咚咚账户"`
-	Enable     bool           `json:"enable"     gorm:"column:enable;comment:是否启用"`
+	Enable     bool           `json:"enable"     gorm:"column:enable;notnull;default:false;comment:是否启用"`
 	Domain     UserDomain     `json:"domain"     gorm:"column:domain;comment:用户类型"`
 	AccessKey  string         `json:"access_key" gorm:"column:access_key;size:100;index;comment:接口调用密钥"` // AccessKey
 	Token      string         `json:"-"          gorm:"column:token;size:100;index;comment:Token"`
 	TotpSecret string         `json:"-"          gorm:"column:totp_secret;size:255;comment:TOTP密钥"`
-	TotpBind   bool           `json:"-"          gorm:"column:totp_bind;comment:TOTP是否已使用"`
-	CreatedAt  time.Time      `json:"created_at" gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt  time.Time      `json:"updated_at" gorm:"column:created_at;notnull;default:now(3);comment:更新时间"`
+	TotpBind   bool           `json:"-"          gorm:"column:totp_bind;notnull;default:false;comment:TOTP是否已使用"`
 	IssueAt    sql.NullTime   `json:"issue_at"   gorm:"column:issue_at;comment:Token签发时间"`
 	SessionAt  sql.NullTime   `json:"session_at" gorm:"column:session_at;comment:Session活动时间"`
 	DeletedAt  gorm.DeletedAt `json:"-"          gorm:"column:deleted_at;comment:逻辑删除时间"`
+	CreatedAt  time.Time      `json:"created_at" gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
+	UpdatedAt  time.Time      `json:"updated_at" gorm:"column:created_at;notnull;default:now(3);comment:更新时间"`
 }
 
 // TableName implement gorm schema.Tabler

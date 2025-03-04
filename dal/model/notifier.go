@@ -2,16 +2,16 @@ package model
 
 // Notifier 告警通知人
 type Notifier struct {
-	ID        int64    `json:"id,string"  gorm:"column:id;primaryKey"` // 表 ID
-	Name      string   `json:"name"       gorm:"column:name"`          // 通知人名字
-	Events    []string `json:"events"     gorm:"column:events;json"`   // 订阅的事件
-	Risks     []string `json:"risks"      gorm:"column:risks;json"`    // 订阅的风险
-	Ways      []string `json:"ways"       gorm:"column:ways;json"`     // 通知方式：dong email wechat sms
-	Dong      string   `json:"dong"       gorm:"column:dong"`          // 咚咚号
-	Email     string   `json:"email"      gorm:"column:email"`         // 邮箱地址
-	Mobile    string   `json:"mobile"     gorm:"column:mobile"`        // 手机号
-	EventCode []byte   `json:"event_code" gorm:"column:event_code"`    // 规则引擎代码
-	RiskCode  []byte   `json:"risk_code"  gorm:"column:risk_code"`     // 规则引擎代码
+	ID        int64    `json:"id,string"  gorm:"column:id;primaryKey;autoIncrement;comment:ID"`
+	Name      string   `json:"name"       gorm:"column:name"`        // 通知人名字
+	Events    []string `json:"events"     gorm:"column:events;json"` // 订阅的事件
+	Risks     []string `json:"risks"      gorm:"column:risks;json"`  // 订阅的风险
+	Ways      []string `json:"ways"       gorm:"column:ways;json"`   // 通知方式：dong email wechat sms
+	Dong      string   `json:"dong"       gorm:"column:dong"`        // 咚咚号
+	Email     string   `json:"email"      gorm:"column:email"`       // 邮箱地址
+	Mobile    string   `json:"mobile"     gorm:"column:mobile"`      // 手机号
+	EventCode []byte   `json:"event_code" gorm:"column:event_code"`  // 规则引擎代码
+	RiskCode  []byte   `json:"risk_code"  gorm:"column:risk_code"`   // 规则引擎代码
 }
 
 // TableName implement gorm schema.Tabler

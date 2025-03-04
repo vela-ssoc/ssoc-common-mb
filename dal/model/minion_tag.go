@@ -28,7 +28,7 @@ func (tk TagKind) String() string {
 // MinionTag minion 节点和标签的映射关系
 type MinionTag struct {
 	ID       int64   `json:"id,string"        gorm:"column:id;primaryKey;autoIncrement;comment:ID"`
-	MinionID int64   `json:"minion_id,string" gorm:"column:minion_id;uniqueIndex:uk_minion_id_tag;index:idx_minion_id;comment:节点ID"`
+	MinionID int64   `json:"minion_id,string" gorm:"column:minion_id;uniqueIndex:uk_minion_id_tag;index;comment:节点ID"`
 	Tag      string  `json:"tag"              gorm:"column:tag;size:100;uniqueIndex:uk_minion_id_tag;comment:标签"`
 	Kind     TagKind `json:"kind"             gorm:"column:kind;comment:标签类型"`
 }

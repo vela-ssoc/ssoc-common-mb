@@ -12,10 +12,10 @@ type Startup struct {
 	Logger    startupLogger  `json:"logger"     gorm:"column:logger"`                                       // 日志配置项
 	Console   startupConsole `json:"console"    gorm:"column:console"`                                      // 控制台输出配置项
 	Extends   startupExtends `json:"extends"    gorm:"column:extends"    validate:"omitempty,lte=100,dive"` // 其它扩展参数
-	Failed    bool           `json:"failed"     gorm:"column:failed"`                                       // 是否失败
+	Failed    bool           `json:"failed"     gorm:"column:failed;notnull;default:false"`                 // 是否失败
 	Reason    string         `json:"reason"     gorm:"column:reason"`                                       // 失败原因
-	CreatedAt time.Time      `json:"created_at" gorm:"column:created_at"`                                   // 创建时间
-	UpdatedAt time.Time      `json:"updated_at" gorm:"column:updated_at"`                                   // 更新时间
+	CreatedAt time.Time      `json:"created_at" gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
+	UpdatedAt time.Time      `json:"updated_at" gorm:"column:created_at;notnull;default:now(3);comment:更新时间"`
 }
 
 // TableName implement gorm schema.Tabler
