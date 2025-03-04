@@ -23,12 +23,10 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		Broker:           newBroker(db, opts...),
 		BrokerBin:        newBrokerBin(db, opts...),
 		BrokerStat:       newBrokerStat(db, opts...),
-		CASConfig:        newCASConfig(db, opts...),
 		Certificate:      newCertificate(db, opts...),
 		Cmdb:             newCmdb(db, opts...),
 		Cmdb2:            newCmdb2(db, opts...),
 		Domain:           newDomain(db, opts...),
-		Dong:             newDong(db, opts...),
 		EagleEyeData:     newEagleEyeData(db, opts...),
 		Effect:           newEffect(db, opts...),
 		Elastic:          newElastic(db, opts...),
@@ -56,10 +54,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		Oplog:            newOplog(db, opts...),
 		PassDNS:          newPassDNS(db, opts...),
 		PassIP:           newPassIP(db, opts...),
-		Plate:            newPlate(db, opts...),
 		Purl:             newPurl(db, opts...),
-		Recipient:        newRecipient(db, opts...),
-		Resignation:      newResignation(db, opts...),
 		Risk:             newRisk(db, opts...),
 		RiskDNS:          newRiskDNS(db, opts...),
 		RiskFile:         newRiskFile(db, opts...),
@@ -92,12 +87,10 @@ type Query struct {
 	Broker           broker
 	BrokerBin        brokerBin
 	BrokerStat       brokerStat
-	CASConfig        cASConfig
 	Certificate      certificate
 	Cmdb             cmdb
 	Cmdb2            cmdb2
 	Domain           domain
-	Dong             dong
 	EagleEyeData     eagleEyeData
 	Effect           effect
 	Elastic          elastic
@@ -125,10 +118,7 @@ type Query struct {
 	Oplog            oplog
 	PassDNS          passDNS
 	PassIP           passIP
-	Plate            plate
 	Purl             purl
-	Recipient        recipient
-	Resignation      resignation
 	Risk             risk
 	RiskDNS          riskDNS
 	RiskFile         riskFile
@@ -162,12 +152,10 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		Broker:           q.Broker.clone(db),
 		BrokerBin:        q.BrokerBin.clone(db),
 		BrokerStat:       q.BrokerStat.clone(db),
-		CASConfig:        q.CASConfig.clone(db),
 		Certificate:      q.Certificate.clone(db),
 		Cmdb:             q.Cmdb.clone(db),
 		Cmdb2:            q.Cmdb2.clone(db),
 		Domain:           q.Domain.clone(db),
-		Dong:             q.Dong.clone(db),
 		EagleEyeData:     q.EagleEyeData.clone(db),
 		Effect:           q.Effect.clone(db),
 		Elastic:          q.Elastic.clone(db),
@@ -195,10 +183,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		Oplog:            q.Oplog.clone(db),
 		PassDNS:          q.PassDNS.clone(db),
 		PassIP:           q.PassIP.clone(db),
-		Plate:            q.Plate.clone(db),
 		Purl:             q.Purl.clone(db),
-		Recipient:        q.Recipient.clone(db),
-		Resignation:      q.Resignation.clone(db),
 		Risk:             q.Risk.clone(db),
 		RiskDNS:          q.RiskDNS.clone(db),
 		RiskFile:         q.RiskFile.clone(db),
@@ -239,12 +224,10 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		Broker:           q.Broker.replaceDB(db),
 		BrokerBin:        q.BrokerBin.replaceDB(db),
 		BrokerStat:       q.BrokerStat.replaceDB(db),
-		CASConfig:        q.CASConfig.replaceDB(db),
 		Certificate:      q.Certificate.replaceDB(db),
 		Cmdb:             q.Cmdb.replaceDB(db),
 		Cmdb2:            q.Cmdb2.replaceDB(db),
 		Domain:           q.Domain.replaceDB(db),
-		Dong:             q.Dong.replaceDB(db),
 		EagleEyeData:     q.EagleEyeData.replaceDB(db),
 		Effect:           q.Effect.replaceDB(db),
 		Elastic:          q.Elastic.replaceDB(db),
@@ -272,10 +255,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		Oplog:            q.Oplog.replaceDB(db),
 		PassDNS:          q.PassDNS.replaceDB(db),
 		PassIP:           q.PassIP.replaceDB(db),
-		Plate:            q.Plate.replaceDB(db),
 		Purl:             q.Purl.replaceDB(db),
-		Recipient:        q.Recipient.replaceDB(db),
-		Resignation:      q.Resignation.replaceDB(db),
 		Risk:             q.Risk.replaceDB(db),
 		RiskDNS:          q.RiskDNS.replaceDB(db),
 		RiskFile:         q.RiskFile.replaceDB(db),
@@ -306,12 +286,10 @@ type queryCtx struct {
 	Broker           *brokerDo
 	BrokerBin        *brokerBinDo
 	BrokerStat       *brokerStatDo
-	CASConfig        *cASConfigDo
 	Certificate      *certificateDo
 	Cmdb             *cmdbDo
 	Cmdb2            *cmdb2Do
 	Domain           *domainDo
-	Dong             *dongDo
 	EagleEyeData     *eagleEyeDataDo
 	Effect           *effectDo
 	Elastic          *elasticDo
@@ -339,10 +317,7 @@ type queryCtx struct {
 	Oplog            *oplogDo
 	PassDNS          *passDNSDo
 	PassIP           *passIPDo
-	Plate            *plateDo
 	Purl             *purlDo
-	Recipient        *recipientDo
-	Resignation      *resignationDo
 	Risk             *riskDo
 	RiskDNS          *riskDNSDo
 	RiskFile         *riskFileDo
@@ -373,12 +348,10 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		Broker:           q.Broker.WithContext(ctx),
 		BrokerBin:        q.BrokerBin.WithContext(ctx),
 		BrokerStat:       q.BrokerStat.WithContext(ctx),
-		CASConfig:        q.CASConfig.WithContext(ctx),
 		Certificate:      q.Certificate.WithContext(ctx),
 		Cmdb:             q.Cmdb.WithContext(ctx),
 		Cmdb2:            q.Cmdb2.WithContext(ctx),
 		Domain:           q.Domain.WithContext(ctx),
-		Dong:             q.Dong.WithContext(ctx),
 		EagleEyeData:     q.EagleEyeData.WithContext(ctx),
 		Effect:           q.Effect.WithContext(ctx),
 		Elastic:          q.Elastic.WithContext(ctx),
@@ -406,10 +379,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		Oplog:            q.Oplog.WithContext(ctx),
 		PassDNS:          q.PassDNS.WithContext(ctx),
 		PassIP:           q.PassIP.WithContext(ctx),
-		Plate:            q.Plate.WithContext(ctx),
 		Purl:             q.Purl.WithContext(ctx),
-		Recipient:        q.Recipient.WithContext(ctx),
-		Resignation:      q.Resignation.WithContext(ctx),
 		Risk:             q.Risk.WithContext(ctx),
 		RiskDNS:          q.RiskDNS.WithContext(ctx),
 		RiskFile:         q.RiskFile.WithContext(ctx),

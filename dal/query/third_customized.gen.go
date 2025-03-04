@@ -31,8 +31,8 @@ func newThirdCustomized(db *gorm.DB, opts ...gen.DOOption) thirdCustomized {
 	_thirdCustomized.Name = field.NewString(tableName, "name")
 	_thirdCustomized.Icon = field.NewString(tableName, "icon")
 	_thirdCustomized.Remark = field.NewString(tableName, "remark")
-	_thirdCustomized.UpdatedAt = field.NewTime(tableName, "updated_at")
-	_thirdCustomized.CreatedAt = field.NewTime(tableName, "created_at")
+	_thirdCustomized.CreatedAt = field.NewTime(tableName, "updated_at")
+	_thirdCustomized.UpdatedAt = field.NewTime(tableName, "created_at")
 
 	_thirdCustomized.fillFieldMap()
 
@@ -47,8 +47,8 @@ type thirdCustomized struct {
 	Name      field.String
 	Icon      field.String
 	Remark    field.String
-	UpdatedAt field.Time
 	CreatedAt field.Time
+	UpdatedAt field.Time
 
 	fieldMap map[string]field.Expr
 }
@@ -69,8 +69,8 @@ func (t *thirdCustomized) updateTableName(table string) *thirdCustomized {
 	t.Name = field.NewString(table, "name")
 	t.Icon = field.NewString(table, "icon")
 	t.Remark = field.NewString(table, "remark")
-	t.UpdatedAt = field.NewTime(table, "updated_at")
-	t.CreatedAt = field.NewTime(table, "created_at")
+	t.CreatedAt = field.NewTime(table, "updated_at")
+	t.UpdatedAt = field.NewTime(table, "created_at")
 
 	t.fillFieldMap()
 
@@ -104,8 +104,8 @@ func (t *thirdCustomized) fillFieldMap() {
 	t.fieldMap["name"] = t.Name
 	t.fieldMap["icon"] = t.Icon
 	t.fieldMap["remark"] = t.Remark
-	t.fieldMap["updated_at"] = t.UpdatedAt
-	t.fieldMap["created_at"] = t.CreatedAt
+	t.fieldMap["updated_at"] = t.CreatedAt
+	t.fieldMap["created_at"] = t.UpdatedAt
 }
 
 func (t thirdCustomized) clone(db *gorm.DB) thirdCustomized {

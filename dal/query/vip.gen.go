@@ -40,8 +40,8 @@ func newVIP(db *gorm.DB, opts ...gen.DOOption) vIP {
 	_vIP.BizBranch = field.NewString(tableName, "biz_branch")
 	_vIP.BizDept = field.NewString(tableName, "biz_dept")
 	_vIP.BizType = field.NewString(tableName, "biz_type")
-	_vIP.CreatedAt = field.NewTime(tableName, "created_at")
-	_vIP.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_vIP.CreatedAt = field.NewTime(tableName, "updated_at")
+	_vIP.UpdatedAt = field.NewTime(tableName, "created_at")
 
 	_vIP.fillFieldMap()
 
@@ -96,8 +96,8 @@ func (v *vIP) updateTableName(table string) *vIP {
 	v.BizBranch = field.NewString(table, "biz_branch")
 	v.BizDept = field.NewString(table, "biz_dept")
 	v.BizType = field.NewString(table, "biz_type")
-	v.CreatedAt = field.NewTime(table, "created_at")
-	v.UpdatedAt = field.NewTime(table, "updated_at")
+	v.CreatedAt = field.NewTime(table, "updated_at")
+	v.UpdatedAt = field.NewTime(table, "created_at")
 
 	v.fillFieldMap()
 
@@ -136,8 +136,8 @@ func (v *vIP) fillFieldMap() {
 	v.fieldMap["biz_branch"] = v.BizBranch
 	v.fieldMap["biz_dept"] = v.BizDept
 	v.fieldMap["biz_type"] = v.BizType
-	v.fieldMap["created_at"] = v.CreatedAt
-	v.fieldMap["updated_at"] = v.UpdatedAt
+	v.fieldMap["updated_at"] = v.CreatedAt
+	v.fieldMap["created_at"] = v.UpdatedAt
 }
 
 func (v vIP) clone(db *gorm.DB) vIP {

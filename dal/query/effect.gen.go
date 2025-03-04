@@ -37,8 +37,8 @@ func newEffect(db *gorm.DB, opts ...gen.DOOption) effect {
 	_effect.Exclusion = field.NewField(tableName, "exclusion")
 	_effect.CreatedID = field.NewInt64(tableName, "created_id")
 	_effect.UpdatedID = field.NewInt64(tableName, "updated_id")
-	_effect.CreatedAt = field.NewTime(tableName, "created_at")
-	_effect.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_effect.CreatedAt = field.NewTime(tableName, "updated_at")
+	_effect.UpdatedAt = field.NewTime(tableName, "created_at")
 
 	_effect.fillFieldMap()
 
@@ -87,8 +87,8 @@ func (e *effect) updateTableName(table string) *effect {
 	e.Exclusion = field.NewField(table, "exclusion")
 	e.CreatedID = field.NewInt64(table, "created_id")
 	e.UpdatedID = field.NewInt64(table, "updated_id")
-	e.CreatedAt = field.NewTime(table, "created_at")
-	e.UpdatedAt = field.NewTime(table, "updated_at")
+	e.CreatedAt = field.NewTime(table, "updated_at")
+	e.UpdatedAt = field.NewTime(table, "created_at")
 
 	e.fillFieldMap()
 
@@ -124,8 +124,8 @@ func (e *effect) fillFieldMap() {
 	e.fieldMap["exclusion"] = e.Exclusion
 	e.fieldMap["created_id"] = e.CreatedID
 	e.fieldMap["updated_id"] = e.UpdatedID
-	e.fieldMap["created_at"] = e.CreatedAt
-	e.fieldMap["updated_at"] = e.UpdatedAt
+	e.fieldMap["updated_at"] = e.CreatedAt
+	e.fieldMap["created_at"] = e.UpdatedAt
 }
 
 func (e effect) clone(db *gorm.DB) effect {

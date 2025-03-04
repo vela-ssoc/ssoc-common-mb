@@ -10,16 +10,16 @@ import (
 )
 
 type Options struct {
-	WhereFilter func(*Tables, *Where) *Where
-	OrderFilter func(*Tables, *Order) *Order
+	WhereCallback func(*Tables, *Where) *Where
+	OrderCallback func(*Tables, *Order) *Order
 }
 
 func ParseModels(qry *query.Query, mods []any, opts Options) (*Tables, error) {
-	if opts.WhereFilter == nil {
-		opts.WhereFilter = func(_ *Tables, v *Where) *Where { return v }
+	if opts.WhereCallback == nil {
+		opts.WhereCallback = func(_ *Tables, v *Where) *Where { return v }
 	}
-	if opts.OrderFilter == nil {
-		opts.OrderFilter = func(_ *Tables, v *Order) *Order { return v }
+	if opts.OrderCallback == nil {
+		opts.OrderCallback = func(_ *Tables, v *Order) *Order { return v }
 	}
 
 	queryCtx := qry.WithContext(context.Background())
@@ -53,7 +53,7 @@ func ParseModels(qry *query.Query, mods []any, opts Options) (*Tables, error) {
 			if where.DataType == "bool" {
 				where.Enums = Enums{{Key: "true", Desc: "是"}, {Key: "false", Desc: "否"}}
 			}
-			if cond := opts.WhereFilter(tbl, where); cond != nil {
+			if cond := opts.WhereCallback(tbl, where); cond != nil {
 				wheres = append(wheres, cond)
 			}
 
@@ -68,7 +68,7 @@ func ParseModels(qry *query.Query, mods []any, opts Options) (*Tables, error) {
 					Comment:   info.desc,
 					Expr:      expr,
 				}
-				if cond := opts.OrderFilter(tbl, order); cond != nil {
+				if cond := opts.OrderCallback(tbl, order); cond != nil {
 					orders = append(orders, cond)
 				}
 			}

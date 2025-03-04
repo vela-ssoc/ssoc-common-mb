@@ -31,15 +31,14 @@ func newThird(db *gorm.DB, opts ...gen.DOOption) third {
 	_third.FileID = field.NewInt64(tableName, "file_id")
 	_third.Name = field.NewString(tableName, "name")
 	_third.Hash = field.NewString(tableName, "hash")
-	_third.Path = field.NewString(tableName, "path")
 	_third.Desc = field.NewString(tableName, "desc")
 	_third.Size = field.NewInt64(tableName, "size")
 	_third.Customized = field.NewString(tableName, "customized")
 	_third.Extension = field.NewString(tableName, "extension")
 	_third.CreatedID = field.NewInt64(tableName, "created_id")
 	_third.UpdatedID = field.NewInt64(tableName, "updated_id")
-	_third.CreatedAt = field.NewTime(tableName, "created_at")
-	_third.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_third.CreatedAt = field.NewTime(tableName, "updated_at")
+	_third.UpdatedAt = field.NewTime(tableName, "created_at")
 
 	_third.fillFieldMap()
 
@@ -54,7 +53,6 @@ type third struct {
 	FileID     field.Int64
 	Name       field.String
 	Hash       field.String
-	Path       field.String
 	Desc       field.String
 	Size       field.Int64
 	Customized field.String
@@ -83,15 +81,14 @@ func (t *third) updateTableName(table string) *third {
 	t.FileID = field.NewInt64(table, "file_id")
 	t.Name = field.NewString(table, "name")
 	t.Hash = field.NewString(table, "hash")
-	t.Path = field.NewString(table, "path")
 	t.Desc = field.NewString(table, "desc")
 	t.Size = field.NewInt64(table, "size")
 	t.Customized = field.NewString(table, "customized")
 	t.Extension = field.NewString(table, "extension")
 	t.CreatedID = field.NewInt64(table, "created_id")
 	t.UpdatedID = field.NewInt64(table, "updated_id")
-	t.CreatedAt = field.NewTime(table, "created_at")
-	t.UpdatedAt = field.NewTime(table, "updated_at")
+	t.CreatedAt = field.NewTime(table, "updated_at")
+	t.UpdatedAt = field.NewTime(table, "created_at")
 
 	t.fillFieldMap()
 
@@ -116,20 +113,19 @@ func (t *third) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (t *third) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 13)
+	t.fieldMap = make(map[string]field.Expr, 12)
 	t.fieldMap["id"] = t.ID
 	t.fieldMap["file_id"] = t.FileID
 	t.fieldMap["name"] = t.Name
 	t.fieldMap["hash"] = t.Hash
-	t.fieldMap["path"] = t.Path
 	t.fieldMap["desc"] = t.Desc
 	t.fieldMap["size"] = t.Size
 	t.fieldMap["customized"] = t.Customized
 	t.fieldMap["extension"] = t.Extension
 	t.fieldMap["created_id"] = t.CreatedID
 	t.fieldMap["updated_id"] = t.UpdatedID
-	t.fieldMap["created_at"] = t.CreatedAt
-	t.fieldMap["updated_at"] = t.UpdatedAt
+	t.fieldMap["updated_at"] = t.CreatedAt
+	t.fieldMap["created_at"] = t.UpdatedAt
 }
 
 func (t third) clone(db *gorm.DB) third {

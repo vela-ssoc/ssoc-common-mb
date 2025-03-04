@@ -1,24 +1,22 @@
 package model
 
-import (
-	"time"
-)
+import "time"
 
 // Broker 代理节点表
 type Broker struct {
 	ID          int64     `json:"id,string"      gorm:"column:id;primaryKey;autoIncrement;comment:ID"`
-	Name        string    `json:"name"           gorm:"column:name;type:varchar(50);not null;unique;comment:名字"`
-	Servername  string    `json:"servername"     gorm:"column:servername;type:varchar(255);comment:ServerName"`
+	Name        string    `json:"name"           gorm:"column:name;size:100;notnull;unique;comment:名字"`
+	Servername  string    `json:"servername"     gorm:"column:servername;size:255;comment:ServerName"`
 	LAN         []string  `json:"lan"            gorm:"column:lan;type:json;serializer:json;comment:内网地址"`
 	VIP         []string  `json:"vip"            gorm:"column:vip;type:json;serializer:json;comment:外网地址"`
-	Status      bool      `json:"status"         gorm:"column:status;comment:是否在线"`
-	Secret      string    `json:"secret"         gorm:"column:secret;type:varchar(255);not null;comment:连接密钥"`
+	Status      bool      `json:"status"         gorm:"column:status;notnull;default:false;comment:是否在线"`
+	Secret      string    `json:"secret"         gorm:"column:secret;size:255;notnull;comment:连接密钥"`
 	CertID      int64     `json:"cert_id,string" gorm:"column:cert_id;comment:挂载证书"`
 	Bind        string    `json:"bind"           gorm:"column:bind;comment:监听地址"`
-	Semver      string    `json:"semver"         gorm:"column:semver;type:varchar(100);comment:版本"`
+	Semver      string    `json:"semver"         gorm:"column:semver;size:50;comment:版本"`
 	HeartbeatAt time.Time `json:"heartbeat_at"   gorm:"column:heartbeat_at;comment:心跳时间"`
-	CreatedAt   time.Time `json:"created_at"     gorm:"column:created_at;default:now(3);comment:创建时间"`
-	UpdatedAt   time.Time `json:"updated_at"     gorm:"column:updated_at;default:now(3);comment:更新时间"`
+	CreatedAt   time.Time `json:"created_at"     gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
+	UpdatedAt   time.Time `json:"updated_at"     gorm:"column:created_at;notnull;default:now(3);comment:更新时间"`
 }
 
 func (brk Broker) Addresses() []string {

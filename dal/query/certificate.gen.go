@@ -47,8 +47,8 @@ func newCertificate(db *gorm.DB, opts ...gen.DOOption) certificate {
 	_certificate.URIs = field.NewField(tableName, "uris")
 	_certificate.NotBefore = field.NewTime(tableName, "not_before")
 	_certificate.NotAfter = field.NewTime(tableName, "not_after")
-	_certificate.CreatedAt = field.NewTime(tableName, "created_at")
-	_certificate.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_certificate.CreatedAt = field.NewTime(tableName, "updated_at")
+	_certificate.UpdatedAt = field.NewTime(tableName, "created_at")
 
 	_certificate.fillFieldMap()
 
@@ -117,8 +117,8 @@ func (c *certificate) updateTableName(table string) *certificate {
 	c.URIs = field.NewField(table, "uris")
 	c.NotBefore = field.NewTime(table, "not_before")
 	c.NotAfter = field.NewTime(table, "not_after")
-	c.CreatedAt = field.NewTime(table, "created_at")
-	c.UpdatedAt = field.NewTime(table, "updated_at")
+	c.CreatedAt = field.NewTime(table, "updated_at")
+	c.UpdatedAt = field.NewTime(table, "created_at")
 
 	c.fillFieldMap()
 
@@ -166,8 +166,8 @@ func (c *certificate) fillFieldMap() {
 	c.fieldMap["uris"] = c.URIs
 	c.fieldMap["not_before"] = c.NotBefore
 	c.fieldMap["not_after"] = c.NotAfter
-	c.fieldMap["created_at"] = c.CreatedAt
-	c.fieldMap["updated_at"] = c.UpdatedAt
+	c.fieldMap["updated_at"] = c.CreatedAt
+	c.fieldMap["created_at"] = c.UpdatedAt
 }
 
 func (c certificate) clone(db *gorm.DB) certificate {

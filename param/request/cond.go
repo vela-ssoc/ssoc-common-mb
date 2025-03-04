@@ -35,18 +35,18 @@ type CondOrderInputs struct {
 }
 
 type CondOrderInput struct {
-	Name string `json:"name"`
+	Key  string `json:"key"`
 	Desc bool   `json:"desc"`
 }
 
 // UnmarshalBind 从 query 参数中解析排序规则。
 //
-// 支持常规的 JSON 格式：
-//   - {"name":"age"}                 ORDER BY age
-//   - {"name":"age","desc":false}    ORDER BY age
-//   - {"name":"age","desc":true}     ORDER BY age DESC
+// 1. 支持常规的 JSON 格式：
+//   - {"key":"age"}                 ORDER BY age
+//   - {"key":"age","desc":false}    ORDER BY age
+//   - {"key":"age","desc":true}     ORDER BY age DESC
 //
-// 支持 <field>:<desc> 格式（因为 JSON 格式放在 query 中太冗长）：
+// 2. 支持 <key>:<desc> 格式（因为 JSON 格式放在 query 中太冗长）：
 //
 //	<desc> 是未定义的值，或者是空（此时冒号可以省略），均按照升序排序：
 //		- age:hello    ORDER BY age
@@ -72,13 +72,13 @@ func (o *CondOrderInput) UnmarshalBind(str string) error {
 
 	idx := strings.LastIndex(str, ":")
 	if idx < 0 {
-		o.Name = str
+		o.Key = str
 		return nil
 	} else if idx == 0 {
 		return errcode.ErrFieldNameRequired
 	}
 
-	o.Name = str[:idx]
+	o.Key = str[:idx]
 	value := str[idx+1:]
 	if sorted := strings.ToLower(str[idx+1:]); sorted == "asc" || sorted == "desc" {
 		o.Desc = sorted == "desc"
