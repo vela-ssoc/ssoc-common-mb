@@ -12,7 +12,7 @@ import (
 )
 
 // Open 连接数据库，并检测是否是信创 OpenGauss。
-func Open(dsn string, driverLog *slog.Logger, opts ...gorm.Option) (*gorm.DB, bool, error) {
+func Open(dsn string, driverLog *slog.Logger, opts ...gorm.Option) (*gorm.DB, error) {
 	// 区分 MySQL 还是 OpenGauss，用的是 parse dsn 的方式。
 	// 注意：用该方式区分必须要先用 [mysql.ParseDSN] 才较为稳妥。
 	if cfg, err := mysql.ParseDSN(dsn); err == nil && cfg != nil {
@@ -22,33 +22,33 @@ func Open(dsn string, driverLog *slog.Logger, opts ...gorm.Option) (*gorm.DB, bo
 		}
 		db, exx := gorm.Open(dia, opts...)
 		if exx != nil {
-			return nil, false, exx
+			return nil, exx
 		}
 		exx = autoPrimaryKey(db)
 
-		return db, false, exx
+		return db, exx
 	}
 
 	cfg, err := pq.ParseConfig(dsn)
 	if err != nil {
-		return nil, false, err
+		return nil, err
 	}
 
 	cfg.Logger = &gaussLog{log: driverLog}
 	connector, exx := pq.NewConnectorConfig(cfg)
 	if exx != nil {
-		return nil, true, exx
+		return nil, exx
 	}
 	conn := sql.OpenDB(connector)
 	gcfg := opengauss.Config{DSN: dsn, Conn: conn}
 	dia := opengauss.New(gcfg)
 	db, exx := gorm.Open(dia, opts...)
 	if exx != nil {
-		return nil, false, exx
+		return nil, exx
 	}
 	exx = autoPrimaryKey(db)
 
-	return db, true, err
+	return db, err
 }
 
 func autoPrimaryKey(db *gorm.DB) error {
