@@ -35,26 +35,6 @@ func (TaskExtension) TableName() string {
 	return "task_extension"
 }
 
-type ExtensionQuote struct {
-	ID          int64           `json:"id,string"    gorm:"column:id"`      // 插件商店 ID
-	Name        string          `json:"name"         gorm:"column:name"`    // 插件名字
-	Version     int64           `json:"version"      gorm:"column:version"` // 引用时的版本
-	Data        json.RawMessage `json:"data"         gorm:"column:data;type:json;serializer:json;comment:模板渲染参数"`
-	Content     string          `json:"content"      gorm:"column:content;type:text;notnull;comment:代码"`
-	ContentSHA1 string          `json:"content_sha1" gorm:"column:content_sha1;type:char(40);notnull;comment:SHA1"`
-	CreatedBy   Operator        `json:"created_by"   gorm:"column:created_by;serializer:json"` // 插件创建者
-	UpdatedBy   Operator        `json:"updated_by"   gorm:"column:updated_by;serializer:json"` // 引用时插件的修改者
-}
-
-func (e *ExtensionQuote) Scan(src any) error {
-	bs, _ := src.([]byte)
-	return json.Unmarshal(bs, e)
-}
-
-func (e ExtensionQuote) Value() (driver.Value, error) {
-	return json.Marshal(e)
-}
-
 type TaskStatus struct {
 	Total   int `json:"total"   gorm:"column:total"`
 	Succeed int `json:"succeed" gorm:"column:succeed"`

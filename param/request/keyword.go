@@ -4,7 +4,6 @@ import (
 	"strings"
 
 	"gorm.io/gen"
-
 	"gorm.io/gen/field"
 )
 
@@ -17,12 +16,11 @@ func (k Keywords) Likes(fields ...field.String) []field.Expr {
 	if size == 0 {
 		return nil
 	}
-	kw := strings.TrimSpace(k.Keyword)
+	kw := k.Format()
 	if kw == "" {
 		return nil
 	}
 
-	kw = "%" + kw + "%"
 	likes := make([]field.Expr, 0, len(fields))
 	for _, f := range fields {
 		likes = append(likes, f.Like(kw))
@@ -43,4 +41,12 @@ func (k Keywords) LikeScopes(or bool, fields ...field.String) func(gen.Dao) gen.
 
 		return dao.Where(field.And(likes...))
 	}
+}
+
+func (k Keywords) Format() string {
+	if kw := strings.TrimSpace(k.Keyword); kw != "" {
+		return "%" + kw + "%"
+	}
+
+	return ""
 }
