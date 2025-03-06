@@ -107,10 +107,10 @@ func (v *valueDB) loadValue(ctx context.Context) (*model.Store, error) {
 	if ffn := v.filter; len(value) != 0 && ffn != nil {
 		value = ffn(value)
 	}
-	if len(value) != 0 {
-		dat.Value = value
-		return dat, nil
-	}
+	//if len(value) != 0 {
+	//	dat.Value = value
+	//	return dat, nil
+	//}
 
 	if err == nil || errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, fmt.Errorf("尚未配置 store %s 数据", uid)

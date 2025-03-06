@@ -36,3 +36,7 @@ func (oal *onceAcceptListener) Close() error {
 func (oal *onceAcceptListener) Addr() net.Addr {
 	return oal.conn.RemoteAddr()
 }
+
+func NewOnceAccept(conn net.Conn) net.Listener {
+	return &onceAcceptListener{conn: conn}
+}
