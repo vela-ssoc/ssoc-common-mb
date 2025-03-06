@@ -32,8 +32,8 @@ func newStore(db *gorm.DB, opts ...gen.DOOption) store {
 	_store.Escape = field.NewBool(tableName, "escape")
 	_store.Desc = field.NewString(tableName, "desc")
 	_store.Version = field.NewInt64(tableName, "version")
-	_store.CreatedAt = field.NewTime(tableName, "created_at")
-	_store.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_store.CreatedAt = field.NewTime(tableName, "updated_at")
+	_store.UpdatedAt = field.NewTime(tableName, "created_at")
 
 	_store.fillFieldMap()
 
@@ -72,8 +72,8 @@ func (s *store) updateTableName(table string) *store {
 	s.Escape = field.NewBool(table, "escape")
 	s.Desc = field.NewString(table, "desc")
 	s.Version = field.NewInt64(table, "version")
-	s.CreatedAt = field.NewTime(table, "created_at")
-	s.UpdatedAt = field.NewTime(table, "updated_at")
+	s.CreatedAt = field.NewTime(table, "updated_at")
+	s.UpdatedAt = field.NewTime(table, "created_at")
 
 	s.fillFieldMap()
 
@@ -104,8 +104,8 @@ func (s *store) fillFieldMap() {
 	s.fieldMap["escape"] = s.Escape
 	s.fieldMap["desc"] = s.Desc
 	s.fieldMap["version"] = s.Version
-	s.fieldMap["created_at"] = s.CreatedAt
-	s.fieldMap["updated_at"] = s.UpdatedAt
+	s.fieldMap["updated_at"] = s.CreatedAt
+	s.fieldMap["created_at"] = s.UpdatedAt
 }
 
 func (s store) clone(db *gorm.DB) store {

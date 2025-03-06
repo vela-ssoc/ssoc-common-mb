@@ -14,8 +14,6 @@ import (
 
 func NewCache(qry *query.Query, path string) FS {
 	cfs := NewFS(qry)
-	intPID := os.Getpid()
-	pid := strconv.FormatInt(int64(intPID), 10)
 	if path == "" {
 		path = os.TempDir()
 	}
@@ -24,7 +22,6 @@ func NewCache(qry *query.Query, path string) FS {
 	return &cacheFS{
 		dbfs:   cfs,
 		path:   path,
-		pid:    pid,
 		caches: make(map[string]*copiedReader, 32),
 	}
 }
@@ -32,7 +29,6 @@ func NewCache(qry *query.Query, path string) FS {
 type cacheFS struct {
 	dbfs   FS
 	path   string
-	pid    string
 	mutex  sync.Mutex
 	caches map[string]*copiedReader
 }
@@ -113,10 +109,10 @@ func (cf *cacheFS) openFile(dbFile File) (File, error) {
 // cachedName 缓存到本地的文件名，特定的规则防止冲突。
 // 防止多个 manager/broker 程序部署在同一台机器上，用 pid 作为区分。
 func (cf *cacheFS) localDiskPath(f File) string {
-	// {pid}-{id}-{hash}-name
+	// name-{id}-{hash}
 	id, hash, name := f.ID(), f.MD5(), f.Name()
 	fid := strconv.FormatInt(id, 10)
-	str := cf.pid + "-" + fid + "-" + hash + "-" + name
+	str := name + "-" + hash + "-" + fid
 
 	return filepath.Join(cf.path, str)
 }

@@ -50,8 +50,8 @@ func newSBOMComponent(db *gorm.DB, opts ...gen.DOOption) sBOMComponent {
 	_sBOMComponent.TotalScore = field.NewFloat64(tableName, "total_score")
 	_sBOMComponent.Status = field.NewUint8(tableName, "status")
 	_sBOMComponent.Nonce = field.NewInt64(tableName, "nonce")
-	_sBOMComponent.CreatedAt = field.NewTime(tableName, "created_at")
-	_sBOMComponent.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_sBOMComponent.CreatedAt = field.NewTime(tableName, "updated_at")
+	_sBOMComponent.UpdatedAt = field.NewTime(tableName, "created_at")
 
 	_sBOMComponent.fillFieldMap()
 
@@ -126,8 +126,8 @@ func (s *sBOMComponent) updateTableName(table string) *sBOMComponent {
 	s.TotalScore = field.NewFloat64(table, "total_score")
 	s.Status = field.NewUint8(table, "status")
 	s.Nonce = field.NewInt64(table, "nonce")
-	s.CreatedAt = field.NewTime(table, "created_at")
-	s.UpdatedAt = field.NewTime(table, "updated_at")
+	s.CreatedAt = field.NewTime(table, "updated_at")
+	s.UpdatedAt = field.NewTime(table, "created_at")
 
 	s.fillFieldMap()
 
@@ -180,8 +180,8 @@ func (s *sBOMComponent) fillFieldMap() {
 	s.fieldMap["total_score"] = s.TotalScore
 	s.fieldMap["status"] = s.Status
 	s.fieldMap["nonce"] = s.Nonce
-	s.fieldMap["created_at"] = s.CreatedAt
-	s.fieldMap["updated_at"] = s.UpdatedAt
+	s.fieldMap["updated_at"] = s.CreatedAt
+	s.fieldMap["created_at"] = s.UpdatedAt
 }
 
 func (s sBOMComponent) clone(db *gorm.DB) sBOMComponent {

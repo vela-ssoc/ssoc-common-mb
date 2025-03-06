@@ -46,7 +46,7 @@ func newSysInfo(db *gorm.DB, opts ...gen.DOOption) sysInfo {
 	_sysInfo.AgentTotal = field.NewInt(tableName, "agent_total")
 	_sysInfo.AgentAlloc = field.NewInt(tableName, "agent_alloc")
 	_sysInfo.KernelVersion = field.NewString(tableName, "kernel_version")
-	_sysInfo.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_sysInfo.UpdatedAt = field.NewTime(tableName, "created_at")
 
 	_sysInfo.fillFieldMap()
 
@@ -112,7 +112,7 @@ func (s *sysInfo) updateTableName(table string) *sysInfo {
 	s.AgentTotal = field.NewInt(table, "agent_total")
 	s.AgentAlloc = field.NewInt(table, "agent_alloc")
 	s.KernelVersion = field.NewString(table, "kernel_version")
-	s.UpdatedAt = field.NewTime(table, "updated_at")
+	s.UpdatedAt = field.NewTime(table, "created_at")
 
 	s.fillFieldMap()
 
@@ -157,7 +157,7 @@ func (s *sysInfo) fillFieldMap() {
 	s.fieldMap["agent_total"] = s.AgentTotal
 	s.fieldMap["agent_alloc"] = s.AgentAlloc
 	s.fieldMap["kernel_version"] = s.KernelVersion
-	s.fieldMap["updated_at"] = s.UpdatedAt
+	s.fieldMap["created_at"] = s.UpdatedAt
 }
 
 func (s sysInfo) clone(db *gorm.DB) sysInfo {

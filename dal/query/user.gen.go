@@ -38,11 +38,11 @@ func newUser(db *gorm.DB, opts ...gen.DOOption) user {
 	_user.Token = field.NewString(tableName, "token")
 	_user.TotpSecret = field.NewString(tableName, "totp_secret")
 	_user.TotpBind = field.NewBool(tableName, "totp_bind")
-	_user.CreatedAt = field.NewTime(tableName, "updated_at")
-	_user.UpdatedAt = field.NewTime(tableName, "created_at")
 	_user.IssueAt = field.NewField(tableName, "issue_at")
 	_user.SessionAt = field.NewField(tableName, "session_at")
 	_user.DeletedAt = field.NewField(tableName, "deleted_at")
+	_user.CreatedAt = field.NewTime(tableName, "updated_at")
+	_user.UpdatedAt = field.NewTime(tableName, "created_at")
 
 	_user.fillFieldMap()
 
@@ -64,11 +64,11 @@ type user struct {
 	Token      field.String
 	TotpSecret field.String
 	TotpBind   field.Bool
-	CreatedAt  field.Time
-	UpdatedAt  field.Time
 	IssueAt    field.Field
 	SessionAt  field.Field
 	DeletedAt  field.Field
+	CreatedAt  field.Time
+	UpdatedAt  field.Time
 
 	fieldMap map[string]field.Expr
 }
@@ -96,11 +96,11 @@ func (u *user) updateTableName(table string) *user {
 	u.Token = field.NewString(table, "token")
 	u.TotpSecret = field.NewString(table, "totp_secret")
 	u.TotpBind = field.NewBool(table, "totp_bind")
-	u.CreatedAt = field.NewTime(table, "updated_at")
-	u.UpdatedAt = field.NewTime(table, "created_at")
 	u.IssueAt = field.NewField(table, "issue_at")
 	u.SessionAt = field.NewField(table, "session_at")
 	u.DeletedAt = field.NewField(table, "deleted_at")
+	u.CreatedAt = field.NewTime(table, "updated_at")
+	u.UpdatedAt = field.NewTime(table, "created_at")
 
 	u.fillFieldMap()
 
@@ -137,11 +137,11 @@ func (u *user) fillFieldMap() {
 	u.fieldMap["token"] = u.Token
 	u.fieldMap["totp_secret"] = u.TotpSecret
 	u.fieldMap["totp_bind"] = u.TotpBind
-	u.fieldMap["updated_at"] = u.CreatedAt
-	u.fieldMap["created_at"] = u.UpdatedAt
 	u.fieldMap["issue_at"] = u.IssueAt
 	u.fieldMap["session_at"] = u.SessionAt
 	u.fieldMap["deleted_at"] = u.DeletedAt
+	u.fieldMap["updated_at"] = u.CreatedAt
+	u.fieldMap["created_at"] = u.UpdatedAt
 }
 
 func (u user) clone(db *gorm.DB) user {

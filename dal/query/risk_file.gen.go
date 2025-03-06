@@ -34,8 +34,8 @@ func newRiskFile(db *gorm.DB, opts ...gen.DOOption) riskFile {
 	_riskFile.Origin = field.NewString(tableName, "origin")
 	_riskFile.Desc = field.NewString(tableName, "desc")
 	_riskFile.BeforeAt = field.NewTime(tableName, "before_at")
-	_riskFile.CreatedAt = field.NewTime(tableName, "created_at")
-	_riskFile.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_riskFile.CreatedAt = field.NewTime(tableName, "updated_at")
+	_riskFile.UpdatedAt = field.NewTime(tableName, "created_at")
 
 	_riskFile.fillFieldMap()
 
@@ -78,8 +78,8 @@ func (r *riskFile) updateTableName(table string) *riskFile {
 	r.Origin = field.NewString(table, "origin")
 	r.Desc = field.NewString(table, "desc")
 	r.BeforeAt = field.NewTime(table, "before_at")
-	r.CreatedAt = field.NewTime(table, "created_at")
-	r.UpdatedAt = field.NewTime(table, "updated_at")
+	r.CreatedAt = field.NewTime(table, "updated_at")
+	r.UpdatedAt = field.NewTime(table, "created_at")
 
 	r.fillFieldMap()
 
@@ -112,8 +112,8 @@ func (r *riskFile) fillFieldMap() {
 	r.fieldMap["origin"] = r.Origin
 	r.fieldMap["desc"] = r.Desc
 	r.fieldMap["before_at"] = r.BeforeAt
-	r.fieldMap["created_at"] = r.CreatedAt
-	r.fieldMap["updated_at"] = r.UpdatedAt
+	r.fieldMap["updated_at"] = r.CreatedAt
+	r.fieldMap["created_at"] = r.UpdatedAt
 }
 
 func (r riskFile) clone(db *gorm.DB) riskFile {

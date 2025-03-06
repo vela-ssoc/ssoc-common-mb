@@ -32,8 +32,8 @@ func newRiskIP(db *gorm.DB, opts ...gen.DOOption) riskIP {
 	_riskIP.Kind = field.NewString(tableName, "kind")
 	_riskIP.Origin = field.NewString(tableName, "origin")
 	_riskIP.BeforeAt = field.NewTime(tableName, "before_at")
-	_riskIP.CreatedAt = field.NewTime(tableName, "created_at")
-	_riskIP.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_riskIP.CreatedAt = field.NewTime(tableName, "updated_at")
+	_riskIP.UpdatedAt = field.NewTime(tableName, "created_at")
 
 	_riskIP.fillFieldMap()
 
@@ -72,8 +72,8 @@ func (r *riskIP) updateTableName(table string) *riskIP {
 	r.Kind = field.NewString(table, "kind")
 	r.Origin = field.NewString(table, "origin")
 	r.BeforeAt = field.NewTime(table, "before_at")
-	r.CreatedAt = field.NewTime(table, "created_at")
-	r.UpdatedAt = field.NewTime(table, "updated_at")
+	r.CreatedAt = field.NewTime(table, "updated_at")
+	r.UpdatedAt = field.NewTime(table, "created_at")
 
 	r.fillFieldMap()
 
@@ -104,8 +104,8 @@ func (r *riskIP) fillFieldMap() {
 	r.fieldMap["kind"] = r.Kind
 	r.fieldMap["origin"] = r.Origin
 	r.fieldMap["before_at"] = r.BeforeAt
-	r.fieldMap["created_at"] = r.CreatedAt
-	r.fieldMap["updated_at"] = r.UpdatedAt
+	r.fieldMap["updated_at"] = r.CreatedAt
+	r.fieldMap["created_at"] = r.UpdatedAt
 }
 
 func (r riskIP) clone(db *gorm.DB) riskIP {

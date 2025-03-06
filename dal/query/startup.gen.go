@@ -34,8 +34,8 @@ func newStartup(db *gorm.DB, opts ...gen.DOOption) startup {
 	_startup.Extends = field.NewField(tableName, "extends")
 	_startup.Failed = field.NewBool(tableName, "failed")
 	_startup.Reason = field.NewString(tableName, "reason")
-	_startup.CreatedAt = field.NewTime(tableName, "created_at")
-	_startup.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_startup.CreatedAt = field.NewTime(tableName, "updated_at")
+	_startup.UpdatedAt = field.NewTime(tableName, "created_at")
 
 	_startup.fillFieldMap()
 
@@ -78,8 +78,8 @@ func (s *startup) updateTableName(table string) *startup {
 	s.Extends = field.NewField(table, "extends")
 	s.Failed = field.NewBool(table, "failed")
 	s.Reason = field.NewString(table, "reason")
-	s.CreatedAt = field.NewTime(table, "created_at")
-	s.UpdatedAt = field.NewTime(table, "updated_at")
+	s.CreatedAt = field.NewTime(table, "updated_at")
+	s.UpdatedAt = field.NewTime(table, "created_at")
 
 	s.fillFieldMap()
 
@@ -112,8 +112,8 @@ func (s *startup) fillFieldMap() {
 	s.fieldMap["extends"] = s.Extends
 	s.fieldMap["failed"] = s.Failed
 	s.fieldMap["reason"] = s.Reason
-	s.fieldMap["created_at"] = s.CreatedAt
-	s.fieldMap["updated_at"] = s.UpdatedAt
+	s.fieldMap["updated_at"] = s.CreatedAt
+	s.fieldMap["created_at"] = s.UpdatedAt
 }
 
 func (s startup) clone(db *gorm.DB) startup {

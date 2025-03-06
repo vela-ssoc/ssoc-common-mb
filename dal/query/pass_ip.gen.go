@@ -31,8 +31,8 @@ func newPassIP(db *gorm.DB, opts ...gen.DOOption) passIP {
 	_passIP.IP = field.NewString(tableName, "ip")
 	_passIP.Kind = field.NewString(tableName, "kind")
 	_passIP.BeforeAt = field.NewTime(tableName, "before_at")
-	_passIP.CreatedAt = field.NewTime(tableName, "created_at")
-	_passIP.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_passIP.CreatedAt = field.NewTime(tableName, "updated_at")
+	_passIP.UpdatedAt = field.NewTime(tableName, "created_at")
 
 	_passIP.fillFieldMap()
 
@@ -69,8 +69,8 @@ func (p *passIP) updateTableName(table string) *passIP {
 	p.IP = field.NewString(table, "ip")
 	p.Kind = field.NewString(table, "kind")
 	p.BeforeAt = field.NewTime(table, "before_at")
-	p.CreatedAt = field.NewTime(table, "created_at")
-	p.UpdatedAt = field.NewTime(table, "updated_at")
+	p.CreatedAt = field.NewTime(table, "updated_at")
+	p.UpdatedAt = field.NewTime(table, "created_at")
 
 	p.fillFieldMap()
 
@@ -100,8 +100,8 @@ func (p *passIP) fillFieldMap() {
 	p.fieldMap["ip"] = p.IP
 	p.fieldMap["kind"] = p.Kind
 	p.fieldMap["before_at"] = p.BeforeAt
-	p.fieldMap["created_at"] = p.CreatedAt
-	p.fieldMap["updated_at"] = p.UpdatedAt
+	p.fieldMap["updated_at"] = p.CreatedAt
+	p.fieldMap["created_at"] = p.UpdatedAt
 }
 
 func (p passIP) clone(db *gorm.DB) passIP {

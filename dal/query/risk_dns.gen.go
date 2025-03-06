@@ -32,8 +32,8 @@ func newRiskDNS(db *gorm.DB, opts ...gen.DOOption) riskDNS {
 	_riskDNS.Kind = field.NewString(tableName, "kind")
 	_riskDNS.Origin = field.NewString(tableName, "origin")
 	_riskDNS.BeforeAt = field.NewTime(tableName, "before_at")
-	_riskDNS.UpdatedAt = field.NewTime(tableName, "updated_at")
-	_riskDNS.CreatedAt = field.NewTime(tableName, "created_at")
+	_riskDNS.CreatedAt = field.NewTime(tableName, "updated_at")
+	_riskDNS.UpdatedAt = field.NewTime(tableName, "created_at")
 
 	_riskDNS.fillFieldMap()
 
@@ -49,8 +49,8 @@ type riskDNS struct {
 	Kind      field.String
 	Origin    field.String
 	BeforeAt  field.Time
-	UpdatedAt field.Time
 	CreatedAt field.Time
+	UpdatedAt field.Time
 
 	fieldMap map[string]field.Expr
 }
@@ -72,8 +72,8 @@ func (r *riskDNS) updateTableName(table string) *riskDNS {
 	r.Kind = field.NewString(table, "kind")
 	r.Origin = field.NewString(table, "origin")
 	r.BeforeAt = field.NewTime(table, "before_at")
-	r.UpdatedAt = field.NewTime(table, "updated_at")
-	r.CreatedAt = field.NewTime(table, "created_at")
+	r.CreatedAt = field.NewTime(table, "updated_at")
+	r.UpdatedAt = field.NewTime(table, "created_at")
 
 	r.fillFieldMap()
 
@@ -104,8 +104,8 @@ func (r *riskDNS) fillFieldMap() {
 	r.fieldMap["kind"] = r.Kind
 	r.fieldMap["origin"] = r.Origin
 	r.fieldMap["before_at"] = r.BeforeAt
-	r.fieldMap["updated_at"] = r.UpdatedAt
-	r.fieldMap["created_at"] = r.CreatedAt
+	r.fieldMap["updated_at"] = r.CreatedAt
+	r.fieldMap["created_at"] = r.UpdatedAt
 }
 
 func (r riskDNS) clone(db *gorm.DB) riskDNS {

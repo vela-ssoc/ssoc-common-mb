@@ -38,8 +38,8 @@ func newSubstance(db *gorm.DB, opts ...gen.DOOption) substance {
 	_substance.Version = field.NewInt64(tableName, "version")
 	_substance.CreatedID = field.NewInt64(tableName, "created_id")
 	_substance.UpdatedID = field.NewInt64(tableName, "updated_id")
-	_substance.CreatedAt = field.NewTime(tableName, "created_at")
-	_substance.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_substance.CreatedAt = field.NewTime(tableName, "updated_at")
+	_substance.UpdatedAt = field.NewTime(tableName, "created_at")
 
 	_substance.fillFieldMap()
 
@@ -90,8 +90,8 @@ func (s *substance) updateTableName(table string) *substance {
 	s.Version = field.NewInt64(table, "version")
 	s.CreatedID = field.NewInt64(table, "created_id")
 	s.UpdatedID = field.NewInt64(table, "updated_id")
-	s.CreatedAt = field.NewTime(table, "created_at")
-	s.UpdatedAt = field.NewTime(table, "updated_at")
+	s.CreatedAt = field.NewTime(table, "updated_at")
+	s.UpdatedAt = field.NewTime(table, "created_at")
 
 	s.fillFieldMap()
 
@@ -130,8 +130,8 @@ func (s *substance) fillFieldMap() {
 	s.fieldMap["version"] = s.Version
 	s.fieldMap["created_id"] = s.CreatedID
 	s.fieldMap["updated_id"] = s.UpdatedID
-	s.fieldMap["created_at"] = s.CreatedAt
-	s.fieldMap["updated_at"] = s.UpdatedAt
+	s.fieldMap["updated_at"] = s.CreatedAt
+	s.fieldMap["created_at"] = s.UpdatedAt
 }
 
 func (s substance) clone(db *gorm.DB) substance {

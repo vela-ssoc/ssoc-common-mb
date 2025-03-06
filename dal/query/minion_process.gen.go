@@ -53,8 +53,8 @@ func newMinionProcess(db *gorm.DB, opts ...gen.DOOption) minionProcess {
 	_minionProcess.Checksum = field.NewString(tableName, "checksum")
 	_minionProcess.CreatedTime = field.NewTime(tableName, "created_time")
 	_minionProcess.ModifiedAt = field.NewTime(tableName, "modified_at")
-	_minionProcess.CreatedAt = field.NewTime(tableName, "created_at")
-	_minionProcess.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_minionProcess.CreatedAt = field.NewTime(tableName, "updated_at")
+	_minionProcess.UpdatedAt = field.NewTime(tableName, "created_at")
 
 	_minionProcess.fillFieldMap()
 
@@ -135,8 +135,8 @@ func (m *minionProcess) updateTableName(table string) *minionProcess {
 	m.Checksum = field.NewString(table, "checksum")
 	m.CreatedTime = field.NewTime(table, "created_time")
 	m.ModifiedAt = field.NewTime(table, "modified_at")
-	m.CreatedAt = field.NewTime(table, "created_at")
-	m.UpdatedAt = field.NewTime(table, "updated_at")
+	m.CreatedAt = field.NewTime(table, "updated_at")
+	m.UpdatedAt = field.NewTime(table, "created_at")
 
 	m.fillFieldMap()
 
@@ -192,8 +192,8 @@ func (m *minionProcess) fillFieldMap() {
 	m.fieldMap["checksum"] = m.Checksum
 	m.fieldMap["created_time"] = m.CreatedTime
 	m.fieldMap["modified_at"] = m.ModifiedAt
-	m.fieldMap["created_at"] = m.CreatedAt
-	m.fieldMap["updated_at"] = m.UpdatedAt
+	m.fieldMap["updated_at"] = m.CreatedAt
+	m.fieldMap["created_at"] = m.UpdatedAt
 }
 
 func (m minionProcess) clone(db *gorm.DB) minionProcess {

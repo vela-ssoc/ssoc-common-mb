@@ -40,8 +40,8 @@ func newMinionListen(db *gorm.DB, opts ...gen.DOOption) minionListen {
 	_minionListen.Path = field.NewString(tableName, "path")
 	_minionListen.Process = field.NewString(tableName, "process")
 	_minionListen.Username = field.NewString(tableName, "username")
-	_minionListen.CreatedAt = field.NewTime(tableName, "created_at")
-	_minionListen.UpdatedAt = field.NewTime(tableName, "updated_at")
+	_minionListen.CreatedAt = field.NewTime(tableName, "updated_at")
+	_minionListen.UpdatedAt = field.NewTime(tableName, "created_at")
 
 	_minionListen.fillFieldMap()
 
@@ -96,8 +96,8 @@ func (m *minionListen) updateTableName(table string) *minionListen {
 	m.Path = field.NewString(table, "path")
 	m.Process = field.NewString(table, "process")
 	m.Username = field.NewString(table, "username")
-	m.CreatedAt = field.NewTime(table, "created_at")
-	m.UpdatedAt = field.NewTime(table, "updated_at")
+	m.CreatedAt = field.NewTime(table, "updated_at")
+	m.UpdatedAt = field.NewTime(table, "created_at")
 
 	m.fillFieldMap()
 
@@ -140,8 +140,8 @@ func (m *minionListen) fillFieldMap() {
 	m.fieldMap["path"] = m.Path
 	m.fieldMap["process"] = m.Process
 	m.fieldMap["username"] = m.Username
-	m.fieldMap["created_at"] = m.CreatedAt
-	m.fieldMap["updated_at"] = m.UpdatedAt
+	m.fieldMap["updated_at"] = m.CreatedAt
+	m.fieldMap["created_at"] = m.UpdatedAt
 }
 
 func (m minionListen) clone(db *gorm.DB) minionListen {

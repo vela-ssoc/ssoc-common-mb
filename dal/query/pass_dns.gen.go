@@ -31,8 +31,8 @@ func newPassDNS(db *gorm.DB, opts ...gen.DOOption) passDNS {
 	_passDNS.Domain = field.NewString(tableName, "domain")
 	_passDNS.Kind = field.NewString(tableName, "kind")
 	_passDNS.BeforeAt = field.NewTime(tableName, "before_at")
-	_passDNS.UpdatedAt = field.NewTime(tableName, "updated_at")
-	_passDNS.CreatedAt = field.NewTime(tableName, "created_at")
+	_passDNS.CreatedAt = field.NewTime(tableName, "updated_at")
+	_passDNS.UpdatedAt = field.NewTime(tableName, "created_at")
 
 	_passDNS.fillFieldMap()
 
@@ -47,8 +47,8 @@ type passDNS struct {
 	Domain    field.String
 	Kind      field.String
 	BeforeAt  field.Time
-	UpdatedAt field.Time
 	CreatedAt field.Time
+	UpdatedAt field.Time
 
 	fieldMap map[string]field.Expr
 }
@@ -69,8 +69,8 @@ func (p *passDNS) updateTableName(table string) *passDNS {
 	p.Domain = field.NewString(table, "domain")
 	p.Kind = field.NewString(table, "kind")
 	p.BeforeAt = field.NewTime(table, "before_at")
-	p.UpdatedAt = field.NewTime(table, "updated_at")
-	p.CreatedAt = field.NewTime(table, "created_at")
+	p.CreatedAt = field.NewTime(table, "updated_at")
+	p.UpdatedAt = field.NewTime(table, "created_at")
 
 	p.fillFieldMap()
 
@@ -100,8 +100,8 @@ func (p *passDNS) fillFieldMap() {
 	p.fieldMap["domain"] = p.Domain
 	p.fieldMap["kind"] = p.Kind
 	p.fieldMap["before_at"] = p.BeforeAt
-	p.fieldMap["updated_at"] = p.UpdatedAt
-	p.fieldMap["created_at"] = p.CreatedAt
+	p.fieldMap["updated_at"] = p.CreatedAt
+	p.fieldMap["created_at"] = p.UpdatedAt
 }
 
 func (p passDNS) clone(db *gorm.DB) passDNS {
