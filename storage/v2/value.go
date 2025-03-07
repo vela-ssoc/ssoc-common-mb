@@ -95,15 +95,14 @@ func (v *valueDB) loadDB(ctx context.Context) (*model.Store, error) {
 
 func (v *valueDB) loadValue(ctx context.Context) (*model.Store, error) {
 	uid := v.uid
-	var value []byte
 	tbl := v.qry.Store
 	dat, err := tbl.WithContext(ctx).Where(tbl.ID.Eq(uid)).First()
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, fmt.Errorf("尚未配置 store %s 数据", uid)
+			return nil, fmt.Errorf("尚未配置 %s 数据", uid)
 		}
 	
-		return nil, fmt.Errorf("查询 store %s 数据错误：%s", uid, err.Error())
+		return nil, fmt.Errorf("查询 %s 数据错误：%s", uid, err.Error())
 	}
 	
 	return dat, nil
