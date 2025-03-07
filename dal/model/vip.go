@@ -17,8 +17,8 @@ type VIP struct {
 	BizBranch   string    `json:"biz_branch"   gorm:"column:biz_branch"`                   // 业务分支
 	BizDept     string    `json:"biz_dept"     gorm:"column:biz_dept"`                     // 业务部门
 	BizType     string    `json:"biz_type"     gorm:"column:biz_type"`                     // 业务类型
-	CreatedAt   time.Time `json:"created_at"   gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt   time.Time `json:"updated_at"   gorm:"column:created_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt   time.Time `json:"created_at"   gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
+	UpdatedAt   time.Time `json:"updated_at"   gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
 }
 
 // TableName implement gorm schema.Tabler

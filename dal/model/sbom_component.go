@@ -28,8 +28,8 @@ type SBOMComponent struct {
 	TotalScore    CVSSScore       `json:"total_score"       gorm:"column:total_score"`    // 漏洞总分
 	Status        ComponentStatus `json:"status"            gorm:"column:status"`         // 处理状态
 	Nonce         int64           `json:"-"                 gorm:"column:nonce"`          // 同步批次 ID
-	CreatedAt     time.Time       `json:"created_at"        gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt     time.Time       `json:"updated_at"        gorm:"column:created_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt     time.Time       `json:"created_at"        gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
+	UpdatedAt     time.Time       `json:"updated_at"        gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
 }
 
 // TableName implement schema.Tabler

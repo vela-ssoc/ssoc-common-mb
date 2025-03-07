@@ -15,8 +15,8 @@ type Broker struct {
 	Bind        string    `json:"bind"           gorm:"column:bind;comment:监听地址"`
 	Semver      string    `json:"semver"         gorm:"column:semver;size:50;comment:版本"`
 	HeartbeatAt time.Time `json:"heartbeat_at"   gorm:"column:heartbeat_at;comment:心跳时间"`
-	CreatedAt   time.Time `json:"created_at"     gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt   time.Time `json:"updated_at"     gorm:"column:created_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt   time.Time `json:"created_at"     gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
+	UpdatedAt   time.Time `json:"updated_at"     gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
 }
 
 func (brk Broker) Addresses() []string {

@@ -15,7 +15,7 @@ type MinionLogon struct {
 	Process   string    `json:"process"          gorm:"column:process;size:255"`
 	LogonAt   time.Time `json:"logon_at"         gorm:"column:logon_at;notnull;default:now(3);index:idx_logon_at"`
 	Ignore    bool      `json:"ignore"           gorm:"column:ignore;notnull;default:false"`
-	CreatedAt time.Time `json:"created_at"       gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
+	CreatedAt time.Time `json:"created_at"       gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
 }
 
 func (MinionLogon) TableName() string {

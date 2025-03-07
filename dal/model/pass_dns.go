@@ -8,8 +8,8 @@ type PassDNS struct {
 	Domain    string    `json:"domain"     gorm:"column:domain"`    // 域名
 	Kind      string    `json:"kind"       gorm:"column:kind"`      // 类型
 	BeforeAt  time.Time `json:"before_at"  gorm:"column:before_at"` // 有效期
-	CreatedAt time.Time `json:"created_at" gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt time.Time `json:"updated_at" gorm:"column:created_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt time.Time `json:"created_at" gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
 }
 
 // TableName implement gorm schema.Tabler

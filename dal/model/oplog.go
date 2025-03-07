@@ -20,7 +20,7 @@ type Oplog struct {
 	Cause      string        `json:"cause"          gorm:"column:cause"`           // 如果操作出现错误，此处为错误原因
 	RequestAt  time.Time     `json:"request_at"     gorm:"column:request_at"`      // 请求时间
 	Elapsed    time.Duration `json:"elapsed"        gorm:"column:elapsed"`         // 操作耗时
-	CreatedAt  time.Time     `json:"created_at"     gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
+	CreatedAt  time.Time     `json:"created_at"     gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
 }
 
 // TableName implement gorm schema.Tabler

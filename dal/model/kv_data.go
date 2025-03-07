@@ -13,8 +13,8 @@ type KVData struct {
 	Version   int64           `json:"-"          gorm:"column:version"`                    // 乐观锁
 	Lifetime  time.Duration   `json:"lifetime"   gorm:"column:lifetime"`                   // 生命时长，大于 0 代表有过期时间。
 	ExpiredAt time.Time       `json:"expired_at" gorm:"column:expired_at"`                 // 过期时间
-	CreatedAt time.Time       `json:"created_at" gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt time.Time       `json:"updated_at" gorm:"column:created_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt time.Time       `json:"created_at" gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
+	UpdatedAt time.Time       `json:"updated_at" gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
 }
 
 func (KVData) TableName() string {

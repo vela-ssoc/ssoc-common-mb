@@ -8,8 +8,8 @@ type KVAudit struct {
 	Inet      string    `json:"inet"       gorm:"column:inet;size:20"`
 	Bucket    string    `json:"bucket"     gorm:"column:bucket;size:255;uniqueIndex:uk_minion_id_bucket_key"`
 	Key       string    `json:"key"        gorm:"column:key;size:255;uniqueIndex:uk_minion_id_bucket_key"`
-	CreatedAt time.Time `json:"created_at" gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt time.Time `json:"updated_at" gorm:"column:created_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt time.Time `json:"created_at" gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
 }
 
 func (KVAudit) TableName() string {

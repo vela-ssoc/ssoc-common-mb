@@ -14,8 +14,8 @@ type Third struct {
 	Extension  string    `json:"extension"         gorm:"column:extension;size:20;comment:扩展名"`  // 扩展名
 	CreatedID  int64     `json:"created_id,string" gorm:"column:created_id;comment:创建者"`
 	UpdatedID  int64     `json:"updated_id,string" gorm:"column:updated_id;comment:修改者"`
-	CreatedAt  time.Time `json:"created_at"        gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt  time.Time `json:"updated_at"        gorm:"column:created_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt  time.Time `json:"created_at"        gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
+	UpdatedAt  time.Time `json:"updated_at"        gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
 }
 
 // TableName implement gorm schema.Tabler

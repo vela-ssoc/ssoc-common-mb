@@ -22,7 +22,7 @@ type MinionTask struct {
 	Failed      bool        `json:"failed"              gorm:"column:failed;notnull;default:false"` // 是否失败
 	Cause       string      `json:"cause"               gorm:"column:cause;type:text"`              // 如果发生失败，失败的原因
 	Runners     TaskRunners `json:"runners"             gorm:"column:runners"`                      // task 内部服务
-	CreatedAt   time.Time   `json:"created_at"          gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
+	CreatedAt   time.Time   `json:"created_at"          gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
 }
 
 // TableName implement gorm schema.Tabler

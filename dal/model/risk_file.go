@@ -10,8 +10,8 @@ type RiskFile struct {
 	Origin    string    `json:"origin"     gorm:"column:origin"`
 	Desc      string    `json:"desc"       gorm:"column:desc"`
 	BeforeAt  time.Time `json:"before_at"  gorm:"column:before_at"`
-	CreatedAt time.Time `json:"created_at" gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt time.Time `json:"updated_at" gorm:"column:created_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt time.Time `json:"created_at" gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
 }
 
 // TableName implement gorm schema.Tabler

@@ -16,8 +16,8 @@ type MinionListen struct {
 	Path      string    `json:"path"             gorm:"column:path;size:500"`
 	Process   string    `json:"process"          gorm:"column:process;size:500"`
 	Username  string    `json:"username"         gorm:"column:username;size:255"`
-	CreatedAt time.Time `json:"created_at"       gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt time.Time `json:"updated_at"       gorm:"column:created_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt time.Time `json:"created_at"       gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
+	UpdatedAt time.Time `json:"updated_at"       gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
 }
 
 func (MinionListen) TableName() string {

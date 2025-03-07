@@ -9,8 +9,8 @@ type Store struct {
 	Escape    bool      `json:"escape"     gorm:"column:escape;notnull;default:false;comment:是否转义"` // 是否对模板开启转义
 	Desc      string    `json:"desc"       gorm:"column:desc;type:text;comment:说明"`                 // 说明
 	Version   int64     `json:"version"    gorm:"column:version;notnull;default:0;comment:乐观锁"`     // 乐观锁
-	CreatedAt time.Time `json:"created_at" gorm:"column:updated_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt time.Time `json:"updated_at" gorm:"column:created_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt time.Time `json:"created_at" gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
 }
 
 // TableName implement gorm schema.Tabler
