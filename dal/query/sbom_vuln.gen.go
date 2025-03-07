@@ -41,8 +41,8 @@ func newSBOMVuln(db *gorm.DB, opts ...gen.DOOption) sBOMVuln {
 	_sBOMVuln.References = field.NewField(tableName, "references")
 	_sBOMVuln.FixedVersion = field.NewString(tableName, "fixed_version")
 	_sBOMVuln.Nonce = field.NewInt64(tableName, "nonce")
-	_sBOMVuln.CreatedAt = field.NewTime(tableName, "updated_at")
-	_sBOMVuln.UpdatedAt = field.NewTime(tableName, "created_at")
+	_sBOMVuln.CreatedAt = field.NewTime(tableName, "created_at")
+	_sBOMVuln.UpdatedAt = field.NewTime(tableName, "updated_at")
 
 	_sBOMVuln.fillFieldMap()
 
@@ -99,8 +99,8 @@ func (s *sBOMVuln) updateTableName(table string) *sBOMVuln {
 	s.References = field.NewField(table, "references")
 	s.FixedVersion = field.NewString(table, "fixed_version")
 	s.Nonce = field.NewInt64(table, "nonce")
-	s.CreatedAt = field.NewTime(table, "updated_at")
-	s.UpdatedAt = field.NewTime(table, "created_at")
+	s.CreatedAt = field.NewTime(table, "created_at")
+	s.UpdatedAt = field.NewTime(table, "updated_at")
 
 	s.fillFieldMap()
 
@@ -140,8 +140,8 @@ func (s *sBOMVuln) fillFieldMap() {
 	s.fieldMap["references"] = s.References
 	s.fieldMap["fixed_version"] = s.FixedVersion
 	s.fieldMap["nonce"] = s.Nonce
-	s.fieldMap["updated_at"] = s.CreatedAt
-	s.fieldMap["created_at"] = s.UpdatedAt
+	s.fieldMap["created_at"] = s.CreatedAt
+	s.fieldMap["updated_at"] = s.UpdatedAt
 }
 
 func (s sBOMVuln) clone(db *gorm.DB) sBOMVuln {

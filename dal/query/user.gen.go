@@ -41,8 +41,8 @@ func newUser(db *gorm.DB, opts ...gen.DOOption) user {
 	_user.IssueAt = field.NewField(tableName, "issue_at")
 	_user.SessionAt = field.NewField(tableName, "session_at")
 	_user.DeletedAt = field.NewField(tableName, "deleted_at")
-	_user.CreatedAt = field.NewTime(tableName, "updated_at")
-	_user.UpdatedAt = field.NewTime(tableName, "created_at")
+	_user.CreatedAt = field.NewTime(tableName, "created_at")
+	_user.UpdatedAt = field.NewTime(tableName, "updated_at")
 
 	_user.fillFieldMap()
 
@@ -99,8 +99,8 @@ func (u *user) updateTableName(table string) *user {
 	u.IssueAt = field.NewField(table, "issue_at")
 	u.SessionAt = field.NewField(table, "session_at")
 	u.DeletedAt = field.NewField(table, "deleted_at")
-	u.CreatedAt = field.NewTime(table, "updated_at")
-	u.UpdatedAt = field.NewTime(table, "created_at")
+	u.CreatedAt = field.NewTime(table, "created_at")
+	u.UpdatedAt = field.NewTime(table, "updated_at")
 
 	u.fillFieldMap()
 
@@ -140,8 +140,8 @@ func (u *user) fillFieldMap() {
 	u.fieldMap["issue_at"] = u.IssueAt
 	u.fieldMap["session_at"] = u.SessionAt
 	u.fieldMap["deleted_at"] = u.DeletedAt
-	u.fieldMap["updated_at"] = u.CreatedAt
-	u.fieldMap["created_at"] = u.UpdatedAt
+	u.fieldMap["created_at"] = u.CreatedAt
+	u.fieldMap["updated_at"] = u.UpdatedAt
 }
 
 func (u user) clone(db *gorm.DB) user {

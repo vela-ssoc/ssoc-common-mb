@@ -43,7 +43,7 @@ func newOplog(db *gorm.DB, opts ...gen.DOOption) oplog {
 	_oplog.Cause = field.NewString(tableName, "cause")
 	_oplog.RequestAt = field.NewTime(tableName, "request_at")
 	_oplog.Elapsed = field.NewInt64(tableName, "elapsed")
-	_oplog.CreatedAt = field.NewTime(tableName, "updated_at")
+	_oplog.CreatedAt = field.NewTime(tableName, "created_at")
 
 	_oplog.fillFieldMap()
 
@@ -103,7 +103,7 @@ func (o *oplog) updateTableName(table string) *oplog {
 	o.Cause = field.NewString(table, "cause")
 	o.RequestAt = field.NewTime(table, "request_at")
 	o.Elapsed = field.NewInt64(table, "elapsed")
-	o.CreatedAt = field.NewTime(table, "updated_at")
+	o.CreatedAt = field.NewTime(table, "created_at")
 
 	o.fillFieldMap()
 
@@ -145,7 +145,7 @@ func (o *oplog) fillFieldMap() {
 	o.fieldMap["cause"] = o.Cause
 	o.fieldMap["request_at"] = o.RequestAt
 	o.fieldMap["elapsed"] = o.Elapsed
-	o.fieldMap["updated_at"] = o.CreatedAt
+	o.fieldMap["created_at"] = o.CreatedAt
 }
 
 func (o oplog) clone(db *gorm.DB) oplog {

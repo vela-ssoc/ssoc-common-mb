@@ -34,8 +34,8 @@ func newKVData(db *gorm.DB, opts ...gen.DOOption) kVData {
 	_kVData.Version = field.NewInt64(tableName, "version")
 	_kVData.Lifetime = field.NewInt64(tableName, "lifetime")
 	_kVData.ExpiredAt = field.NewTime(tableName, "expired_at")
-	_kVData.CreatedAt = field.NewTime(tableName, "updated_at")
-	_kVData.UpdatedAt = field.NewTime(tableName, "created_at")
+	_kVData.CreatedAt = field.NewTime(tableName, "created_at")
+	_kVData.UpdatedAt = field.NewTime(tableName, "updated_at")
 
 	_kVData.fillFieldMap()
 
@@ -78,8 +78,8 @@ func (k *kVData) updateTableName(table string) *kVData {
 	k.Version = field.NewInt64(table, "version")
 	k.Lifetime = field.NewInt64(table, "lifetime")
 	k.ExpiredAt = field.NewTime(table, "expired_at")
-	k.CreatedAt = field.NewTime(table, "updated_at")
-	k.UpdatedAt = field.NewTime(table, "created_at")
+	k.CreatedAt = field.NewTime(table, "created_at")
+	k.UpdatedAt = field.NewTime(table, "updated_at")
 
 	k.fillFieldMap()
 
@@ -112,8 +112,8 @@ func (k *kVData) fillFieldMap() {
 	k.fieldMap["version"] = k.Version
 	k.fieldMap["lifetime"] = k.Lifetime
 	k.fieldMap["expired_at"] = k.ExpiredAt
-	k.fieldMap["updated_at"] = k.CreatedAt
-	k.fieldMap["created_at"] = k.UpdatedAt
+	k.fieldMap["created_at"] = k.CreatedAt
+	k.fieldMap["updated_at"] = k.UpdatedAt
 }
 
 func (k kVData) clone(db *gorm.DB) kVData {

@@ -33,8 +33,8 @@ func newAlertServer(db *gorm.DB, opts ...gen.DOOption) alertServer {
 	_alertServer.URL = field.NewString(tableName, "url")
 	_alertServer.Token = field.NewString(tableName, "token")
 	_alertServer.Account = field.NewString(tableName, "account")
-	_alertServer.CreatedAt = field.NewTime(tableName, "updated_at")
-	_alertServer.UpdatedAt = field.NewTime(tableName, "created_at")
+	_alertServer.CreatedAt = field.NewTime(tableName, "created_at")
+	_alertServer.UpdatedAt = field.NewTime(tableName, "updated_at")
 
 	_alertServer.fillFieldMap()
 
@@ -75,8 +75,8 @@ func (a *alertServer) updateTableName(table string) *alertServer {
 	a.URL = field.NewString(table, "url")
 	a.Token = field.NewString(table, "token")
 	a.Account = field.NewString(table, "account")
-	a.CreatedAt = field.NewTime(table, "updated_at")
-	a.UpdatedAt = field.NewTime(table, "created_at")
+	a.CreatedAt = field.NewTime(table, "created_at")
+	a.UpdatedAt = field.NewTime(table, "updated_at")
 
 	a.fillFieldMap()
 
@@ -110,8 +110,8 @@ func (a *alertServer) fillFieldMap() {
 	a.fieldMap["url"] = a.URL
 	a.fieldMap["token"] = a.Token
 	a.fieldMap["account"] = a.Account
-	a.fieldMap["updated_at"] = a.CreatedAt
-	a.fieldMap["created_at"] = a.UpdatedAt
+	a.fieldMap["created_at"] = a.CreatedAt
+	a.fieldMap["updated_at"] = a.UpdatedAt
 }
 
 func (a alertServer) clone(db *gorm.DB) alertServer {

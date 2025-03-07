@@ -29,7 +29,7 @@ func newLoginLock(db *gorm.DB, opts ...gen.DOOption) loginLock {
 	_loginLock.ALL = field.NewAsterisk(tableName)
 	_loginLock.ID = field.NewInt64(tableName, "id")
 	_loginLock.Username = field.NewString(tableName, "username")
-	_loginLock.CreatedAt = field.NewTime(tableName, "updated_at")
+	_loginLock.CreatedAt = field.NewTime(tableName, "created_at")
 
 	_loginLock.fillFieldMap()
 
@@ -61,7 +61,7 @@ func (l *loginLock) updateTableName(table string) *loginLock {
 	l.ALL = field.NewAsterisk(table)
 	l.ID = field.NewInt64(table, "id")
 	l.Username = field.NewString(table, "username")
-	l.CreatedAt = field.NewTime(table, "updated_at")
+	l.CreatedAt = field.NewTime(table, "created_at")
 
 	l.fillFieldMap()
 
@@ -91,7 +91,7 @@ func (l *loginLock) fillFieldMap() {
 	l.fieldMap = make(map[string]field.Expr, 3)
 	l.fieldMap["id"] = l.ID
 	l.fieldMap["username"] = l.Username
-	l.fieldMap["updated_at"] = l.CreatedAt
+	l.fieldMap["created_at"] = l.CreatedAt
 }
 
 func (l loginLock) clone(db *gorm.DB) loginLock {

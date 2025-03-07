@@ -38,8 +38,8 @@ func newMinionAccount(db *gorm.DB, opts ...gen.DOOption) minionAccount {
 	_minionAccount.Description = field.NewString(tableName, "description")
 	_minionAccount.Status = field.NewString(tableName, "status")
 	_minionAccount.Raw = field.NewString(tableName, "raw")
-	_minionAccount.CreatedAt = field.NewTime(tableName, "updated_at")
-	_minionAccount.UpdatedAt = field.NewTime(tableName, "created_at")
+	_minionAccount.CreatedAt = field.NewTime(tableName, "created_at")
+	_minionAccount.UpdatedAt = field.NewTime(tableName, "updated_at")
 
 	_minionAccount.fillFieldMap()
 
@@ -90,8 +90,8 @@ func (m *minionAccount) updateTableName(table string) *minionAccount {
 	m.Description = field.NewString(table, "description")
 	m.Status = field.NewString(table, "status")
 	m.Raw = field.NewString(table, "raw")
-	m.CreatedAt = field.NewTime(table, "updated_at")
-	m.UpdatedAt = field.NewTime(table, "created_at")
+	m.CreatedAt = field.NewTime(table, "created_at")
+	m.UpdatedAt = field.NewTime(table, "updated_at")
 
 	m.fillFieldMap()
 
@@ -132,8 +132,8 @@ func (m *minionAccount) fillFieldMap() {
 	m.fieldMap["description"] = m.Description
 	m.fieldMap["status"] = m.Status
 	m.fieldMap["raw"] = m.Raw
-	m.fieldMap["updated_at"] = m.CreatedAt
-	m.fieldMap["created_at"] = m.UpdatedAt
+	m.fieldMap["created_at"] = m.CreatedAt
+	m.fieldMap["updated_at"] = m.UpdatedAt
 }
 
 func (m minionAccount) clone(db *gorm.DB) minionAccount {

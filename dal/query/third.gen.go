@@ -37,8 +37,8 @@ func newThird(db *gorm.DB, opts ...gen.DOOption) third {
 	_third.Extension = field.NewString(tableName, "extension")
 	_third.CreatedID = field.NewInt64(tableName, "created_id")
 	_third.UpdatedID = field.NewInt64(tableName, "updated_id")
-	_third.CreatedAt = field.NewTime(tableName, "updated_at")
-	_third.UpdatedAt = field.NewTime(tableName, "created_at")
+	_third.CreatedAt = field.NewTime(tableName, "created_at")
+	_third.UpdatedAt = field.NewTime(tableName, "updated_at")
 
 	_third.fillFieldMap()
 
@@ -87,8 +87,8 @@ func (t *third) updateTableName(table string) *third {
 	t.Extension = field.NewString(table, "extension")
 	t.CreatedID = field.NewInt64(table, "created_id")
 	t.UpdatedID = field.NewInt64(table, "updated_id")
-	t.CreatedAt = field.NewTime(table, "updated_at")
-	t.UpdatedAt = field.NewTime(table, "created_at")
+	t.CreatedAt = field.NewTime(table, "created_at")
+	t.UpdatedAt = field.NewTime(table, "updated_at")
 
 	t.fillFieldMap()
 
@@ -124,8 +124,8 @@ func (t *third) fillFieldMap() {
 	t.fieldMap["extension"] = t.Extension
 	t.fieldMap["created_id"] = t.CreatedID
 	t.fieldMap["updated_id"] = t.UpdatedID
-	t.fieldMap["updated_at"] = t.CreatedAt
-	t.fieldMap["created_at"] = t.UpdatedAt
+	t.fieldMap["created_at"] = t.CreatedAt
+	t.fieldMap["updated_at"] = t.UpdatedAt
 }
 
 func (t third) clone(db *gorm.DB) third {

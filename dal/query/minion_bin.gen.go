@@ -42,8 +42,8 @@ func newMinionBin(db *gorm.DB, opts ...gen.DOOption) minionBin {
 	_minionBin.Semver = field.NewString(tableName, "semver")
 	_minionBin.Weight = field.NewInt64(tableName, "weight")
 	_minionBin.Deprecated = field.NewBool(tableName, "deprecated")
-	_minionBin.CreatedAt = field.NewTime(tableName, "updated_at")
-	_minionBin.UpdatedAt = field.NewTime(tableName, "created_at")
+	_minionBin.CreatedAt = field.NewTime(tableName, "created_at")
+	_minionBin.UpdatedAt = field.NewTime(tableName, "updated_at")
 
 	_minionBin.fillFieldMap()
 
@@ -102,8 +102,8 @@ func (m *minionBin) updateTableName(table string) *minionBin {
 	m.Semver = field.NewString(table, "semver")
 	m.Weight = field.NewInt64(table, "weight")
 	m.Deprecated = field.NewBool(table, "deprecated")
-	m.CreatedAt = field.NewTime(table, "updated_at")
-	m.UpdatedAt = field.NewTime(table, "created_at")
+	m.CreatedAt = field.NewTime(table, "created_at")
+	m.UpdatedAt = field.NewTime(table, "updated_at")
 
 	m.fillFieldMap()
 
@@ -146,8 +146,8 @@ func (m *minionBin) fillFieldMap() {
 	m.fieldMap["semver"] = m.Semver
 	m.fieldMap["weight"] = m.Weight
 	m.fieldMap["deprecated"] = m.Deprecated
-	m.fieldMap["updated_at"] = m.CreatedAt
-	m.fieldMap["created_at"] = m.UpdatedAt
+	m.fieldMap["created_at"] = m.CreatedAt
+	m.fieldMap["updated_at"] = m.UpdatedAt
 }
 
 func (m minionBin) clone(db *gorm.DB) minionBin {

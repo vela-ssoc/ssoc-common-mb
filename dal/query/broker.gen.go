@@ -38,8 +38,8 @@ func newBroker(db *gorm.DB, opts ...gen.DOOption) broker {
 	_broker.Bind = field.NewString(tableName, "bind")
 	_broker.Semver = field.NewString(tableName, "semver")
 	_broker.HeartbeatAt = field.NewTime(tableName, "heartbeat_at")
-	_broker.CreatedAt = field.NewTime(tableName, "updated_at")
-	_broker.UpdatedAt = field.NewTime(tableName, "created_at")
+	_broker.CreatedAt = field.NewTime(tableName, "created_at")
+	_broker.UpdatedAt = field.NewTime(tableName, "updated_at")
 
 	_broker.fillFieldMap()
 
@@ -90,8 +90,8 @@ func (b *broker) updateTableName(table string) *broker {
 	b.Bind = field.NewString(table, "bind")
 	b.Semver = field.NewString(table, "semver")
 	b.HeartbeatAt = field.NewTime(table, "heartbeat_at")
-	b.CreatedAt = field.NewTime(table, "updated_at")
-	b.UpdatedAt = field.NewTime(table, "created_at")
+	b.CreatedAt = field.NewTime(table, "created_at")
+	b.UpdatedAt = field.NewTime(table, "updated_at")
 
 	b.fillFieldMap()
 
@@ -128,8 +128,8 @@ func (b *broker) fillFieldMap() {
 	b.fieldMap["bind"] = b.Bind
 	b.fieldMap["semver"] = b.Semver
 	b.fieldMap["heartbeat_at"] = b.HeartbeatAt
-	b.fieldMap["updated_at"] = b.CreatedAt
-	b.fieldMap["created_at"] = b.UpdatedAt
+	b.fieldMap["created_at"] = b.CreatedAt
+	b.fieldMap["updated_at"] = b.UpdatedAt
 }
 
 func (b broker) clone(db *gorm.DB) broker {

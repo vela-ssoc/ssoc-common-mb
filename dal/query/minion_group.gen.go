@@ -33,8 +33,8 @@ func newMinionGroup(db *gorm.DB, opts ...gen.DOOption) minionGroup {
 	_minionGroup.Name = field.NewString(tableName, "name")
 	_minionGroup.GID = field.NewString(tableName, "gid")
 	_minionGroup.Description = field.NewString(tableName, "description")
-	_minionGroup.CreatedAt = field.NewTime(tableName, "updated_at")
-	_minionGroup.UpdatedAt = field.NewTime(tableName, "created_at")
+	_minionGroup.CreatedAt = field.NewTime(tableName, "created_at")
+	_minionGroup.UpdatedAt = field.NewTime(tableName, "updated_at")
 
 	_minionGroup.fillFieldMap()
 
@@ -75,8 +75,8 @@ func (m *minionGroup) updateTableName(table string) *minionGroup {
 	m.Name = field.NewString(table, "name")
 	m.GID = field.NewString(table, "gid")
 	m.Description = field.NewString(table, "description")
-	m.CreatedAt = field.NewTime(table, "updated_at")
-	m.UpdatedAt = field.NewTime(table, "created_at")
+	m.CreatedAt = field.NewTime(table, "created_at")
+	m.UpdatedAt = field.NewTime(table, "updated_at")
 
 	m.fillFieldMap()
 
@@ -110,8 +110,8 @@ func (m *minionGroup) fillFieldMap() {
 	m.fieldMap["name"] = m.Name
 	m.fieldMap["gid"] = m.GID
 	m.fieldMap["description"] = m.Description
-	m.fieldMap["updated_at"] = m.CreatedAt
-	m.fieldMap["created_at"] = m.UpdatedAt
+	m.fieldMap["created_at"] = m.CreatedAt
+	m.fieldMap["updated_at"] = m.UpdatedAt
 }
 
 func (m minionGroup) clone(db *gorm.DB) minionGroup {

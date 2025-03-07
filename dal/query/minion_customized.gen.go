@@ -30,8 +30,8 @@ func newMinionCustomized(db *gorm.DB, opts ...gen.DOOption) minionCustomized {
 	_minionCustomized.ID = field.NewInt64(tableName, "id")
 	_minionCustomized.Name = field.NewString(tableName, "name")
 	_minionCustomized.Icon = field.NewString(tableName, "icon")
-	_minionCustomized.CreatedAt = field.NewTime(tableName, "updated_at")
-	_minionCustomized.UpdatedAt = field.NewTime(tableName, "created_at")
+	_minionCustomized.CreatedAt = field.NewTime(tableName, "created_at")
+	_minionCustomized.UpdatedAt = field.NewTime(tableName, "updated_at")
 
 	_minionCustomized.fillFieldMap()
 
@@ -66,8 +66,8 @@ func (m *minionCustomized) updateTableName(table string) *minionCustomized {
 	m.ID = field.NewInt64(table, "id")
 	m.Name = field.NewString(table, "name")
 	m.Icon = field.NewString(table, "icon")
-	m.CreatedAt = field.NewTime(table, "updated_at")
-	m.UpdatedAt = field.NewTime(table, "created_at")
+	m.CreatedAt = field.NewTime(table, "created_at")
+	m.UpdatedAt = field.NewTime(table, "updated_at")
 
 	m.fillFieldMap()
 
@@ -100,8 +100,8 @@ func (m *minionCustomized) fillFieldMap() {
 	m.fieldMap["id"] = m.ID
 	m.fieldMap["name"] = m.Name
 	m.fieldMap["icon"] = m.Icon
-	m.fieldMap["updated_at"] = m.CreatedAt
-	m.fieldMap["created_at"] = m.UpdatedAt
+	m.fieldMap["created_at"] = m.CreatedAt
+	m.fieldMap["updated_at"] = m.UpdatedAt
 }
 
 func (m minionCustomized) clone(db *gorm.DB) minionCustomized {

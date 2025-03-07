@@ -39,7 +39,7 @@ func newMinionLogon(db *gorm.DB, opts ...gen.DOOption) minionLogon {
 	_minionLogon.Process = field.NewString(tableName, "process")
 	_minionLogon.LogonAt = field.NewTime(tableName, "logon_at")
 	_minionLogon.Ignore = field.NewBool(tableName, "ignore")
-	_minionLogon.CreatedAt = field.NewTime(tableName, "updated_at")
+	_minionLogon.CreatedAt = field.NewTime(tableName, "created_at")
 
 	_minionLogon.fillFieldMap()
 
@@ -91,7 +91,7 @@ func (m *minionLogon) updateTableName(table string) *minionLogon {
 	m.Process = field.NewString(table, "process")
 	m.LogonAt = field.NewTime(table, "logon_at")
 	m.Ignore = field.NewBool(table, "ignore")
-	m.CreatedAt = field.NewTime(table, "updated_at")
+	m.CreatedAt = field.NewTime(table, "created_at")
 
 	m.fillFieldMap()
 
@@ -131,7 +131,7 @@ func (m *minionLogon) fillFieldMap() {
 	m.fieldMap["process"] = m.Process
 	m.fieldMap["logon_at"] = m.LogonAt
 	m.fieldMap["ignore"] = m.Ignore
-	m.fieldMap["updated_at"] = m.CreatedAt
+	m.fieldMap["created_at"] = m.CreatedAt
 }
 
 func (m minionLogon) clone(db *gorm.DB) minionLogon {

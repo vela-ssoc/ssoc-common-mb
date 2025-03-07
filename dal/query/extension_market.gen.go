@@ -37,8 +37,8 @@ func newExtensionMarket(db *gorm.DB, opts ...gen.DOOption) extensionMarket {
 	_extensionMarket.Changelog = field.NewString(tableName, "changelog")
 	_extensionMarket.CreatedBy = field.NewField(tableName, "created_by")
 	_extensionMarket.UpdatedBy = field.NewField(tableName, "updated_by")
-	_extensionMarket.CreatedAt = field.NewTime(tableName, "updated_at")
-	_extensionMarket.UpdatedAt = field.NewTime(tableName, "created_at")
+	_extensionMarket.CreatedAt = field.NewTime(tableName, "created_at")
+	_extensionMarket.UpdatedAt = field.NewTime(tableName, "updated_at")
 
 	_extensionMarket.fillFieldMap()
 
@@ -87,8 +87,8 @@ func (e *extensionMarket) updateTableName(table string) *extensionMarket {
 	e.Changelog = field.NewString(table, "changelog")
 	e.CreatedBy = field.NewField(table, "created_by")
 	e.UpdatedBy = field.NewField(table, "updated_by")
-	e.CreatedAt = field.NewTime(table, "updated_at")
-	e.UpdatedAt = field.NewTime(table, "created_at")
+	e.CreatedAt = field.NewTime(table, "created_at")
+	e.UpdatedAt = field.NewTime(table, "updated_at")
 
 	e.fillFieldMap()
 
@@ -128,8 +128,8 @@ func (e *extensionMarket) fillFieldMap() {
 	e.fieldMap["changelog"] = e.Changelog
 	e.fieldMap["created_by"] = e.CreatedBy
 	e.fieldMap["updated_by"] = e.UpdatedBy
-	e.fieldMap["updated_at"] = e.CreatedAt
-	e.fieldMap["created_at"] = e.UpdatedAt
+	e.fieldMap["created_at"] = e.CreatedAt
+	e.fieldMap["updated_at"] = e.UpdatedAt
 }
 
 func (e extensionMarket) clone(db *gorm.DB) extensionMarket {

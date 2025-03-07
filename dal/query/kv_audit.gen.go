@@ -32,8 +32,8 @@ func newKVAudit(db *gorm.DB, opts ...gen.DOOption) kVAudit {
 	_kVAudit.Inet = field.NewString(tableName, "inet")
 	_kVAudit.Bucket = field.NewString(tableName, "bucket")
 	_kVAudit.Key = field.NewString(tableName, "key")
-	_kVAudit.CreatedAt = field.NewTime(tableName, "updated_at")
-	_kVAudit.UpdatedAt = field.NewTime(tableName, "created_at")
+	_kVAudit.CreatedAt = field.NewTime(tableName, "created_at")
+	_kVAudit.UpdatedAt = field.NewTime(tableName, "updated_at")
 
 	_kVAudit.fillFieldMap()
 
@@ -72,8 +72,8 @@ func (k *kVAudit) updateTableName(table string) *kVAudit {
 	k.Inet = field.NewString(table, "inet")
 	k.Bucket = field.NewString(table, "bucket")
 	k.Key = field.NewString(table, "key")
-	k.CreatedAt = field.NewTime(table, "updated_at")
-	k.UpdatedAt = field.NewTime(table, "created_at")
+	k.CreatedAt = field.NewTime(table, "created_at")
+	k.UpdatedAt = field.NewTime(table, "updated_at")
 
 	k.fillFieldMap()
 
@@ -104,8 +104,8 @@ func (k *kVAudit) fillFieldMap() {
 	k.fieldMap["inet"] = k.Inet
 	k.fieldMap["bucket"] = k.Bucket
 	k.fieldMap["key"] = k.Key
-	k.fieldMap["updated_at"] = k.CreatedAt
-	k.fieldMap["created_at"] = k.UpdatedAt
+	k.fieldMap["created_at"] = k.CreatedAt
+	k.fieldMap["updated_at"] = k.UpdatedAt
 }
 
 func (k kVAudit) clone(db *gorm.DB) kVAudit {

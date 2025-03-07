@@ -41,7 +41,7 @@ func newMinionTask(db *gorm.DB, opts ...gen.DOOption) minionTask {
 	_minionTask.Failed = field.NewBool(tableName, "failed")
 	_minionTask.Cause = field.NewString(tableName, "cause")
 	_minionTask.Runners = field.NewField(tableName, "runners")
-	_minionTask.CreatedAt = field.NewTime(tableName, "updated_at")
+	_minionTask.CreatedAt = field.NewTime(tableName, "created_at")
 
 	_minionTask.fillFieldMap()
 
@@ -97,7 +97,7 @@ func (m *minionTask) updateTableName(table string) *minionTask {
 	m.Failed = field.NewBool(table, "failed")
 	m.Cause = field.NewString(table, "cause")
 	m.Runners = field.NewField(table, "runners")
-	m.CreatedAt = field.NewTime(table, "updated_at")
+	m.CreatedAt = field.NewTime(table, "created_at")
 
 	m.fillFieldMap()
 
@@ -139,7 +139,7 @@ func (m *minionTask) fillFieldMap() {
 	m.fieldMap["failed"] = m.Failed
 	m.fieldMap["cause"] = m.Cause
 	m.fieldMap["runners"] = m.Runners
-	m.fieldMap["updated_at"] = m.CreatedAt
+	m.fieldMap["created_at"] = m.CreatedAt
 }
 
 func (m minionTask) clone(db *gorm.DB) minionTask {
