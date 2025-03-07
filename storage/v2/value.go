@@ -98,23 +98,13 @@ func (v *valueDB) loadValue(ctx context.Context) (*model.Store, error) {
 	var value []byte
 	tbl := v.qry.Store
 	dat, err := tbl.WithContext(ctx).Where(tbl.ID.Eq(uid)).First()
-	if err == nil && dat != nil {
-		value = dat.Value
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, fmt.Errorf("尚未配置 store %s 数据", uid)
+		}
+	
+		return nil, fmt.Errorf("查询 store %s 数据错误：%s", uid, err.Error())
 	}
-	if len(value) == 0 {
-		value = v.callback
-	}
-	if ffn := v.filter; len(value) != 0 && ffn != nil {
-		value = ffn(value)
-	}
-	//if len(value) != 0 {
-	//	dat.Value = value
-	//	return dat, nil
-	//}
-
-	if err == nil || errors.Is(err, gorm.ErrRecordNotFound) {
-		return nil, fmt.Errorf("尚未配置 store %s 数据", uid)
-	}
-
-	return nil, fmt.Errorf("查询 store %s 数据错误：%s", uid, err.Error())
+	
+	return dat, nil
 }
