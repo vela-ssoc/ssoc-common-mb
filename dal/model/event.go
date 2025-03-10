@@ -1,15 +1,13 @@
 package model
 
-import (
-	"time"
-)
+import "time"
 
 // Event 存放节点事件信息
 type Event struct {
-	ID        int64          `json:"id,string"        gorm:"column:id;primaryKey"`                      // 消息 ID
+	ID        int64          `json:"id,string"        gorm:"column:id;primaryKey;autoIncrement;comment:ID"`
 	MinionID  int64          `json:"minion_id,string" gorm:"column:minion_id"`                          // 节点 ID
-	Inet      string         `json:"inet"             gorm:"column:inet"`                               // 节点 IPv4
-	Subject   string         `json:"subject"          gorm:"column:subject"`                            // 主题
+	Inet      string         `json:"inet"             gorm:"column:inet;size:20"`                       // 节点 IPv4
+	Subject   string         `json:"subject"          gorm:"column:subject;size:100"`                   // 主题
 	FromCode  string         `json:"from_code"        gorm:"column:from_code;size:50"`                  // 来源模块
 	Typeof    string         `json:"typeof"           gorm:"column:typeof;size:50"`                     // 模块类型
 	User      string         `json:"user"             gorm:"column:user;size:50"`                       // 用户信息

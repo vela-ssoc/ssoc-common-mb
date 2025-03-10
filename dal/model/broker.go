@@ -12,7 +12,7 @@ type Broker struct {
 	Status      bool      `json:"status"         gorm:"column:status;notnull;default:false;comment:是否在线"`
 	Secret      string    `json:"secret"         gorm:"column:secret;size:255;notnull;comment:连接密钥"`
 	CertID      int64     `json:"cert_id,string" gorm:"column:cert_id;comment:挂载证书"`
-	Bind        string    `json:"bind"           gorm:"column:bind;comment:监听地址"`
+	Bind        string    `json:"bind"           gorm:"column:bind;size:100;comment:监听地址"`
 	Semver      string    `json:"semver"         gorm:"column:semver;size:50;comment:版本"`
 	HeartbeatAt time.Time `json:"heartbeat_at"   gorm:"column:heartbeat_at;comment:心跳时间"`
 	CreatedAt   time.Time `json:"created_at"     gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
