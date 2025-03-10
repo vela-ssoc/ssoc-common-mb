@@ -35,7 +35,7 @@ type User struct {
 	Enable     bool           `json:"enable"     gorm:"column:enable;notnull;default:false;comment:是否启用"`
 	Domain     UserDomain     `json:"domain"     gorm:"column:domain;comment:用户类型"`
 	AccessKey  string         `json:"access_key" gorm:"column:access_key;size:100;index;comment:接口调用密钥"` // AccessKey
-	Token      string         `json:"-"          gorm:"column:token;size:100;index;comment:Token"`
+	Token      string         `json:"-"          gorm:"column:token;size:255;index;comment:Token"`
 	TotpSecret string         `json:"-"          gorm:"column:totp_secret;size:255;comment:TOTP密钥"`
 	TotpBind   bool           `json:"-"          gorm:"column:totp_bind;notnull;default:false;comment:TOTP是否已使用"`
 	IssueAt    sql.NullTime   `json:"issue_at"   gorm:"column:issue_at;comment:Token签发时间"`

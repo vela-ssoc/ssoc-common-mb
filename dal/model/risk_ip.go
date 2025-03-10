@@ -3,10 +3,10 @@ package model
 import "time"
 
 type RiskIP struct {
-	ID        int64     `json:"id,string"  gorm:"column:id;primaryKey"`
-	IP        string    `json:"ip"         gorm:"column:ip"`
-	Kind      string    `json:"kind"       gorm:"column:kind"`
-	Origin    string    `json:"origin"     gorm:"column:origin"`
+	ID        int64     `json:"id,string"  gorm:"column:id;primaryKey;autoIncrement;comment:ID"`
+	IP        string    `json:"ip"         gorm:"column:ip;size:100"`
+	Kind      string    `json:"kind"       gorm:"column:kind;size:50"`
+	Origin    string    `json:"origin"     gorm:"column:origin;size:100"`
 	BeforeAt  time.Time `json:"before_at"  gorm:"column:before_at"`
 	CreatedAt time.Time `json:"created_at" gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
 	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`

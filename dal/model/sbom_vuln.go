@@ -4,10 +4,10 @@ import "time"
 
 // SBOMVuln 漏洞库
 type SBOMVuln struct {
-	ID           int64     `json:"id,string"     gorm:"column:id;primaryKey"`   // ID
-	VulnID       string    `json:"vuln_id"       gorm:"column:vuln_id"`         // 漏洞编号
-	PURL         string    `json:"purl"          gorm:"column:purl"`            // PURL
-	Title        string    `json:"title"         gorm:"column:title"`           // 漏洞标题
+	ID           int64     `json:"id,string"     gorm:"column:id;primaryKey;autoIncrement;comment:ID"`
+	VulnID       string    `json:"vuln_id"       gorm:"column:vuln_id;size:50"` // 漏洞编号
+	PURL         string    `json:"purl"          gorm:"column:purl;size:500"`   // PURL
+	Title        string    `json:"title"         gorm:"column:title;size:500"`  // 漏洞标题
 	Description  string    `json:"description"   gorm:"column:description"`     // 漏洞简介
 	Score        CVSSScore `json:"score"         gorm:"column:score"`           // 漏洞分数
 	Level        CVSSLevel `json:"level"         gorm:"column:level"`           // 漏洞级别

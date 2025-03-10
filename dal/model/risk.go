@@ -5,12 +5,12 @@ import "time"
 // Risk 节点风险事件
 type Risk struct {
 	ID       int64  `json:"id,string"        gorm:"column:id;primaryKey;autoIncrement;comment:ID"`
-	MinionID int64  `json:"minion_id,string" gorm:"column:minion_id"` // 节点ID
-	Inet     string `json:"inet"             gorm:"column:inet"`      // 节点 IPv4
+	MinionID int64  `json:"minion_id,string" gorm:"column:minion_id"`    // 节点ID
+	Inet     string `json:"inet"             gorm:"column:inet;size:20"` // 节点 IPv4
 
 	// RiskType 风险类型
 	// ["暴力破解", "病毒事件", "弱口令", "数据爬虫", "蜜罐应用", "web 攻击", "监控事件", "登录事件"]
-	RiskType   string         `json:"risk_type"   gorm:"column:risk_type"`
+	RiskType   string         `json:"risk_type"   gorm:"column:risk_type;size:10"`
 	Level      RiskLevel      `json:"level"       gorm:"column:level"`         // 风险级别
 	Payload    string         `json:"payload"     gorm:"column:payload"`       // 攻击载荷
 	Subject    string         `json:"subject"     gorm:"column:subject"`       // 风险事件主题

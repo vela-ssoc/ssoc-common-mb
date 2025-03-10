@@ -4,8 +4,8 @@ import "time"
 
 // Substance 配置表
 type Substance struct {
-	ID        int64     `json:"id,string"         gorm:"column:id;primaryKey"` // ID
-	Name      string    `json:"name"              gorm:"column:name"`          // 名字
+	ID        int64     `json:"id,string"         gorm:"column:id;primaryKey;autoIncrement;comment:ID"`
+	Name      string    `json:"name"              gorm:"column:name;size:100"` // 名字
 	Icon      []byte    `json:"icon"              gorm:"column:icon"`          // 图标
 	Hash      string    `json:"hash"              gorm:"column:hash"`          // 校验码
 	Desc      string    `json:"desc"              gorm:"column:desc"`          // 描述
