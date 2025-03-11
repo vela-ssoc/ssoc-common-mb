@@ -37,6 +37,7 @@ func newBroker(db *gorm.DB, opts ...gen.DOOption) broker {
 	_broker.CertID = field.NewInt64(tableName, "cert_id")
 	_broker.Bind = field.NewString(tableName, "bind")
 	_broker.Semver = field.NewString(tableName, "semver")
+	_broker.SemverWeight = field.NewUint64(tableName, "semver_weight")
 	_broker.HeartbeatAt = field.NewTime(tableName, "heartbeat_at")
 	_broker.CreatedAt = field.NewTime(tableName, "created_at")
 	_broker.UpdatedAt = field.NewTime(tableName, "updated_at")
@@ -49,20 +50,21 @@ func newBroker(db *gorm.DB, opts ...gen.DOOption) broker {
 type broker struct {
 	brokerDo brokerDo
 
-	ALL         field.Asterisk
-	ID          field.Int64
-	Name        field.String
-	Servername  field.String
-	LAN         field.Field
-	VIP         field.Field
-	Status      field.Bool
-	Secret      field.String
-	CertID      field.Int64
-	Bind        field.String
-	Semver      field.String
-	HeartbeatAt field.Time
-	CreatedAt   field.Time
-	UpdatedAt   field.Time
+	ALL          field.Asterisk
+	ID           field.Int64
+	Name         field.String
+	Servername   field.String
+	LAN          field.Field
+	VIP          field.Field
+	Status       field.Bool
+	Secret       field.String
+	CertID       field.Int64
+	Bind         field.String
+	Semver       field.String
+	SemverWeight field.Uint64
+	HeartbeatAt  field.Time
+	CreatedAt    field.Time
+	UpdatedAt    field.Time
 
 	fieldMap map[string]field.Expr
 }
@@ -89,6 +91,7 @@ func (b *broker) updateTableName(table string) *broker {
 	b.CertID = field.NewInt64(table, "cert_id")
 	b.Bind = field.NewString(table, "bind")
 	b.Semver = field.NewString(table, "semver")
+	b.SemverWeight = field.NewUint64(table, "semver_weight")
 	b.HeartbeatAt = field.NewTime(table, "heartbeat_at")
 	b.CreatedAt = field.NewTime(table, "created_at")
 	b.UpdatedAt = field.NewTime(table, "updated_at")
@@ -116,7 +119,7 @@ func (b *broker) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (b *broker) fillFieldMap() {
-	b.fieldMap = make(map[string]field.Expr, 13)
+	b.fieldMap = make(map[string]field.Expr, 14)
 	b.fieldMap["id"] = b.ID
 	b.fieldMap["name"] = b.Name
 	b.fieldMap["servername"] = b.Servername
@@ -127,6 +130,7 @@ func (b *broker) fillFieldMap() {
 	b.fieldMap["cert_id"] = b.CertID
 	b.fieldMap["bind"] = b.Bind
 	b.fieldMap["semver"] = b.Semver
+	b.fieldMap["semver_weight"] = b.SemverWeight
 	b.fieldMap["heartbeat_at"] = b.HeartbeatAt
 	b.fieldMap["created_at"] = b.CreatedAt
 	b.fieldMap["updated_at"] = b.UpdatedAt

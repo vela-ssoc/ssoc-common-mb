@@ -40,7 +40,7 @@ func newMinionBin(db *gorm.DB, opts ...gen.DOOption) minionBin {
 	_minionBin.Hash = field.NewString(tableName, "hash")
 	_minionBin.Changelog = field.NewString(tableName, "changelog")
 	_minionBin.Semver = field.NewString(tableName, "semver")
-	_minionBin.Weight = field.NewInt64(tableName, "weight")
+	_minionBin.Weight = field.NewUint64(tableName, "weight")
 	_minionBin.Deprecated = field.NewBool(tableName, "deprecated")
 	_minionBin.CreatedAt = field.NewTime(tableName, "created_at")
 	_minionBin.UpdatedAt = field.NewTime(tableName, "updated_at")
@@ -67,7 +67,7 @@ type minionBin struct {
 	Hash       field.String
 	Changelog  field.String
 	Semver     field.String
-	Weight     field.Int64
+	Weight     field.Uint64
 	Deprecated field.Bool
 	CreatedAt  field.Time
 	UpdatedAt  field.Time
@@ -100,7 +100,7 @@ func (m *minionBin) updateTableName(table string) *minionBin {
 	m.Hash = field.NewString(table, "hash")
 	m.Changelog = field.NewString(table, "changelog")
 	m.Semver = field.NewString(table, "semver")
-	m.Weight = field.NewInt64(table, "weight")
+	m.Weight = field.NewUint64(table, "weight")
 	m.Deprecated = field.NewBool(table, "deprecated")
 	m.CreatedAt = field.NewTime(table, "created_at")
 	m.UpdatedAt = field.NewTime(table, "updated_at")

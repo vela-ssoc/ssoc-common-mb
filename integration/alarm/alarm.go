@@ -100,6 +100,7 @@ func (ua *unifyAlert) RiskSaveAndAlert(ctx context.Context, rsk *model.Risk) err
 	}
 
 	task := &riskTask{
+		qry:   ua.qry,
 		unify: ua,
 		risk:  rsk,
 	}

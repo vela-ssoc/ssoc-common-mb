@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"errors"
 	"strconv"
-	"strings"
 )
 
 // startupNode 节点配置项
@@ -143,27 +142,4 @@ type TaskRunner struct {
 	Name   string `json:"name"`   // 内部服务名字
 	Type   string `json:"type"`   // 类型
 	Status string `json:"status"` // 状态
-}
-
-// Semver https://semver.org/lang/zh-CN/
-type Semver string
-
-// Int64 计算版本号
-func (sv Semver) Int64() int64 {
-	sn := strings.SplitN(string(sv), ".", 3)
-	if len(sn) != 3 {
-		return 0
-	}
-
-	sp := strings.SplitN(sn[2], "-", 2)
-	sn[2] = sp[0]
-
-	var ret int64
-	for _, s := range sn {
-		num, _ := strconv.ParseInt(s, 10, 64)
-		ret *= 1000000
-		ret += num
-	}
-
-	return ret
 }

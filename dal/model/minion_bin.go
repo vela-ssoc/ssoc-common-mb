@@ -17,7 +17,7 @@ type MinionBin struct {
 	Hash       string    `json:"hash"       gorm:"column:hash;size:50;comment:文件哈希"`
 	Changelog  string    `json:"changelog"  gorm:"column:changelog;type:text;comment:变更日志"`
 	Semver     Semver    `json:"semver"     gorm:"column:semver;size:50;comment:版本号"`
-	Weight     int64     `json:"-"          gorm:"column:weight;comment:数值版本号"`
+	Weight     uint64    `json:"-"          gorm:"column:weight;comment:数值版本号"`
 	Deprecated bool      `json:"deprecated" gorm:"column:deprecated;notnull;default:false;comment:是否弃用"`
 	CreatedAt  time.Time `json:"created_at" gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
 	UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`

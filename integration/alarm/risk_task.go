@@ -39,9 +39,6 @@ func (et *riskTask) Run() {
 	if dongs := sub.Dong; len(dongs) != 0 {
 		et.sendDong(ctx, dongs, key)
 	}
-	if devs := sub.Devops; len(devs) != 0 {
-		et.sendDevops(ctx, devs)
-	}
 }
 
 func (et *riskTask) sendDong(ctx context.Context, dongs []string, key string) {
@@ -51,10 +48,4 @@ func (et *riskTask) sendDong(ctx context.Context, dongs []string, key string) {
 	} else {
 		et.unify.log.Info(fmt.Sprintf("发送风险 %s 成功", dongs))
 	}
-}
-
-func (et *riskTask) sendDevops(ctx context.Context, devs []*model.Devops) {
-	// title, body := st.rend.RiskDong(ctx, st.dat, st.dat)
-	err := et.unify.dps.Send(ctx, "告警", "内容", devs)
-	et.unify.log.Info(fmt.Sprintf("发送 devops 风险 %s 结果：%v", devs, err))
 }

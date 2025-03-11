@@ -35,6 +35,7 @@ func newBrokerBin(db *gorm.DB, opts ...gen.DOOption) brokerBin {
 	_brokerBin.Goos = field.NewString(tableName, "goos")
 	_brokerBin.Arch = field.NewString(tableName, "arch")
 	_brokerBin.Semver = field.NewString(tableName, "semver")
+	_brokerBin.SemverWeight = field.NewUint64(tableName, "semver_weight")
 	_brokerBin.Changelog = field.NewString(tableName, "changelog")
 	_brokerBin.CreatedAt = field.NewTime(tableName, "created_at")
 	_brokerBin.UpdatedAt = field.NewTime(tableName, "updated_at")
@@ -47,18 +48,19 @@ func newBrokerBin(db *gorm.DB, opts ...gen.DOOption) brokerBin {
 type brokerBin struct {
 	brokerBinDo brokerBinDo
 
-	ALL       field.Asterisk
-	ID        field.Int64
-	Name      field.String
-	FileID    field.Int64
-	Size      field.Int64
-	Hash      field.String
-	Goos      field.String
-	Arch      field.String
-	Semver    field.String
-	Changelog field.String
-	CreatedAt field.Time
-	UpdatedAt field.Time
+	ALL          field.Asterisk
+	ID           field.Int64
+	Name         field.String
+	FileID       field.Int64
+	Size         field.Int64
+	Hash         field.String
+	Goos         field.String
+	Arch         field.String
+	Semver       field.String
+	SemverWeight field.Uint64
+	Changelog    field.String
+	CreatedAt    field.Time
+	UpdatedAt    field.Time
 
 	fieldMap map[string]field.Expr
 }
@@ -83,6 +85,7 @@ func (b *brokerBin) updateTableName(table string) *brokerBin {
 	b.Goos = field.NewString(table, "goos")
 	b.Arch = field.NewString(table, "arch")
 	b.Semver = field.NewString(table, "semver")
+	b.SemverWeight = field.NewUint64(table, "semver_weight")
 	b.Changelog = field.NewString(table, "changelog")
 	b.CreatedAt = field.NewTime(table, "created_at")
 	b.UpdatedAt = field.NewTime(table, "updated_at")
@@ -112,7 +115,7 @@ func (b *brokerBin) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (b *brokerBin) fillFieldMap() {
-	b.fieldMap = make(map[string]field.Expr, 11)
+	b.fieldMap = make(map[string]field.Expr, 12)
 	b.fieldMap["id"] = b.ID
 	b.fieldMap["name"] = b.Name
 	b.fieldMap["file_id"] = b.FileID
@@ -121,6 +124,7 @@ func (b *brokerBin) fillFieldMap() {
 	b.fieldMap["goos"] = b.Goos
 	b.fieldMap["arch"] = b.Arch
 	b.fieldMap["semver"] = b.Semver
+	b.fieldMap["semver_weight"] = b.SemverWeight
 	b.fieldMap["changelog"] = b.Changelog
 	b.fieldMap["created_at"] = b.CreatedAt
 	b.fieldMap["updated_at"] = b.UpdatedAt
