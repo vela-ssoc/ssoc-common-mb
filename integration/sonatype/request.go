@@ -1,6 +1,6 @@
 package sonatype
 
-import "github.com/vela-ssoc/vela-common-mb/dal/model"
+import "github.com/vela-ssoc/ssoc-common-mb/dal/model"
 
 // sonatypeRequest sonatype HTTP 请求体
 type sonatypeRequest struct {

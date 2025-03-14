@@ -10,7 +10,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/query"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/query"
 )
 
 // NewCDN 带本地缓存的。

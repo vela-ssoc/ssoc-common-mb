@@ -6,8 +6,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/model"
-	"github.com/vela-ssoc/vela-common-mba/netutil"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/model"
+	"github.com/vela-ssoc/ssoc-common-mba/netutil"
 )
 
 // Searcher 漏洞查询

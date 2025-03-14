@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/model"
-	"github.com/vela-ssoc/vela-common-mb/dal/query"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/model"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/query"
 	"gorm.io/gorm"
 )
 
@@ -101,9 +101,9 @@ func (v *valueDB) loadValue(ctx context.Context) (*model.Store, error) {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, fmt.Errorf("尚未配置 %s 数据", uid)
 		}
-	
+
 		return nil, fmt.Errorf("查询 %s 数据错误：%s", uid, err.Error())
 	}
-	
+
 	return dat, nil
 }

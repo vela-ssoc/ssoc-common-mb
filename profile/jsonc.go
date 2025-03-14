@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/vela-ssoc/vela-common-mb/jsonc"
+	"github.com/vela-ssoc/ssoc-common-mb/jsonc"
 )
 
 func ParseManager(path string) (*ManagerConfig, error) {

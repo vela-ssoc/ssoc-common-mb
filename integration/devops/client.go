@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/model"
-	"github.com/vela-ssoc/vela-common-mba/netutil"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/model"
+	"github.com/vela-ssoc/ssoc-common-mba/netutil"
 )
 
 type Client interface {

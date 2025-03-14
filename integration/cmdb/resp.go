@@ -1,6 +1,6 @@
 package cmdb
 
-import "github.com/vela-ssoc/vela-common-mb/dal/model"
+import "github.com/vela-ssoc/ssoc-common-mb/dal/model"
 
 type reply struct {
 	Result model.Cmdbs `json:"result"`

@@ -6,8 +6,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/model"
-	"github.com/vela-ssoc/vela-common-mb/integration/sonatype"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/model"
+	"github.com/vela-ssoc/ssoc-common-mb/integration/sonatype"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )

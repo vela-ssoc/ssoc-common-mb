@@ -1,6 +1,6 @@
 package response
 
-import "github.com/vela-ssoc/vela-common-mb/dal/dyncond"
+import "github.com/vela-ssoc/ssoc-common-mb/dal/dyncond"
 
 func ParseCond(tbl *dyncond.Tables) *Cond {
 	wheres, orders := tbl.Columns()

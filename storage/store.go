@@ -11,7 +11,7 @@ import (
 	"sync"
 	"text/template"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/model"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/model"
 )
 
 type Storer interface {

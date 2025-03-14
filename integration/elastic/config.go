@@ -11,8 +11,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/query"
-	"github.com/vela-ssoc/vela-common-mb/problem"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/query"
+	"github.com/vela-ssoc/ssoc-common-mb/problem"
 )
 
 func NewConfigure(qry *query.Query, name string) Configurer {

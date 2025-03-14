@@ -5,7 +5,7 @@ import (
 	"net"
 	"time"
 
-	"github.com/vela-ssoc/vela-common-mba/ciphertext"
+	"github.com/vela-ssoc/ssoc-common-mba/ciphertext"
 )
 
 // Ident broker 节点的认证信息

@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/go-sql-driver/mysql"
-	"github.com/vela-ssoc/vela-common-mb/validate"
+	"github.com/vela-ssoc/ssoc-common-mb/validate"
 	"github.com/xgfone/ship/v5"
 	"gorm.io/gorm"
 )

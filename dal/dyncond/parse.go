@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/query"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/query"
 	"gorm.io/gen/field"
 	"gorm.io/gorm"
 )

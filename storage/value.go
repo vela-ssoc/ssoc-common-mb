@@ -4,7 +4,7 @@ import (
 	"context"
 	"sync"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/query"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/query"
 )
 
 type Valuer interface {

@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/model"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/model"
 )
 
 func newEagleEyeData(db *gorm.DB, opts ...gen.DOOption) eagleEyeData {

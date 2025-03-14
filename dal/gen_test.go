@@ -3,7 +3,7 @@ package dal_test
 import (
 	"testing"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/model"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/model"
 	"gorm.io/gen"
 )
 

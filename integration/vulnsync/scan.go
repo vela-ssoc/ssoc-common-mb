@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/model"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/model"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )

@@ -8,9 +8,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/model"
-	"github.com/vela-ssoc/vela-common-mb/dal/query"
-	"github.com/vela-ssoc/vela-common-mba/netutil"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/model"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/query"
+	"github.com/vela-ssoc/ssoc-common-mba/netutil"
 	"gorm.io/gen"
 	"gorm.io/gen/field"
 )

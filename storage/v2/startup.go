@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/model"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/model"
 )
 
 type startupValue struct {

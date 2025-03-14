@@ -7,13 +7,13 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/model"
-	"github.com/vela-ssoc/vela-common-mb/dal/query"
-	"github.com/vela-ssoc/vela-common-mb/gopool"
-	"github.com/vela-ssoc/vela-common-mb/integration/devops"
-	"github.com/vela-ssoc/vela-common-mb/integration/dong/v2"
-	"github.com/vela-ssoc/vela-common-mb/integration/ntfmatch"
-	"github.com/vela-ssoc/vela-common-mb/storage/v2"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/model"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/query"
+	"github.com/vela-ssoc/ssoc-common-mb/gopool"
+	"github.com/vela-ssoc/ssoc-common-mb/integration/devops"
+	"github.com/vela-ssoc/ssoc-common-mb/integration/dong/v2"
+	"github.com/vela-ssoc/ssoc-common-mb/integration/ntfmatch"
+	"github.com/vela-ssoc/ssoc-common-mb/storage/v2"
 )
 
 type Alerter interface {

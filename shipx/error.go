@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/vela-ssoc/vela-common-mb/param/problem"
-	"github.com/vela-ssoc/vela-common-mb/validate"
+	"github.com/vela-ssoc/ssoc-common-mb/param/problem"
+	"github.com/vela-ssoc/ssoc-common-mb/validate"
 	"github.com/xgfone/ship/v5"
 )
 

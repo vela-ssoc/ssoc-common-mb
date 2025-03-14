@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/url"
 
-	"github.com/vela-ssoc/vela-common-mb/storage/v2"
+	"github.com/vela-ssoc/ssoc-common-mb/storage/v2"
 )
 
 type Configurer interface {

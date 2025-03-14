@@ -1,6 +1,6 @@
 package request
 
-import "github.com/vela-ssoc/vela-common-mb/dynsql"
+import "github.com/vela-ssoc/ssoc-common-mb/dynsql"
 
 type Pages struct {
 	Page int64 `query:"page" json:"page" form:"page" validate:"gte=0"`

@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/vela-ssoc/vela-common-mb/dal/dyncond"
-	"github.com/vela-ssoc/vela-common-mb/param/errcode"
+	"github.com/vela-ssoc/ssoc-common-mb/dal/dyncond"
+	"github.com/vela-ssoc/ssoc-common-mb/param/errcode"
 )
 
 type KeywordConditions struct {
