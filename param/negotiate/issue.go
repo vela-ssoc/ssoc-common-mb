@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/vela-ssoc/ssoc-common-mb/profile"
-	"github.com/vela-ssoc/ssoc-common-mba/ciphertext"
+	"github.com/vela-ssoc/vela-common-mba/ciphertext"
 )
 
 type Issue struct {
