@@ -50,7 +50,7 @@ type minionLogon struct {
 	minionLogonDo minionLogonDo
 
 	ALL       field.Asterisk
-	ID        field.Int64
+	ID        field.Int64 // ID
 	MinionID  field.Int64
 	Inet      field.String
 	User      field.String
@@ -62,7 +62,7 @@ type minionLogon struct {
 	Process   field.String
 	LogonAt   field.Time
 	Ignore    field.Bool
-	CreatedAt field.Time
+	CreatedAt field.Time // 创建时间
 
 	fieldMap map[string]field.Expr
 }

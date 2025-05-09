@@ -51,20 +51,20 @@ type broker struct {
 	brokerDo brokerDo
 
 	ALL          field.Asterisk
-	ID           field.Int64
-	Name         field.String
-	Servername   field.String
-	LAN          field.Field
-	VIP          field.Field
-	Status       field.Bool
-	Secret       field.String
-	CertID       field.Int64
-	Bind         field.String
-	Semver       field.String
-	SemverWeight field.Uint64
-	HeartbeatAt  field.Time
-	CreatedAt    field.Time
-	UpdatedAt    field.Time
+	ID           field.Int64  // ID
+	Name         field.String // 名字
+	Servername   field.String // ServerName
+	LAN          field.Field  // 内网地址
+	VIP          field.Field  // 外网地址
+	Status       field.Bool   // 是否在线
+	Secret       field.String // 连接密钥
+	CertID       field.Int64  // 挂载证书
+	Bind         field.String // 监听地址
+	Semver       field.String // 版本
+	SemverWeight field.Uint64 // 版本号数值
+	HeartbeatAt  field.Time   // 心跳时间
+	CreatedAt    field.Time   // 创建时间
+	UpdatedAt    field.Time   // 更新时间
 
 	fieldMap map[string]field.Expr
 }

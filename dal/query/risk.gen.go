@@ -58,7 +58,7 @@ type risk struct {
 	riskDo riskDo
 
 	ALL        field.Asterisk
-	ID         field.Int64
+	ID         field.Int64 // ID
 	MinionID   field.Int64
 	Inet       field.String
 	RiskType   field.String

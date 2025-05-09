@@ -61,7 +61,7 @@ type sBOMProject struct {
 	sBOMProjectDo sBOMProjectDo
 
 	ALL           field.Asterisk
-	ID            field.Int64
+	ID            field.Int64 // ID
 	MinionID      field.Int64
 	Inet          field.String
 	Filepath      field.String
@@ -83,8 +83,8 @@ type sBOMProject struct {
 	TotalNum      field.Int
 	TotalScore    field.Float64
 	Nonce         field.Int64
-	CreatedAt     field.Time
-	UpdatedAt     field.Time
+	CreatedAt     field.Time // 创建时间
+	UpdatedAt     field.Time // 更新时间
 
 	fieldMap map[string]field.Expr
 }

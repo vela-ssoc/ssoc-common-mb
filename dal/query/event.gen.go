@@ -54,7 +54,7 @@ type event struct {
 	eventDo eventDo
 
 	ALL       field.Asterisk
-	ID        field.Int64
+	ID        field.Int64 // ID
 	MinionID  field.Int64
 	Inet      field.String
 	Subject   field.String

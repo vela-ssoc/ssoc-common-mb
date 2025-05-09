@@ -85,8 +85,8 @@ type sBOMComponent struct {
 	TotalScore    field.Float64
 	Status        field.Uint8
 	Nonce         field.Int64
-	CreatedAt     field.Time
-	UpdatedAt     field.Time
+	CreatedAt     field.Time // 创建时间
+	UpdatedAt     field.Time // 更新时间
 
 	fieldMap map[string]field.Expr
 }

@@ -49,18 +49,18 @@ type effect struct {
 	effectDo effectDo
 
 	ALL       field.Asterisk
-	ID        field.Int64
-	SubmitID  field.Int64
-	Name      field.String
-	Tag       field.String
+	ID        field.Int64  // ID
+	SubmitID  field.Int64  // 批次号
+	Name      field.String // 名称
+	Tag       field.String // 标签
 	EffectID  field.Int64
-	Enable    field.Bool
-	Version   field.Int64
-	Exclusion field.Field
-	CreatedID field.Int64
-	UpdatedID field.Int64
-	CreatedAt field.Time
-	UpdatedAt field.Time
+	Enable    field.Bool  // 是否启用
+	Version   field.Int64 // 乐观锁
+	Exclusion field.Field // 排除节点的IP
+	CreatedID field.Int64 // 创建者
+	UpdatedID field.Int64 // 更新者
+	CreatedAt field.Time  // 创建时间
+	UpdatedAt field.Time  // 更新时间
 
 	fieldMap map[string]field.Expr
 }

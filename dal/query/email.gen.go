@@ -42,11 +42,11 @@ type email struct {
 	emailDo emailDo
 
 	ALL      field.Asterisk
-	ID       field.Int64
-	Host     field.String
-	Username field.String
-	Password field.String
-	Enable   field.Bool
+	ID       field.Int64  // ID
+	Host     field.String // 邮箱服务器
+	Username field.String // 账号
+	Password field.String // 密码
+	Enable   field.Bool   // 是否启用
 
 	fieldMap map[string]field.Expr
 }

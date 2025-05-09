@@ -54,23 +54,23 @@ type minionBin struct {
 	minionBinDo minionBinDo
 
 	ALL        field.Asterisk
-	ID         field.Int64
-	FileID     field.Int64
-	Goos       field.String
-	Arch       field.String
-	Name       field.String
-	Customized field.String
-	Unstable   field.Bool
-	Caution    field.String
-	Ability    field.String
-	Size       field.Int64
-	Hash       field.String
-	Changelog  field.String
-	Semver     field.String
-	Weight     field.Uint64
-	Deprecated field.Bool
-	CreatedAt  field.Time
-	UpdatedAt  field.Time
+	ID         field.Int64  // ID
+	FileID     field.Int64  // 文件名
+	Goos       field.String // 操作系统
+	Arch       field.String // 系统架构
+	Name       field.String // 文件名
+	Customized field.String // 定制版本
+	Unstable   field.Bool   // 内测版本
+	Caution    field.String // 注意事项
+	Ability    field.String // 功能说明
+	Size       field.Int64  // 文件大小
+	Hash       field.String // 文件哈希
+	Changelog  field.String // 变更日志
+	Semver     field.String // 版本号
+	Weight     field.Uint64 // 数值版本号
+	Deprecated field.Bool   // 是否弃用
+	CreatedAt  field.Time   // 创建时间
+	UpdatedAt  field.Time   // 更新时间
 
 	fieldMap map[string]field.Expr
 }

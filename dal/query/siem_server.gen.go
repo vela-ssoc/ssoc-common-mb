@@ -43,12 +43,12 @@ type sIEMServer struct {
 	sIEMServerDo sIEMServerDo
 
 	ALL       field.Asterisk
-	ID        field.Int64
-	Name      field.String
-	URL       field.String
-	Token     field.String
-	CreatedAt field.Time
-	UpdatedAt field.Time
+	ID        field.Int64  // ID
+	Name      field.String // 名字
+	URL       field.String // 服务器地址
+	Token     field.String // 认证令牌
+	CreatedAt field.Time   // 更新时间
+	UpdatedAt field.Time   // 创建时间
 
 	fieldMap map[string]field.Expr
 }

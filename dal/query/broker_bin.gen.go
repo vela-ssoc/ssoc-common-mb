@@ -49,18 +49,18 @@ type brokerBin struct {
 	brokerBinDo brokerBinDo
 
 	ALL          field.Asterisk
-	ID           field.Int64
-	Name         field.String
-	FileID       field.Int64
-	Size         field.Int64
-	Hash         field.String
-	Goos         field.String
-	Arch         field.String
-	Semver       field.String
-	SemverWeight field.Uint64
-	Changelog    field.String
-	CreatedAt    field.Time
-	UpdatedAt    field.Time
+	ID           field.Int64  // ID
+	Name         field.String // 名字
+	FileID       field.Int64  // 文件ID
+	Size         field.Int64  // 文件大小
+	Hash         field.String // 文件哈希
+	Goos         field.String // 操作系统
+	Arch         field.String // 系统架构
+	Semver       field.String // 版本号
+	SemverWeight field.Uint64 // 版本号数值
+	Changelog    field.String // 更新日志
+	CreatedAt    field.Time   // 创建时间
+	UpdatedAt    field.Time   // 更新时间
 
 	fieldMap map[string]field.Expr
 }

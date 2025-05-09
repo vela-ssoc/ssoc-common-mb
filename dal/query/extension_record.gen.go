@@ -44,13 +44,13 @@ type extensionRecord struct {
 	extensionRecordDo extensionRecordDo
 
 	ALL         field.Asterisk
-	ID          field.Int64
-	ExtensionID field.Int64
-	Version     field.Int64
-	Content     field.String
-	ContentSHA1 field.String
-	CreatedBy   field.Field
-	CreatedAt   field.Time
+	ID          field.Int64  // ID
+	ExtensionID field.Int64  // 插件ID
+	Version     field.Int64  // 版本号
+	Content     field.String // 代码
+	ContentSHA1 field.String // SHA1
+	CreatedBy   field.Field  // 创建者
+	CreatedAt   field.Time   // 更新时间
 
 	fieldMap map[string]field.Expr
 }

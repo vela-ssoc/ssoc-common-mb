@@ -50,19 +50,19 @@ type minionAccount struct {
 	minionAccountDo minionAccountDo
 
 	ALL         field.Asterisk
-	ID          field.Int64
-	MinionID    field.Int64
-	Inet        field.String
-	Name        field.String
-	LoginName   field.String
-	UID         field.String
-	GID         field.String
-	HomeDir     field.String
-	Description field.String
-	Status      field.String
+	ID          field.Int64  // ID
+	MinionID    field.Int64  // 节点ID
+	Inet        field.String // 节点IP
+	Name        field.String // 用户名
+	LoginName   field.String // 登录名
+	UID         field.String // UID
+	GID         field.String // GID
+	HomeDir     field.String // 家目录
+	Description field.String // 用户描述
+	Status      field.String // 状态
 	Raw         field.String
-	CreatedAt   field.Time
-	UpdatedAt   field.Time
+	CreatedAt   field.Time // 创建时间
+	UpdatedAt   field.Time // 更新时间
 
 	fieldMap map[string]field.Expr
 }

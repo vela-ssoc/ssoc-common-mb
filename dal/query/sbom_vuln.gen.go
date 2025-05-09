@@ -53,7 +53,7 @@ type sBOMVuln struct {
 	sBOMVulnDo sBOMVulnDo
 
 	ALL          field.Asterisk
-	ID           field.Int64
+	ID           field.Int64 // ID
 	VulnID       field.String
 	PURL         field.String
 	Title        field.String
@@ -67,8 +67,8 @@ type sBOMVuln struct {
 	References   field.Field
 	FixedVersion field.String
 	Nonce        field.Int64
-	CreatedAt    field.Time
-	UpdatedAt    field.Time
+	CreatedAt    field.Time // 创建时间
+	UpdatedAt    field.Time // 更新时间
 
 	fieldMap map[string]field.Expr
 }

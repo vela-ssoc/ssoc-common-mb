@@ -43,12 +43,12 @@ type emc struct {
 	emcDo emcDo
 
 	ALL     field.Asterisk
-	ID      field.Int64
+	ID      field.Int64 // ID
 	Name    field.String
 	Host    field.String
 	Account field.String
 	Token   field.String
-	Enable  field.Bool
+	Enable  field.Bool // 是否启用
 
 	fieldMap map[string]field.Expr
 }

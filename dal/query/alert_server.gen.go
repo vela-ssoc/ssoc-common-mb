@@ -45,14 +45,14 @@ type alertServer struct {
 	alertServerDo alertServerDo
 
 	ALL       field.Asterisk
-	ID        field.Int64
-	Mode      field.String
-	Name      field.String
-	URL       field.String
-	Token     field.String
-	Account   field.String
-	CreatedAt field.Time
-	UpdatedAt field.Time
+	ID        field.Int64  // ID
+	Mode      field.String // 发送模式
+	Name      field.String // 名字
+	URL       field.String // 服务器地址
+	Token     field.String // 认证令牌
+	Account   field.String // 咚咚账号
+	CreatedAt field.Time   // 创建时间
+	UpdatedAt field.Time   // 更新时间
 
 	fieldMap map[string]field.Expr
 }

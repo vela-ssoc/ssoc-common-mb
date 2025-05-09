@@ -53,8 +53,8 @@ type startup struct {
 	Extends   field.Field
 	Failed    field.Bool
 	Reason    field.String
-	CreatedAt field.Time
-	UpdatedAt field.Time
+	CreatedAt field.Time // 创建时间
+	UpdatedAt field.Time // 更新时间
 
 	fieldMap map[string]field.Expr
 }

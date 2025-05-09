@@ -60,29 +60,29 @@ type minion struct {
 	minionDo minionDo
 
 	ALL        field.Asterisk
-	ID         field.Int64
-	Inet       field.String
-	Inet6      field.String
-	MAC        field.String
-	Goos       field.String
-	Arch       field.String
-	Edition    field.String
-	Status     field.Uint8
-	Uptime     field.Field
-	BrokerID   field.Int64
-	BrokerName field.String
-	Unload     field.Bool
-	Unstable   field.Bool
-	Customized field.String
-	OrgPath    field.String
-	Identity   field.String
-	Category   field.String
-	OpDuty     field.String
-	Comment    field.String
-	IBu        field.String
-	IDC        field.String
-	CreatedAt  field.Time
-	UpdatedAt  field.Time
+	ID         field.Int64  // ID
+	Inet       field.String // IPv4
+	Inet6      field.String // IPv6
+	MAC        field.String // MAC地址
+	Goos       field.String // 操作系统
+	Arch       field.String // 系统架构
+	Edition    field.String // Agent版本
+	Status     field.Uint8  // 节点状态
+	Uptime     field.Field  // 上线时间
+	BrokerID   field.Int64  // 代理节点ID
+	BrokerName field.String // 代理节点
+	Unload     field.Bool   // 是否静默模式
+	Unstable   field.Bool   // 是否内测版本
+	Customized field.String // 定制版本
+	OrgPath    field.String // 部门路径
+	Identity   field.String // 堡垒机用户
+	Category   field.String // 部门信息
+	OpDuty     field.String // 运维负责人
+	Comment    field.String // 节点描述
+	IBu        field.String // 部门
+	IDC        field.String // IDC
+	CreatedAt  field.Time   // 更新时间
+	UpdatedAt  field.Time   // 创建时间
 
 	fieldMap map[string]field.Expr
 }

@@ -50,6 +50,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		MinionProcess:    newMinionProcess(db, opts...),
 		MinionTag:        newMinionTag(db, opts...),
 		MinionTask:       newMinionTask(db, opts...),
+		NTPConfig:        newNTPConfig(db, opts...),
 		Notifier:         newNotifier(db, opts...),
 		Oplog:            newOplog(db, opts...),
 		PassDNS:          newPassDNS(db, opts...),
@@ -114,6 +115,7 @@ type Query struct {
 	MinionProcess    minionProcess
 	MinionTag        minionTag
 	MinionTask       minionTask
+	NTPConfig        nTPConfig
 	Notifier         notifier
 	Oplog            oplog
 	PassDNS          passDNS
@@ -179,6 +181,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		MinionProcess:    q.MinionProcess.clone(db),
 		MinionTag:        q.MinionTag.clone(db),
 		MinionTask:       q.MinionTask.clone(db),
+		NTPConfig:        q.NTPConfig.clone(db),
 		Notifier:         q.Notifier.clone(db),
 		Oplog:            q.Oplog.clone(db),
 		PassDNS:          q.PassDNS.clone(db),
@@ -251,6 +254,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		MinionProcess:    q.MinionProcess.replaceDB(db),
 		MinionTag:        q.MinionTag.replaceDB(db),
 		MinionTask:       q.MinionTask.replaceDB(db),
+		NTPConfig:        q.NTPConfig.replaceDB(db),
 		Notifier:         q.Notifier.replaceDB(db),
 		Oplog:            q.Oplog.replaceDB(db),
 		PassDNS:          q.PassDNS.replaceDB(db),
@@ -313,6 +317,7 @@ type queryCtx struct {
 	MinionProcess    *minionProcessDo
 	MinionTag        *minionTagDo
 	MinionTask       *minionTaskDo
+	NTPConfig        *nTPConfigDo
 	Notifier         *notifierDo
 	Oplog            *oplogDo
 	PassDNS          *passDNSDo
@@ -375,6 +380,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		MinionProcess:    q.MinionProcess.WithContext(ctx),
 		MinionTag:        q.MinionTag.WithContext(ctx),
 		MinionTask:       q.MinionTask.WithContext(ctx),
+		NTPConfig:        q.NTPConfig.WithContext(ctx),
 		Notifier:         q.Notifier.WithContext(ctx),
 		Oplog:            q.Oplog.WithContext(ctx),
 		PassDNS:          q.PassDNS.WithContext(ctx),

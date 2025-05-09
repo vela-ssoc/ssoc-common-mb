@@ -76,7 +76,7 @@ type sysInfo struct {
 	AgentTotal    field.Int
 	AgentAlloc    field.Int
 	KernelVersion field.String
-	UpdatedAt     field.Time
+	UpdatedAt     field.Time // 更新时间
 
 	fieldMap map[string]field.Expr
 }

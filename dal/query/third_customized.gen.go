@@ -43,12 +43,12 @@ type thirdCustomized struct {
 	thirdCustomizedDo thirdCustomizedDo
 
 	ALL       field.Asterisk
-	ID        field.Int64
-	Name      field.String
-	Icon      field.String
-	Remark    field.String
-	CreatedAt field.Time
-	UpdatedAt field.Time
+	ID        field.Int64  // ID
+	Name      field.String // 标签名
+	Icon      field.String // 图标
+	Remark    field.String // 备注
+	CreatedAt field.Time   // 创建时间
+	UpdatedAt field.Time   // 更新时间
 
 	fieldMap map[string]field.Expr
 }

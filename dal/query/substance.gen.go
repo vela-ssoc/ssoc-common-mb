@@ -50,7 +50,7 @@ type substance struct {
 	substanceDo substanceDo
 
 	ALL       field.Asterisk
-	ID        field.Int64
+	ID        field.Int64 // ID
 	Name      field.String
 	Icon      field.Bytes
 	Hash      field.String
@@ -61,8 +61,8 @@ type substance struct {
 	Version   field.Int64
 	CreatedID field.Int64
 	UpdatedID field.Int64
-	CreatedAt field.Time
-	UpdatedAt field.Time
+	CreatedAt field.Time // 创建时间
+	UpdatedAt field.Time // 更新时间
 
 	fieldMap map[string]field.Expr
 }

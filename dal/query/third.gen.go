@@ -49,18 +49,18 @@ type third struct {
 	thirdDo thirdDo
 
 	ALL        field.Asterisk
-	ID         field.Int64
-	FileID     field.Int64
-	Name       field.String
-	Hash       field.String
-	Desc       field.String
-	Size       field.Int64
-	Customized field.String
-	Extension  field.String
-	CreatedID  field.Int64
-	UpdatedID  field.Int64
-	CreatedAt  field.Time
-	UpdatedAt  field.Time
+	ID         field.Int64  // ID
+	FileID     field.Int64  // 文件ID
+	Name       field.String // 文件名
+	Hash       field.String // 文件MD5
+	Desc       field.String // 文件简介
+	Size       field.Int64  // 文件大小
+	Customized field.String // 分类
+	Extension  field.String // 扩展名
+	CreatedID  field.Int64  // 创建者
+	UpdatedID  field.Int64  // 修改者
+	CreatedAt  field.Time   // 创建时间
+	UpdatedAt  field.Time   // 更新时间
 
 	fieldMap map[string]field.Expr
 }

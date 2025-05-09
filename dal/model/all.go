@@ -35,6 +35,7 @@ func All() []any {
 		MinionTag{},
 		MinionTask{},
 		Notifier{},
+		NTPConfig{},
 		Oplog{},
 		PassDNS{},
 		PassIP{},

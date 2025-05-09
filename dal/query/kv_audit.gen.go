@@ -44,13 +44,13 @@ type kVAudit struct {
 	kVAuditDo kVAuditDo
 
 	ALL       field.Asterisk
-	ID        field.Int64
-	MinionID  field.Int64
+	ID        field.Int64 // ID
+	MinionID  field.Int64 // 节点ID
 	Inet      field.String
 	Bucket    field.String
 	Key       field.String
-	CreatedAt field.Time
-	UpdatedAt field.Time
+	CreatedAt field.Time // 创建时间
+	UpdatedAt field.Time // 更新时间
 
 	fieldMap map[string]field.Expr
 }

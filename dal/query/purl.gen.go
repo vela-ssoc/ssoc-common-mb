@@ -38,7 +38,7 @@ type purl struct {
 	purlDo purlDo
 
 	ALL field.Asterisk
-	ID  field.String
+	ID  field.String // PURL
 
 	fieldMap map[string]field.Expr
 }

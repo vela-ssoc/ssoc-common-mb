@@ -44,13 +44,13 @@ type store struct {
 	storeDo storeDo
 
 	ALL       field.Asterisk
-	ID        field.String
+	ID        field.String // ID
 	Value     field.Bytes
-	Escape    field.Bool
-	Desc      field.String
-	Version   field.Int64
-	CreatedAt field.Time
-	UpdatedAt field.Time
+	Escape    field.Bool   // 是否转义
+	Desc      field.String // 说明
+	Version   field.Int64  // 乐观锁
+	CreatedAt field.Time   // 创建时间
+	UpdatedAt field.Time   // 更新时间
 
 	fieldMap map[string]field.Expr
 }

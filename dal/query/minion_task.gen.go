@@ -52,7 +52,7 @@ type minionTask struct {
 	minionTaskDo minionTaskDo
 
 	ALL         field.Asterisk
-	ID          field.Int64
+	ID          field.Int64 // ID
 	SubstanceID field.Int64
 	MinionID    field.Int64
 	Inet        field.String
@@ -66,7 +66,7 @@ type minionTask struct {
 	Failed      field.Bool
 	Cause       field.String
 	Runners     field.Field
-	CreatedAt   field.Time
+	CreatedAt   field.Time // 创建时间
 
 	fieldMap map[string]field.Expr
 }

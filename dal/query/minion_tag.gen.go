@@ -41,10 +41,10 @@ type minionTag struct {
 	minionTagDo minionTagDo
 
 	ALL      field.Asterisk
-	ID       field.Int64
-	MinionID field.Int64
-	Tag      field.String
-	Kind     field.Int8
+	ID       field.Int64  // ID
+	MinionID field.Int64  // 节点ID
+	Tag      field.String // 标签
+	Kind     field.Int8   // 标签类型
 
 	fieldMap map[string]field.Expr
 }

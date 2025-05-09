@@ -54,23 +54,23 @@ type taskExecuteItem struct {
 	taskExecuteItemDo taskExecuteItemDo
 
 	ALL           field.Asterisk
-	ID            field.Int64
-	TaskID        field.Int64
-	ExecID        field.Int64
-	MinionID      field.Int64
-	Inet          field.String
-	BrokerID      field.Int64
-	BrokerName    field.String
-	ManagerStatus field.Field
-	BrokerStatus  field.Field
-	MinionStatus  field.Field
-	Finished      field.Bool
-	Succeed       field.Bool
-	ErrorCode     field.Int
-	Result        field.Bytes
-	ExpiredAt     field.Time
-	CreatedAt     field.Time
-	UpdatedAt     field.Time
+	ID            field.Int64  // ID
+	TaskID        field.Int64  // 任务ID
+	ExecID        field.Int64  // 执行ID
+	MinionID      field.Int64  // 节点ID
+	Inet          field.String // 节点IP
+	BrokerID      field.Int64  // 代理节点ID
+	BrokerName    field.String // 代理节点名字
+	ManagerStatus field.Field  // manager执行状态
+	BrokerStatus  field.Field  // broker执行状态
+	MinionStatus  field.Field  // agent执行状态
+	Finished      field.Bool   // 是否执行完毕
+	Succeed       field.Bool   // 是否执行成功
+	ErrorCode     field.Int    // 错误码
+	Result        field.Bytes  // agent执行结果
+	ExpiredAt     field.Time   // 任务过期时间
+	CreatedAt     field.Time   // 创建时间
+	UpdatedAt     field.Time   // 更新时间
 
 	fieldMap map[string]field.Expr
 }

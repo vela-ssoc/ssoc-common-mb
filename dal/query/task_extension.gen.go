@@ -58,27 +58,27 @@ type taskExtension struct {
 	taskExtensionDo taskExtensionDo
 
 	ALL           field.Asterisk
-	ID            field.Int64
-	Name          field.String
-	Intro         field.String
-	Code          field.String
-	CodeSHA1      field.String
-	ContentQuote  field.Field
-	StepDone      field.Bool
-	Enabled       field.Bool
-	Cron          field.String
-	SpecificTimes field.Field
-	Timeout       field.Field
-	PushSize      field.Int
-	Filters       field.Field
-	Excludes      field.Field
-	ExecID        field.Int64
-	Status        field.Field
-	Finished      field.Bool
-	CreatedBy     field.Field
-	UpdatedBy     field.Field
-	CreatedAt     field.Time
-	UpdatedAt     field.Time
+	ID            field.Int64  // ID
+	Name          field.String // 名字
+	Intro         field.String // 简介
+	Code          field.String // 执行代码
+	CodeSHA1      field.String // 执行代码SHA1
+	ContentQuote  field.Field  // 插件引用
+	StepDone      field.Bool   // 步骤完成
+	Enabled       field.Bool   // 开启任务
+	Cron          field.String // 定时任务表达式
+	SpecificTimes field.Field  // 定点任务时间
+	Timeout       field.Field  // 超时时间
+	PushSize      field.Int    // 推送并发数
+	Filters       field.Field  // 过滤节点
+	Excludes      field.Field  // 排除节点
+	ExecID        field.Int64  // 执行ID
+	Status        field.Field  // 最近一次任务状态
+	Finished      field.Bool   // 最近一次任务是否结束
+	CreatedBy     field.Field  // 创建者
+	UpdatedBy     field.Field  // 更新者
+	CreatedAt     field.Time   // 创建时间
+	UpdatedAt     field.Time   // 更新时间
 
 	fieldMap map[string]field.Expr
 }

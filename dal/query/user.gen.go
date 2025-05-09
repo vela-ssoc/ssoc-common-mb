@@ -53,22 +53,22 @@ type user struct {
 	userDo userDo
 
 	ALL        field.Asterisk
-	ID         field.Int64
-	Username   field.String
-	Nickname   field.String
-	Password   field.String
-	Dong       field.String
-	Enable     field.Bool
-	Domain     field.Uint8
-	AccessKey  field.String
-	Token      field.String
-	TotpSecret field.String
-	TotpBind   field.Bool
-	IssueAt    field.Field
-	SessionAt  field.Field
-	DeletedAt  field.Field
-	CreatedAt  field.Time
-	UpdatedAt  field.Time
+	ID         field.Int64  // ID
+	Username   field.String // 用户名
+	Nickname   field.String // 昵称
+	Password   field.String // 密码
+	Dong       field.String // 咚咚账户
+	Enable     field.Bool   // 是否启用
+	Domain     field.Uint8  // 用户类型
+	AccessKey  field.String // 接口调用密钥
+	Token      field.String // Token
+	TotpSecret field.String // TOTP密钥
+	TotpBind   field.Bool   // TOTP是否已使用
+	IssueAt    field.Field  // Token签发时间
+	SessionAt  field.Field  // Session活动时间
+	DeletedAt  field.Field  // 逻辑删除时间
+	CreatedAt  field.Time   // 创建时间
+	UpdatedAt  field.Time   // 更新时间
 
 	fieldMap map[string]field.Expr
 }

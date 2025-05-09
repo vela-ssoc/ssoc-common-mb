@@ -54,7 +54,7 @@ type oplog struct {
 	oplogDo oplogDo
 
 	ALL        field.Asterisk
-	ID         field.Int64
+	ID         field.Int64 // ID
 	UserID     field.Int64
 	Username   field.String
 	Nickname   field.String
@@ -70,7 +70,7 @@ type oplog struct {
 	Cause      field.String
 	RequestAt  field.Time
 	Elapsed    field.Int64
-	CreatedAt  field.Time
+	CreatedAt  field.Time // 创建时间
 
 	fieldMap map[string]field.Expr
 }

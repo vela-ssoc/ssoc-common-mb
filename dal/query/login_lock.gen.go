@@ -42,7 +42,7 @@ type loginLock struct {
 	ALL       field.Asterisk
 	ID        field.Int64
 	Username  field.String
-	CreatedAt field.Time
+	CreatedAt field.Time // 创建时间
 
 	fieldMap map[string]field.Expr
 }

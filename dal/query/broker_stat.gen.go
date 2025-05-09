@@ -44,13 +44,13 @@ type brokerStat struct {
 	brokerStatDo brokerStatDo
 
 	ALL        field.Asterisk
-	ID         field.Int64
-	Name       field.String
-	MemUsed    field.Uint64
-	MemTotal   field.Uint64
-	CPUPercent field.Float64
-	CreatedAt  field.Time
-	UpdatedAt  field.Time
+	ID         field.Int64   // ID
+	Name       field.String  // 名字
+	MemUsed    field.Uint64  // 内存使用量
+	MemTotal   field.Uint64  // 内存总量
+	CPUPercent field.Float64 // CPU使用百分比
+	CreatedAt  field.Time    // 创建时间
+	UpdatedAt  field.Time    // 更新时间
 
 	fieldMap map[string]field.Expr
 }

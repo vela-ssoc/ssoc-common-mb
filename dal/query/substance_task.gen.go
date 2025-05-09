@@ -48,17 +48,17 @@ type substanceTask struct {
 	substanceTaskDo substanceTaskDo
 
 	ALL        field.Asterisk
-	ID         field.Int64
+	ID         field.Int64 // ID
 	TaskID     field.Int64
-	MinionID   field.Int64
-	Inet       field.String
-	BrokerID   field.Int64
-	BrokerName field.String
-	Failed     field.Bool
-	Reason     field.String
-	Executed   field.Bool
-	CreatedAt  field.Time
-	UpdatedAt  field.Time
+	MinionID   field.Int64  // 节点 ID
+	Inet       field.String // 节点 IP
+	BrokerID   field.Int64  // 节点所在的 broker_id
+	BrokerName field.String // 节点所在的 broker 名字
+	Failed     field.Bool   // 是否下发失败
+	Reason     field.String // 失败原因
+	Executed   field.Bool   // 是否下发完毕
+	CreatedAt  field.Time   // 任务创建时间
+	UpdatedAt  field.Time   // 任务更新时间
 
 	fieldMap map[string]field.Expr
 }

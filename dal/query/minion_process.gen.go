@@ -65,7 +65,7 @@ type minionProcess struct {
 	minionProcessDo minionProcessDo
 
 	ALL          field.Asterisk
-	ID           field.Int64
+	ID           field.Int64 // ID
 	MinionID     field.Int64
 	Inet         field.String
 	Name         field.String
@@ -91,8 +91,8 @@ type minionProcess struct {
 	Checksum     field.String
 	CreatedTime  field.Time
 	ModifiedAt   field.Time
-	CreatedAt    field.Time
-	UpdatedAt    field.Time
+	CreatedAt    field.Time // 创建时间
+	UpdatedAt    field.Time // 更新时间
 
 	fieldMap map[string]field.Expr
 }

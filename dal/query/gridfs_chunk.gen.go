@@ -41,10 +41,10 @@ type gridChunk struct {
 	gridChunkDo gridChunkDo
 
 	ALL    field.Asterisk
-	ID     field.Int64
-	FileID field.Int64
-	Serial field.Int
-	Data   field.Bytes
+	ID     field.Int64 // ID
+	FileID field.Int64 // 文件ID
+	Serial field.Int   // 文件分片序号
+	Data   field.Bytes // 文件内容分片
 
 	fieldMap map[string]field.Expr
 }

@@ -40,9 +40,9 @@ type authTemp struct {
 	authTempDo authTempDo
 
 	ALL       field.Asterisk
-	ID        field.Int64
-	UID       field.String
-	CreatedAt field.Time
+	ID        field.Int64  // 用户ID
+	UID       field.String // 临时唯一凭证
+	CreatedAt field.Time   // 创建时间
 
 	fieldMap map[string]field.Expr
 }

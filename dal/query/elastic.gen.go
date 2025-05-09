@@ -44,13 +44,13 @@ type elastic struct {
 	elasticDo elasticDo
 
 	ALL      field.Asterisk
-	ID       field.Int64
-	Host     field.String
-	Username field.String
-	Password field.String
-	Hosts    field.Field
-	Desc     field.String
-	Enable   field.Bool
+	ID       field.Int64  // ID
+	Host     field.String // 地址
+	Username field.String // 账户
+	Password field.String // 密码
+	Hosts    field.Field  // 服务器地址
+	Desc     field.String // 简介
+	Enable   field.Bool   // 是否启用
 
 	fieldMap map[string]field.Expr
 }

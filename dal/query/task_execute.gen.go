@@ -56,25 +56,25 @@ type taskExecute struct {
 	taskExecuteDo taskExecuteDo
 
 	ALL           field.Asterisk
-	ID            field.Int64
-	TaskID        field.Int64
-	Name          field.String
-	Intro         field.String
-	Status        field.Field
-	Finished      field.Bool
-	Code          field.String
-	CodeSHA1      field.String
-	ContentQuote  field.Field
-	Cron          field.String
-	SpecificTimes field.Field
-	Timeout       field.Field
-	PushSize      field.Int
-	Filters       field.Field
-	Excludes      field.Field
-	CreatedBy     field.Field
-	UpdatedBy     field.Field
-	CreatedAt     field.Time
-	UpdatedAt     field.Time
+	ID            field.Int64  // ID
+	TaskID        field.Int64  // 任务ID
+	Name          field.String // 名字
+	Intro         field.String // 简介
+	Status        field.Field  // 执行状态
+	Finished      field.Bool   // 是否结束
+	Code          field.String // 执行代码
+	CodeSHA1      field.String // 执行代码SHA1
+	ContentQuote  field.Field  // 插件引用
+	Cron          field.String // 定时任务表达式
+	SpecificTimes field.Field  // 定点任务时间
+	Timeout       field.Field  // 超时时间
+	PushSize      field.Int    // 推送并发数
+	Filters       field.Field  // 过滤节点
+	Excludes      field.Field  // 排除节点
+	CreatedBy     field.Field  // 任务创建者
+	UpdatedBy     field.Field  // 任务创建者
+	CreatedAt     field.Time   // 创建时间
+	UpdatedAt     field.Time   // 更新时间
 
 	fieldMap map[string]field.Expr
 }

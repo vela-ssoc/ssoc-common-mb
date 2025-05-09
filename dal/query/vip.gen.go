@@ -52,7 +52,7 @@ type vIP struct {
 	vIPDo vIPDo
 
 	ALL         field.Asterisk
-	ID          field.Int64
+	ID          field.Int64 // ID
 	VirtualIP   field.String
 	VirtualPort field.Int
 	VirtualAddr field.String
@@ -65,8 +65,8 @@ type vIP struct {
 	BizBranch   field.String
 	BizDept     field.String
 	BizType     field.String
-	CreatedAt   field.Time
-	UpdatedAt   field.Time
+	CreatedAt   field.Time // 创建时间
+	UpdatedAt   field.Time // 更新时间
 
 	fieldMap map[string]field.Expr
 }

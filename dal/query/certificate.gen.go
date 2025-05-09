@@ -59,14 +59,14 @@ type certificate struct {
 	certificateDo certificateDo
 
 	ALL            field.Asterisk
-	ID             field.Int64
-	Name           field.String
-	Certificate    field.String
-	PrivateKey     field.String
-	Version        field.Int
-	IssCountry     field.Field
-	IssProvince    field.Field
-	IssOrg         field.Field
+	ID             field.Int64  // 用户ID
+	Name           field.String // 证书名
+	Certificate    field.String // 证书
+	PrivateKey     field.String // 私钥
+	Version        field.Int    // 证书版本
+	IssCountry     field.Field  // 颁发者国家
+	IssProvince    field.Field  // 颁发者省份
+	IssOrg         field.Field  // 颁发者组织
 	IssCN          field.String
 	IssOrgUnit     field.Field
 	SubCountry     field.Field
@@ -79,8 +79,8 @@ type certificate struct {
 	URIs           field.Field
 	NotBefore      field.Time
 	NotAfter       field.Time
-	CreatedAt      field.Time
-	UpdatedAt      field.Time
+	CreatedAt      field.Time // 创建时间
+	UpdatedAt      field.Time // 更新时间
 
 	fieldMap map[string]field.Expr
 }

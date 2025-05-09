@@ -47,7 +47,7 @@ type notifier struct {
 	notifierDo notifierDo
 
 	ALL       field.Asterisk
-	ID        field.Int64
+	ID        field.Int64 // ID
 	Name      field.String
 	Events    field.Field
 	Risks     field.Field

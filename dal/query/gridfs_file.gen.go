@@ -43,12 +43,12 @@ type gridFile struct {
 	gridFileDo gridFileDo
 
 	ALL       field.Asterisk
-	ID        field.Int64
-	Name      field.String
-	Size      field.Int64
-	Checksum  field.String
-	CreatedAt field.Time
-	UpdatedAt field.Time
+	ID        field.Int64  // ID
+	Name      field.String // 名字
+	Size      field.Int64  // 文件大小
+	Checksum  field.String // MD5
+	CreatedAt field.Time   // 更新时间
+	UpdatedAt field.Time   // 创建时间
 
 	fieldMap map[string]field.Expr
 }

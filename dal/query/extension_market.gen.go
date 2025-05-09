@@ -49,18 +49,18 @@ type extensionMarket struct {
 	extensionMarketDo extensionMarketDo
 
 	ALL         field.Asterisk
-	ID          field.Int64
-	Name        field.String
-	Intro       field.String
-	Category    field.String
-	Version     field.Int64
-	Content     field.String
-	ContentSHA1 field.String
-	Changelog   field.String
-	CreatedBy   field.Field
-	UpdatedBy   field.Field
-	CreatedAt   field.Time
-	UpdatedAt   field.Time
+	ID          field.Int64  // ID
+	Name        field.String // 名字
+	Intro       field.String // 简介
+	Category    field.String // 插件类型
+	Version     field.Int64  // 版本号
+	Content     field.String // 代码
+	ContentSHA1 field.String // SHA1
+	Changelog   field.String // 更新日志
+	CreatedBy   field.Field  // 创建者
+	UpdatedBy   field.Field  // 修改者
+	CreatedAt   field.Time   // 修改时间
+	UpdatedAt   field.Time   // 创建时间
 
 	fieldMap map[string]field.Expr
 }
