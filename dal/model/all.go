@@ -54,6 +54,7 @@ func All() []any {
 		Substance{},
 		SubstanceTask{},
 		SysInfo{},
+		SyslogConfig{},
 		TaskExecute{},
 		TaskExecuteItem{},
 		TaskExtension{},

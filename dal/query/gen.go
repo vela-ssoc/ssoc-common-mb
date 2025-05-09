@@ -70,6 +70,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		Substance:        newSubstance(db, opts...),
 		SubstanceTask:    newSubstanceTask(db, opts...),
 		SysInfo:          newSysInfo(db, opts...),
+		SyslogConfig:     newSyslogConfig(db, opts...),
 		TaskExecute:      newTaskExecute(db, opts...),
 		TaskExecuteItem:  newTaskExecuteItem(db, opts...),
 		TaskExtension:    newTaskExtension(db, opts...),
@@ -135,6 +136,7 @@ type Query struct {
 	Substance        substance
 	SubstanceTask    substanceTask
 	SysInfo          sysInfo
+	SyslogConfig     syslogConfig
 	TaskExecute      taskExecute
 	TaskExecuteItem  taskExecuteItem
 	TaskExtension    taskExtension
@@ -201,6 +203,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		Substance:        q.Substance.clone(db),
 		SubstanceTask:    q.SubstanceTask.clone(db),
 		SysInfo:          q.SysInfo.clone(db),
+		SyslogConfig:     q.SyslogConfig.clone(db),
 		TaskExecute:      q.TaskExecute.clone(db),
 		TaskExecuteItem:  q.TaskExecuteItem.clone(db),
 		TaskExtension:    q.TaskExtension.clone(db),
@@ -274,6 +277,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		Substance:        q.Substance.replaceDB(db),
 		SubstanceTask:    q.SubstanceTask.replaceDB(db),
 		SysInfo:          q.SysInfo.replaceDB(db),
+		SyslogConfig:     q.SyslogConfig.replaceDB(db),
 		TaskExecute:      q.TaskExecute.replaceDB(db),
 		TaskExecuteItem:  q.TaskExecuteItem.replaceDB(db),
 		TaskExtension:    q.TaskExtension.replaceDB(db),
@@ -337,6 +341,7 @@ type queryCtx struct {
 	Substance        *substanceDo
 	SubstanceTask    *substanceTaskDo
 	SysInfo          *sysInfoDo
+	SyslogConfig     *syslogConfigDo
 	TaskExecute      *taskExecuteDo
 	TaskExecuteItem  *taskExecuteItemDo
 	TaskExtension    *taskExtensionDo
@@ -400,6 +405,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		Substance:        q.Substance.WithContext(ctx),
 		SubstanceTask:    q.SubstanceTask.WithContext(ctx),
 		SysInfo:          q.SysInfo.WithContext(ctx),
+		SyslogConfig:     q.SyslogConfig.WithContext(ctx),
 		TaskExecute:      q.TaskExecute.WithContext(ctx),
 		TaskExecuteItem:  q.TaskExecuteItem.WithContext(ctx),
 		TaskExtension:    q.TaskExtension.WithContext(ctx),
