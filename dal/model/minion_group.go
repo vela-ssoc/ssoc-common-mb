@@ -9,8 +9,8 @@ type MinionGroup struct {
 	Name        string    `json:"name"             gorm:"column:name;size:255"`
 	GID         string    `json:"gid"              gorm:"column:gid;size:500"`
 	Description string    `json:"description"      gorm:"column:description;type:text"`
-	CreatedAt   time.Time `json:"created_at"       gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt   time.Time `json:"updated_at"       gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt   time.Time `json:"created_at"       gorm:"column:created_at;notnull;autoCreateTime(3);comment:创建时间"`
+	UpdatedAt   time.Time `json:"updated_at"       gorm:"column:updated_at;notnull;autoUpdateTime(3);comment:更新时间"`
 }
 
 func (MinionGroup) TableName() string {

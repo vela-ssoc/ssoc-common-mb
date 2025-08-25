@@ -32,8 +32,8 @@ type TaskExecuteItem struct {
 	ErrorCode     int             `json:"error_code"       gorm:"column:error_code;notnull;default:0;comment:错误码"` // 该错误码用于辅助搜索
 	Result        json.RawMessage `json:"result"           gorm:"column:result;comment:agent执行结果"`
 	ExpiredAt     time.Time       `json:"expired_at"       gorm:"column:expired_at;notnull;index;comment:任务过期时间"`
-	CreatedAt     time.Time       `json:"created_at"       gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt     time.Time       `json:"updated_at"       gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt     time.Time       `json:"created_at"       gorm:"column:created_at;notnull;autoCreateTime(3);comment:创建时间"`
+	UpdatedAt     time.Time       `json:"updated_at"       gorm:"column:updated_at;notnull;autoUpdateTime(3);comment:更新时间"`
 }
 
 func (TaskExecuteItem) TableName() string {

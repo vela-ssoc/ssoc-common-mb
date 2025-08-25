@@ -23,7 +23,7 @@ type SysInfo struct {
 	AgentTotal    int       `json:"agent_total"    gorm:"column:agent_total"`
 	AgentAlloc    int       `json:"agent_alloc"    gorm:"column:agent_alloc"`
 	KernelVersion string    `json:"kernel_version" gorm:"column:kernel_version"`
-	UpdatedAt     time.Time `json:"updated_at"     gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
+	UpdatedAt     time.Time `json:"updated_at"     gorm:"column:updated_at;notnull;autoUpdateTime(3);comment:更新时间"`
 }
 
 func (SysInfo) TableName() string {

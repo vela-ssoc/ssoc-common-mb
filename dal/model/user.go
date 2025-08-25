@@ -41,8 +41,8 @@ type User struct {
 	IssueAt    sql.NullTime   `json:"issue_at"   gorm:"column:issue_at;comment:Token签发时间"`
 	SessionAt  sql.NullTime   `json:"session_at" gorm:"column:session_at;comment:Session活动时间"`
 	DeletedAt  gorm.DeletedAt `json:"-"          gorm:"column:deleted_at;comment:逻辑删除时间"`
-	CreatedAt  time.Time      `json:"created_at" gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt  time.Time      `json:"updated_at" gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt  time.Time      `json:"created_at" gorm:"column:created_at;notnull;autoCreateTime(3);comment:创建时间"`
+	UpdatedAt  time.Time      `json:"updated_at" gorm:"column:updated_at;notnull;autoUpdateTime(3);comment:更新时间"`
 }
 
 // TableName implement gorm schema.Tabler

@@ -11,8 +11,8 @@ type EagleEyeData struct {
 	Inet      string          `json:"inet"             gorm:"column:inet;size:20"`
 	Path      string          `json:"path"             gorm:"column:path;size:255"`
 	Data      json.RawMessage `json:"data"             gorm:"column:data"`
-	CreatedAt time.Time       `json:"created_at"       gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt time.Time       `json:"updated_at"       gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt time.Time       `json:"created_at"       gorm:"column:created_at;notnull;autoCreateTime(3);comment:创建时间"`
+	UpdatedAt time.Time       `json:"updated_at"       gorm:"column:updated_at;notnull;autoUpdateTime(3);comment:更新时间"`
 }
 
 func (EagleEyeData) TableName() string {

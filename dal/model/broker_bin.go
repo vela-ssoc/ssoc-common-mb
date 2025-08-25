@@ -14,8 +14,8 @@ type BrokerBin struct {
 	Semver       Semver    `json:"semver"               gorm:"column:semver;size:50;notnull;comment:版本号"`
 	SemverWeight uint64    `json:"semver_weight,string" gorm:"column:semver_weight;notnull;default:0;comment:版本号数值"`
 	Changelog    string    `json:"changelog"            gorm:"column:changelog;type:text;comment:更新日志"`
-	CreatedAt    time.Time `json:"created_at"           gorm:"column:created_at;default:now(3);comment:创建时间"`
-	UpdatedAt    time.Time `json:"updated_at"           gorm:"column:updated_at;default:now(3);comment:更新时间"`
+	CreatedAt    time.Time `json:"created_at"           gorm:"column:created_at;autoCreateTime(3);comment:创建时间"`
+	UpdatedAt    time.Time `json:"updated_at"           gorm:"column:updated_at;autoUpdateTime(3);comment:更新时间"`
 }
 
 func (BrokerBin) TableName() string {

@@ -30,8 +30,8 @@ type MinionProcess struct {
 	Checksum     string    `json:"checksum"         gorm:"column:checksum"`
 	CreatedTime  time.Time `json:"created_time"     gorm:"column:created_time"`
 	ModifiedAt   time.Time `json:"modified_at"      gorm:"column:modified_at"`
-	CreatedAt    time.Time `json:"created_at"       gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt    time.Time `json:"updated_at"       gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt    time.Time `json:"created_at"       gorm:"column:created_at;notnull;autoCreateTime(3);comment:创建时间"`
+	UpdatedAt    time.Time `json:"updated_at"       gorm:"column:updated_at;notnull;autoUpdateTime(3);comment:更新时间"`
 }
 
 // TableName implement gorm schema.Tabler

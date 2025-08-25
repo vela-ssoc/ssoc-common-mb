@@ -12,12 +12,12 @@ require (
 	github.com/vela-ssoc/opengauss v0.0.0-20250307012047-4cdb16f3d678
 	github.com/vela-ssoc/vela-common-mba v0.0.0-20250623053940-85c8bd78c6bc
 	github.com/xgfone/ship/v5 v5.3.2
-	golang.org/x/net v0.42.0
+	golang.org/x/net v0.43.0
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 	gorm.io/driver/mysql v1.6.0
 	gorm.io/gen v0.3.27
-	gorm.io/gorm v1.30.0
-	gorm.io/plugin/dbresolver v1.6.0
+	gorm.io/gorm v1.30.1
+	gorm.io/plugin/dbresolver v1.6.2
 )
 
 require (
@@ -29,12 +29,12 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/tjfoc/gmsm v1.4.1 // indirect
-	golang.org/x/crypto v0.40.0 // indirect
-	golang.org/x/mod v0.26.0 // indirect
+	golang.org/x/crypto v0.41.0 // indirect
+	golang.org/x/mod v0.27.0 // indirect
 	golang.org/x/sync v0.16.0 // indirect
-	golang.org/x/sys v0.34.0 // indirect
-	golang.org/x/text v0.27.0 // indirect
-	golang.org/x/tools v0.35.0 // indirect
+	golang.org/x/sys v0.35.0 // indirect
+	golang.org/x/text v0.28.0 // indirect
+	golang.org/x/tools v0.36.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect
 	gorm.io/datatypes v1.2.6 // indirect
 	gorm.io/hints v1.1.2 // indirect

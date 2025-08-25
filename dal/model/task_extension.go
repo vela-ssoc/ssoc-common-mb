@@ -27,8 +27,8 @@ type TaskExtension struct {
 	Finished      bool               `json:"finished"                 gorm:"column:finished;comment:最近一次任务是否结束"`
 	CreatedBy     Operator           `json:"created_by"               gorm:"column:created_by;type:json;notnull;serializer:json;comment:创建者"`
 	UpdatedBy     Operator           `json:"updated_by"               gorm:"column:updated_by;type:json;notnull;serializer:json;comment:更新者"`
-	CreatedAt     time.Time          `json:"created_at"               gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt     time.Time          `json:"updated_at"               gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt     time.Time          `json:"created_at"               gorm:"column:created_at;notnull;autoCreateTime(3);comment:创建时间"`
+	UpdatedAt     time.Time          `json:"updated_at"               gorm:"column:updated_at;notnull;autoUpdateTime(3);comment:更新时间"`
 }
 
 func (TaskExtension) TableName() string {

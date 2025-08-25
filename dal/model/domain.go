@@ -11,8 +11,8 @@ type Domain struct {
 	Origin    string    `json:"origin"     gorm:"column:origin;size:100"`   // 来源
 	ISP       string    `json:"isp"        gorm:"column:isp;size:20"`       // ISP
 	Comment   string    `json:"comment"    gorm:"column:comment;type:text"` // 备注
-	CreatedAt time.Time `json:"created_at" gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt time.Time `json:"created_at" gorm:"column:created_at;notnull;autoCreateTime(3);comment:创建时间"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at;notnull;autoUpdateTime(3);comment:更新时间"`
 }
 
 // TableName implement gorm schema.Tabler

@@ -19,8 +19,8 @@ type Effect struct {
 	Exclusion []string  `json:"exclusion"         gorm:"column:exclusion;type:json;serializer:json;comment:排除节点的IP"` // 排除的节点 IPv4
 	CreatedID int64     `json:"created_id,string" gorm:"column:created_id;comment:创建者"`                              // 创建者 ID
 	UpdatedID int64     `json:"updated_id,string" gorm:"column:updated_id;comment:更新者"`                              // 更新者 ID
-	CreatedAt time.Time `json:"created_at"        gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt time.Time `json:"updated_at"        gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt time.Time `json:"created_at"        gorm:"column:created_at;notnull;autoCreateTime(3);comment:创建时间"`
+	UpdatedAt time.Time `json:"updated_at"        gorm:"column:updated_at;notnull;autoUpdateTime(3);comment:更新时间"`
 }
 
 // TableName implement gorm schema.Tabler

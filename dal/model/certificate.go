@@ -24,8 +24,8 @@ type Certificate struct {
 	URIs           []string  `json:"uris"            gorm:"column:uris;json"`            // URIs
 	NotBefore      time.Time `json:"not_before"      gorm:"column:not_before"`           // 证书生效时间
 	NotAfter       time.Time `json:"not_after"       gorm:"column:not_after"`            // 证书过期时间
-	CreatedAt      time.Time `json:"created_at"      gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt      time.Time `json:"updated_at"      gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt      time.Time `json:"created_at"      gorm:"column:created_at;notnull;autoCreateTime(3);comment:创建时间"`
+	UpdatedAt      time.Time `json:"updated_at"      gorm:"column:updated_at;notnull;autoUpdateTime(3);comment:更新时间"`
 }
 
 // TableName implemented schema.Tabler

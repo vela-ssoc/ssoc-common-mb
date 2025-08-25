@@ -9,7 +9,7 @@ type ExtensionRecord struct {
 	Content     string    `json:"content"             gorm:"column:content;type:text;notnull;comment:代码"`
 	ContentSHA1 string    `json:"content_sha1"        gorm:"column:content_sha1;type:char(40);notnull;comment:SHA1"`
 	CreatedBy   Operator  `json:"created_by"          gorm:"column:created_by;type:json;notnull;serializer:json;comment:创建者"`
-	CreatedAt   time.Time `json:"created_at"          gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt   time.Time `json:"created_at"          gorm:"column:updated_at;notnull;autoCreateTime(3);comment:更新时间"`
 }
 
 func (ExtensionRecord) TableName() string {

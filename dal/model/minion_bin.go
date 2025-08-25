@@ -19,8 +19,8 @@ type MinionBin struct {
 	Semver     Semver    `json:"semver"     gorm:"column:semver;size:50;comment:版本号"`
 	Weight     uint64    `json:"-"          gorm:"column:weight;comment:数值版本号"`
 	Deprecated bool      `json:"deprecated" gorm:"column:deprecated;notnull;default:false;comment:是否弃用"`
-	CreatedAt  time.Time `json:"created_at" gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt  time.Time `json:"created_at" gorm:"column:created_at;notnull;autoCreateTime(3);comment:创建时间"`
+	UpdatedAt  time.Time `json:"updated_at" gorm:"column:updated_at;notnull;autoUpdateTime(3);comment:更新时间"`
 }
 
 // TableName implement gorm schema.Tabler

@@ -47,8 +47,8 @@ type gridFile struct {
 	Name      field.String // 名字
 	Size      field.Int64  // 文件大小
 	Checksum  field.String // MD5
-	CreatedAt field.Time   // 更新时间
-	UpdatedAt field.Time   // 创建时间
+	CreatedAt field.Time   // 创建时间
+	UpdatedAt field.Time   // 更新时间
 
 	fieldMap map[string]field.Expr
 }

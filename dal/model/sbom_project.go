@@ -26,8 +26,8 @@ type SBOMProject struct {
 	TotalNum      int       `json:"total_num"        gorm:"column:total_num"`         // 漏洞总数
 	TotalScore    CVSSScore `json:"total_score"      gorm:"column:total_score"`       // 漏洞总分
 	Nonce         int64     `json:"-"                gorm:"column:nonce"`             // 同步批次 ID
-	CreatedAt     time.Time `json:"created_at"       gorm:"column:created_at;notnull;default:now(3);comment:创建时间"`
-	UpdatedAt     time.Time `json:"updated_at"       gorm:"column:updated_at;notnull;default:now(3);comment:更新时间"`
+	CreatedAt     time.Time `json:"created_at"       gorm:"column:created_at;notnull;autoCreateTime(3);comment:创建时间"`
+	UpdatedAt     time.Time `json:"updated_at"       gorm:"column:updated_at;notnull;autoUpdateTime(3);comment:更新时间"`
 }
 
 // TableName implement schema.Tabler

@@ -13,8 +13,8 @@ type SubstanceTask struct {
 	Failed     bool      `json:"failed"           gorm:"column:failed;notnull;default:false;comment:是否下发失败"`
 	Reason     string    `json:"reason"           gorm:"column:reason;size:500;comment:失败原因"`
 	Executed   bool      `json:"executed"         gorm:"column:executed;notnull;default:false;comment:是否下发完毕"`
-	CreatedAt  time.Time `json:"created_at"       gorm:"column:created_at;notnull;default:now(3);comment:任务创建时间"`
-	UpdatedAt  time.Time `json:"updated_at"       gorm:"column:updated_at;notnull;default:now(3);comment:任务更新时间"`
+	CreatedAt  time.Time `json:"created_at"       gorm:"column:created_at;notnull;autoCreateTime(3);comment:任务创建时间"`
+	UpdatedAt  time.Time `json:"updated_at"       gorm:"column:updated_at;notnull;autoUpdateTime(3);comment:任务更新时间"`
 }
 
 // TableName SubstanceTask's table name

@@ -78,7 +78,7 @@ type risk struct {
 	Template   field.String
 	Metadata   field.Field
 	OccurAt    field.Time
-	CreatedAt  field.Time
+	CreatedAt  field.Time // 保存时间
 
 	fieldMap map[string]field.Expr
 }
