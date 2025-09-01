@@ -48,6 +48,7 @@ func newMinion(db *gorm.DB, opts ...gen.DOOption) minion {
 	_minion.Comment = field.NewString(tableName, "comment")
 	_minion.IBu = field.NewString(tableName, "ibu")
 	_minion.IDC = field.NewString(tableName, "idc")
+	_minion.NameValues = field.NewField(tableName, "name_values")
 	_minion.CreatedAt = field.NewTime(tableName, "created_at")
 	_minion.UpdatedAt = field.NewTime(tableName, "updated_at")
 
@@ -81,6 +82,7 @@ type minion struct {
 	Comment    field.String // 节点描述
 	IBu        field.String // 部门
 	IDC        field.String // IDC
+	NameValues field.Field  // 自定义参数
 	CreatedAt  field.Time   // 更新时间
 	UpdatedAt  field.Time   // 创建时间
 
@@ -120,6 +122,7 @@ func (m *minion) updateTableName(table string) *minion {
 	m.Comment = field.NewString(table, "comment")
 	m.IBu = field.NewString(table, "ibu")
 	m.IDC = field.NewString(table, "idc")
+	m.NameValues = field.NewField(table, "name_values")
 	m.CreatedAt = field.NewTime(table, "created_at")
 	m.UpdatedAt = field.NewTime(table, "updated_at")
 
@@ -146,7 +149,7 @@ func (m *minion) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (m *minion) fillFieldMap() {
-	m.fieldMap = make(map[string]field.Expr, 23)
+	m.fieldMap = make(map[string]field.Expr, 24)
 	m.fieldMap["id"] = m.ID
 	m.fieldMap["inet"] = m.Inet
 	m.fieldMap["inet6"] = m.Inet6
@@ -168,6 +171,7 @@ func (m *minion) fillFieldMap() {
 	m.fieldMap["comment"] = m.Comment
 	m.fieldMap["ibu"] = m.IBu
 	m.fieldMap["idc"] = m.IDC
+	m.fieldMap["name_values"] = m.NameValues
 	m.fieldMap["created_at"] = m.CreatedAt
 	m.fieldMap["updated_at"] = m.UpdatedAt
 }

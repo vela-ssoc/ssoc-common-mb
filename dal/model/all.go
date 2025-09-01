@@ -2,6 +2,7 @@ package model
 
 func All() []any {
 	return []any{
+		AgentEmergencySnapshot{},
 		AlertServer{},
 		AuthTemp{},
 		Broker{},

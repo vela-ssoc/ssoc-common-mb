@@ -1,54 +1,37 @@
 package sqldb
 
 import (
-	"database/sql"
-	"log/slog"
-
-	"gitee.com/opengauss/openGauss-connector-go-pq"
 	"github.com/go-sql-driver/mysql"
-	"github.com/vela-ssoc/opengauss"
+	"gorm.io/driver/gaussdb"
 	gormysql "gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 // Open 连接数据库，并检测是否是信创 OpenGauss。
-func Open(dsn string, driverLog *slog.Logger, opts ...gorm.Option) (*gorm.DB, error) {
+func Open(dsn string, opts ...gorm.Option) (*gorm.DB, error) {
 	// 区分 MySQL 还是 OpenGauss，用的是 parse dsn 的方式。
 	// 注意：用该方式区分必须要先用 [mysql.ParseDSN] 才较为稳妥。
+	var dia gorm.Dialector
 	if cfg, err := mysql.ParseDSN(dsn); err == nil && cfg != nil {
-		cfg.Logger = &mysqlLog{log: driverLog}
-		dia := &gormysql.Dialector{
-			Config: &gormysql.Config{DSN: dsn, DSNConfig: cfg},
+		dia = &gormysql.Dialector{
+			Config: &gormysql.Config{DSN: dsn},
 		}
-		db, exx := gorm.Open(dia, opts...)
-		if exx != nil {
-			return nil, exx
-		}
-		exx = autoPrimaryKey(db)
-
-		return db, exx
+	} else {
+		dia = gaussdb.New(gaussdb.Config{
+			DSN:                  dsn,
+			PreferSimpleProtocol: true,
+		})
 	}
 
-	cfg, err := pq.ParseConfig(dsn)
+	db, err := gorm.Open(dia, opts...)
 	if err != nil {
 		return nil, err
 	}
-
-	cfg.Logger = &gaussLog{log: driverLog}
-	connector, exx := pq.NewConnectorConfig(cfg)
-	if exx != nil {
-		return nil, exx
+	if err = autoPrimaryKey(db); err != nil {
+		return nil, err
 	}
-	conn := sql.OpenDB(connector)
-	gcfg := opengauss.Config{DSN: dsn, Conn: conn}
-	dia := opengauss.New(gcfg)
-	db, exx := gorm.Open(dia, opts...)
-	if exx != nil {
-		return nil, exx
-	}
-	exx = autoPrimaryKey(db)
 
-	return db, err
+	return db, nil
 }
 
 func autoPrimaryKey(db *gorm.DB) error {
