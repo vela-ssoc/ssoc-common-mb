@@ -13,8 +13,9 @@ type Substance struct {
 	Links     []string  `json:"links"             gorm:"column:links;json"`    // 外链，现已弱化，后期可能会删除
 	MinionID  int64     `json:"minion_id,string"  gorm:"column:minion_id"`     // 私有配置发布的节点，NULL 或 空 代表是公有配置
 	Version   int64     `json:"version"           gorm:"column:version"`       // 乐观锁
-	CreatedID int64     `json:"created_id,string" gorm:"column:created_id"`    // 创建者 ID
-	UpdatedID int64     `json:"updated_id,string" gorm:"column:updated_id"`    // 最后一个修改者 ID
+	Priority  int64     `json:"priority"          gorm:"column:priority;comment:优先级，越大越高"`
+	CreatedID int64     `json:"created_id,string" gorm:"column:created_id"` // 创建者 ID
+	UpdatedID int64     `json:"updated_id,string" gorm:"column:updated_id"` // 最后一个修改者 ID
 	CreatedAt time.Time `json:"created_at"        gorm:"column:created_at;notnull;autoCreateTime(3);comment:创建时间"`
 	UpdatedAt time.Time `json:"updated_at"        gorm:"column:updated_at;notnull;autoUpdateTime(3);comment:更新时间"`
 }

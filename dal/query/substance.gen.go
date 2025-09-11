@@ -36,6 +36,7 @@ func newSubstance(db *gorm.DB, opts ...gen.DOOption) substance {
 	_substance.Links = field.NewField(tableName, "links")
 	_substance.MinionID = field.NewInt64(tableName, "minion_id")
 	_substance.Version = field.NewInt64(tableName, "version")
+	_substance.Priority = field.NewInt64(tableName, "priority")
 	_substance.CreatedID = field.NewInt64(tableName, "created_id")
 	_substance.UpdatedID = field.NewInt64(tableName, "updated_id")
 	_substance.CreatedAt = field.NewTime(tableName, "created_at")
@@ -59,6 +60,7 @@ type substance struct {
 	Links     field.Field
 	MinionID  field.Int64
 	Version   field.Int64
+	Priority  field.Int64 // 优先级，越大越高
 	CreatedID field.Int64
 	UpdatedID field.Int64
 	CreatedAt field.Time // 创建时间
@@ -88,6 +90,7 @@ func (s *substance) updateTableName(table string) *substance {
 	s.Links = field.NewField(table, "links")
 	s.MinionID = field.NewInt64(table, "minion_id")
 	s.Version = field.NewInt64(table, "version")
+	s.Priority = field.NewInt64(table, "priority")
 	s.CreatedID = field.NewInt64(table, "created_id")
 	s.UpdatedID = field.NewInt64(table, "updated_id")
 	s.CreatedAt = field.NewTime(table, "created_at")
@@ -118,7 +121,7 @@ func (s *substance) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *substance) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 13)
+	s.fieldMap = make(map[string]field.Expr, 14)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["name"] = s.Name
 	s.fieldMap["icon"] = s.Icon
@@ -128,6 +131,7 @@ func (s *substance) fillFieldMap() {
 	s.fieldMap["links"] = s.Links
 	s.fieldMap["minion_id"] = s.MinionID
 	s.fieldMap["version"] = s.Version
+	s.fieldMap["priority"] = s.Priority
 	s.fieldMap["created_id"] = s.CreatedID
 	s.fieldMap["updated_id"] = s.UpdatedID
 	s.fieldMap["created_at"] = s.CreatedAt

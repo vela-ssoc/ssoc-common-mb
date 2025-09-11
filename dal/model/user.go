@@ -14,16 +14,16 @@ const (
 	UdOA
 )
 
-func (ud UserDomain) String() string {
-	switch ud {
-	case UdLocal:
-		return "本地帐号"
-	case UdOA:
-		return "OA帐号"
-	default:
-		return "未知帐号"
-	}
-}
+//func (ud UserDomain) String() string {
+//	switch ud {
+//	case UdLocal:
+//		return "本地帐号"
+//	case UdOA:
+//		return "OA帐号"
+//	default:
+//		return "未知帐号"
+//	}
+//}
 
 // User 用户表
 type User struct {
