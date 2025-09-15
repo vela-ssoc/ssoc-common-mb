@@ -33,6 +33,7 @@ func All() []any {
 		MinionListen{},
 		MinionLogon{},
 		MinionProcess{},
+		MinionSubstanceExclude{},
 		MinionTag{},
 		MinionTask{},
 		Notifier{},

@@ -60,7 +60,7 @@ type substance struct {
 	Links     field.Field
 	MinionID  field.Int64
 	Version   field.Int64
-	Priority  field.Int64 // 优先级，越大越高
+	Priority  field.Int64 // 越大优先级越高
 	CreatedID field.Int64
 	UpdatedID field.Int64
 	CreatedAt field.Time // 创建时间

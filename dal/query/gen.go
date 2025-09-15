@@ -49,6 +49,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		MinionListen:           newMinionListen(db, opts...),
 		MinionLogon:            newMinionLogon(db, opts...),
 		MinionProcess:          newMinionProcess(db, opts...),
+		MinionSubstanceExclude: newMinionSubstanceExclude(db, opts...),
 		MinionTag:              newMinionTag(db, opts...),
 		MinionTask:             newMinionTask(db, opts...),
 		NTPConfig:              newNTPConfig(db, opts...),
@@ -116,6 +117,7 @@ type Query struct {
 	MinionListen           minionListen
 	MinionLogon            minionLogon
 	MinionProcess          minionProcess
+	MinionSubstanceExclude minionSubstanceExclude
 	MinionTag              minionTag
 	MinionTask             minionTask
 	NTPConfig              nTPConfig
@@ -184,6 +186,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		MinionListen:           q.MinionListen.clone(db),
 		MinionLogon:            q.MinionLogon.clone(db),
 		MinionProcess:          q.MinionProcess.clone(db),
+		MinionSubstanceExclude: q.MinionSubstanceExclude.clone(db),
 		MinionTag:              q.MinionTag.clone(db),
 		MinionTask:             q.MinionTask.clone(db),
 		NTPConfig:              q.NTPConfig.clone(db),
@@ -259,6 +262,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		MinionListen:           q.MinionListen.replaceDB(db),
 		MinionLogon:            q.MinionLogon.replaceDB(db),
 		MinionProcess:          q.MinionProcess.replaceDB(db),
+		MinionSubstanceExclude: q.MinionSubstanceExclude.replaceDB(db),
 		MinionTag:              q.MinionTag.replaceDB(db),
 		MinionTask:             q.MinionTask.replaceDB(db),
 		NTPConfig:              q.NTPConfig.replaceDB(db),
@@ -324,6 +328,7 @@ type queryCtx struct {
 	MinionListen           *minionListenDo
 	MinionLogon            *minionLogonDo
 	MinionProcess          *minionProcessDo
+	MinionSubstanceExclude *minionSubstanceExcludeDo
 	MinionTag              *minionTagDo
 	MinionTask             *minionTaskDo
 	NTPConfig              *nTPConfigDo
@@ -389,6 +394,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		MinionListen:           q.MinionListen.WithContext(ctx),
 		MinionLogon:            q.MinionLogon.WithContext(ctx),
 		MinionProcess:          q.MinionProcess.WithContext(ctx),
+		MinionSubstanceExclude: q.MinionSubstanceExclude.WithContext(ctx),
 		MinionTag:              q.MinionTag.WithContext(ctx),
 		MinionTask:             q.MinionTask.WithContext(ctx),
 		NTPConfig:              q.NTPConfig.WithContext(ctx),
