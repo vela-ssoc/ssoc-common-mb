@@ -9,6 +9,7 @@ func All() []any {
 		BrokerBin{},
 		BrokerStat{},
 		Certificate{},
+		Certificate2{},
 		Cmdb{},
 		Cmdb2{},
 		Domain{},

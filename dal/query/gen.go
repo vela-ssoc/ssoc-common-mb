@@ -25,6 +25,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		BrokerBin:              newBrokerBin(db, opts...),
 		BrokerStat:             newBrokerStat(db, opts...),
 		Certificate:            newCertificate(db, opts...),
+		Certificate2:           newCertificate2(db, opts...),
 		Cmdb:                   newCmdb(db, opts...),
 		Cmdb2:                  newCmdb2(db, opts...),
 		Domain:                 newDomain(db, opts...),
@@ -93,6 +94,7 @@ type Query struct {
 	BrokerBin              brokerBin
 	BrokerStat             brokerStat
 	Certificate            certificate
+	Certificate2           certificate2
 	Cmdb                   cmdb
 	Cmdb2                  cmdb2
 	Domain                 domain
@@ -162,6 +164,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		BrokerBin:              q.BrokerBin.clone(db),
 		BrokerStat:             q.BrokerStat.clone(db),
 		Certificate:            q.Certificate.clone(db),
+		Certificate2:           q.Certificate2.clone(db),
 		Cmdb:                   q.Cmdb.clone(db),
 		Cmdb2:                  q.Cmdb2.clone(db),
 		Domain:                 q.Domain.clone(db),
@@ -238,6 +241,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		BrokerBin:              q.BrokerBin.replaceDB(db),
 		BrokerStat:             q.BrokerStat.replaceDB(db),
 		Certificate:            q.Certificate.replaceDB(db),
+		Certificate2:           q.Certificate2.replaceDB(db),
 		Cmdb:                   q.Cmdb.replaceDB(db),
 		Cmdb2:                  q.Cmdb2.replaceDB(db),
 		Domain:                 q.Domain.replaceDB(db),
@@ -304,6 +308,7 @@ type queryCtx struct {
 	BrokerBin              *brokerBinDo
 	BrokerStat             *brokerStatDo
 	Certificate            *certificateDo
+	Certificate2           *certificate2Do
 	Cmdb                   *cmdbDo
 	Cmdb2                  *cmdb2Do
 	Domain                 *domainDo
@@ -370,6 +375,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		BrokerBin:              q.BrokerBin.WithContext(ctx),
 		BrokerStat:             q.BrokerStat.WithContext(ctx),
 		Certificate:            q.Certificate.WithContext(ctx),
+		Certificate2:           q.Certificate2.WithContext(ctx),
 		Cmdb:                   q.Cmdb.WithContext(ctx),
 		Cmdb2:                  q.Cmdb2.WithContext(ctx),
 		Domain:                 q.Domain.WithContext(ctx),

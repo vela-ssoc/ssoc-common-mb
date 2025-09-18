@@ -28,6 +28,7 @@ func newMinion(db *gorm.DB, opts ...gen.DOOption) minion {
 	tableName := _minion.minionDo.TableName()
 	_minion.ALL = field.NewAsterisk(tableName)
 	_minion.ID = field.NewInt64(tableName, "id")
+	_minion.MachineID = field.NewString(tableName, "machine_id")
 	_minion.Inet = field.NewString(tableName, "inet")
 	_minion.Inet6 = field.NewString(tableName, "inet6")
 	_minion.MAC = field.NewString(tableName, "mac")
@@ -62,6 +63,7 @@ type minion struct {
 
 	ALL        field.Asterisk
 	ID         field.Int64  // ID
+	MachineID  field.String // 机器码
 	Inet       field.String // IPv4
 	Inet6      field.String // IPv6
 	MAC        field.String // MAC地址
@@ -102,6 +104,7 @@ func (m minion) As(alias string) *minion {
 func (m *minion) updateTableName(table string) *minion {
 	m.ALL = field.NewAsterisk(table)
 	m.ID = field.NewInt64(table, "id")
+	m.MachineID = field.NewString(table, "machine_id")
 	m.Inet = field.NewString(table, "inet")
 	m.Inet6 = field.NewString(table, "inet6")
 	m.MAC = field.NewString(table, "mac")
@@ -149,8 +152,9 @@ func (m *minion) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (m *minion) fillFieldMap() {
-	m.fieldMap = make(map[string]field.Expr, 24)
+	m.fieldMap = make(map[string]field.Expr, 25)
 	m.fieldMap["id"] = m.ID
+	m.fieldMap["machine_id"] = m.MachineID
 	m.fieldMap["inet"] = m.Inet
 	m.fieldMap["inet6"] = m.Inet6
 	m.fieldMap["mac"] = m.MAC
