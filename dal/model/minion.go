@@ -37,7 +37,7 @@ func (ms MinionStatus) String() string {
 type Minion struct {
 	ID         int64        `json:"id,string"        gorm:"column:id;primaryKey;autoIncrement;comment:ID"`
 	MachineID  string       `json:"machine_id"       gorm:"machine_id;size:50;notnull;index;comment:机器码"`
-	Inet       string       `json:"inet"             gorm:"column:inet;size:20;not null;unique;comment:IPv4"`
+	Inet       string       `json:"inet"             gorm:"column:inet;size:20;notnull;index;comment:IPv4"`
 	Inet6      string       `json:"inet6"            gorm:"column:inet6;size:64;comment:IPv6"`
 	MAC        string       `json:"mac"              gorm:"column:mac;size:17;comment:MAC地址"`
 	Goos       string       `json:"goos"             gorm:"column:goos;size:10;comment:操作系统"`
