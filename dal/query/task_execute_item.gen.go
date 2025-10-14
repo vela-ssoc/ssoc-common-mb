@@ -40,6 +40,7 @@ func newTaskExecuteItem(db *gorm.DB, opts ...gen.DOOption) taskExecuteItem {
 	_taskExecuteItem.Finished = field.NewBool(tableName, "finished")
 	_taskExecuteItem.Succeed = field.NewBool(tableName, "succeed")
 	_taskExecuteItem.ErrorCode = field.NewInt(tableName, "error_code")
+	_taskExecuteItem.Execution = field.NewField(tableName, "execution")
 	_taskExecuteItem.Result = field.NewBytes(tableName, "result")
 	_taskExecuteItem.ExpiredAt = field.NewTime(tableName, "expired_at")
 	_taskExecuteItem.CreatedAt = field.NewTime(tableName, "created_at")
@@ -67,6 +68,7 @@ type taskExecuteItem struct {
 	Finished      field.Bool   // 是否执行完毕
 	Succeed       field.Bool   // 是否执行成功
 	ErrorCode     field.Int    // 错误码
+	Execution     field.Field  // 执行记录
 	Result        field.Bytes  // agent执行结果
 	ExpiredAt     field.Time   // 任务过期时间
 	CreatedAt     field.Time   // 创建时间
@@ -100,6 +102,7 @@ func (t *taskExecuteItem) updateTableName(table string) *taskExecuteItem {
 	t.Finished = field.NewBool(table, "finished")
 	t.Succeed = field.NewBool(table, "succeed")
 	t.ErrorCode = field.NewInt(table, "error_code")
+	t.Execution = field.NewField(table, "execution")
 	t.Result = field.NewBytes(table, "result")
 	t.ExpiredAt = field.NewTime(table, "expired_at")
 	t.CreatedAt = field.NewTime(table, "created_at")
@@ -132,7 +135,7 @@ func (t *taskExecuteItem) GetFieldByName(fieldName string) (field.OrderExpr, boo
 }
 
 func (t *taskExecuteItem) fillFieldMap() {
-	t.fieldMap = make(map[string]field.Expr, 17)
+	t.fieldMap = make(map[string]field.Expr, 18)
 	t.fieldMap["id"] = t.ID
 	t.fieldMap["task_id"] = t.TaskID
 	t.fieldMap["exec_id"] = t.ExecID
@@ -146,6 +149,7 @@ func (t *taskExecuteItem) fillFieldMap() {
 	t.fieldMap["finished"] = t.Finished
 	t.fieldMap["succeed"] = t.Succeed
 	t.fieldMap["error_code"] = t.ErrorCode
+	t.fieldMap["execution"] = t.Execution
 	t.fieldMap["result"] = t.Result
 	t.fieldMap["expired_at"] = t.ExpiredAt
 	t.fieldMap["created_at"] = t.CreatedAt
@@ -359,26 +363,26 @@ func (t taskExecuteItemDo) FirstOrCreate() (*model.TaskExecuteItem, error) {
 func (t taskExecuteItemDo) FindByPage(offset int, limit int) (result []*model.TaskExecuteItem, count int64, err error) {
 	result, err = t.Offset(offset).Limit(limit).Find()
 	if err != nil {
-		return
+		return result, count, err
 	}
 
 	if size := len(result); 0 < limit && 0 < size && size < limit {
 		count = int64(size + offset)
-		return
+		return result, count, err
 	}
 
 	count, err = t.Offset(-1).Limit(-1).Count()
-	return
+	return result, count, err
 }
 
 func (t taskExecuteItemDo) ScanByPage(result interface{}, offset int, limit int) (count int64, err error) {
 	count, err = t.Count()
 	if err != nil {
-		return
+		return count, err
 	}
 
 	err = t.Offset(offset).Limit(limit).Scan(result)
-	return
+	return count, err
 }
 
 func (t taskExecuteItemDo) Scan(result interface{}) (err error) {
