@@ -10,7 +10,7 @@ type Pool interface {
 	Gos(parent context.Context, fns ...func(parent context.Context)) (done <-chan struct{})
 }
 
-func NewV2(work int) Pool {
+func New(work int) Pool {
 	if work <= 0 {
 		work = 1
 	}
