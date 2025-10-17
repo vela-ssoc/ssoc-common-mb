@@ -18,7 +18,7 @@ type Risk struct {
 	LocalPort  int            `json:"local_port"  gorm:"column:local_port"`                                // 本地端口
 	RemoteIP   string         `json:"remote_ip"   gorm:"column:remote_ip;size:255"`                        // 远程地址，存放IP或域名
 	RemotePort int            `json:"remote_port" gorm:"column:remote_port"`                               // 远程端口
-	FromCode   string         `json:"from_code"   gorm:"column:from_code"`                                 // 来源模块
+	FromCode   string         `json:"from_code"   gorm:"column:from_code;size:50"`                         // 来源模块
 	Region     string         `json:"region"      gorm:"column:region"`                                    // IP 归属地
 	Reference  string         `json:"reference"   gorm:"column:reference"`                                 // 参考引用
 	SendAlert  bool           `json:"send_alert"  gorm:"column:send_alert"`                                // 是否发送告警
