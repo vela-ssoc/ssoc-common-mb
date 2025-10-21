@@ -53,6 +53,7 @@ func All() []any {
 		SBOMVuln{},
 		SIEMServer{},
 		Startup{},
+		StartupFallback{},
 		Store{},
 		Substance{},
 		SubstanceTask{},

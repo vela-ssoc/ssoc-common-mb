@@ -28,10 +28,7 @@ func newStartup(db *gorm.DB, opts ...gen.DOOption) startup {
 	tableName := _startup.startupDo.TableName()
 	_startup.ALL = field.NewAsterisk(tableName)
 	_startup.ID = field.NewInt64(tableName, "id")
-	_startup.Node = field.NewField(tableName, "node")
 	_startup.Logger = field.NewField(tableName, "logger")
-	_startup.Console = field.NewField(tableName, "console")
-	_startup.Extends = field.NewField(tableName, "extends")
 	_startup.Failed = field.NewBool(tableName, "failed")
 	_startup.Reason = field.NewString(tableName, "reason")
 	_startup.CreatedAt = field.NewTime(tableName, "created_at")
@@ -47,14 +44,11 @@ type startup struct {
 
 	ALL       field.Asterisk
 	ID        field.Int64
-	Node      field.Field
-	Logger    field.Field
-	Console   field.Field
-	Extends   field.Field
+	Logger    field.Field // 日志输出配置
 	Failed    field.Bool
-	Reason    field.String
-	CreatedAt field.Time // 创建时间
-	UpdatedAt field.Time // 更新时间
+	Reason    field.String // 下发失败原因
+	CreatedAt field.Time   // 创建时间
+	UpdatedAt field.Time   // 更新时间
 
 	fieldMap map[string]field.Expr
 }
@@ -72,10 +66,7 @@ func (s startup) As(alias string) *startup {
 func (s *startup) updateTableName(table string) *startup {
 	s.ALL = field.NewAsterisk(table)
 	s.ID = field.NewInt64(table, "id")
-	s.Node = field.NewField(table, "node")
 	s.Logger = field.NewField(table, "logger")
-	s.Console = field.NewField(table, "console")
-	s.Extends = field.NewField(table, "extends")
 	s.Failed = field.NewBool(table, "failed")
 	s.Reason = field.NewString(table, "reason")
 	s.CreatedAt = field.NewTime(table, "created_at")
@@ -104,12 +95,9 @@ func (s *startup) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *startup) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 9)
+	s.fieldMap = make(map[string]field.Expr, 6)
 	s.fieldMap["id"] = s.ID
-	s.fieldMap["node"] = s.Node
 	s.fieldMap["logger"] = s.Logger
-	s.fieldMap["console"] = s.Console
-	s.fieldMap["extends"] = s.Extends
 	s.fieldMap["failed"] = s.Failed
 	s.fieldMap["reason"] = s.Reason
 	s.fieldMap["created_at"] = s.CreatedAt
@@ -323,26 +311,26 @@ func (s startupDo) FirstOrCreate() (*model.Startup, error) {
 func (s startupDo) FindByPage(offset int, limit int) (result []*model.Startup, count int64, err error) {
 	result, err = s.Offset(offset).Limit(limit).Find()
 	if err != nil {
-		return
+		return result, count, err
 	}
 
 	if size := len(result); 0 < limit && 0 < size && size < limit {
 		count = int64(size + offset)
-		return
+		return result, count, err
 	}
 
 	count, err = s.Offset(-1).Limit(-1).Count()
-	return
+	return result, count, err
 }
 
 func (s startupDo) ScanByPage(result interface{}, offset int, limit int) (count int64, err error) {
 	count, err = s.Count()
 	if err != nil {
-		return
+		return count, err
 	}
 
 	err = s.Offset(offset).Limit(limit).Scan(result)
-	return
+	return count, err
 }
 
 func (s startupDo) Scan(result interface{}) (err error) {

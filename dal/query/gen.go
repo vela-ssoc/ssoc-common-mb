@@ -69,6 +69,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		SBOMVuln:               newSBOMVuln(db, opts...),
 		SIEMServer:             newSIEMServer(db, opts...),
 		Startup:                newStartup(db, opts...),
+		StartupFallback:        newStartupFallback(db, opts...),
 		Store:                  newStore(db, opts...),
 		Substance:              newSubstance(db, opts...),
 		SubstanceTask:          newSubstanceTask(db, opts...),
@@ -138,6 +139,7 @@ type Query struct {
 	SBOMVuln               sBOMVuln
 	SIEMServer             sIEMServer
 	Startup                startup
+	StartupFallback        startupFallback
 	Store                  store
 	Substance              substance
 	SubstanceTask          substanceTask
@@ -208,6 +210,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		SBOMVuln:               q.SBOMVuln.clone(db),
 		SIEMServer:             q.SIEMServer.clone(db),
 		Startup:                q.Startup.clone(db),
+		StartupFallback:        q.StartupFallback.clone(db),
 		Store:                  q.Store.clone(db),
 		Substance:              q.Substance.clone(db),
 		SubstanceTask:          q.SubstanceTask.clone(db),
@@ -285,6 +288,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		SBOMVuln:               q.SBOMVuln.replaceDB(db),
 		SIEMServer:             q.SIEMServer.replaceDB(db),
 		Startup:                q.Startup.replaceDB(db),
+		StartupFallback:        q.StartupFallback.replaceDB(db),
 		Store:                  q.Store.replaceDB(db),
 		Substance:              q.Substance.replaceDB(db),
 		SubstanceTask:          q.SubstanceTask.replaceDB(db),
@@ -352,6 +356,7 @@ type queryCtx struct {
 	SBOMVuln               *sBOMVulnDo
 	SIEMServer             *sIEMServerDo
 	Startup                *startupDo
+	StartupFallback        *startupFallbackDo
 	Store                  *storeDo
 	Substance              *substanceDo
 	SubstanceTask          *substanceTaskDo
@@ -419,6 +424,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		SBOMVuln:               q.SBOMVuln.WithContext(ctx),
 		SIEMServer:             q.SIEMServer.WithContext(ctx),
 		Startup:                q.Startup.WithContext(ctx),
+		StartupFallback:        q.StartupFallback.WithContext(ctx),
 		Store:                  q.Store.WithContext(ctx),
 		Substance:              q.Substance.WithContext(ctx),
 		SubstanceTask:          q.SubstanceTask.WithContext(ctx),
