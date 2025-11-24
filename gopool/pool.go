@@ -2,6 +2,7 @@ package gopool
 
 import (
 	"context"
+	"runtime/debug"
 	"sync/atomic"
 )
 
@@ -68,6 +69,10 @@ func (p *pool) sched(fn func()) {
 func (p *pool) warp(done chan struct{}, fn func()) func() {
 	return func() {
 		defer func() {
+			if v := recover(); v != nil {
+				debug.PrintStack()
+			}
+
 			close(done)
 			<-p.sema
 		}()
@@ -90,6 +95,9 @@ func (m *monitor) warp(fn func(context.Context)) func() {
 	m.cnt.Add(1)
 	return func() {
 		defer func() {
+			if v := recover(); v != nil {
+				debug.PrintStack()
+			}
 			if num := m.cnt.Add(-1); num <= 0 {
 				m.cancel()
 			}

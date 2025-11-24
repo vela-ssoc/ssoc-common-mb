@@ -57,6 +57,7 @@ type Minion struct {
 	Comment     string       `json:"comment"          gorm:"column:comment;type:text;comment:节点描述"`
 	IBu         string       `json:"ibu"              gorm:"column:ibu;size:100;comment:部门"`
 	IDC         string       `json:"idc"              gorm:"column:idc;size:50;comment:IDC"`
+	OSRelease   string       `json:"os_release"       gorm:"column:os_release;size:255;comment:系统版本"`
 	ManualNotes FieldValues  `json:"manual_notes"     gorm:"column:manual_notes;serializer:json;comment:人工备注参数"`
 	CreatedAt   time.Time    `json:"created_at"       gorm:"column:created_at;notnull;autoCreateTime(3);comment:更新时间"`
 	UpdatedAt   time.Time    `json:"updated_at"       gorm:"column:updated_at;notnull;autoUpdateTime(3);comment:创建时间"`

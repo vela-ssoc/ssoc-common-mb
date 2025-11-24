@@ -330,7 +330,7 @@ func substanceNameFunc() (string, validator.FuncCtx, validator.RegisterTranslati
 // tagFunc 节点标签校验
 func tagFunc() (string, validator.FuncCtx, validator.RegisterTranslationsFunc) {
 	const tag = "tag"
-	reg := regexp.MustCompile("^[\u4e00-\u9fa5a-zA-Z0-9@._-]{2,15}$")
+	reg := regexp.MustCompile("^[\u4e00-\u9fa5a-zA-Z0-9@._-]{2,30}$")
 	valid := func(ctx context.Context, fl validator.FieldLevel) bool {
 		if field := fl.Field(); field.Kind() == reflect.String {
 			return reg.MatchString(field.String())

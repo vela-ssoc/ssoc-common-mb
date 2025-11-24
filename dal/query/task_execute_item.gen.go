@@ -363,26 +363,26 @@ func (t taskExecuteItemDo) FirstOrCreate() (*model.TaskExecuteItem, error) {
 func (t taskExecuteItemDo) FindByPage(offset int, limit int) (result []*model.TaskExecuteItem, count int64, err error) {
 	result, err = t.Offset(offset).Limit(limit).Find()
 	if err != nil {
-		return result, count, err
+		return
 	}
 
 	if size := len(result); 0 < limit && 0 < size && size < limit {
 		count = int64(size + offset)
-		return result, count, err
+		return
 	}
 
 	count, err = t.Offset(-1).Limit(-1).Count()
-	return result, count, err
+	return
 }
 
 func (t taskExecuteItemDo) ScanByPage(result interface{}, offset int, limit int) (count int64, err error) {
 	count, err = t.Count()
 	if err != nil {
-		return count, err
+		return
 	}
 
 	err = t.Offset(offset).Limit(limit).Scan(result)
-	return count, err
+	return
 }
 
 func (t taskExecuteItemDo) Scan(result interface{}) (err error) {

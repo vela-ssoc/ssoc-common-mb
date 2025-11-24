@@ -307,26 +307,26 @@ func (s startupFallbackDo) FirstOrCreate() (*model.StartupFallback, error) {
 func (s startupFallbackDo) FindByPage(offset int, limit int) (result []*model.StartupFallback, count int64, err error) {
 	result, err = s.Offset(offset).Limit(limit).Find()
 	if err != nil {
-		return result, count, err
+		return
 	}
 
 	if size := len(result); 0 < limit && 0 < size && size < limit {
 		count = int64(size + offset)
-		return result, count, err
+		return
 	}
 
 	count, err = s.Offset(-1).Limit(-1).Count()
-	return result, count, err
+	return
 }
 
 func (s startupFallbackDo) ScanByPage(result interface{}, offset int, limit int) (count int64, err error) {
 	count, err = s.Count()
 	if err != nil {
-		return count, err
+		return
 	}
 
 	err = s.Offset(offset).Limit(limit).Scan(result)
-	return count, err
+	return
 }
 
 func (s startupFallbackDo) Scan(result interface{}) (err error) {

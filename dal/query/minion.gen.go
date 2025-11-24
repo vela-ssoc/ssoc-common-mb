@@ -49,6 +49,7 @@ func newMinion(db *gorm.DB, opts ...gen.DOOption) minion {
 	_minion.Comment = field.NewString(tableName, "comment")
 	_minion.IBu = field.NewString(tableName, "ibu")
 	_minion.IDC = field.NewString(tableName, "idc")
+	_minion.OSRelease = field.NewString(tableName, "os_release")
 	_minion.ManualNotes = field.NewField(tableName, "manual_notes")
 	_minion.CreatedAt = field.NewTime(tableName, "created_at")
 	_minion.UpdatedAt = field.NewTime(tableName, "updated_at")
@@ -84,6 +85,7 @@ type minion struct {
 	Comment     field.String // 节点描述
 	IBu         field.String // 部门
 	IDC         field.String // IDC
+	OSRelease   field.String // 系统版本
 	ManualNotes field.Field  // 人工备注参数
 	CreatedAt   field.Time   // 更新时间
 	UpdatedAt   field.Time   // 创建时间
@@ -125,6 +127,7 @@ func (m *minion) updateTableName(table string) *minion {
 	m.Comment = field.NewString(table, "comment")
 	m.IBu = field.NewString(table, "ibu")
 	m.IDC = field.NewString(table, "idc")
+	m.OSRelease = field.NewString(table, "os_release")
 	m.ManualNotes = field.NewField(table, "manual_notes")
 	m.CreatedAt = field.NewTime(table, "created_at")
 	m.UpdatedAt = field.NewTime(table, "updated_at")
@@ -152,7 +155,7 @@ func (m *minion) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (m *minion) fillFieldMap() {
-	m.fieldMap = make(map[string]field.Expr, 25)
+	m.fieldMap = make(map[string]field.Expr, 26)
 	m.fieldMap["id"] = m.ID
 	m.fieldMap["machine_id"] = m.MachineID
 	m.fieldMap["inet"] = m.Inet
@@ -175,6 +178,7 @@ func (m *minion) fillFieldMap() {
 	m.fieldMap["comment"] = m.Comment
 	m.fieldMap["ibu"] = m.IBu
 	m.fieldMap["idc"] = m.IDC
+	m.fieldMap["os_release"] = m.OSRelease
 	m.fieldMap["manual_notes"] = m.ManualNotes
 	m.fieldMap["created_at"] = m.CreatedAt
 	m.fieldMap["updated_at"] = m.UpdatedAt
@@ -387,26 +391,26 @@ func (m minionDo) FirstOrCreate() (*model.Minion, error) {
 func (m minionDo) FindByPage(offset int, limit int) (result []*model.Minion, count int64, err error) {
 	result, err = m.Offset(offset).Limit(limit).Find()
 	if err != nil {
-		return result, count, err
+		return
 	}
 
 	if size := len(result); 0 < limit && 0 < size && size < limit {
 		count = int64(size + offset)
-		return result, count, err
+		return
 	}
 
 	count, err = m.Offset(-1).Limit(-1).Count()
-	return result, count, err
+	return
 }
 
 func (m minionDo) ScanByPage(result interface{}, offset int, limit int) (count int64, err error) {
 	count, err = m.Count()
 	if err != nil {
-		return count, err
+		return
 	}
 
 	err = m.Offset(offset).Limit(limit).Scan(result)
-	return count, err
+	return
 }
 
 func (m minionDo) Scan(result interface{}) (err error) {
