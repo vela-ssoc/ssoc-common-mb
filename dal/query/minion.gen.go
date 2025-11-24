@@ -28,6 +28,7 @@ func newMinion(db *gorm.DB, opts ...gen.DOOption) minion {
 	tableName := _minion.minionDo.TableName()
 	_minion.ALL = field.NewAsterisk(tableName)
 	_minion.ID = field.NewInt64(tableName, "id")
+	_minion.MachineID = field.NewString(tableName, "machine_id")
 	_minion.Inet = field.NewString(tableName, "inet")
 	_minion.Inet6 = field.NewString(tableName, "inet6")
 	_minion.MAC = field.NewString(tableName, "mac")
@@ -48,7 +49,8 @@ func newMinion(db *gorm.DB, opts ...gen.DOOption) minion {
 	_minion.Comment = field.NewString(tableName, "comment")
 	_minion.IBu = field.NewString(tableName, "ibu")
 	_minion.IDC = field.NewString(tableName, "idc")
-	_minion.NameValues = field.NewField(tableName, "name_values")
+	_minion.OSRelease = field.NewString(tableName, "os_release")
+	_minion.ManualNotes = field.NewField(tableName, "manual_notes")
 	_minion.CreatedAt = field.NewTime(tableName, "created_at")
 	_minion.UpdatedAt = field.NewTime(tableName, "updated_at")
 
@@ -60,31 +62,33 @@ func newMinion(db *gorm.DB, opts ...gen.DOOption) minion {
 type minion struct {
 	minionDo minionDo
 
-	ALL        field.Asterisk
-	ID         field.Int64  // ID
-	Inet       field.String // IPv4
-	Inet6      field.String // IPv6
-	MAC        field.String // MAC地址
-	Goos       field.String // 操作系统
-	Arch       field.String // 系统架构
-	Edition    field.String // Agent版本
-	Status     field.Uint8  // 节点状态
-	Uptime     field.Field  // 上线时间
-	BrokerID   field.Int64  // 代理节点ID
-	BrokerName field.String // 代理节点
-	Unload     field.Bool   // 是否静默模式
-	Unstable   field.Bool   // 是否内测版本
-	Customized field.String // 定制版本
-	OrgPath    field.String // 部门路径
-	Identity   field.String // 堡垒机用户
-	Category   field.String // 部门信息
-	OpDuty     field.String // 运维负责人
-	Comment    field.String // 节点描述
-	IBu        field.String // 部门
-	IDC        field.String // IDC
-	NameValues field.Field  // 自定义参数
-	CreatedAt  field.Time   // 更新时间
-	UpdatedAt  field.Time   // 创建时间
+	ALL         field.Asterisk
+	ID          field.Int64  // ID
+	MachineID   field.String // 机器码
+	Inet        field.String // IPv4
+	Inet6       field.String // IPv6
+	MAC         field.String // MAC地址
+	Goos        field.String // 操作系统
+	Arch        field.String // 系统架构
+	Edition     field.String // Agent版本
+	Status      field.Uint8  // 节点状态
+	Uptime      field.Field  // 上线时间
+	BrokerID    field.Int64  // 代理节点ID
+	BrokerName  field.String // 代理节点
+	Unload      field.Bool   // 是否静默模式
+	Unstable    field.Bool   // 是否内测版本
+	Customized  field.String // 定制版本
+	OrgPath     field.String // 部门路径
+	Identity    field.String // 堡垒机用户
+	Category    field.String // 部门信息
+	OpDuty      field.String // 运维负责人
+	Comment     field.String // 节点描述
+	IBu         field.String // 部门
+	IDC         field.String // IDC
+	OSRelease   field.String // 系统版本
+	ManualNotes field.Field  // 人工备注参数
+	CreatedAt   field.Time   // 更新时间
+	UpdatedAt   field.Time   // 创建时间
 
 	fieldMap map[string]field.Expr
 }
@@ -102,6 +106,7 @@ func (m minion) As(alias string) *minion {
 func (m *minion) updateTableName(table string) *minion {
 	m.ALL = field.NewAsterisk(table)
 	m.ID = field.NewInt64(table, "id")
+	m.MachineID = field.NewString(table, "machine_id")
 	m.Inet = field.NewString(table, "inet")
 	m.Inet6 = field.NewString(table, "inet6")
 	m.MAC = field.NewString(table, "mac")
@@ -122,7 +127,8 @@ func (m *minion) updateTableName(table string) *minion {
 	m.Comment = field.NewString(table, "comment")
 	m.IBu = field.NewString(table, "ibu")
 	m.IDC = field.NewString(table, "idc")
-	m.NameValues = field.NewField(table, "name_values")
+	m.OSRelease = field.NewString(table, "os_release")
+	m.ManualNotes = field.NewField(table, "manual_notes")
 	m.CreatedAt = field.NewTime(table, "created_at")
 	m.UpdatedAt = field.NewTime(table, "updated_at")
 
@@ -149,8 +155,9 @@ func (m *minion) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (m *minion) fillFieldMap() {
-	m.fieldMap = make(map[string]field.Expr, 24)
+	m.fieldMap = make(map[string]field.Expr, 26)
 	m.fieldMap["id"] = m.ID
+	m.fieldMap["machine_id"] = m.MachineID
 	m.fieldMap["inet"] = m.Inet
 	m.fieldMap["inet6"] = m.Inet6
 	m.fieldMap["mac"] = m.MAC
@@ -171,7 +178,8 @@ func (m *minion) fillFieldMap() {
 	m.fieldMap["comment"] = m.Comment
 	m.fieldMap["ibu"] = m.IBu
 	m.fieldMap["idc"] = m.IDC
-	m.fieldMap["name_values"] = m.NameValues
+	m.fieldMap["os_release"] = m.OSRelease
+	m.fieldMap["manual_notes"] = m.ManualNotes
 	m.fieldMap["created_at"] = m.CreatedAt
 	m.fieldMap["updated_at"] = m.UpdatedAt
 }

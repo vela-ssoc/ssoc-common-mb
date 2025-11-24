@@ -3,13 +3,12 @@ package elastic
 import (
 	"context"
 	"encoding/base64"
-	"math/rand"
+	"math/rand/v2"
 	"net"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
 	"sync"
-	"time"
 
 	"github.com/vela-ssoc/ssoc-common-mb/dal/query"
 	"github.com/vela-ssoc/ssoc-common-mb/problem"
@@ -106,9 +105,7 @@ func (ec *elasticConfig) newNodes(addrs []string, uname, passwd string) (http.Ha
 		nodes = append(nodes, node)
 	}
 
-	nano := time.Now().UnixNano()
 	rd := &randomHandle{
-		random:  rand.New(rand.NewSource(nano)),
 		size:    len(nodes),
 		handles: nodes,
 	}
@@ -171,13 +168,12 @@ func (n *nodeHandle) errorHandler(w http.ResponseWriter, r *http.Request, err er
 }
 
 type randomHandle struct {
-	random  *rand.Rand
 	size    int
 	handles []http.Handler
 }
 
 func (rd *randomHandle) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	n := rd.random.Intn(rd.size)
+	n := rand.IntN(rd.size)
 	h := rd.handles[n]
 	h.ServeHTTP(w, r)
 }

@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/vela-ssoc/ssoc-common-mb/param/problem"
-	"github.com/vela-ssoc/ssoc-common-mb/validate"
+	"github.com/vela-ssoc/ssoc-common-mb/validation"
 	"github.com/xgfone/ship/v5"
 )
 
@@ -44,7 +44,7 @@ func UnwrapError(err error) (statusCode int, title string, detail string) {
 		statusCode = ce.Code
 	case *ship.HTTPServerError:
 		statusCode = ce.Code
-	case *validate.TranError:
+	case *validation.ValidError:
 		title = "参数校验错误"
 	case *time.ParseError:
 		detail = "时间格式错误，正确格式：" + ce.Layout

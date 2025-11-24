@@ -165,8 +165,9 @@ func (c Client) getClient() *http.Client {
 func (c Client) unmarshalJSON(rc io.ReadCloser, v any) error {
 	//goland:noinspection GoUnhandledErrorResult
 	defer rc.Close()
-	if v == nil || rc == http.NoBody {
-		return nil
+	if v == nil {
+		_, err := io.Copy(io.Discard, rc)
+		return err
 	}
 
 	return json.NewDecoder(rc).Decode(v)

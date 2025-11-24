@@ -69,9 +69,9 @@ type NameCount struct {
 
 type NameCounts []*NameCount
 
-func (nc NameCounts) Aliases() (name, count field.Field) {
+func (nc NameCounts) Aliases() (name field.String, count field.Int) {
 	// 要与 NameCount gorm tag 保持一致
-	name = field.NewField("", "name")
-	count = field.NewField("", "count")
-	return
+	name = field.NewString("", "name")
+	count = field.NewInt("", "count")
+	return name, count
 }

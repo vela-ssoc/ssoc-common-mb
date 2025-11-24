@@ -2,64 +2,9 @@ package model
 
 import (
 	"bytes"
-	"database/sql/driver"
-	"encoding/json"
 	"errors"
 	"strconv"
 )
-
-// startupNode 节点配置项
-type startupNode struct {
-	ID     int64  `json:"id,string"`
-	DNS    string `json:"dns"       validate:"omitempty,ip"`
-	Prefix string `json:"prefix"`
-}
-
-// Scan implement std sql sql.Scanner
-func (s *startupNode) Scan(v any) error {
-	return json.Unmarshal(v.([]byte), s)
-}
-
-// Value implement std sql driver.Valuer
-func (s startupNode) Value() (driver.Value, error) {
-	return json.Marshal(s)
-}
-
-type startupLogger struct {
-	Level    string `json:"level"    validate:"oneof=debug info error"`
-	Filename string `json:"filename" validate:"required"`
-	Console  bool   `json:"console"`
-	Format   string `json:"format"   validate:"oneof=text json"`
-	Caller   bool   `json:"caller"`
-	Skip     int    `json:"skip"     validate:"gt=-10,lt=10"`
-}
-
-// Scan implement std sql sql.Scanner
-func (s *startupLogger) Scan(v any) error {
-	return json.Unmarshal(v.([]byte), s)
-}
-
-// Value implement std sql driver.Valuer
-func (s startupLogger) Value() (driver.Value, error) {
-	return json.Marshal(s)
-}
-
-type startupConsole struct {
-	Enable  bool   `json:"enable"`
-	Network string `json:"network" validate:"required_if=Enable true,omitempty,oneof=tcp udp unix"`
-	Address string `json:"address" validate:"required_if=Enable true,omitempty,hostname_port"`
-	Script  string `json:"script"  validate:"required_if=Enable true"`
-}
-
-// Scan implement std sql sql.Scanner
-func (s *startupConsole) Scan(v any) error {
-	return json.Unmarshal(v.([]byte), s)
-}
-
-// Value implement std sql driver.Valuer
-func (s startupConsole) Value() (driver.Value, error) {
-	return json.Marshal(s)
-}
 
 const (
 	extNumberType         extFieldType = "number"          // 数字类型
@@ -124,22 +69,14 @@ func (s startupExtend) escape() string {
 	return buf.String()
 }
 
-// startupExtends 配置扩展项
-type startupExtends []*startupExtend
-
-// Scan implement std sql sql.Scanner
-func (s *startupExtends) Scan(v any) error {
-	return json.Unmarshal(v.([]byte), s)
-}
-
-// Value implement std sql driver.Valuer
-func (s startupExtends) Value() (driver.Value, error) {
-	return json.Marshal(s)
-}
-
 // TaskRunner 内部运行状态
 type TaskRunner struct {
-	Name   string `json:"name"`   // 内部服务名字
-	Type   string `json:"type"`   // 类型
-	Status string `json:"status"` // 状态
+	Name     string         `json:"name"`   // 内部服务名字
+	Type     string         `json:"type"`   // 类型
+	Status   string         `json:"status"` // 状态
+	CodeVM   string         `json:"code_vm"`
+	Private  bool           `json:"private"`
+	Cause    string         `json:"cause"`
+	Metadata map[string]any `json:"metadata"`
+	UseBy    []string       `json:"use_by"`
 }

@@ -22,7 +22,7 @@ type Storer interface {
 	CmdbURL(ctx context.Context) (*url.URL, error)
 	SsoURL(ctx context.Context) (*url.URL, error)
 	AlarmURL(ctx context.Context) (*url.URL, error)
-	Startup(ctx context.Context) (*model.Startup, error)
+	// Startup(ctx context.Context) (*model.Startup, error)
 	DeployScript(ctx context.Context, goos string, v any) *bytes.Buffer
 
 	LoginDong(ctx context.Context, v any) (title, body string)

@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/go-sql-driver/mysql"
-	"github.com/vela-ssoc/ssoc-common-mb/validate"
+	"github.com/vela-ssoc/ssoc-common-mb/validation"
 	"github.com/xgfone/ship/v5"
 	"gorm.io/gorm"
 )
@@ -57,7 +57,7 @@ func (h *handle) HandleError(c *ship.Context, e error) {
 		pd.Status = err.Code
 	case *ship.HTTPServerError:
 		pd.Status = err.Code
-	case *validate.TranError:
+	case *validation.ValidError:
 		pd.Title = "参数校验错误"
 	case *time.ParseError:
 		pd.Title = "参数格式错误"

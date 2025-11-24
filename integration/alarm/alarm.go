@@ -33,7 +33,7 @@ func UnifyAlerter(store storage.Storer,
 
 	return &unifyAlert{
 		store:  store,
-		pool:   gopool.NewV2(1024),
+		pool:   gopool.New(1024),
 		match:  match,
 		log:    log,
 		dong:   dong,

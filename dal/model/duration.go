@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"database/sql/driver"
+	"encoding/json"
+	"time"
+)
 
 // Duration like https://tc39.es/proposal-temporal/docs/duration.html#constructor
 type Duration struct {
@@ -19,4 +23,13 @@ func (d Duration) Duration() time.Duration {
 
 func (d Duration) String() string {
 	return d.Duration().String()
+}
+
+func (d *Duration) Scan(src any) error {
+	bs, _ := src.([]byte)
+	return json.Unmarshal(bs, d)
+}
+
+func (d Duration) Value() (driver.Value, error) {
+	return json.Marshal(d)
 }

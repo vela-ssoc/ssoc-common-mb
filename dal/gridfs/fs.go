@@ -124,7 +124,7 @@ func (f *gridFS) Write(r io.Reader, name string) (File, error) {
 
 		fl.Size = filesize
 		fl.Checksum = hex.EncodeToString(digest.Sum(nil))
-		_, err = fileDo.Updates(fl)
+		_, err = fileDo.Where(fileTbl.ID.Eq(fileID)).Updates(fl)
 
 		return err
 	}); err != nil {
@@ -141,39 +141,4 @@ func (f *gridFS) Write(r io.Reader, name string) (File, error) {
 	}
 
 	return cf, nil
-
-	//var n, serial int
-	//var filesize int64
-	//for {
-	//	if n, err = tr.Read(buf); err != nil {
-	//		if err == io.EOF {
-	//			err = nil
-	//		}
-	//		break
-	//	}
-	//	if _, err = tx.Exec(insertPart, fileID, serial, buf[:n]); err != nil {
-	//		break
-	//	}
-	//	serial++
-	//	filesize += int64(n)
-	//}
-	//
-	//if err == nil {
-	//	sum := hex.EncodeToString(digest.Sum(nil))
-	//	updateFile := "UPDATE gridfs_file SET size = ?, checksum = ? WHERE id = ?"
-	//	if _, err = tx.Exec(updateFile, filesize, sum, fileID); err == nil {
-	//		if err = tx.Commit(); err == nil {
-	//			fl := &file{
-	//				id:        fileID,
-	//				name:      name,
-	//				size:      filesize,
-	//				checksum:  sum,
-	//				createdAt: createdAt,
-	//				db:        f.db,
-	//			}
-	//
-	//			return fl, nil
-	//		}
-	//	}
-	//}
 }

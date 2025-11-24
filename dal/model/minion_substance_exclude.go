@@ -9,3 +9,25 @@ type MinionSubstanceExclude struct {
 func (MinionSubstanceExclude) TableName() string {
 	return "minion_substance_exclude"
 }
+
+type MinionSubstanceExcludes []*MinionSubstanceExclude
+
+func (mss MinionSubstanceExcludes) Filter(subs Substances) Substances {
+	if len(subs) == 0 || len(mss) == 0 {
+		return subs
+	}
+
+	result := make(Substances, 0, 10)
+	index := make(map[int64]struct{}, len(mss))
+	for _, m := range mss {
+		index[m.SubstanceID] = struct{}{}
+	}
+	for _, e := range subs {
+		if _, exists := index[e.ID]; exists {
+			continue
+		}
+		result = append(result, e)
+	}
+
+	return result
+}

@@ -30,6 +30,7 @@ type TaskExecuteItem struct {
 	Finished      bool            `json:"finished"         gorm:"column:finished;notnull;default:false;comment:是否执行完毕"`
 	Succeed       bool            `json:"succeed"          gorm:"column:succeed;notnull;default:false;comment:是否执行成功"`
 	ErrorCode     int             `json:"error_code"       gorm:"column:error_code;notnull;default:0;comment:错误码"` // 该错误码用于辅助搜索
+	Execution     *TaskExecution  `json:"execution"        gorm:"column:execution;serializer:json;comment:执行记录"`
 	Result        json.RawMessage `json:"result"           gorm:"column:result;comment:agent执行结果"`
 	ExpiredAt     time.Time       `json:"expired_at"       gorm:"column:expired_at;notnull;index;comment:任务过期时间"`
 	CreatedAt     time.Time       `json:"created_at"       gorm:"column:created_at;notnull;autoCreateTime(3);comment:创建时间"`
@@ -53,4 +54,19 @@ func (tss *TaskStepStatus) Value() (driver.Value, error) {
 func (tss *TaskStepStatus) Scan(src any) error {
 	bs, _ := src.([]byte)
 	return json.Unmarshal(bs, tss)
+}
+
+type TaskExecution struct {
+	ExecutedAt time.Time     `json:"executed_at"` // 执行开始时间（agent 上报）
+	FinishedAt time.Time     `json:"finished_at"` // 执行结束时间（agent 上报）
+	Elapsed    time.Duration `json:"elapsed"`     // 执行耗时
+}
+
+func (te *TaskExecution) Value() (driver.Value, error) {
+	return json.Marshal(te)
+}
+
+func (te *TaskExecution) Scan(src any) error {
+	bs, _ := src.([]byte)
+	return json.Unmarshal(bs, te)
 }
