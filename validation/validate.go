@@ -2,6 +2,8 @@ package validation
 
 import (
 	"context"
+	"reflect"
+	"strings"
 
 	arlocale "github.com/go-playground/locales/ar"
 	enlocale "github.com/go-playground/locales/en"
@@ -27,6 +29,14 @@ import (
 
 func New() *Validate {
 	valid := validator.New()
+	valid.RegisterTagNameFunc(func(field reflect.StructField) string {
+		str := field.Tag.Get("json")
+		if val, _, _ := strings.Cut(str, ","); val != "" && val != "-" {
+			return val
+		}
+
+		return field.Name
+	})
 
 	arloc := arlocale.New()
 	enloc := enlocale.New()

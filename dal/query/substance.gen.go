@@ -39,6 +39,7 @@ func newSubstance(db *gorm.DB, opts ...gen.DOOption) substance {
 	_substance.Priority = field.NewInt64(tableName, "priority")
 	_substance.CreatedID = field.NewInt64(tableName, "created_id")
 	_substance.UpdatedID = field.NewInt64(tableName, "updated_id")
+	_substance.ContentQuote = field.NewField(tableName, "content_quote")
 	_substance.CreatedAt = field.NewTime(tableName, "created_at")
 	_substance.UpdatedAt = field.NewTime(tableName, "updated_at")
 
@@ -50,21 +51,22 @@ func newSubstance(db *gorm.DB, opts ...gen.DOOption) substance {
 type substance struct {
 	substanceDo substanceDo
 
-	ALL       field.Asterisk
-	ID        field.Int64 // ID
-	Name      field.String
-	Icon      field.Bytes
-	Hash      field.String
-	Desc      field.String
-	Chunk     field.Bytes
-	Links     field.Field
-	MinionID  field.Int64
-	Version   field.Int64
-	Priority  field.Int64 // 越大优先级越高
-	CreatedID field.Int64
-	UpdatedID field.Int64
-	CreatedAt field.Time // 创建时间
-	UpdatedAt field.Time // 更新时间
+	ALL          field.Asterisk
+	ID           field.Int64 // ID
+	Name         field.String
+	Icon         field.Bytes
+	Hash         field.String
+	Desc         field.String
+	Chunk        field.Bytes
+	Links        field.Field
+	MinionID     field.Int64
+	Version      field.Int64
+	Priority     field.Int64 // 越大优先级越高
+	CreatedID    field.Int64
+	UpdatedID    field.Int64
+	ContentQuote field.Field // 插件引用
+	CreatedAt    field.Time  // 创建时间
+	UpdatedAt    field.Time  // 更新时间
 
 	fieldMap map[string]field.Expr
 }
@@ -93,6 +95,7 @@ func (s *substance) updateTableName(table string) *substance {
 	s.Priority = field.NewInt64(table, "priority")
 	s.CreatedID = field.NewInt64(table, "created_id")
 	s.UpdatedID = field.NewInt64(table, "updated_id")
+	s.ContentQuote = field.NewField(table, "content_quote")
 	s.CreatedAt = field.NewTime(table, "created_at")
 	s.UpdatedAt = field.NewTime(table, "updated_at")
 
@@ -121,7 +124,7 @@ func (s *substance) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *substance) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 14)
+	s.fieldMap = make(map[string]field.Expr, 15)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["name"] = s.Name
 	s.fieldMap["icon"] = s.Icon
@@ -134,6 +137,7 @@ func (s *substance) fillFieldMap() {
 	s.fieldMap["priority"] = s.Priority
 	s.fieldMap["created_id"] = s.CreatedID
 	s.fieldMap["updated_id"] = s.UpdatedID
+	s.fieldMap["content_quote"] = s.ContentQuote
 	s.fieldMap["created_at"] = s.CreatedAt
 	s.fieldMap["updated_at"] = s.UpdatedAt
 }
