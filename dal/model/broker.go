@@ -38,6 +38,8 @@ func (Broker) TableName() string {
 	return "broker"
 }
 
+type BrokerSetting struct{}
+
 // BrokerV2 节点信息表
 //type BrokerV2 struct {
 //	ID         int64        `json:"id"         gorm:"column:id;primaryKey"` // broker 节点 ID
