@@ -51,6 +51,7 @@ func newMinion(db *gorm.DB, opts ...gen.DOOption) minion {
 	_minion.IDC = field.NewString(tableName, "idc")
 	_minion.OSRelease = field.NewString(tableName, "os_release")
 	_minion.ManualNotes = field.NewField(tableName, "manual_notes")
+	_minion.HeartbeatAt = field.NewTime(tableName, "heartbeat_at")
 	_minion.CreatedAt = field.NewTime(tableName, "created_at")
 	_minion.UpdatedAt = field.NewTime(tableName, "updated_at")
 
@@ -87,6 +88,7 @@ type minion struct {
 	IDC         field.String // IDC
 	OSRelease   field.String // 系统版本
 	ManualNotes field.Field  // 人工备注参数
+	HeartbeatAt field.Time   // 最近一次接收心跳包时间
 	CreatedAt   field.Time   // 更新时间
 	UpdatedAt   field.Time   // 创建时间
 
@@ -129,6 +131,7 @@ func (m *minion) updateTableName(table string) *minion {
 	m.IDC = field.NewString(table, "idc")
 	m.OSRelease = field.NewString(table, "os_release")
 	m.ManualNotes = field.NewField(table, "manual_notes")
+	m.HeartbeatAt = field.NewTime(table, "heartbeat_at")
 	m.CreatedAt = field.NewTime(table, "created_at")
 	m.UpdatedAt = field.NewTime(table, "updated_at")
 
@@ -155,7 +158,7 @@ func (m *minion) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (m *minion) fillFieldMap() {
-	m.fieldMap = make(map[string]field.Expr, 26)
+	m.fieldMap = make(map[string]field.Expr, 27)
 	m.fieldMap["id"] = m.ID
 	m.fieldMap["machine_id"] = m.MachineID
 	m.fieldMap["inet"] = m.Inet
@@ -180,6 +183,7 @@ func (m *minion) fillFieldMap() {
 	m.fieldMap["idc"] = m.IDC
 	m.fieldMap["os_release"] = m.OSRelease
 	m.fieldMap["manual_notes"] = m.ManualNotes
+	m.fieldMap["heartbeat_at"] = m.HeartbeatAt
 	m.fieldMap["created_at"] = m.CreatedAt
 	m.fieldMap["updated_at"] = m.UpdatedAt
 }
