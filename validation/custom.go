@@ -14,7 +14,7 @@ import (
 	"github.com/robfig/cron/v3"
 )
 
-func Extensions() []CustomValidatorFunc {
+func All() []CustomValidatorFunc {
 	return []CustomValidatorFunc{
 		dongFunc,
 		uniqueFunc,
