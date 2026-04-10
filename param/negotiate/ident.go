@@ -10,7 +10,6 @@ import (
 
 // Ident broker 节点的认证信息
 type Ident struct {
-	ID         int64     `json:"id"`         // ID
 	Secret     string    `json:"secret"`     // 密钥
 	Inet       net.IP    `json:"inet"`       // IPv4 地址
 	MAC        string    `json:"mac"`        // MAC 地址
