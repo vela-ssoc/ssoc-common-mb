@@ -17,7 +17,7 @@ type Issue struct {
 
 // String fmt.Stringer
 func (iss Issue) String() string {
-	dat, _ := json.MarshalIndent(iss, "", "    ")
+	dat, _ := json.Marshal(iss)
 	return string(dat)
 }
 
