@@ -8,6 +8,7 @@ import (
 )
 
 type Issue struct {
+	ID       int64                `json:"id"`       // ID
 	Name     string               `json:"name"`     // broker 名字
 	Passwd   []byte               `json:"passwd"`   // 通信加解密密钥
 	Server   profile.BrokerServer `json:"server"`   // broker 服务监听配置
