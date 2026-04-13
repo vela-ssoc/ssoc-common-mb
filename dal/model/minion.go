@@ -8,8 +8,7 @@ import (
 type MinionStatus uint8
 
 const (
-	// MSInactive 未激活
-	MSInactive MinionStatus = iota + 1
+	_ MinionStatus = iota + 1
 	// MSOffline 离线
 	MSOffline
 	// MSOnline 在线
@@ -18,20 +17,20 @@ const (
 	MSDelete
 )
 
-func (ms MinionStatus) String() string {
-	switch ms {
-	case MSInactive:
-		return "未激活"
-	case MSOffline:
-		return "离线"
-	case MSOnline:
-		return "在线"
-	case MSDelete:
-		return "已删除"
-	default:
-		return "未知"
-	}
-}
+//func (ms MinionStatus) String() string {
+//	switch ms {
+//	case MSInactive:
+//		return "未激活"
+//	case MSOffline:
+//		return "离线"
+//	case MSOnline:
+//		return "在线"
+//	case MSDelete:
+//		return "已删除"
+//	default:
+//		return "未知"
+//	}
+//}
 
 // Minion 节点表
 type Minion struct {
