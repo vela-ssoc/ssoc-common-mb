@@ -12,18 +12,18 @@ func (tk TagKind) Lifelong() bool {
 	return tk == TkLifelong
 }
 
-func (tk TagKind) String() string {
-	switch tk {
-	case TkLifelong:
-		return "系统永久标签"
-	case TkManual:
-		return "手动添加标签"
-	case TkMinion:
-		return "节点上报标签"
-	default:
-		return "未知类型标签"
-	}
-}
+//func (tk TagKind) String() string {
+//	switch tk {
+//	case TkLifelong:
+//		return "系统永久标签"
+//	case TkManual:
+//		return "手动添加标签"
+//	case TkMinion:
+//		return "节点上报标签"
+//	default:
+//		return "未知类型标签"
+//	}
+//}
 
 // MinionTag minion 节点和标签的映射关系
 type MinionTag struct {
