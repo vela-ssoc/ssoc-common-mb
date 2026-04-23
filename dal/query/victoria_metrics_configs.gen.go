@@ -27,7 +27,7 @@ func newVictoriaMetricsConfig(db *gorm.DB, opts ...gen.DOOption) victoriaMetrics
 
 	tableName := _victoriaMetricsConfig.victoriaMetricsConfigDo.TableName()
 	_victoriaMetricsConfig.ALL = field.NewAsterisk(tableName)
-	_victoriaMetricsConfig.ID = field.NewField(tableName, "id")
+	_victoriaMetricsConfig.ID = field.NewInt64(tableName, "id")
 	_victoriaMetricsConfig.Name = field.NewString(tableName, "name")
 	_victoriaMetricsConfig.Enabled = field.NewBool(tableName, "enabled")
 	_victoriaMetricsConfig.Method = field.NewString(tableName, "method")
@@ -46,7 +46,7 @@ type victoriaMetricsConfig struct {
 	victoriaMetricsConfigDo victoriaMetricsConfigDo
 
 	ALL       field.Asterisk
-	ID        field.Field  // ID
+	ID        field.Int64  // ID
 	Name      field.String // 名字
 	Enabled   field.Bool   // 是否启用
 	Method    field.String // 请求方法
@@ -71,7 +71,7 @@ func (v victoriaMetricsConfig) As(alias string) *victoriaMetricsConfig {
 
 func (v *victoriaMetricsConfig) updateTableName(table string) *victoriaMetricsConfig {
 	v.ALL = field.NewAsterisk(table)
-	v.ID = field.NewField(table, "id")
+	v.ID = field.NewInt64(table, "id")
 	v.Name = field.NewString(table, "name")
 	v.Enabled = field.NewBool(table, "enabled")
 	v.Method = field.NewString(table, "method")
