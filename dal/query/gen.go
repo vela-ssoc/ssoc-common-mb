@@ -82,6 +82,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 		ThirdCustomized:        newThirdCustomized(db, opts...),
 		User:                   newUser(db, opts...),
 		VIP:                    newVIP(db, opts...),
+		VictoriaMetricsConfig:  newVictoriaMetricsConfig(db, opts...),
 	}
 }
 
@@ -152,6 +153,7 @@ type Query struct {
 	ThirdCustomized        thirdCustomized
 	User                   user
 	VIP                    vIP
+	VictoriaMetricsConfig  victoriaMetricsConfig
 }
 
 func (q *Query) Available() bool { return q.db != nil }
@@ -223,6 +225,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 		ThirdCustomized:        q.ThirdCustomized.clone(db),
 		User:                   q.User.clone(db),
 		VIP:                    q.VIP.clone(db),
+		VictoriaMetricsConfig:  q.VictoriaMetricsConfig.clone(db),
 	}
 }
 
@@ -301,6 +304,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 		ThirdCustomized:        q.ThirdCustomized.replaceDB(db),
 		User:                   q.User.replaceDB(db),
 		VIP:                    q.VIP.replaceDB(db),
+		VictoriaMetricsConfig:  q.VictoriaMetricsConfig.replaceDB(db),
 	}
 }
 
@@ -369,6 +373,7 @@ type queryCtx struct {
 	ThirdCustomized        *thirdCustomizedDo
 	User                   *userDo
 	VIP                    *vIPDo
+	VictoriaMetricsConfig  *victoriaMetricsConfigDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
@@ -437,6 +442,7 @@ func (q *Query) WithContext(ctx context.Context) *queryCtx {
 		ThirdCustomized:        q.ThirdCustomized.WithContext(ctx),
 		User:                   q.User.WithContext(ctx),
 		VIP:                    q.VIP.WithContext(ctx),
+		VictoriaMetricsConfig:  q.VictoriaMetricsConfig.WithContext(ctx),
 	}
 }
 
