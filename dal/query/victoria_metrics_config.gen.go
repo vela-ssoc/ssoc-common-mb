@@ -33,7 +33,7 @@ func newVictoriaMetricsConfig(db *gorm.DB, opts ...gen.DOOption) victoriaMetrics
 	_victoriaMetricsConfig.Method = field.NewString(tableName, "method")
 	_victoriaMetricsConfig.URL = field.NewString(tableName, "url")
 	_victoriaMetricsConfig.Username = field.NewString(tableName, "username")
-	_victoriaMetricsConfig.Password = field.NewString(tableName, "username")
+	_victoriaMetricsConfig.Password = field.NewString(tableName, "password")
 	_victoriaMetricsConfig.CreatedAt = field.NewTime(tableName, "created_at")
 	_victoriaMetricsConfig.UpdatedAt = field.NewTime(tableName, "updated_at")
 
@@ -77,7 +77,7 @@ func (v *victoriaMetricsConfig) updateTableName(table string) *victoriaMetricsCo
 	v.Method = field.NewString(table, "method")
 	v.URL = field.NewString(table, "url")
 	v.Username = field.NewString(table, "username")
-	v.Password = field.NewString(table, "username")
+	v.Password = field.NewString(table, "password")
 	v.CreatedAt = field.NewTime(table, "created_at")
 	v.UpdatedAt = field.NewTime(table, "updated_at")
 
@@ -115,7 +115,7 @@ func (v *victoriaMetricsConfig) fillFieldMap() {
 	v.fieldMap["method"] = v.Method
 	v.fieldMap["url"] = v.URL
 	v.fieldMap["username"] = v.Username
-	v.fieldMap["username"] = v.Password
+	v.fieldMap["password"] = v.Password
 	v.fieldMap["created_at"] = v.CreatedAt
 	v.fieldMap["updated_at"] = v.UpdatedAt
 }
