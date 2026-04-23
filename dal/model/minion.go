@@ -8,7 +8,7 @@ import (
 type MinionStatus uint8
 
 const (
-	_ MinionStatus = iota + 1
+	MSInactive MinionStatus = iota + 1
 	// MSOffline 离线
 	MSOffline
 	// MSOnline 在线
