@@ -11,5 +11,7 @@ type VictoriaMetricsConfig struct {
 	Username  string    `json:"username"   gorm:"column:username;size:255;comment:认证用户名"`
 	Password  string    `json:"password"   gorm:"column:username;size:255;comment:认证密码"`
 	CreatedAt time.Time `json:"created_at" gorm:"column:created_at;notnull;autoCreateTime(3);comment:创建时间"`
-	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at;notnull;autoUpdateTime(3);comment:更新时间"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at;notnull;autoUpdateTime(3);index;comment:更新时间"`
 }
+
+func (VictoriaMetricsConfig) TableName() string { return "victoria_metrics_config" }
