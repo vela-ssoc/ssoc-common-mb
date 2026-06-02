@@ -217,10 +217,10 @@ func (tbl *Tables) fieldInt(f field.Int, input *WhereInput) field.Expr {
 		return f.Lt(arg0)
 	case Lte:
 		return f.Lte(arg0)
-	case Like:
-		return f.Like(arg0)
-	case NotLike:
-		return f.NotLike(arg0)
+	// case Like:
+	//	return f.Like(arg0)
+	// case NotLike:
+	//	return f.NotLike(arg0)
 	case Between, NotBetween:
 		arg1, exist := values.intN(1)
 		if !exist {
@@ -270,10 +270,10 @@ func (tbl *Tables) fieldFloat64(f field.Float64, input *WhereInput) field.Expr {
 		return f.Lt(arg0)
 	case Lte:
 		return f.Lte(arg0)
-	case Like:
-		return f.Like(arg0)
-	case NotLike:
-		return f.NotLike(arg0)
+	// case Like:
+	//	return f.Like(arg0)
+	// case NotLike:
+	//	return f.NotLike(arg0)
 	case Between, NotBetween:
 		arg1, exist := values.float64N(1)
 		if !exist {
@@ -387,8 +387,8 @@ func (tbl *Tables) fieldField(f field.Field, input *WhereInput) field.Expr {
 		return f.Lt(arg0)
 	case Lte:
 		return f.Lte(arg0)
-	case Like:
-		return f.Like(arg0)
+	// case Like:
+	//	return f.Like(arg0)
 	case In, NotIn:
 		vals := values.values()
 		if len(vals) == 0 {

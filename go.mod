@@ -5,16 +5,16 @@ go 1.25.0
 require (
 	github.com/go-playground/locales v0.14.1
 	github.com/go-playground/universal-translator v0.18.1
-	github.com/go-playground/validator/v10 v10.30.2
-	github.com/go-sql-driver/mysql v1.9.3
+	github.com/go-playground/validator/v10 v10.30.3
+	github.com/go-sql-driver/mysql v1.10.0
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/vela-ssoc/vela-common-mba v0.0.0-20251210091356-7c0c9896a277
 	github.com/xgfone/ship/v5 v5.3.2
-	golang.org/x/net v0.53.0
+	golang.org/x/net v0.55.0
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 	gorm.io/driver/gaussdb v0.1.0
 	gorm.io/driver/mysql v1.6.0
-	gorm.io/gen v0.3.27
+	gorm.io/gen v0.3.28
 	gorm.io/gorm v1.31.1
 	gorm.io/plugin/dbresolver v1.6.2
 )
@@ -32,12 +32,13 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/tjfoc/gmsm v1.4.1 // indirect
-	golang.org/x/crypto v0.50.0 // indirect
-	golang.org/x/mod v0.35.0 // indirect
+	golang.org/x/crypto v0.52.0 // indirect
+	golang.org/x/exp v0.0.0-20260529124908-c761662dc8c9 // indirect
+	golang.org/x/mod v0.36.0 // indirect
 	golang.org/x/sync v0.20.0 // indirect
-	golang.org/x/sys v0.43.0 // indirect
-	golang.org/x/text v0.36.0 // indirect
-	golang.org/x/tools v0.44.0 // indirect
+	golang.org/x/sys v0.45.0 // indirect
+	golang.org/x/text v0.37.0 // indirect
+	golang.org/x/tools v0.45.0 // indirect
 	gorm.io/datatypes v1.2.7 // indirect
 	gorm.io/hints v1.1.2 // indirect
 )
