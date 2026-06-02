@@ -2,7 +2,7 @@ package sqldb
 
 import (
 	"github.com/go-sql-driver/mysql"
-	"gorm.io/driver/gaussdb"
+	"github.com/xmx/opengauss"
 	gormysql "gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -17,7 +17,7 @@ func Open(dsn string, opts ...gorm.Option) (*gorm.DB, error) {
 			Config: &gormysql.Config{DSN: dsn},
 		}
 	} else {
-		dia = gaussdb.New(gaussdb.Config{
+		dia = opengauss.New(opengauss.Config{
 			DSN:                  dsn,
 			PreferSimpleProtocol: true,
 		})
