@@ -10,8 +10,9 @@ require (
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/vela-ssoc/vela-common-mba v0.0.0-20251210091356-7c0c9896a277
 	github.com/xgfone/ship/v5 v5.3.2
-	github.com/xmx/opengauss v0.0.0-20260602105729-50647c2ab019
+	github.com/xmx/opengauss v0.0.0-20260603081556-5de8a5edfb8d
 	golang.org/x/net v0.55.0
+	golang.org/x/text v0.37.0
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 	gorm.io/driver/mysql v1.6.0
 	gorm.io/gen v0.3.28
@@ -36,7 +37,6 @@ require (
 	golang.org/x/mod v0.36.0 // indirect
 	golang.org/x/sync v0.20.0 // indirect
 	golang.org/x/sys v0.45.0 // indirect
-	golang.org/x/text v0.37.0 // indirect
 	golang.org/x/tools v0.45.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect
 	gorm.io/datatypes v1.2.7 // indirect
