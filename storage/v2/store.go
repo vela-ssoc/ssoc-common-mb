@@ -30,8 +30,6 @@ type Storer interface {
 	RiskHTML(ctx context.Context, v any) *bytes.Buffer
 	EventDong(ctx context.Context, v any, customID string) (title, body string)
 	EventHTML(ctx context.Context, v any) *bytes.Buffer
-	// RiskYW(ctx context.Context, v any) (title, body string)
-	// EventYW(ctx context.Context, v any) (title, body string)
 }
 
 const (
@@ -295,11 +293,21 @@ func (sdb *storeDB) EventHTML(ctx context.Context, v any) *bytes.Buffer {
 }
 
 func (sdb *storeDB) templateRender(ctx context.Context, id string, w io.Writer, v any) error {
-	val := sdb.getValue(id)
-	if tmpl, ok := val.(tmplValuer); ok {
-		return tmpl.rend(ctx, w, v)
+	data, err := sdb.queryDB(ctx, id)
+	if err != nil {
+		return fmt.Errorf("查询告警模板出错 %w", err)
 	}
-	return fmt.Errorf("store %s 不是一个渲染模板", id)
+
+	tpl := NewTemplate(id)
+	str := string(data.Value)
+
+	if data.Escape {
+		err = tpl.ExecuteHTML(w, str, v)
+	} else {
+		err = tpl.ExecuteText(w, str, v)
+	}
+
+	return err
 }
 
 func (sdb *storeDB) httpURL(ctx context.Context, id string) (*url.URL, error) {
@@ -415,4 +423,11 @@ func (sdb *storeDB) validHTTP(id string, data []byte) error {
 
 func (sdb *storeDB) filterCRLF(dat []byte) []byte {
 	return bytes.ReplaceAll(dat, []byte("\n"), nil)
+}
+
+func (sdb *storeDB) queryDB(ctx context.Context, id string) (*model.Store, error) {
+	tbl := sdb.qry.Store
+	dao := tbl.WithContext(ctx)
+
+	return dao.Where(tbl.ID.Eq(id)).First()
 }
