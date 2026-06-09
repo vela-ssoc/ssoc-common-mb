@@ -2,6 +2,8 @@ package dong
 
 import (
 	"context"
+	"errors"
+	"io"
 	"log/slog"
 	"net/http"
 )
@@ -27,10 +29,23 @@ func (tc *tunnelClient) Send(ctx context.Context, uids, gids []string, title, bo
 		Detail:   body,
 		Title:    title,
 	}
-	err := tc.cli.postJSON(ctx, strURL, data, nil)
+	res, err := tc.cli.postJSON(ctx, strURL, data, nil)
 	if err != nil {
-		tc.log.Error("通过tunnel告警出错", slog.Any("error", err))
+		tc.log.Error("通过tunnel告警出错", "err", err)
+		return err
 	}
 
-	return err
+	defer res.Body.Close()
+
+	if res.StatusCode/100 == 2 {
+		return nil
+	}
+
+	buf := make([]byte, 1024)
+	n, err := io.ReadFull(res.Body, buf)
+	if err != nil {
+		return err
+	}
+
+	return errors.New(string(buf[:n]))
 }

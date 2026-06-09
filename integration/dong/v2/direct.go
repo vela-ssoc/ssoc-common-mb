@@ -2,8 +2,10 @@ package dong
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 )
 
@@ -61,5 +63,30 @@ func (dc *directClient) Send(ctx context.Context, uids, gids []string, title, de
 	}
 	header := http.Header{"Token": []string{cfg.Token}, "Account": []string{cfg.Account}}
 
-	return dc.cli.postJSON(ctx, strURL, data, header)
+	res, err := dc.cli.postJSON(ctx, strURL, data, header)
+	if err != nil {
+		return err
+	}
+
+	if code := res.StatusCode; code/100 != 2 { // 2xx
+		part := make([]byte, 0, 1024)
+		n, _ := res.Body.Read(part)
+		msg := string(part[:n])
+		if msg == "" {
+			msg = "咚咚服务器 HTTP 响应状态异常"
+		}
+
+		return &ResponseEntity{
+			Code: strconv.Itoa(code),
+			Msg:  msg,
+		}
+	}
+
+	reply := new(BroadcastResponse)
+	resp := &ResponseEntity{Data: reply}
+	if err = json.NewDecoder(res.Body).Decode(resp); err != nil {
+		return err
+	}
+
+	return resp.checkError()
 }
