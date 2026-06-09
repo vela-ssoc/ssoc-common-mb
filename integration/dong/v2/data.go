@@ -30,3 +30,26 @@ type requestTunnelBody struct {
 	Title    string   `json:"title"`
 	Text     string   `json:"text"`
 }
+
+type ResponseEntity struct {
+	Code    string `json:"code"`
+	Msg     string `json:"msg"`
+	IssueID string `json:"issueId"`
+	Data    any    `json:"data"`
+}
+
+func (r *ResponseEntity) Error() string {
+	return r.Msg + ": " + r.IssueID + "（咚咚服务）"
+}
+
+func (r *ResponseEntity) checkError() error {
+	if r.Code == "200" {
+		return nil
+	}
+
+	return r
+}
+
+type BroadcastResponse struct {
+	FailUsers []string `json:"failUsers"` // 失败用户
+}

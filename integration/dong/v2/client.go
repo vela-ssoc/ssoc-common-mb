@@ -4,9 +4,8 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"errors"
-	"io"
 	"net/http"
+	"strconv"
 )
 
 type Client interface {
@@ -46,19 +45,32 @@ func (cc *commonClient) postJSON(ctx context.Context, strURL string, data any, h
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
 
-	resp, err := cc.cli.Do(req)
+	res, err := cc.cli.Do(req)
 	if err != nil {
 		return err
 	}
 	//goland:noinspection GoUnhandledErrorResult
-	defer resp.Body.Close()
+	defer res.Body.Close()
 
-	if resp.StatusCode/100 == 2 {
-		return nil
+	if code := res.StatusCode; code/100 != 2 { // 2xx
+		part := make([]byte, 0, 1024)
+		n, _ := res.Body.Read(part)
+		msg := string(part[:n])
+		if msg == "" {
+			msg = "咚咚服务器 HTTP 响应状态异常"
+		}
+
+		return &ResponseEntity{
+			Code: strconv.Itoa(code),
+			Msg:  msg,
+		}
 	}
 
-	msg := make([]byte, 1024)
-	n, _ := io.ReadFull(resp.Body, msg)
+	reply := new(BroadcastResponse)
+	resp := &ResponseEntity{Data: reply}
+	if err = json.NewDecoder(res.Body).Decode(resp); err != nil {
+		return err
+	}
 
-	return errors.New(string(msg[:n]))
+	return resp.checkError()
 }
