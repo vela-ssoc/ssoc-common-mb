@@ -37,6 +37,7 @@ func (et *riskTask) Run() {
 
 	// 发送告警
 	if dongs := sub.Dong; len(dongs) != 0 {
+		et.unify.log.Info("risk 告警匹配到咚咚接收者", "from_code", key, "job_numbers", sub.Dong)
 		et.sendDong(ctx, dongs, key)
 	}
 }

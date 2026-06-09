@@ -37,6 +37,7 @@ func (et *eventTask) Run() {
 
 	// 发送告警
 	if dongs := sub.Dong; len(dongs) != 0 {
+		et.unify.log.Info("event 告警匹配到咚咚接收者", "from_code", key, "job_numbers", sub.Dong)
 		et.sendDong(ctx, dongs, key)
 	}
 	if devs := sub.Devops; len(devs) != 0 {
