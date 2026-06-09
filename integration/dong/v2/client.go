@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"log/slog"
 	"net/http"
 )
 
@@ -11,12 +12,13 @@ type Client interface {
 	Send(ctx context.Context, uids, gids []string, title, body string) error
 }
 
-func newCommonClient(cli *http.Client) *commonClient {
-	return &commonClient{cli: cli}
+func newCommonClient(cli *http.Client, log *slog.Logger) *commonClient {
+	return &commonClient{cli: cli, log: log}
 }
 
 type commonClient struct {
 	cli *http.Client
+	log *slog.Logger
 }
 
 func (cc *commonClient) send(ctx context.Context, strURL string, header http.Header, uids, gids []string, title, body string) (*http.Response, error) {

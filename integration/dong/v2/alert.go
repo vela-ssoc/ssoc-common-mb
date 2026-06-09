@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -12,10 +13,10 @@ import (
 )
 
 type AlertConfig struct {
-	SIEM    bool
-	URL     string
-	Token   string
-	Account string
+	SIEM    bool   `json:"siem"`
+	URL     string `json:"url"`
+	Token   string `json:"token"`
+	Account string `json:"account"`
 }
 
 func (ac AlertConfig) joinPath(str string) (*url.URL, error) {
@@ -31,12 +32,12 @@ type AlertConfigurer interface {
 	AlertConfigure(ctx context.Context) (*AlertConfig, error)
 }
 
-func NewAlert(cfg AlertConfigurer, clis ...*http.Client) Client {
-	ac := &alertClient{cfg: cfg}
+func NewAlert(cfg AlertConfigurer, log *slog.Logger, clis ...*http.Client) Client {
+	ac := &alertClient{cfg: cfg, log: log}
 	if len(clis) != 0 && clis[0] != nil {
-		ac.cli = newCommonClient(clis[0])
+		ac.cli = newCommonClient(clis[0], log)
 	} else {
-		ac.cli = newCommonClient(http.DefaultClient)
+		ac.cli = newCommonClient(http.DefaultClient, log)
 	}
 
 	return ac
@@ -45,6 +46,7 @@ func NewAlert(cfg AlertConfigurer, clis ...*http.Client) Client {
 type alertClient struct {
 	cli *commonClient
 	cfg AlertConfigurer
+	log *slog.Logger
 }
 
 func (ac *alertClient) Send(ctx context.Context, uids, gids []string, title, body string) error {
@@ -52,6 +54,7 @@ func (ac *alertClient) Send(ctx context.Context, uids, gids []string, title, bod
 	if err != nil {
 		return err
 	}
+	ac.log.Info("发送告警配置信息", "config", cfg)
 	if cfg.SIEM {
 		return ac.sendSIEM(ctx, cfg, uids, gids, title, body)
 	}
