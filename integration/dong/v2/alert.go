@@ -2,8 +2,12 @@ package dong
 
 import (
 	"context"
+	"encoding/json"
+	"errors"
+	"io"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 )
 
@@ -71,7 +75,23 @@ func (ac *alertClient) sendSIEM(ctx context.Context, cfg *AlertConfig, uids, gid
 	}
 	strURL := rawURL.String()
 
-	return ac.cli.postJSON(ctx, strURL, data, header)
+	res, err := ac.cli.postJSON(ctx, strURL, data, header)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode/100 == 2 {
+		return nil
+	}
+
+	buf := make([]byte, 1024)
+	n, err := io.ReadFull(res.Body, buf)
+	if err != nil {
+		return err
+	}
+
+	return errors.New(string(buf[:n]))
 }
 
 func (ac *alertClient) sendDong(ctx context.Context, cfg *AlertConfig, uids, gids []string, title, body string) error {
@@ -88,5 +108,30 @@ func (ac *alertClient) sendDong(ctx context.Context, cfg *AlertConfig, uids, gid
 	}
 	header := http.Header{"Token": []string{cfg.Token}, "Account": []string{cfg.Account}}
 
-	return ac.cli.postJSON(ctx, strURL, data, header)
+	res, err := ac.cli.postJSON(ctx, strURL, data, header)
+	if err != nil {
+		return err
+	}
+
+	if code := res.StatusCode; code/100 != 2 { // 2xx
+		part := make([]byte, 0, 1024)
+		n, _ := res.Body.Read(part)
+		msg := string(part[:n])
+		if msg == "" {
+			msg = "咚咚服务器 HTTP 响应状态异常"
+		}
+
+		return &ResponseEntity{
+			Code: strconv.Itoa(code),
+			Msg:  msg,
+		}
+	}
+
+	reply := new(BroadcastResponse)
+	resp := &ResponseEntity{Data: reply}
+	if err = json.NewDecoder(res.Body).Decode(resp); err != nil {
+		return err
+	}
+
+	return resp.checkError()
 }

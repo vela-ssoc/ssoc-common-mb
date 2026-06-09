@@ -2,6 +2,8 @@ package dong
 
 import (
 	"context"
+	"errors"
+	"io"
 	"net/http"
 	"net/url"
 )
@@ -59,5 +61,21 @@ func (sc *siemClient) Send(ctx context.Context, uids, gids []string, title, body
 	strURL := rawURL.String()
 	header := http.Header{"Authorization": []string{cfg.Token}}
 
-	return sc.cli.send(ctx, strURL, header, uids, gids, title, body)
+	res, err := sc.cli.send(ctx, strURL, header, uids, gids, title, body)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode/100 == 2 {
+		return nil
+	}
+
+	buf := make([]byte, 1024)
+	n, err := io.ReadFull(res.Body, buf)
+	if err != nil {
+		return err
+	}
+
+	return errors.New(string(buf[:n]))
 }
