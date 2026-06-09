@@ -35,9 +35,9 @@ type AlertConfigurer interface {
 func NewAlert(cfg AlertConfigurer, log *slog.Logger, clis ...*http.Client) Client {
 	ac := &alertClient{cfg: cfg, log: log}
 	if len(clis) != 0 && clis[0] != nil {
-		ac.cli = newCommonClient(clis[0], log)
+		ac.cli = newCommonClient(clis[0])
 	} else {
-		ac.cli = newCommonClient(http.DefaultClient, log)
+		ac.cli = newCommonClient(http.DefaultClient)
 	}
 
 	return ac

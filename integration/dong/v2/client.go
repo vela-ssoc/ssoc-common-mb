@@ -12,8 +12,8 @@ type Client interface {
 	Send(ctx context.Context, uids, gids []string, title, body string) error
 }
 
-func newCommonClient(cli *http.Client, log *slog.Logger) *commonClient {
-	return &commonClient{cli: cli, log: log}
+func newCommonClient(cli *http.Client) *commonClient {
+	return &commonClient{cli: cli}
 }
 
 type commonClient struct {
