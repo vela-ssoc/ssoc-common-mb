@@ -2,6 +2,7 @@ package dong
 
 import (
 	"context"
+	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"io"
@@ -37,7 +38,14 @@ func NewAlert(cfg AlertConfigurer, log *slog.Logger, clis ...*http.Client) Clien
 	if len(clis) != 0 && clis[0] != nil {
 		ac.cli = newCommonClient(clis[0])
 	} else {
-		ac.cli = newCommonClient(http.DefaultClient)
+		cli := &http.Client{
+			Transport: &http.Transport{
+				TLSClientConfig: &tls.Config{
+					InsecureSkipVerify: true,
+				},
+			},
+		}
+		ac.cli = newCommonClient(cli)
 	}
 
 	return ac
