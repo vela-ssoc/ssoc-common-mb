@@ -8,6 +8,7 @@ type requestBody struct {
 type requestProp struct {
 	JobNumbers []string `json:"job_numbers"`
 	RuleID     string   `json:"rule_id"`
+	OriginName string   `json:"origin_name"`
 }
 
 type requestData struct {

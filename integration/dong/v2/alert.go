@@ -76,7 +76,7 @@ func (ac *alertClient) sendSIEM(ctx context.Context, cfg *AlertConfig, uids, gid
 		ruleID = gids[0]
 	}
 	data := &requestBody{
-		Prop: requestProp{JobNumbers: uids, RuleID: ruleID},
+		Prop: requestProp{JobNumbers: uids, RuleID: ruleID, OriginName: "ssoc"},
 		Data: requestData{Detail: body, Title: title},
 	}
 	header := http.Header{"Authorization": []string{cfg.Token}}

@@ -23,7 +23,7 @@ type commonClient struct {
 
 func (cc *commonClient) send(ctx context.Context, strURL string, header http.Header, uids, gids []string, title, body string) (*http.Response, error) {
 	data := &requestBody{
-		Prop: requestProp{JobNumbers: uids},
+		Prop: requestProp{JobNumbers: uids, OriginName: "ssoc"},
 		Data: requestData{Detail: body, Title: title},
 	}
 
