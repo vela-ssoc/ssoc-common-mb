@@ -59,7 +59,6 @@ func (z *Zip) Open(name string) (fs.File, error) {
 
 // ReadDir 实现 ReadDirFS 接口，可以被 fs.WalkDir 调用。
 func (z *Zip) ReadDir(name string) ([]fs.DirEntry, error) {
-	name = path.Clean(name)
 	if err := z.validPath(name, "readdir"); err != nil {
 		return nil, err
 	}

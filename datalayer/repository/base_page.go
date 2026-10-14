@@ -4,7 +4,7 @@ type Pages[T any] struct {
 	Page    int64 `json:"page"`
 	Size    int64 `json:"size"`
 	Total   int64 `json:"total"`
-	Records []*T  `json:"records,omitzero"`
+	Records []*T  `json:"records"`
 }
 
 func NewEmptyPages[T any](size int64) *Pages[T] {
@@ -13,8 +13,9 @@ func NewEmptyPages[T any](size int64) *Pages[T] {
 	}
 
 	return &Pages[T]{
-		Page: 1,
-		Size: size,
+		Page:    1,
+		Size:    size,
+		Records: []*T{},
 	}
 }
 

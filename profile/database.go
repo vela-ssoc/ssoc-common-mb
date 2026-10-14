@@ -3,6 +3,7 @@ package profile
 import "time"
 
 type Database struct {
+	URI         string   `json:"uri"           validate:"required"`                              // MongoDB 数据库
 	DSN         string   `json:"dsn"           validate:"required,lte=255"`                      // 数据库连接
 	Level       string   `json:"level"         validate:"omitempty,oneof=DEBUG INFO WARN ERROR"` // 日志输出级别
 	Migrate     bool     `json:"migrate"`                                                        // 是否合并差异（broker 无视该参数）
