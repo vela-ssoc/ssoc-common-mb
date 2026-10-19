@@ -13,9 +13,11 @@ type BaseDB struct {
 	db  *mongo.Database
 	log *slog.Logger
 
-	reverseProxy ReverseProxy
-	zipArchive   ZipArchive
-	zipFile      ZipFile
+	broker               Broker
+	brokerConnectHistory BrokerConnectHistory
+	reverseProxy         ReverseProxy
+	zipArchive           ZipArchive
+	zipFile              ZipFile
 }
 
 func NewBaseDB(db *mongo.Database, log *slog.Logger) *BaseDB {
@@ -23,9 +25,11 @@ func NewBaseDB(db *mongo.Database, log *slog.Logger) *BaseDB {
 		db:  db,
 		log: log,
 
-		reverseProxy: NewReverseProxy(db),
-		zipArchive:   NewZipArchive(db),
-		zipFile:      NewZipFile(db),
+		broker:               NewBroker(db),
+		brokerConnectHistory: NewBrokerConnectHistory(db),
+		reverseProxy:         NewReverseProxy(db),
+		zipArchive:           NewZipArchive(db),
+		zipFile:              NewZipFile(db),
 	}
 }
 
@@ -35,9 +39,11 @@ func (b *BaseDB) StartSession(opts ...options.Lister[options.SessionOptions]) (*
 	return b.db.Client().StartSession(opts...)
 }
 
-func (b *BaseDB) ReverseProxy() ReverseProxy { return b.reverseProxy }
-func (b *BaseDB) ZipArchive() ZipArchive     { return b.zipArchive }
-func (b *BaseDB) ZipFile() ZipFile           { return b.zipFile }
+func (b *BaseDB) Broker() Broker                             { return b.broker }
+func (b *BaseDB) BrokerConnectHistory() BrokerConnectHistory { return b.brokerConnectHistory }
+func (b *BaseDB) ReverseProxy() ReverseProxy                 { return b.reverseProxy }
+func (b *BaseDB) ZipArchive() ZipArchive                     { return b.zipArchive }
+func (b *BaseDB) ZipFile() ZipFile                           { return b.zipFile }
 
 func (b *BaseDB) CreateIndex(ctx context.Context) error {
 	rv := reflect.ValueOf(b)
