@@ -26,7 +26,7 @@ require (
 
 require (
 	filippo.io/edwards25519 v1.2.0 // indirect
-	gitcode.com/opengauss/openGauss-connector-go-pq v1.0.8 // indirect
+	gitcode.com/opengauss/openGauss-connector-go-pq v1.0.9 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.16 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
