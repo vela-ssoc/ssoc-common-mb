@@ -6,15 +6,14 @@ import (
 	"sync"
 
 	"github.com/vela-ssoc/vela-tunnel/muxconn"
-	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 type Huber interface {
-	Put(id bson.ObjectID, mux muxconn.Muxer, data any) Peer
-	Get(id bson.ObjectID) Peer
-	Del(id bson.ObjectID) Peer
-	Lookup(host string) Peer
+	Put(slug string, mux muxconn.Muxer, data any) Peer
+	Get(slug string) Peer
+	Del(slug string) Peer
 	All() iter.Seq[Peer]
+	TLD() string
 }
 
 type safeMap struct {
@@ -30,45 +29,41 @@ func NewBHub() Huber {
 	}
 }
 
-func (sm *safeMap) Put(id bson.ObjectID, mux muxconn.Muxer, data any) Peer {
-	host := id.Hex()
+func (sm *safeMap) TLD() string {
+	return sm.domain
+}
 
+func (sm *safeMap) Put(slug string, mux muxconn.Muxer, data any) Peer {
 	sm.mutex.Lock()
 	defer sm.mutex.Unlock()
 
-	if p := sm.peers[host]; p != nil {
+	if p := sm.peers[slug]; p != nil {
 		return nil
 	}
 
-	p := sm.newPeer(id, mux, data)
-	sm.peers[host] = p
+	p := sm.newPeer(slug, mux, data)
+	sm.peers[slug] = p
 
 	return p
 }
 
-func (sm *safeMap) Get(id bson.ObjectID) Peer {
-	return sm.Lookup(id.Hex())
-}
+func (sm *safeMap) Get(slug string) Peer {
+	sm.mutex.RLock()
+	defer sm.mutex.RUnlock()
 
-func (sm *safeMap) Del(id bson.ObjectID) Peer {
-	host := id.Hex()
-
-	sm.mutex.Lock()
-	defer sm.mutex.Unlock()
-
-	if p := sm.peers[host]; p != nil {
-		delete(sm.peers, host)
+	if p := sm.peers[slug]; p != nil {
 		return p
 	}
 
 	return nil
 }
 
-func (sm *safeMap) Lookup(host string) Peer {
-	sm.mutex.RLock()
-	defer sm.mutex.RUnlock()
+func (sm *safeMap) Del(slug string) Peer {
+	sm.mutex.Lock()
+	defer sm.mutex.Unlock()
 
-	if p := sm.peers[host]; p != nil {
+	if p := sm.peers[slug]; p != nil {
+		delete(sm.peers, slug)
 		return p
 	}
 
@@ -86,14 +81,12 @@ func (sm *safeMap) All() iter.Seq[Peer] {
 	return slices.Values(peers)
 }
 
-func (sm *safeMap) newPeer(id bson.ObjectID, mux muxconn.Muxer, data any) *peer {
-	host := id.Hex()
-	fqdn := host + "." + sm.domain
+func (sm *safeMap) newPeer(slug string, mux muxconn.Muxer, data any) *peer {
+	fqdn := slug + "." + sm.domain
 
 	return &peer{
-		id:   id,
+		slug: slug,
 		mux:  mux,
-		host: host,
 		fqdn: fqdn,
 		data: data,
 	}

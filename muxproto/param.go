@@ -1,11 +1,5 @@
 package muxproto
 
-import (
-	"context"
-
-	"go.mongodb.org/mongo-driver/v2/bson"
-)
-
 type BrokerAuthRequest struct {
 	Secret     string   `json:"secret"   validate:"required"` // broker 密钥
 	Version    string   `json:"version"  validate:"required"` // broker 版本号
@@ -20,9 +14,9 @@ type BrokerAuthRequest struct {
 }
 
 type BrokerAuthResponse struct {
-	Code   int               `json:"code"`
-	Text   string            `json:"text"`
-	Config *BrokerBootConfig `json:"config"`
+	Code   int    `json:"code"`
+	Text   string `json:"text"`
+	Config any    `json:"config"`
 }
 
 func (r BrokerAuthResponse) Err() error {
@@ -33,10 +27,6 @@ func (r BrokerAuthResponse) Err() error {
 	return &AuthError{Code: r.Code, Text: r.Text}
 }
 
-type BrokerBootConfig struct {
-	URI string `json:"uri" validate:"mongodb_connection_string"`
-}
-
 type AuthError struct {
 	Code int    `json:"code"`
 	Text string `json:"text"`
@@ -44,8 +34,4 @@ type AuthError struct {
 
 func (a *AuthError) Error() string {
 	return a.Text
-}
-
-type BrokerConfigLoader interface {
-	LoadBrokerConfig(ctx context.Context, id bson.ObjectID) (*BrokerBootConfig, error)
 }

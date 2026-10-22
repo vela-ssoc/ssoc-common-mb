@@ -1,8 +1,9 @@
 package model
 
 type BrokerConfig struct {
+	Slug     string                `bson:"-"        json:"slug,omitzero"`
 	Server   *BrokerServerConfig   `bson:"server"   json:"server"`
-	Logger   *LoggerConfig         `bson:"logger"   json:"logger"`
+	Logger   *BrokerLoggerConfig   `bson:"logger"   json:"logger"`
 	Database *BrokerDatabaseConfig `bson:"database" json:"database"`
 }
 
@@ -18,5 +19,20 @@ type BrokerServerConfig struct {
 //
 // 注意：错误填写可能会导致中继节点服务启动异常。
 type BrokerDatabaseConfig struct {
-	URI string `bson:"uri" json:"uri"` // 覆写地址
+	URI string `bson:"uri" json:"uri"` // MongoDB 地址
+	DSN string `bson:"dsn" json:"dsn"` // 关系数据库地址
+}
+
+type BrokerLoggerConfig struct {
+	Level      string `bson:"level"      json:"level"      validate:"omitempty,oneof=DEBUG INFO WARN ERROR"`
+	Console    bool   `bson:"console"    json:"console"`
+	Filename   string `bson:"filename"   json:"filename"   validate:"lte=255"`
+	MaxSize    int    `bson:"maxsize"    json:"maxsize"    validate:"gte=0"`
+	MaxAge     int    `bson:"maxage"     json:"maxage"     validate:"gte=0"`
+	MaxBackups int    `bson:"maxbackups" json:"maxbackups" validate:"gte=0"`
+	LocalTime  bool   `bson:"localtime"  json:"localtime"`
+	Compress   bool   `bson:"compress"   json:"compress"`
+}
+
+type BrokerBootConfig struct {
 }

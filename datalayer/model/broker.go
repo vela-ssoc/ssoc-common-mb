@@ -7,19 +7,20 @@ import (
 )
 
 type Broker struct {
-	ID           bson.ObjectID   `bson:"_id,omitempty"           json:"id"`
-	Slug         string          `bson:"slug"                    json:"slug"` // 唯一标识符
-	Name         string          `bson:"name"                    json:"name"`
-	Secret       string          `bson:"secret"                  json:"-"`
-	Exposes      ExposeAddresses `bson:"exposes"                 json:"exposes"`
-	Config       BrokerConfig    `bson:"config"                  json:"config"`
-	Status       bool            `bson:"status"                  json:"status"`
-	TunnelStat   *TunnelStat     `bson:"tunnel_stat,omitempty"   json:"tunnel_stat,omitzero"`
-	ExecuteStat  *ExecuteStat    `bson:"execute_stat,omitempty"  json:"execute_stat,omitzero"`
-	HeartbeatAt  time.Time       `bson:"heartbeat_at,omitempty"  json:"heartbeat_at,omitzero"`
-	DisconnectAt time.Time       `bson:"disconnect_at,omitempty" json:"disconnect_at,omitzero"`
-	CreatedAt    time.Time       `bson:"created_at,omitempty"    json:"created_at"`
-	UpdatedAt    time.Time       `bson:"updated_at,omitempty"    json:"updated_at"`
+	ID            bson.ObjectID   `bson:"_id,omitempty"           json:"id"`
+	Slug          string          `bson:"slug"                    json:"slug"` // 唯一标识符
+	Name          string          `bson:"name"                    json:"name"`
+	Secret        string          `bson:"secret"                  json:"-"`
+	Exposes       ExposeAddresses `bson:"exposes"                 json:"exposes"`
+	Config        BrokerConfig    `bson:"config"                  json:"config"`
+	Status        bool            `bson:"status"                  json:"status"`
+	TunnelStat    *TunnelStat     `bson:"tunnel_stat,omitempty"   json:"tunnel_stat,omitzero"`
+	ExecuteStat   *ExecuteStat    `bson:"execute_stat,omitempty"  json:"execute_stat,omitzero"`
+	ActiveStreams int64           `bson:"active_streams"          json:"active_streams"`
+	HeartbeatAt   time.Time       `bson:"heartbeat_at,omitempty"  json:"heartbeat_at,omitzero"`
+	DisconnectAt  time.Time       `bson:"disconnect_at,omitempty" json:"disconnect_at,omitzero"`
+	CreatedAt     time.Time       `bson:"created_at,omitempty"    json:"created_at"`
+	UpdatedAt     time.Time       `bson:"updated_at,omitempty"    json:"updated_at"`
 }
 
 func (Broker) CollectionInfo() (string, string) { return "broker", "中继节点" }
