@@ -9,84 +9,79 @@ import (
 )
 
 type Huber interface {
-	Put(slug string, mux muxconn.Muxer, data any) Peer
-	Get(slug string) Peer
-	Del(slug string) Peer
-	All() iter.Seq[Peer]
+	Put(slug string, mux muxconn.Muxer, data any) Node
+	Get(slug string) Node
+	Del(slug string) Node
+	All() iter.Seq[Node]
 	TLD() string
 }
 
 type safeMap struct {
-	domain string
-	mutex  sync.RWMutex
-	peers  map[string]*peer
+	tld   string
+	mutex sync.RWMutex
+	nodes map[string]*virtualNode
 }
 
 func NewBHub() Huber {
 	return &safeMap{
-		domain: "broker.internal",
-		peers:  make(map[string]*peer, 32),
+		tld:   BrokerTLD,
+		nodes: make(map[string]*virtualNode, 32),
 	}
 }
 
-func (sm *safeMap) TLD() string {
-	return sm.domain
-}
+func (sm *safeMap) TLD() string { return sm.tld }
 
-func (sm *safeMap) Put(slug string, mux muxconn.Muxer, data any) Peer {
+func (sm *safeMap) Put(host string, mux muxconn.Muxer, data any) Node {
+	node := sm.buildNode(mux, host, data)
+
 	sm.mutex.Lock()
 	defer sm.mutex.Unlock()
 
-	if p := sm.peers[slug]; p != nil {
+	if val := sm.nodes[host]; val != nil {
 		return nil
 	}
+	sm.nodes[host] = node
 
-	p := sm.newPeer(slug, mux, data)
-	sm.peers[slug] = p
-
-	return p
+	return node
 }
 
-func (sm *safeMap) Get(slug string) Peer {
+func (sm *safeMap) Get(host string) Node {
 	sm.mutex.RLock()
 	defer sm.mutex.RUnlock()
 
-	if p := sm.peers[slug]; p != nil {
-		return p
-	}
+	node := sm.nodes[host]
 
-	return nil
+	return node
 }
 
-func (sm *safeMap) Del(slug string) Peer {
+func (sm *safeMap) Del(host string) Node {
 	sm.mutex.Lock()
 	defer sm.mutex.Unlock()
 
-	if p := sm.peers[slug]; p != nil {
-		delete(sm.peers, slug)
+	if p := sm.nodes[host]; p != nil {
+		delete(sm.nodes, host)
 		return p
 	}
 
 	return nil
 }
 
-func (sm *safeMap) All() iter.Seq[Peer] {
+func (sm *safeMap) All() iter.Seq[Node] {
 	sm.mutex.Lock()
-	peers := make([]Peer, 0, len(sm.peers))
-	for _, p := range sm.peers {
-		peers = append(peers, p)
+	nodes := make([]Node, 0, len(sm.nodes))
+	for _, p := range sm.nodes {
+		nodes = append(nodes, p)
 	}
 	sm.mutex.Unlock()
 
-	return slices.Values(peers)
+	return slices.Values(nodes)
 }
 
-func (sm *safeMap) newPeer(slug string, mux muxconn.Muxer, data any) *peer {
-	fqdn := slug + "." + sm.domain
-
-	return &peer{
-		slug: slug,
+func (sm *safeMap) buildNode(mux muxconn.Muxer, host string, data any) *virtualNode {
+	fqdn := buildFQDN(host, sm.tld)
+	return &virtualNode{
 		mux:  mux,
+		host: host,
 		fqdn: fqdn,
 		data: data,
 	}

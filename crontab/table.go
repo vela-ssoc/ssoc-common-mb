@@ -9,13 +9,13 @@ import (
 type Table struct {
 	crond *cron.Cron
 	mutex sync.Mutex
-	tasks map[string]any
+	tasks map[string]cron.EntryID
 }
 
 func NewTable(opts ...cron.Option) *Table {
 	return &Table{
 		crond: cron.New(opts...),
-		tasks: make(map[string]any, 16),
+		tasks: make(map[string]cron.EntryID, 16),
 	}
 }
 
@@ -25,4 +25,8 @@ func (tbl *Table) Start() {
 
 func (tbl *Table) Stop() {
 	tbl.crond.Stop()
+}
+
+func (tbl *Table) res() {
+
 }

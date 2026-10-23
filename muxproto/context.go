@@ -2,15 +2,15 @@ package muxproto
 
 import "context"
 
-func WithContext(parent context.Context, p Peer) context.Context {
-	return context.WithValue(parent, httpContextKey, p)
+func WithContext(parent context.Context, node Node) context.Context {
+	return context.WithValue(parent, httpContextKey, node)
 }
 
-func FromContext(ctx context.Context) Peer {
+func FromContext(ctx context.Context) Node {
 	val := ctx.Value(httpContextKey)
-	p, _ := val.(Peer)
+	node, _ := val.(Node)
 
-	return p
+	return node
 }
 
 var httpContextKey = contextKey{name: "tunnel-http-context-key"}
