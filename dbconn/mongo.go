@@ -8,12 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/v2/x/mongo/driver/connstring"
 )
 
-type MongoDBConfig struct {
-	URI string
-}
-
-func OpenMongoDB(cfg MongoDBConfig) (*mongo.Database, error) {
-	uri := cfg.URI
+func OpenMDB(uri string) (*mongo.Database, error) {
 	cs, err := connstring.ParseAndValidate(uri)
 	if err != nil {
 		return nil, err

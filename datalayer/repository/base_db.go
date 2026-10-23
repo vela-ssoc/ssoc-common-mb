@@ -15,6 +15,7 @@ type BaseDB struct {
 
 	broker               Broker
 	brokerConnectHistory BrokerConnectHistory
+	managerConfig        ManagerConfig
 	reverseProxy         ReverseProxy
 	zipArchive           ZipArchive
 	zipFile              ZipFile
@@ -27,6 +28,7 @@ func NewBaseDB(db *mongo.Database, log *slog.Logger) *BaseDB {
 
 		broker:               NewBroker(db),
 		brokerConnectHistory: NewBrokerConnectHistory(db),
+		managerConfig:        NewManagerConfig(db),
 		reverseProxy:         NewReverseProxy(db),
 		zipArchive:           NewZipArchive(db),
 		zipFile:              NewZipFile(db),
@@ -41,6 +43,7 @@ func (b *BaseDB) StartSession(opts ...options.Lister[options.SessionOptions]) (*
 
 func (b *BaseDB) Broker() Broker                             { return b.broker }
 func (b *BaseDB) BrokerConnectHistory() BrokerConnectHistory { return b.brokerConnectHistory }
+func (b *BaseDB) ManagerConfig() ManagerConfig               { return b.managerConfig }
 func (b *BaseDB) ReverseProxy() ReverseProxy                 { return b.reverseProxy }
 func (b *BaseDB) ZipArchive() ZipArchive                     { return b.zipArchive }
 func (b *BaseDB) ZipFile() ZipFile                           { return b.zipFile }

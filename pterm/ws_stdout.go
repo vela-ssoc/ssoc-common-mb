@@ -1,6 +1,10 @@
 package pterm
 
-import "github.com/gorilla/websocket"
+import (
+	"fmt"
+
+	"github.com/gorilla/websocket"
+)
 
 type Stdout struct {
 	conn *websocket.Conn
@@ -15,8 +19,16 @@ func (s *Stdout) Write(p []byte) (int, error) {
 	return n, nil
 }
 
-func (s *Stdout) WriteType(typ, data string) error {
-	return s.write(typ, data)
+func (s *Stdout) WriteError(err error) error {
+	return s.write("error", err.Error())
+}
+
+func (s *Stdout) WriteErrorf(msg string, args ...any) error {
+	return s.write("error", fmt.Sprintf(msg, args...))
+}
+
+func (s *Stdout) WritePong() error {
+	return s.write("pong", "")
 }
 
 func (s *Stdout) write(typ, data string) error {
