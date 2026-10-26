@@ -1,6 +1,9 @@
 package pterm
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"os/exec"
+)
 
 type responseData struct {
 	Type string `json:"type"`
@@ -34,4 +37,18 @@ func (in Input) AsResize() (*ResizeData, error) {
 	}
 
 	return rd, nil
+}
+
+func LookPath(cmds []string, fallback string) string {
+	for _, cmd := range cmds {
+		if cmd == "" {
+			continue
+		}
+
+		if str, err := exec.LookPath(cmd); err == nil && str != "" {
+			return cmd
+		}
+	}
+
+	return fallback
 }

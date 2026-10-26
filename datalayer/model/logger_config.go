@@ -1,6 +1,10 @@
 package model
 
-import "gopkg.in/natefinch/lumberjack.v2"
+import (
+	"log/slog"
+
+	"gopkg.in/natefinch/lumberjack.v2"
+)
 
 type LoggerConfig struct {
 	Level      string `bson:"level"      json:"level"      validate:"omitempty,oneof=DEBUG INFO WARN ERROR"`
@@ -26,4 +30,11 @@ func (l LoggerConfig) Lumber() *lumberjack.Logger {
 		LocalTime:  l.LocalTime,
 		Compress:   l.Compress,
 	}
+}
+
+func (l LoggerConfig) LevelVar() *slog.LevelVar {
+	lvl := new(slog.LevelVar)
+	_ = lvl.UnmarshalText([]byte(l.Level))
+
+	return lvl
 }

@@ -6,7 +6,6 @@ import (
 	"context"
 	"errors"
 	"io"
-	"os/exec"
 
 	"github.com/UserExistsError/conpty"
 	"github.com/gorilla/websocket"
@@ -14,26 +13,21 @@ import (
 
 func HandlePTY(ws *websocket.Conn, cmd string) error {
 	defer ws.Close()
-	if !conpty.IsConPtyAvailable() {
-		return errors.ErrUnsupported
-	}
-	if cmd == "" {
-		for _, str := range []string{
-			"pwsh.exe",
-			"C:\\Program Files\\PowerShell\\7\\pwsh.exe",
-			"powershell.exe",
-			"cmd.exe"} {
-			if val, err := exec.LookPath(str); err == nil && val != "" {
-				cmd = val
-				break
-			}
-		}
-		if cmd == "" {
-			cmd = "C:\\WINDOWS\\system32\\cmd.exe"
-		}
-	}
 
 	stdin, stdout := NewIO(ws)
+	if !conpty.IsConPtyAvailable() {
+		_ = stdout.WriteErrorf("当前系统不支持虚拟终端")
+		return errors.ErrUnsupported
+	}
+
+	if cmd == "" {
+		cmds := append([]string{cmd}, "pwsh.exe",
+			"C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+			"powershell.exe",
+			"cmd.exe")
+		cmd = LookPath(cmds, "C:\\WINDOWS\\system32\\cmd.exe")
+	}
+
 	cpty, err := conpty.Start(cmd)
 	if err != nil {
 		_ = stdout.WriteErrorf("[%s]: %s", cmd, err.Error())

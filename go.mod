@@ -4,6 +4,7 @@ go 1.26.0
 
 require (
 	github.com/UserExistsError/conpty v0.1.4
+	github.com/creack/pty v1.1.24
 	github.com/go-playground/locales v0.14.2
 	github.com/go-playground/universal-translator v0.18.2
 	github.com/go-playground/validator/v10 v10.30.5
@@ -17,7 +18,6 @@ require (
 	github.com/xmx/opengauss v0.0.0-20260824065417-bdbc272b64b5
 	github.com/yeka/zip v0.0.0-20231116150916-03d6312748a9
 	go.mongodb.org/mongo-driver/v2 v2.9.2
-	golang.org/x/net v0.61.0
 	golang.org/x/sync v0.24.0
 	golang.org/x/text v0.43.0
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
