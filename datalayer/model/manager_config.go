@@ -19,8 +19,8 @@ func (ManagerConfig) CollectionInfo() (string, string) {
 }
 
 type ManagerServerConfig struct {
-	Addr   string                         `bson:"addr"   json:"addr"`   // HTTP 监听地址
-	Static map[string]ManagerStaticConfig `bson:"static" json:"static"` // 静态资源映射
+	Addr   string                         `bson:"addr"   json:"addr"`                           // HTTP 监听地址
+	Static map[string]ManagerStaticConfig `bson:"static" json:"static" validate:"lte=100,dive"` // 静态资源映射
 }
 
 type ManagerStaticConfig struct {

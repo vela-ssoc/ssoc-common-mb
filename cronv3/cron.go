@@ -10,6 +10,10 @@ import (
 )
 
 func New(log *slog.Logger, opts ...cron.Option) *Crontab {
+	cronOp := cron.SecondOptional | cron.Minute | cron.Hour | cron.Dom | cron.Month | cron.Dow | cron.Descriptor
+	parser := cron.NewParser(cronOp)
+	opts = append(opts, cron.WithParser(parser))
+
 	return &Crontab{
 		log:   log,
 		crond: cron.New(opts...),
