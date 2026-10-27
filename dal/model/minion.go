@@ -46,6 +46,7 @@ type Minion struct {
 	Uptime      sql.NullTime `json:"uptime"           gorm:"column:uptime;comment:上线时间"`
 	BrokerID    int64        `json:"broker_id,string" gorm:"column:broker_id;comment:代理节点ID"`
 	BrokerName  string       `json:"broker_name"      gorm:"column:broker_name;size:255;comment:代理节点"`
+	BrokerSlug  string       `json:"broker_slug"      gorm:"column:broker_slug;size:255;comment:代理节点标识"`
 	Unload      bool         `json:"unload"           gorm:"column:unload;comment:是否静默模式"`
 	Unstable    bool         `json:"unstable"         gorm:"column:unstable;comment:是否内测版本"`
 	Customized  string       `json:"customized"       gorm:"column:customized;size:50;comment:定制版本"`

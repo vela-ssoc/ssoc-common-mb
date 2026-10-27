@@ -1,6 +1,8 @@
 package model
 
 import (
+	"net/http"
+	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -26,4 +28,18 @@ type ManagerServerConfig struct {
 type ManagerStaticConfig struct {
 	SPA bool   `bson:"spa" json:"spa"`                     // 是否单页面应用
 	Dir string `bson:"dir" json:"dir" validate:"required"` // 本地目录
+}
+
+func (m ManagerStaticConfig) Open(name string) (http.File, error) {
+	const spaIndex = "index.html"
+
+	dfs := http.Dir(m.Dir)
+	if f, err := dfs.Open(name); err == nil ||
+		name == spaIndex ||
+		!m.SPA ||
+		!os.IsNotExist(err) {
+		return f, err
+	}
+
+	return dfs.Open(spaIndex)
 }

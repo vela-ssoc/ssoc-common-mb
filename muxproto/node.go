@@ -1,12 +1,8 @@
 package muxproto
 
 import (
-	"errors"
-
 	"github.com/vela-ssoc/vela-tunnel/muxconn"
 )
-
-var ErrNodeUnavailable = errors.New("节点不存在或已离线")
 
 type Node interface {
 	MUX() muxconn.Muxer // 通信隧道

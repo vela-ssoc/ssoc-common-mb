@@ -1,5 +1,7 @@
 package muxproto
 
+import "net/http"
+
 type BrokerAuthRequest struct {
 	Secret     string   `json:"secret"   validate:"required"` // broker 密钥
 	Version    string   `json:"version"  validate:"required"` // broker 版本号
@@ -13,13 +15,17 @@ type BrokerAuthRequest struct {
 	Args       []string `json:"args"`
 }
 
-type BrokerAuthResponse struct {
+type BrokerAuthResponse[T any] struct {
 	Code   int    `json:"code"`
 	Text   string `json:"text"`
-	Config any    `json:"config"`
+	Config T      `json:"config"`
 }
 
-func (r BrokerAuthResponse) Err() error {
+func NewAcceptedBrokerAuthResponse[T any](c T) BrokerAuthResponse[T] {
+	return BrokerAuthResponse[T]{Code: http.StatusAccepted, Config: c}
+}
+
+func (r BrokerAuthResponse[T]) Err() error {
 	if r.Code/100 == 2 {
 		return nil
 	}
