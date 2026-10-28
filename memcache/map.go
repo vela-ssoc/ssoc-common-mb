@@ -6,14 +6,16 @@ import (
 )
 
 type Map[K comparable, T any] struct {
-	fun func(context.Context, K) (T, error)
-	mtx sync.RWMutex
-	idx map[K]*resultHodler[T]
+	fun     func(context.Context, K) (T, error)
+	nocache NocacheFunc
+	mtx     sync.RWMutex
+	idx     map[K]*resultHodler[T]
 }
 
-func NewMap[K comparable, T any](fun func(context.Context, K) (T, error)) *Map[K, T] {
+func NewMap[K comparable, T any](fun func(context.Context, K) (T, error), nocache ...NocacheFunc) *Map[K, T] {
 	return &Map[K, T]{
-		fun: fun,
+		fun:     fun,
+		nocache: firstNocache(nocache),
 	}
 }
 
@@ -51,7 +53,7 @@ func (c *Map[K, T]) slowLoad(ctx context.Context, k K) (T, error) {
 	}
 
 	t, e := c.fun(ctx, k)
-	if e != nil {
+	if e != nil && c.nocache != nil && c.nocache(e) {
 		return t, e
 	}
 

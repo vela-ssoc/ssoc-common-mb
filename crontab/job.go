@@ -73,7 +73,7 @@ func (sj *safeJob) safeExec(ctx context.Context) (err error) {
 		if v := recover(); v != nil {
 			stack := debug.Stack()
 			err = fmt.Errorf("panicked: %v\n%s", v, stack)
-			_, _ = os.Stderr.Write(stack)
+			_, _ = fmt.Fprintf(os.Stderr, "%s\n%s", v, stack)
 		}
 	}()
 

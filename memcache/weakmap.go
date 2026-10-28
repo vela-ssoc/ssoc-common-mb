@@ -7,14 +7,16 @@ import (
 )
 
 type WeakMap[K comparable, T any] struct {
-	fun func(context.Context, K) (T, error)
-	mtx sync.RWMutex
-	idx map[K]weak.Pointer[resultHodler[T]]
+	fun     func(context.Context, K) (T, error)
+	nocache NocacheFunc
+	mtx     sync.RWMutex
+	idx     map[K]weak.Pointer[resultHodler[T]]
 }
 
-func NewWeakMap[K comparable, T any](fun func(context.Context, K) (T, error)) *WeakMap[K, T] {
+func NewWeakMap[K comparable, T any](fun func(context.Context, K) (T, error), nocache ...NocacheFunc) *WeakMap[K, T] {
 	return &WeakMap[K, T]{
-		fun: fun,
+		fun:     fun,
+		nocache: firstNocache(nocache),
 	}
 }
 
@@ -57,8 +59,7 @@ func (wm *WeakMap[K, T]) slowLoad(ctx context.Context, k K) (T, error) {
 	}
 
 	t, e := wm.fun(ctx, k)
-	if e != nil {
-		// 出现错误不缓存，否则攻击者会伪造大量不存在的 key 调用占满 map 条目。
+	if e != nil && wm.nocache != nil && wm.nocache(e) {
 		return t, e
 	}
 

@@ -1,6 +1,7 @@
 package model
 
 import (
+	"maps"
 	"net/http"
 	"strings"
 )
@@ -31,8 +32,25 @@ func (h HTTPHeader) Host() (string, bool) {
 		if strings.EqualFold(k, "host") {
 			return v, true
 		}
-
 	}
 
 	return "", false
+}
+
+func (h HTTPHeader) Array() []string {
+	arr := make([]string, 0, len(h))
+	for k, v := range h {
+		arr = append(arr, k+": "+v)
+	}
+
+	return arr
+}
+
+func (h HTTPHeader) Clone() HTTPHeader {
+	hm := maps.Clone(h)
+	if hm == nil {
+		hm = HTTPHeader{}
+	}
+
+	return hm
 }

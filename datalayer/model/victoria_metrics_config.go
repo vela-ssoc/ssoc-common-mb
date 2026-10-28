@@ -1,6 +1,8 @@
 package model
 
 import (
+	"encoding/base64"
+	"net/url"
 	"path"
 	"time"
 
@@ -22,6 +24,33 @@ type VictoriaMetricsConfig struct {
 
 func (VictoriaMetricsConfig) CollectionInfo() (string, string) {
 	return "victoria_metrics_config", "VictoriaMetrics 数据库配置"
+}
+
+func (c VictoriaMetricsConfig) BasicAuth() string {
+	if c.Username == "" && c.Password == "" {
+		return ""
+	}
+	auth := c.Username + ":" + c.Password
+
+	return "Basic " + base64.StdEncoding.EncodeToString([]byte(auth))
+}
+
+func (c VictoriaMetricsConfig) Target() (*url.URL, HTTPHeader, error) {
+	addr, err := url.Parse(c.Address)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	header := c.Headers.Clone()
+	if basic := c.BasicAuth(); basic != "" {
+		header["Authorization"] = basic
+	}
+	if tid := c.TenantID; tid != "" {
+		// https://docs.victoriametrics.com/victoriametrics/vmauth/#auth-config
+		header["X-Scope-OrgID"] = tid
+	}
+
+	return addr, header, nil
 }
 
 func (c VictoriaMetricsConfig) SelectPrefixPath() string {

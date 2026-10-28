@@ -10,6 +10,7 @@ type LRU[K comparable, V any] struct {
 	size    int
 	load    func(context.Context, K) (V, error)
 	onevict func(K, V)
+	nocache NocacheFunc
 	items   map[K]*list.Element
 	evict   *list.List
 	mutex   sync.Mutex
@@ -17,7 +18,7 @@ type LRU[K comparable, V any] struct {
 
 // NewLRU 创建一个 LRU 缓存。
 // 注意 load 函数的调用性能问题。
-func NewLRU[K comparable, V any](size int, load func(context.Context, K) (V, error), onevict func(K, V)) *LRU[K, V] {
+func NewLRU[K comparable, V any](size int, load func(context.Context, K) (V, error), onevict func(K, V), nocache ...NocacheFunc) *LRU[K, V] {
 	if size <= 0 {
 		size = 8
 	}
@@ -26,6 +27,7 @@ func NewLRU[K comparable, V any](size int, load func(context.Context, K) (V, err
 		size:    size,
 		load:    load,
 		onevict: onevict,
+		nocache: firstNocache(nocache),
 		items:   make(map[K]*list.Element, size),
 		evict:   list.New(),
 	}
@@ -78,7 +80,7 @@ func (l *LRU[K, V]) lockGet(ctx context.Context, key K) (*entry[K, V], *entry[K,
 	}
 
 	v, err := l.load(ctx, key)
-	if err != nil {
+	if err != nil && l.nocache != nil && l.nocache(err) {
 		return nil, nil, err
 	}
 

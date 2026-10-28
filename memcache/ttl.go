@@ -8,16 +8,18 @@ import (
 )
 
 type TTL[T any] struct {
-	ttl time.Duration
-	fun func(context.Context) (T, error)
-	mtx sync.Mutex
-	ptr atomic.Pointer[resultHodler[T]]
+	ttl     time.Duration
+	fun     func(context.Context) (T, error)
+	nocache NocacheFunc
+	mtx     sync.Mutex
+	ptr     atomic.Pointer[resultHodler[T]]
 }
 
-func NewTTL[T any](ttl time.Duration, fun func(context.Context) (T, error)) *TTL[T] {
+func NewTTL[T any](ttl time.Duration, fun func(context.Context) (T, error), nocache ...NocacheFunc) *TTL[T] {
 	return &TTL[T]{
-		ttl: ttl,
-		fun: fun,
+		ttl:     ttl,
+		fun:     fun,
+		nocache: firstNocache(nocache),
 	}
 }
 
@@ -43,7 +45,8 @@ func (c *TTL[T]) slowLoad(ctx context.Context, now time.Time) (T, error) {
 	}
 
 	t, e := c.fun(ctx)
-	if c.ttl <= 0 || e != nil { // TTL <= 0 无需缓存，每次都缓存穿透。
+	if c.ttl <= 0 || // TTL <= 0 无需缓存，每次都缓存穿透。
+		(e != nil && c.nocache != nil && c.nocache(e)) {
 		return t, e
 	}
 

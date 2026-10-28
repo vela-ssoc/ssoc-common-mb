@@ -7,14 +7,16 @@ import (
 )
 
 type Value[T any] struct {
-	fun func(context.Context) (T, error)
-	mtx sync.Mutex
-	ptr atomic.Pointer[resultHodler[T]]
+	fun     func(context.Context) (T, error)
+	nocache NocacheFunc
+	mtx     sync.Mutex
+	ptr     atomic.Pointer[resultHodler[T]]
 }
 
-func NewValue[T any](fun func(context.Context) (T, error)) *Value[T] {
+func NewValue[T any](fun func(context.Context) (T, error), nocache ...NocacheFunc) *Value[T] {
 	return &Value[T]{
-		fun: fun,
+		fun:     fun,
+		nocache: firstNocache(nocache),
 	}
 }
 
@@ -45,7 +47,7 @@ func (c *Value[T]) slowLoad(ctx context.Context) (T, error) {
 	}
 
 	t, e := c.fun(ctx)
-	if e != nil {
+	if e != nil && c.nocache != nil && c.nocache(e) {
 		return t, e
 	}
 
