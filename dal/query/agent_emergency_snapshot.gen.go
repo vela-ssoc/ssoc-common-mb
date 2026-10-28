@@ -31,7 +31,7 @@ func newAgentEmergencySnapshot(db *gorm.DB, opts ...gen.DOOption) agentEmergency
 	_agentEmergencySnapshot.MinionID = field.NewInt64(tableName, "minion_id")
 	_agentEmergencySnapshot.Inet = field.NewString(tableName, "inet")
 	_agentEmergencySnapshot.Type = field.NewString(tableName, "type")
-	_agentEmergencySnapshot.Value = field.NewBytes(tableName, "value")
+	_agentEmergencySnapshot.Value = field.NewField(tableName, "value")
 	_agentEmergencySnapshot.CreatedAt = field.NewTime(tableName, "created_at")
 	_agentEmergencySnapshot.ReportedAt = field.NewTime(tableName, "reported_at")
 	_agentEmergencySnapshot.UpdatedAt = field.NewTime(tableName, "updated_at")
@@ -49,7 +49,7 @@ type agentEmergencySnapshot struct {
 	MinionID   field.Int64 // 节点ID
 	Inet       field.String
 	Type       field.String // 快照类型
-	Value      field.Bytes  // 快照数据
+	Value      field.Field  // 快照数据
 	CreatedAt  field.Time   // 创建时间
 	ReportedAt field.Time   // 上报时间
 	UpdatedAt  field.Time   // 更新时间
@@ -73,7 +73,7 @@ func (a *agentEmergencySnapshot) updateTableName(table string) *agentEmergencySn
 	a.MinionID = field.NewInt64(table, "minion_id")
 	a.Inet = field.NewString(table, "inet")
 	a.Type = field.NewString(table, "type")
-	a.Value = field.NewBytes(table, "value")
+	a.Value = field.NewField(table, "value")
 	a.CreatedAt = field.NewTime(table, "created_at")
 	a.ReportedAt = field.NewTime(table, "reported_at")
 	a.UpdatedAt = field.NewTime(table, "updated_at")

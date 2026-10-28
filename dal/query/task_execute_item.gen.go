@@ -41,7 +41,7 @@ func newTaskExecuteItem(db *gorm.DB, opts ...gen.DOOption) taskExecuteItem {
 	_taskExecuteItem.Succeed = field.NewBool(tableName, "succeed")
 	_taskExecuteItem.ErrorCode = field.NewInt(tableName, "error_code")
 	_taskExecuteItem.Execution = field.NewField(tableName, "execution")
-	_taskExecuteItem.Result = field.NewBytes(tableName, "result")
+	_taskExecuteItem.Result = field.NewField(tableName, "result")
 	_taskExecuteItem.ExpiredAt = field.NewTime(tableName, "expired_at")
 	_taskExecuteItem.CreatedAt = field.NewTime(tableName, "created_at")
 	_taskExecuteItem.UpdatedAt = field.NewTime(tableName, "updated_at")
@@ -69,7 +69,7 @@ type taskExecuteItem struct {
 	Succeed       field.Bool   // 是否执行成功
 	ErrorCode     field.Int    // 错误码
 	Execution     field.Field  // 执行记录
-	Result        field.Bytes  // agent执行结果
+	Result        field.Field  // agent执行结果
 	ExpiredAt     field.Time   // 任务过期时间
 	CreatedAt     field.Time   // 创建时间
 	UpdatedAt     field.Time   // 更新时间
@@ -103,7 +103,7 @@ func (t *taskExecuteItem) updateTableName(table string) *taskExecuteItem {
 	t.Succeed = field.NewBool(table, "succeed")
 	t.ErrorCode = field.NewInt(table, "error_code")
 	t.Execution = field.NewField(table, "execution")
-	t.Result = field.NewBytes(table, "result")
+	t.Result = field.NewField(table, "result")
 	t.ExpiredAt = field.NewTime(table, "expired_at")
 	t.CreatedAt = field.NewTime(table, "created_at")
 	t.UpdatedAt = field.NewTime(table, "updated_at")

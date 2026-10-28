@@ -32,7 +32,9 @@ func (td *TLDDialer) DialContext(ctx context.Context, network, address string) (
 			continue
 		}
 
-		if mux := dns.MUX(host); mux != nil {
+		if mux, err1 := dns.MUX(ctx, host); err1 != nil {
+			return nil, err1
+		} else if mux != nil {
 			return mux.Open(ctx)
 		}
 

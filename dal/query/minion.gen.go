@@ -39,6 +39,7 @@ func newMinion(db *gorm.DB, opts ...gen.DOOption) minion {
 	_minion.Uptime = field.NewField(tableName, "uptime")
 	_minion.BrokerID = field.NewInt64(tableName, "broker_id")
 	_minion.BrokerName = field.NewString(tableName, "broker_name")
+	_minion.BrokerSlug = field.NewString(tableName, "broker_slug")
 	_minion.Unload = field.NewBool(tableName, "unload")
 	_minion.Unstable = field.NewBool(tableName, "unstable")
 	_minion.Customized = field.NewString(tableName, "customized")
@@ -76,6 +77,7 @@ type minion struct {
 	Uptime      field.Field  // 上线时间
 	BrokerID    field.Int64  // 代理节点ID
 	BrokerName  field.String // 代理节点
+	BrokerSlug  field.String // 代理节点标识
 	Unload      field.Bool   // 是否静默模式
 	Unstable    field.Bool   // 是否内测版本
 	Customized  field.String // 定制版本
@@ -119,6 +121,7 @@ func (m *minion) updateTableName(table string) *minion {
 	m.Uptime = field.NewField(table, "uptime")
 	m.BrokerID = field.NewInt64(table, "broker_id")
 	m.BrokerName = field.NewString(table, "broker_name")
+	m.BrokerSlug = field.NewString(table, "broker_slug")
 	m.Unload = field.NewBool(table, "unload")
 	m.Unstable = field.NewBool(table, "unstable")
 	m.Customized = field.NewString(table, "customized")
@@ -158,7 +161,7 @@ func (m *minion) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (m *minion) fillFieldMap() {
-	m.fieldMap = make(map[string]field.Expr, 27)
+	m.fieldMap = make(map[string]field.Expr, 28)
 	m.fieldMap["id"] = m.ID
 	m.fieldMap["machine_id"] = m.MachineID
 	m.fieldMap["inet"] = m.Inet
@@ -171,6 +174,7 @@ func (m *minion) fillFieldMap() {
 	m.fieldMap["uptime"] = m.Uptime
 	m.fieldMap["broker_id"] = m.BrokerID
 	m.fieldMap["broker_name"] = m.BrokerName
+	m.fieldMap["broker_slug"] = m.BrokerSlug
 	m.fieldMap["unload"] = m.Unload
 	m.fieldMap["unstable"] = m.Unstable
 	m.fieldMap["customized"] = m.Customized

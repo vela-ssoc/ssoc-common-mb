@@ -31,7 +31,7 @@ func newEagleEyeData(db *gorm.DB, opts ...gen.DOOption) eagleEyeData {
 	_eagleEyeData.MinionID = field.NewInt64(tableName, "minion_id")
 	_eagleEyeData.Inet = field.NewString(tableName, "inet")
 	_eagleEyeData.Path = field.NewString(tableName, "path")
-	_eagleEyeData.Data = field.NewBytes(tableName, "data")
+	_eagleEyeData.Data = field.NewField(tableName, "data")
 	_eagleEyeData.CreatedAt = field.NewTime(tableName, "created_at")
 	_eagleEyeData.UpdatedAt = field.NewTime(tableName, "updated_at")
 
@@ -48,7 +48,7 @@ type eagleEyeData struct {
 	MinionID  field.Int64
 	Inet      field.String
 	Path      field.String
-	Data      field.Bytes
+	Data      field.Field
 	CreatedAt field.Time // 创建时间
 	UpdatedAt field.Time // 更新时间
 
@@ -71,7 +71,7 @@ func (e *eagleEyeData) updateTableName(table string) *eagleEyeData {
 	e.MinionID = field.NewInt64(table, "minion_id")
 	e.Inet = field.NewString(table, "inet")
 	e.Path = field.NewString(table, "path")
-	e.Data = field.NewBytes(table, "data")
+	e.Data = field.NewField(table, "data")
 	e.CreatedAt = field.NewTime(table, "created_at")
 	e.UpdatedAt = field.NewTime(table, "updated_at")
 
