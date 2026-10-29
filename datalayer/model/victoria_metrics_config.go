@@ -11,7 +11,6 @@ import (
 
 type VictoriaMetricsConfig struct {
 	ID        bson.ObjectID `bson:"_id,omitempty"        json:"id"`
-	Name      string        `bson:"name"                 json:"name"`
 	Enabled   bool          `bson:"enabled"              json:"enabled"`
 	Address   string        `bson:"address"              json:"address"`
 	TenantID  string        `bson:"tenant_id"            json:"tenant_id"`
