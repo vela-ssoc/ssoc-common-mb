@@ -28,6 +28,7 @@ type user struct {
 func (c *user) CreateIndex(ctx context.Context, opts ...options.Lister[options.CreateIndexesOptions]) ([]string, error) {
 	indexes := []mongo.IndexModel{
 		{Keys: bson.D{{Key: "username", Value: 1}, {Key: "company", Value: 1}}, Options: options.Index().SetUnique(true)},
+		{Keys: bson.D{{Key: "session.token", Value: 1}}},
 	}
 
 	return c.Indexes().CreateMany(ctx, indexes, opts...)
