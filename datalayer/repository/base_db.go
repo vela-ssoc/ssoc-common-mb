@@ -15,9 +15,12 @@ type BaseDB struct {
 
 	broker                Broker
 	brokerConnectHistory  BrokerConnectHistory
+	cmdb                  CMDB
+	cmdbConfig            CMDBConfig
 	managerConfig         ManagerConfig
 	oauthConfig           OAuthConfig
 	reverseProxy          ReverseProxy
+	user                  User
 	victoriaMetricsConfig VictoriaMetricsConfig
 	zipArchive            ZipArchive
 	zipFile               ZipFile
@@ -30,9 +33,12 @@ func NewBaseDB(db *mongo.Database, log *slog.Logger) *BaseDB {
 
 		broker:                NewBroker(db),
 		brokerConnectHistory:  NewBrokerConnectHistory(db),
+		cmdb:                  NewCMDB(db),
+		cmdbConfig:            NewCMDBConfig(db),
 		managerConfig:         NewManagerConfig(db),
 		oauthConfig:           NewOAuthConfig(db),
 		reverseProxy:          NewReverseProxy(db),
+		user:                  NewUser(db),
 		victoriaMetricsConfig: NewVictoriaMetricsConfig(db),
 		zipArchive:            NewZipArchive(db),
 		zipFile:               NewZipFile(db),
@@ -47,9 +53,12 @@ func (b *BaseDB) StartSession(opts ...options.Lister[options.SessionOptions]) (*
 
 func (b *BaseDB) Broker() Broker                               { return b.broker }
 func (b *BaseDB) BrokerConnectHistory() BrokerConnectHistory   { return b.brokerConnectHistory }
+func (b *BaseDB) CMDB() CMDB                                   { return b.cmdb }
+func (b *BaseDB) CMDBConfig() CMDBConfig                       { return b.cmdbConfig }
 func (b *BaseDB) ManagerConfig() ManagerConfig                 { return b.managerConfig }
 func (b *BaseDB) OAuthConfig() OAuthConfig                     { return b.oauthConfig }
 func (b *BaseDB) ReverseProxy() ReverseProxy                   { return b.reverseProxy }
+func (b *BaseDB) User() User                                   { return b.user }
 func (b *BaseDB) VictoriaMetricsConfig() VictoriaMetricsConfig { return b.victoriaMetricsConfig }
 func (b *BaseDB) ZipArchive() ZipArchive                       { return b.zipArchive }
 func (b *BaseDB) ZipFile() ZipFile                             { return b.zipFile }

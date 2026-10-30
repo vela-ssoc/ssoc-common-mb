@@ -41,6 +41,7 @@ type safeJob struct {
 
 func (sj *safeJob) Run() {
 	args := []any{"options", sj.opt}
+	sj.log.Debug("开始执行定时任务", args...)
 	if exec, err := sj.exec(context.Background()); !exec {
 		sj.log.Warn("任务已经正在运行中（本次触发未执行）", args...)
 	} else if err != nil {
