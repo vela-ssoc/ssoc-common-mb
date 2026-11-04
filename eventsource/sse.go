@@ -11,53 +11,44 @@ import (
 )
 
 // Accept 将请求转为 sse，如果不符合协议就返回 nil。
-func Accept(w http.ResponseWriter, r *http.Request) EventSource {
+func Accept(w http.ResponseWriter, r *http.Request) *Writer {
 	f, ok := w.(http.Flusher)
 	if !ok || r.Header.Get("Accept") != "text/event-stream" ||
 		r.Header.Get("Cache-Control") != "no-cache" {
 		return nil
 	}
 
-	var gzw *gzip.Writer
+	parent := r.Context()
+	ctx, cancel := context.WithCancel(parent)
+	sse := &Writer{ctx: ctx, cancel: cancel}
+
+	var compress bool
 	encodings := r.Header.Get("Accept-Encoding")
 	for str := range strings.SplitSeq(encodings, ",") {
 		if strings.TrimSpace(str) == "gzip" {
 			w.Header().Set("Content-Encoding", "gzip")
-			gzw = gzip.NewWriter(w)
+			gzw := gzip.NewWriter(w)
+			sse.write = gzw
+			sse.close = gzw
+			sse.flush = &gzipFlusher{write: gzw, flush: f}
+			compress = true
+			break
 		}
 	}
+	if !compress {
+		sse.write = w
+		sse.flush = f
+	}
+
 	w.Header().Set("Content-Type", "text/event-stream; charset=utf-8")
 	w.Header().Set("Cache-Control", "no-cache")
 	w.Header().Set("Connection", "keep-alive")
 	w.WriteHeader(http.StatusOK)
-	f.Flush()
-
-	parent := r.Context()
-	ctx, cancel := context.WithCancel(parent)
-
-	sse := &sseWriter{
-		ctx:    ctx,
-		cancel: cancel,
-	}
-	if gzw == nil {
-		sse.write = w
-		sse.flush = f
-	} else {
-		sse.write = gzw
-		sse.close = gzw
-		sse.flush = &gzipFlusher{write: gzw, flush: f}
-	}
 
 	return sse
 }
 
-type EventSource interface {
-	io.WriteCloser
-	Done() <-chan struct{}
-	JSON(event string, data any) error
-}
-
-type sseWriter struct {
+type Writer struct {
 	mutex  sync.Mutex
 	write  io.Writer
 	flush  http.Flusher
@@ -66,7 +57,7 @@ type sseWriter struct {
 	cancel context.CancelFunc
 }
 
-func (sw *sseWriter) Write(p []byte) (int, error) {
+func (sw *Writer) Write(p []byte) (int, error) {
 	sw.mutex.Lock()
 	defer sw.mutex.Unlock()
 
@@ -78,7 +69,7 @@ func (sw *sseWriter) Write(p []byte) (int, error) {
 	return n, nil
 }
 
-func (sw *sseWriter) Close() error {
+func (sw *Writer) Close() error {
 	var err error
 	if c := sw.close; c != nil {
 		err = c.Close()
@@ -88,7 +79,7 @@ func (sw *sseWriter) Close() error {
 	return err
 }
 
-func (sw *sseWriter) JSON(event string, data any) error {
+func (sw *Writer) JSON(event string, data any) error {
 	msg, err := json.Marshal(data)
 	if err != nil {
 		return err
@@ -107,11 +98,21 @@ func (sw *sseWriter) JSON(event string, data any) error {
 	return err
 }
 
-func (sw *sseWriter) Done() <-chan struct{} {
+func (sw *Writer) Done() <-chan struct{} {
 	return sw.ctx.Done()
 }
 
-func (sw *sseWriter) writeEvent(evt []byte) error {
+func (sw *Writer) Ping() error {
+	sw.mutex.Lock()
+	_, err := sw.write.Write([]byte(": ping\n"))
+	sw.mutex.Unlock()
+
+	sw.flush.Flush()
+
+	return err
+}
+
+func (sw *Writer) writeEvent(evt []byte) error {
 	_, err := sw.write.Write([]byte("event: "))
 	if err == nil {
 		if _, err = sw.write.Write(evt); err == nil {
@@ -125,7 +126,7 @@ func (sw *sseWriter) writeEvent(evt []byte) error {
 	return err
 }
 
-func (sw *sseWriter) writeData(data []byte) error {
+func (sw *Writer) writeData(data []byte) error {
 	_, err := sw.write.Write([]byte("data: "))
 	if err == nil {
 		if _, err = sw.write.Write(data); err == nil {
