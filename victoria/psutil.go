@@ -1,4 +1,4 @@
-package vmexport
+package victoria
 
 import (
 	"context"
