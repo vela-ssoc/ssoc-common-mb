@@ -1,6 +1,9 @@
 package muxproto
 
-import "errors"
+import (
+	"errors"
+	"net/url"
+)
 
 const (
 	ManagerTLD = "manager.internal"
@@ -26,4 +29,12 @@ func BuildAgentFQDN(host string) string {
 
 func BuildFQDN(host, tld string) string {
 	return host + "." + tld
+}
+
+func BuildAgentURL(host, path string) *url.URL {
+	return &url.URL{
+		Scheme: "http",
+		Host:   BuildAgentFQDN(host),
+		Path:   path,
+	}
 }

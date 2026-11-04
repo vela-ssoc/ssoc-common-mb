@@ -22,3 +22,9 @@ func (n *virtualNode) MUX() muxconn.Muxer { return n.mux }
 func (n *virtualNode) Host() string       { return n.host }
 func (n *virtualNode) FQDN() string       { return n.fqdn }
 func (n *virtualNode) Data() any          { return n.data }
+
+type Info struct {
+	GOOS    string `json:"goos"`
+	GOARCH  string `json:"goarch"`
+	Version string `json:"version"`
+}

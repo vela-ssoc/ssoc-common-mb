@@ -27,6 +27,13 @@ func NewBHub() *SafeMap {
 	}
 }
 
+func NewAHub() *SafeMap {
+	return &SafeMap{
+		tld:   AgentTLD,
+		nodes: make(map[string]Node, 4096),
+	}
+}
+
 func (m *SafeMap) Put(host string, mux muxconn.Muxer, data any) Node {
 	node := m.newNode(host, mux, data)
 

@@ -15,6 +15,7 @@ type BaseDB struct {
 
 	broker                Broker
 	brokerConnectHistory  BrokerConnectHistory
+	certificate           Certificate
 	cmdb                  CMDB
 	cmdbConfig            CMDBConfig
 	managerConfig         ManagerConfig
@@ -33,6 +34,7 @@ func NewBaseDB(db *mongo.Database, log *slog.Logger) *BaseDB {
 
 		broker:                NewBroker(db),
 		brokerConnectHistory:  NewBrokerConnectHistory(db),
+		certificate:           NewCertificate(db),
 		cmdb:                  NewCMDB(db),
 		cmdbConfig:            NewCMDBConfig(db),
 		managerConfig:         NewManagerConfig(db),
@@ -53,6 +55,7 @@ func (b *BaseDB) StartSession(opts ...options.Lister[options.SessionOptions]) (*
 
 func (b *BaseDB) Broker() Broker                               { return b.broker }
 func (b *BaseDB) BrokerConnectHistory() BrokerConnectHistory   { return b.brokerConnectHistory }
+func (b *BaseDB) Certificate() Certificate                     { return b.certificate }
 func (b *BaseDB) CMDB() CMDB                                   { return b.cmdb }
 func (b *BaseDB) CMDBConfig() CMDBConfig                       { return b.cmdbConfig }
 func (b *BaseDB) ManagerConfig() ManagerConfig                 { return b.managerConfig }
