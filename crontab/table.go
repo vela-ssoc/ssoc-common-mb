@@ -76,6 +76,19 @@ func (tbl *Table) Remove(id string) (JobInfo, bool) {
 	return tbl.remove(id)
 }
 
+// Run 立即触发某个任务执行。
+func (tbl *Table) Run(id string) bool {
+	tbl.mutex.RLock()
+	info, exists := tbl.jobs[id]
+	tbl.mutex.RUnlock()
+	if !exists {
+		return false
+	}
+	go info.handle.Run()
+
+	return true
+}
+
 func (tbl *Table) Sweep() []JobInfo {
 	tbl.mutex.Lock()
 	defer tbl.mutex.Unlock()
@@ -104,7 +117,7 @@ func (tbl *Table) addJob(job Jober) (last, curr JobInfo, lastExists bool, err er
 	}
 	opt := sjob.opt
 	id := opt.ID
-	curr = JobInfo{JobOptions: opt}
+	curr = JobInfo{JobOptions: opt, handle: sjob}
 
 	tbl.mutex.Lock()
 	defer tbl.mutex.Unlock()

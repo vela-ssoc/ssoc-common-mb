@@ -119,7 +119,7 @@ func (g *gormHandler) Handle(ctx context.Context, record slog.Record) error {
 	pcs := [13]uintptr{}
 	size := runtime.Callers(6, pcs[:])
 	frames := runtime.CallersFrames(pcs[:size])
-	for i := 0; i < size; i++ {
+	for i := range size {
 		frame, _ := frames.Next()
 		file := frame.File
 		if (!strings.HasPrefix(file, "gorm.io/") || strings.HasSuffix(file, "_test.go")) &&

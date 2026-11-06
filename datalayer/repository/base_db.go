@@ -19,6 +19,7 @@ type BaseDB struct {
 	cmdb                  CMDB
 	cmdbConfig            CMDBConfig
 	managerConfig         ManagerConfig
+	redisConfig           RedisConfig
 	oauthConfig           OAuthConfig
 	reverseProxy          ReverseProxy
 	user                  User
@@ -39,6 +40,7 @@ func NewBaseDB(db *mongo.Database, log *slog.Logger) *BaseDB {
 		cmdbConfig:            NewCMDBConfig(db),
 		managerConfig:         NewManagerConfig(db),
 		oauthConfig:           NewOAuthConfig(db),
+		redisConfig:           NewRedisConfig(db),
 		reverseProxy:          NewReverseProxy(db),
 		user:                  NewUser(db),
 		victoriaMetricsConfig: NewVictoriaMetricsConfig(db),
@@ -60,6 +62,7 @@ func (b *BaseDB) CMDB() CMDB                                   { return b.cmdb }
 func (b *BaseDB) CMDBConfig() CMDBConfig                       { return b.cmdbConfig }
 func (b *BaseDB) ManagerConfig() ManagerConfig                 { return b.managerConfig }
 func (b *BaseDB) OAuthConfig() OAuthConfig                     { return b.oauthConfig }
+func (b *BaseDB) RedisConfig() RedisConfig                     { return b.redisConfig }
 func (b *BaseDB) ReverseProxy() ReverseProxy                   { return b.reverseProxy }
 func (b *BaseDB) User() User                                   { return b.user }
 func (b *BaseDB) VictoriaMetricsConfig() VictoriaMetricsConfig { return b.victoriaMetricsConfig }

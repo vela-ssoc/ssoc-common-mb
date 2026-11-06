@@ -30,6 +30,8 @@ type JobInfo struct {
 	JobOptions
 	Next    time.Time    `json:"next,omitzero"`
 	EntryID cron.EntryID `json:"entry_id"`
+
+	handle *safeJob
 }
 
 type safeJob struct {
