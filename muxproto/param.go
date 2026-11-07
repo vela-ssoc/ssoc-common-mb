@@ -6,8 +6,8 @@ type BrokerAuthRequest struct {
 	Secret     string   `json:"secret"   validate:"required"` // broker 密钥
 	Version    string   `json:"version"  validate:"required"` // broker 版本号
 	Inet       string   `json:"inet"     validate:"required"`
-	Goos       string   `json:"goos"     validate:"required"`
-	Goarch     string   `json:"goarch"   validate:"required"`
+	GOOS       string   `json:"goos"     validate:"required"`
+	GOARCH     string   `json:"goarch"   validate:"required"`
 	PID        int      `json:"pid"`
 	Hostname   string   `json:"hostname"`
 	Workdir    string   `json:"workdir"`

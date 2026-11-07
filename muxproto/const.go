@@ -38,3 +38,11 @@ func BuildAgentURL(host, path string) *url.URL {
 		Path:   path,
 	}
 }
+
+func BuildManagerURL(path string) *url.URL {
+	return &url.URL{
+		Scheme: "http",
+		Host:   BuildManagerFQDN(),
+		Path:   path,
+	}
+}

@@ -7,7 +7,7 @@ import (
 )
 
 type Huber interface {
-	Put(host string, mux muxconn.Muxer, data any) (newly Node)
+	Put(host string, mux muxconn.Muxer, data NodeData) (newly Node)
 	Get(host string) Node
 	Del(host string) (last Node)
 	All() []Node
@@ -34,7 +34,7 @@ func NewAHub() *SafeMap {
 	}
 }
 
-func (m *SafeMap) Put(host string, mux muxconn.Muxer, data any) Node {
+func (m *SafeMap) Put(host string, mux muxconn.Muxer, data NodeData) Node {
 	node := m.newNode(host, mux, data)
 
 	m.mutex.Lock()
@@ -87,7 +87,7 @@ func (m *SafeMap) TLD() string {
 	return m.tld
 }
 
-func (m *SafeMap) newNode(host string, mux muxconn.Muxer, data any) *virtualNode {
+func (m *SafeMap) newNode(host string, mux muxconn.Muxer, data NodeData) *virtualNode {
 	fqdn := BuildFQDN(host, m.tld)
 	return &virtualNode{
 		mux:  mux,

@@ -4,6 +4,7 @@ import (
 	"log/slog"
 	"sync"
 
+	"github.com/NVIDIA/gontainer/v2"
 	"github.com/robfig/cron/v3"
 )
 
@@ -43,7 +44,7 @@ func (tbl *Table) AddJob(job Jober) error {
 	return err
 }
 
-func (tbl *Table) AddJobs(jobs []Jober) error {
+func (tbl *Table) AddJobs(jobs gontainer.Multiple[Jober]) error {
 	for _, job := range jobs {
 		if err := tbl.AddJob(job); err != nil {
 			return err
