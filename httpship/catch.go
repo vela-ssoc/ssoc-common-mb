@@ -1,4 +1,4 @@
-package httpcatch
+package httpship
 
 import (
 	"encoding/base64"
@@ -18,7 +18,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func HandleError(w http.ResponseWriter, r *http.Request, e error) {
+func ErrorHandle(w http.ResponseWriter, r *http.Request, e error) {
 	v := &httpclient.ProblemDetails{
 		Type:     "about:blank",
 		Status:   http.StatusBadRequest,
