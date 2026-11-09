@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"html/template"
 	"io"
 	"net"
 	"net/url"
@@ -393,11 +392,12 @@ func (sdb *storeDB) createHTTP(id string, shared bool, cb string) httpValuer {
 }
 
 func (sdb *storeDB) validateTmpl(id string, data []byte) error {
-	_, err := template.New(id).Parse(string(data))
-	if err != nil {
-		err = fmt.Errorf("store %s 不是一个正确的模板：%s", id, err.Error())
+	tpl := NewTemplate(id)
+	if err := tpl.Parse(string(data)); err != nil {
+		return fmt.Errorf("store %s 不是一个正确的模板：%s", id, err.Error())
 	}
-	return err
+
+	return nil
 }
 
 func (sdb *storeDB) validIP(id string, dat []byte) error {
