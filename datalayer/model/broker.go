@@ -8,6 +8,7 @@ import (
 
 type Broker struct {
 	ID            bson.ObjectID   `bson:"_id,omitempty"           json:"id"`
+	IDV1          int64           `bson:"idv1"                    json:"idv1"`
 	Slug          string          `bson:"slug"                    json:"slug"` // 唯一标识符
 	Name          string          `bson:"name"                    json:"name"`
 	Secret        string          `bson:"secret"                  json:"-"`
@@ -26,8 +27,9 @@ type Broker struct {
 func (Broker) CollectionInfo() (string, string) { return "broker", "中继节点" }
 
 type ExposeAddress struct {
-	Name string `bson:"name" json:"name" validate:"required"`
-	Addr string `bson:"addr" json:"addr" validate:"required"`
+	Name       string `bson:"name"        json:"name"        validate:"required"`
+	Addr       string `bson:"addr"        json:"addr"        validate:"required"`
+	ServerName string `bson:"server_name" json:"server_name"`
 }
 
 type ExposeAddresses []*ExposeAddress

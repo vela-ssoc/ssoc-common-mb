@@ -13,6 +13,7 @@ type BaseDB struct {
 	db  *mongo.Database
 	log *slog.Logger
 
+	agent                 Agent
 	broker                Broker
 	brokerConnectHistory  BrokerConnectHistory
 	certificate           Certificate
@@ -33,6 +34,7 @@ func NewBaseDB(db *mongo.Database, log *slog.Logger) *BaseDB {
 		db:  db,
 		log: log,
 
+		agent:                 NewAgent(db),
 		broker:                NewBroker(db),
 		brokerConnectHistory:  NewBrokerConnectHistory(db),
 		certificate:           NewCertificate(db),
@@ -55,6 +57,7 @@ func (b *BaseDB) StartSession(opts ...options.Lister[options.SessionOptions]) (*
 	return b.db.Client().StartSession(opts...)
 }
 
+func (b *BaseDB) Agent() Agent                                 { return b.agent }
 func (b *BaseDB) Broker() Broker                               { return b.broker }
 func (b *BaseDB) BrokerConnectHistory() BrokerConnectHistory   { return b.brokerConnectHistory }
 func (b *BaseDB) Certificate() Certificate                     { return b.certificate }

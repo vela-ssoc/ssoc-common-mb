@@ -76,16 +76,20 @@ func HandleError(w http.ResponseWriter, r *http.Request, e error) {
 		}
 	}
 
-	_ = writeJSON(w, v)
+	_ = writeJSON(w, r, v)
 }
 
-func writeJSON(w http.ResponseWriter, v *httpclient.ProblemDetails) error {
+func writeJSON(w http.ResponseWriter, r *http.Request, v *httpclient.ProblemDetails) error {
 	code := v.Status
 	if code < http.StatusBadRequest || code >= 600 {
 		code = http.StatusBadRequest
 	}
 	w.Header().Set("Content-Type", "application/problem+json; charset=utf-8")
 	w.WriteHeader(code)
+
+	if r.Method == http.MethodHead {
+		return nil
+	}
 
 	return json.NewEncoder(w).Encode(v)
 }

@@ -1,7 +1,8 @@
 package model
 
+import "go.mongodb.org/mongo-driver/v2/bson"
+
 type BrokerConfig struct {
-	Slug     string                `bson:"-"        json:"slug,omitzero"`
 	Server   *BrokerServerConfig   `bson:"server"   json:"server"`
 	Logger   *LoggerConfig         `bson:"logger"   json:"logger"`
 	Database *BrokerDatabaseConfig `bson:"database" json:"database"`
@@ -21,4 +22,12 @@ type BrokerServerConfig struct {
 type BrokerDatabaseConfig struct {
 	URI string `bson:"uri" json:"uri"` // MongoDB 地址
 	DSN string `bson:"dsn" json:"dsn"` // 关系数据库地址
+}
+
+type BrokerConfigParams struct {
+	ID   bson.ObjectID `json:"id"   validate:"required"`
+	Slug string        `json:"slug" validate:"required"`
+	IDV1 int64         `json:"idv1"`
+	Name string        `json:"name"`
+	BrokerConfig
 }
