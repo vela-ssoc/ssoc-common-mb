@@ -18,6 +18,7 @@ type Broker struct {
 	TunnelStat    *TunnelStat     `bson:"tunnel_stat,omitempty"   json:"tunnel_stat,omitzero"`
 	ExecuteStat   *ExecuteStat    `bson:"execute_stat,omitempty"  json:"execute_stat,omitzero"`
 	ActiveStreams int64           `bson:"active_streams"          json:"active_streams"`
+	CMDB          *NodeCMDB       `bson:"cmdb,omitempty"          json:"cmdb,omitzero"`
 	HeartbeatAt   time.Time       `bson:"heartbeat_at,omitempty"  json:"heartbeat_at,omitzero"`
 	DisconnectAt  time.Time       `bson:"disconnect_at,omitempty" json:"disconnect_at,omitzero"`
 	CreatedAt     time.Time       `bson:"created_at,omitempty"    json:"created_at"`

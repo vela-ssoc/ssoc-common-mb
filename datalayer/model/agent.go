@@ -35,10 +35,10 @@ const (
 )
 
 type BrokerEndpoint struct {
-	ID   bson.ObjectID `bson:"id"   json:"id"`
-	IDV1 int64         `bson:"idv1" json:"idv1"`
-	Slug string        `bson:"slug" json:"slug"`
-	Name string        `bson:"name" json:"name"`
+	ID   bson.ObjectID `bson:"id"   json:"id"`   // 新 ID
+	IDV1 int64         `bson:"idv1" json:"idv1"` // V1 版本 ID
+	Slug string        `bson:"slug" json:"slug"` // 唯一标识
+	Name string        `bson:"name" json:"name"` // 名字
 }
 
 type AgentTag struct {

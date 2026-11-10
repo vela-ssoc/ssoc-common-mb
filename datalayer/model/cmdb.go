@@ -166,7 +166,8 @@ type CMDB struct {
 	GetClientIP   string              `json:"get_client_ip,omitzero"  bson:"get_client_ip"`
 	Certificate   string              `json:"certificate,omitzero"    bson:"certificate"`
 
-	SSOCAgent *SSOCAgentSimple `json:"ssoc_agent,omitempty" bson:"ssoc_agent,omitempty"`
+	SSOCAgent  *CMDBSSOCAgentSimple  `json:"ssoc_agent,omitempty"  bson:"ssoc_agent,omitempty"`
+	SSOCBroker *CMDBSSOCBrokerSimple `json:"ssoc_broker,omitempty" bson:"ssoc_broker,omitempty"`
 
 	// Retirement bool      `json:"retirement" bson:"retirement"           jsonschema:"是否已清退"`
 	CreatedAt time.Time `json:"created_at" bson:"created_at,omitempty" jsonschema:"创建时间"`
@@ -197,11 +198,18 @@ type SimpleDuty struct {
 
 type SimpleDuties []SimpleDuty
 
-type SSOCAgentSimple struct {
-	ID         int64  `bson:"id"          json:"id"`
-	Status     int    `bson:"status"      json:"status"` // 0-离线 1-在线 2-已删除
-	MachineID  string `bson:"machine_id"  json:"machine_id"`
-	Version    string `bson:"version"     json:"version"`
-	BrokerSlug string `bson:"broker_slug" json:"broker_slug"`
-	BrokerName string `bson:"broker_name" json:"broker_name"`
+type CMDBSSOCAgentSimple struct {
+	IDV1      int64           `bson:"idv1"       json:"idv1"`       // V1 版本 ID
+	Status    AgentStatus     `bson:"status"     json:"status"`     // 0-离线 1-在线 2-已删除
+	MachineID string          `bson:"machine_id" json:"machine_id"` // 机器码
+	Version   string          `bson:"version"    json:"version"`    // Agent 版本号
+	Broker    *BrokerEndpoint `bson:"broker"     json:"broker"`     // Agent 所在的中继节点
+}
+
+type CMDBSSOCBrokerSimple struct {
+	ID      bson.ObjectID `bson:"id"      json:"id"`
+	Status  bool          `bson:"status"  json:"status"`
+	Slug    string        `bson:"slug"    json:"slug"`
+	Name    string        `bson:"name"    json:"name"`
+	Version string        `bson:"version" json:"version"`
 }
