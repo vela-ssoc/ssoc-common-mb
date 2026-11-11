@@ -12,7 +12,7 @@ type TTL[T any] struct {
 	fun     func(context.Context) (T, error)
 	nocache NocacheFunc
 	mtx     sync.Mutex
-	ptr     atomic.Pointer[resultHodler[T]]
+	ptr     atomic.Pointer[result[T]]
 }
 
 func NewTTL[T any](ttl time.Duration, fun func(context.Context) (T, error), nocache ...NocacheFunc) *TTL[T] {
@@ -25,8 +25,8 @@ func NewTTL[T any](ttl time.Duration, fun func(context.Context) (T, error), noca
 
 func (c *TTL[T]) Load(ctx context.Context) (T, error) {
 	now := time.Now()
-	if r := c.ptr.Load(); r != nil && r.alive(now) {
-		return r.t, nil
+	if r := c.ptr.Load(); r.isAlive(now) {
+		return r.get()
 	}
 
 	return c.slowLoad(ctx, now)
@@ -40,8 +40,8 @@ func (c *TTL[T]) slowLoad(ctx context.Context, now time.Time) (T, error) {
 	c.mtx.Lock()
 	defer c.mtx.Unlock()
 
-	if r := c.ptr.Load(); r != nil && r.alive(now) {
-		return r.t, nil
+	if r := c.ptr.Load(); r.isAlive(now) {
+		return r.get()
 	}
 
 	t, e := c.fun(ctx)
@@ -51,8 +51,8 @@ func (c *TTL[T]) slowLoad(ctx context.Context, now time.Time) (T, error) {
 	}
 
 	now = time.Now()
-	d := &resultHodler[T]{t: t, expires: now.Add(c.ttl)}
-	c.ptr.Store(d)
+	ret := &result[T]{val: t, err: e, exp: now.Add(c.ttl)}
+	c.ptr.Store(ret)
 
 	return t, e
 }

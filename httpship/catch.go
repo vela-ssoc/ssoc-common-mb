@@ -71,7 +71,7 @@ func ErrorHandle(w http.ResponseWriter, r *http.Request, e error) {
 		switch {
 		case errors.Is(err, gorm.ErrRecordNotFound):
 			v.Detail = "数据不存在"
-		case errors.Is(err, mongo.ErrNilDocument):
+		case errors.Is(err, mongo.ErrNoDocuments):
 			v.Detail = "数据不存在"
 		}
 	}

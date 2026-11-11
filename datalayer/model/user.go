@@ -8,6 +8,7 @@ import (
 
 type User struct {
 	ID        bson.ObjectID `bson:"_id,omitempty"        json:"id"`
+	IDV1      int64         `bson:"idv1"                 json:"idv1"`                // V1 版本 ID
 	Company   string        `bson:"company"              json:"company"`             // 集团-group ,证券-security ,天天基金-ttfund ,期货-futures , 东财基金-dcfund
 	Username  string        `bson:"username"             json:"username"`            // 用户名
 	Nickname  string        `bson:"nickname"             json:"nickname"`            // 昵称

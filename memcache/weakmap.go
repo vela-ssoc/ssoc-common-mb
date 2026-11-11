@@ -10,7 +10,7 @@ type WeakMap[K comparable, T any] struct {
 	fun     func(context.Context, K) (T, error)
 	nocache NocacheFunc
 	mtx     sync.RWMutex
-	idx     map[K]weak.Pointer[resultHodler[T]]
+	idx     map[K]weak.Pointer[result[T]]
 }
 
 func NewWeakMap[K comparable, T any](fun func(context.Context, K) (T, error), nocache ...NocacheFunc) *WeakMap[K, T] {
@@ -26,7 +26,7 @@ func (wm *WeakMap[K, T]) Load(ctx context.Context, k K) (T, error) {
 	wm.mtx.RUnlock()
 	if ok { // 是否已缓存
 		if v := p.Value(); v != nil { // 缓存用的是弱指针，检查是否被回收。
-			return v.t, nil
+			return v.get()
 		}
 	}
 
@@ -53,7 +53,7 @@ func (wm *WeakMap[K, T]) slowLoad(ctx context.Context, k K) (T, error) {
 
 	if p, ok := wm.idx[k]; ok {
 		if v := p.Value(); v != nil {
-			return v.t, nil
+			return v.get()
 		}
 		delete(wm.idx, k) // 弱指针已失效，顺带删除
 	}
@@ -63,9 +63,9 @@ func (wm *WeakMap[K, T]) slowLoad(ctx context.Context, k K) (T, error) {
 		return t, e
 	}
 
-	v := &resultHodler[T]{t: t}
+	v := &result[T]{val: t, err: e}
 	if wm.idx == nil {
-		wm.idx = make(map[K]weak.Pointer[resultHodler[T]], 8)
+		wm.idx = make(map[K]weak.Pointer[result[T]], 8)
 	}
 	wm.idx[k] = weak.Make(v)
 

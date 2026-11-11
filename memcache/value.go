@@ -10,7 +10,7 @@ type Value[T any] struct {
 	fun     func(context.Context) (T, error)
 	nocache NocacheFunc
 	mtx     sync.Mutex
-	ptr     atomic.Pointer[resultHodler[T]]
+	ptr     atomic.Pointer[result[T]]
 }
 
 func NewValue[T any](fun func(context.Context) (T, error), nocache ...NocacheFunc) *Value[T] {
@@ -22,7 +22,7 @@ func NewValue[T any](fun func(context.Context) (T, error), nocache ...NocacheFun
 
 func (c *Value[T]) Load(ctx context.Context) (T, error) {
 	if r := c.ptr.Load(); r != nil {
-		return r.t, nil
+		return r.get()
 	}
 
 	return c.slowLoad(ctx)
@@ -30,7 +30,7 @@ func (c *Value[T]) Load(ctx context.Context) (T, error) {
 
 func (c *Value[T]) Forget() (T, error) {
 	if r := c.ptr.Swap(nil); r != nil {
-		return r.t, nil
+		return r.get()
 	}
 
 	var t T
@@ -43,7 +43,7 @@ func (c *Value[T]) slowLoad(ctx context.Context) (T, error) {
 	defer c.mtx.Unlock()
 
 	if d := c.ptr.Load(); d != nil {
-		return d.t, nil
+		return d.get()
 	}
 
 	t, e := c.fun(ctx)
@@ -51,7 +51,7 @@ func (c *Value[T]) slowLoad(ctx context.Context) (T, error) {
 		return t, e
 	}
 
-	d := &resultHodler[T]{t: t}
+	d := &result[T]{val: t, err: e}
 	c.ptr.Store(d)
 
 	return t, e

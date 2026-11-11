@@ -6,20 +6,6 @@ import (
 	"time"
 )
 
-type resultHodler[T any] struct {
-	t       T         // 结果
-	expires time.Time // 过期时间（仅在 TTL 模式下有效）
-}
-
-func (e *resultHodler[T]) alive(at time.Time) bool {
-	return !e.expires.Before(at)
-}
-
-type entry[K comparable, V any] struct {
-	key   K
-	value V
-}
-
 type NocacheFunc func(err error) bool
 
 func NocacheDeadline(err error) bool {
@@ -32,4 +18,23 @@ func firstNocache(nocache []NocacheFunc) NocacheFunc {
 	}
 
 	return nocache[0]
+}
+
+type result[T any] struct {
+	val T
+	err error
+	exp time.Time
+}
+
+func (r *result[T]) isAlive(now time.Time) bool {
+	return r != nil && r.exp.After(now)
+}
+
+func (r *result[T]) get() (T, error) {
+	return r.val, r.err
+}
+
+type entry[K comparable, V any] struct {
+	key   K
+	value V
 }

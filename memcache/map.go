@@ -9,7 +9,7 @@ type Map[K comparable, T any] struct {
 	fun     func(context.Context, K) (T, error)
 	nocache NocacheFunc
 	mtx     sync.RWMutex
-	idx     map[K]*resultHodler[T]
+	idx     map[K]*result[T]
 }
 
 func NewMap[K comparable, T any](fun func(context.Context, K) (T, error), nocache ...NocacheFunc) *Map[K, T] {
@@ -24,7 +24,7 @@ func (c *Map[K, T]) Load(ctx context.Context, k K) (T, error) {
 	r := c.idx[k]
 	c.mtx.RUnlock()
 	if r != nil {
-		return r.t, nil
+		return r.get()
 	}
 
 	return c.slowLoad(ctx, k)
@@ -49,7 +49,7 @@ func (c *Map[K, T]) slowLoad(ctx context.Context, k K) (T, error) {
 	defer c.mtx.Unlock()
 
 	if r := c.idx[k]; r != nil {
-		return r.t, nil
+		return r.get()
 	}
 
 	t, e := c.fun(ctx, k)
@@ -57,9 +57,9 @@ func (c *Map[K, T]) slowLoad(ctx context.Context, k K) (T, error) {
 		return t, e
 	}
 
-	r := &resultHodler[T]{t: t}
+	r := &result[T]{val: t, err: e}
 	if c.idx == nil {
-		c.idx = make(map[K]*resultHodler[T], 8)
+		c.idx = make(map[K]*result[T], 8)
 	}
 	c.idx[k] = r
 
