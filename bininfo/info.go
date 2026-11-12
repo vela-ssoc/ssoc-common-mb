@@ -20,6 +20,6 @@ type Info struct {
 }
 
 func (inf Info) ANSI(w io.Writer, tpl string) (int, error) {
-	return fmt.Fprintf(w, tpl, inf.Version, inf.Module, inf.GOOS,
+	return fmt.Fprintf(w, tpl, inf.Version, inf.GOOS,
 		inf.GOARCH, inf.Workdir, inf.CommittedAt, inf.Module, inf.Revision)
 }

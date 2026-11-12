@@ -17,6 +17,18 @@ func NewClient(cli *http.Client) Client {
 }
 
 func (c Client) PostJSON(ctx context.Context, addr string, body, result any) error {
+	return c.SendJSON(ctx, http.MethodPost, addr, body, result)
+}
+
+func (c Client) DeleteJSON(ctx context.Context, addr string, body, result any) error {
+	return c.SendJSON(ctx, http.MethodDelete, addr, body, result)
+}
+
+func (c Client) Do(req *http.Request) (*http.Response, error) {
+	return c.sendRequest(req)
+}
+
+func (c Client) SendJSON(ctx context.Context, method, addr string, body, result any) error {
 	var br io.Reader
 	if body != nil {
 		buf := new(bytes.Buffer)
@@ -26,12 +38,12 @@ func (c Client) PostJSON(ctx context.Context, addr string, body, result any) err
 		br = buf
 	}
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, addr, br)
+	req, err := http.NewRequestWithContext(ctx, method, addr, br)
 	if err != nil {
 		return err
 	}
 
-	resp, err := c.send(req)
+	resp, err := c.sendRequest(req)
 	if err != nil {
 		return err
 	}
@@ -39,11 +51,7 @@ func (c Client) PostJSON(ctx context.Context, addr string, body, result any) err
 	return c.marshalJSON(resp, result)
 }
 
-func (c Client) Do(req *http.Request) (*http.Response, error) {
-	return c.send(req)
-}
-
-func (c Client) send(req *http.Request) (*http.Response, error) {
+func (c Client) sendRequest(req *http.Request) (*http.Response, error) {
 	h := req.Header
 	if host := h.Get("Host"); host != "" {
 		req.Host = host

@@ -3,6 +3,7 @@ package muxproto
 import (
 	"errors"
 	"net/url"
+	"strconv"
 )
 
 const (
@@ -39,10 +40,30 @@ func BuildAgentURL(host, path string) *url.URL {
 	}
 }
 
+func BuildBrokerURL(host, path string) *url.URL {
+	return &url.URL{
+		Scheme: "http",
+		Host:   BuildBrokerFQDN(host),
+		Path:   path,
+	}
+}
+
 func BuildManagerURL(path string) *url.URL {
 	return &url.URL{
 		Scheme: "http",
 		Host:   BuildManagerFQDN(),
 		Path:   path,
 	}
+}
+
+func BuildFQDNURL(fqdn, path string) *url.URL {
+	return &url.URL{
+		Scheme: "http",
+		Host:   fqdn,
+		Path:   path,
+	}
+}
+
+func Int64ToHost(i int64) string {
+	return strconv.FormatInt(i, 10)
 }
