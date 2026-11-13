@@ -42,6 +42,7 @@ func (c Client) SendJSON(ctx context.Context, method, addr string, body, result 
 	if err != nil {
 		return err
 	}
+	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := c.sendRequest(req)
 	if err != nil {

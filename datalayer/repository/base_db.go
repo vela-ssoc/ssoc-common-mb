@@ -15,6 +15,8 @@ type BaseDB struct {
 
 	agent                 Agent
 	agentConnectHistory   AgentConnectHistory
+	aiChatMessage         AIChatMessage
+	aiChatSession         AIChatSession
 	broker                Broker
 	brokerConnectHistory  BrokerConnectHistory
 	certificate           Certificate
@@ -37,6 +39,8 @@ func NewBaseDB(db *mongo.Database, log *slog.Logger) *BaseDB {
 
 		agent:                 NewAgent(db),
 		agentConnectHistory:   NewAgentConnectHistory(db),
+		aiChatMessage:         NewAIChatMessage(db),
+		aiChatSession:         NewAIChatSession(db),
 		broker:                NewBroker(db),
 		brokerConnectHistory:  NewBrokerConnectHistory(db),
 		certificate:           NewCertificate(db),
@@ -61,6 +65,8 @@ func (b *BaseDB) StartSession(opts ...options.Lister[options.SessionOptions]) (*
 
 func (b *BaseDB) Agent() Agent                                 { return b.agent }
 func (b *BaseDB) AgentConnectHistory() AgentConnectHistory     { return b.agentConnectHistory }
+func (b *BaseDB) AIChatMessage() AIChatMessage                 { return b.aiChatMessage }
+func (b *BaseDB) AIChatSession() AIChatSession                 { return b.aiChatSession }
 func (b *BaseDB) Broker() Broker                               { return b.broker }
 func (b *BaseDB) BrokerConnectHistory() BrokerConnectHistory   { return b.brokerConnectHistory }
 func (b *BaseDB) Certificate() Certificate                     { return b.certificate }

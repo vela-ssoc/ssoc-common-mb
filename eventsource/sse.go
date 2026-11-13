@@ -13,8 +13,13 @@ import (
 // Accept 将请求转为 sse，如果不符合协议就返回 nil。
 func Accept(w http.ResponseWriter, r *http.Request) *Writer {
 	f, ok := w.(http.Flusher)
-	if !ok || r.Header.Get("Accept") != "text/event-stream" ||
-		r.Header.Get("Cache-Control") != "no-cache" {
+	if !ok {
+		return nil
+	}
+	if !strings.Contains(r.Header.Get("Accept"), "text/event-stream") {
+		return nil
+	}
+	if !strings.Contains(strings.ToLower(r.Header.Get("Cache-Control")), "no-cache") {
 		return nil
 	}
 
@@ -43,6 +48,7 @@ func Accept(w http.ResponseWriter, r *http.Request) *Writer {
 	w.Header().Set("Content-Type", "text/event-stream; charset=utf-8")
 	w.Header().Set("Cache-Control", "no-cache")
 	w.Header().Set("Connection", "keep-alive")
+	w.Header().Set("X-Accel-Buffering", "no") // https://nginx.org/en/docs/http/ngx_http_proxy_module.html
 	w.WriteHeader(http.StatusOK)
 
 	return sse
