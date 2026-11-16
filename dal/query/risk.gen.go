@@ -46,6 +46,9 @@ func newRisk(db *gorm.DB, opts ...gen.DOOption) risk {
 	_risk.Status = field.NewUint8(tableName, "status")
 	_risk.Template = field.NewString(tableName, "template")
 	_risk.Metadata = field.NewField(tableName, "metadata")
+	_risk.DisposalBy = field.NewField(tableName, "disposal_by")
+	_risk.DisposalAt = field.NewField(tableName, "disposal_at")
+	_risk.DisposalOpinion = field.NewString(tableName, "disposal_opinion")
 	_risk.OccurAt = field.NewTime(tableName, "occur_at")
 	_risk.CreatedAt = field.NewTime(tableName, "created_at")
 
@@ -57,28 +60,31 @@ func newRisk(db *gorm.DB, opts ...gen.DOOption) risk {
 type risk struct {
 	riskDo riskDo
 
-	ALL        field.Asterisk
-	ID         field.Int64 // ID
-	MinionID   field.Int64
-	Inet       field.String
-	RiskType   field.String
-	Level      field.Field
-	Payload    field.String
-	Subject    field.String
-	LocalIP    field.String
-	LocalPort  field.Int
-	RemoteIP   field.String
-	RemotePort field.Int
-	FromCode   field.String
-	Region     field.String
-	Reference  field.String
-	SendAlert  field.Bool
-	Secret     field.String
-	Status     field.Uint8
-	Template   field.String
-	Metadata   field.Field
-	OccurAt    field.Time
-	CreatedAt  field.Time // 保存时间
+	ALL             field.Asterisk
+	ID              field.Int64 // ID
+	MinionID        field.Int64
+	Inet            field.String
+	RiskType        field.String
+	Level           field.Field
+	Payload         field.String
+	Subject         field.String
+	LocalIP         field.String
+	LocalPort       field.Int
+	RemoteIP        field.String
+	RemotePort      field.Int
+	FromCode        field.String
+	Region          field.String
+	Reference       field.String
+	SendAlert       field.Bool
+	Secret          field.String
+	Status          field.Uint8
+	Template        field.String
+	Metadata        field.Field
+	DisposalBy      field.Field
+	DisposalAt      field.Field
+	DisposalOpinion field.String
+	OccurAt         field.Time
+	CreatedAt       field.Time // 保存时间
 
 	fieldMap map[string]field.Expr
 }
@@ -114,6 +120,9 @@ func (r *risk) updateTableName(table string) *risk {
 	r.Status = field.NewUint8(table, "status")
 	r.Template = field.NewString(table, "template")
 	r.Metadata = field.NewField(table, "metadata")
+	r.DisposalBy = field.NewField(table, "disposal_by")
+	r.DisposalAt = field.NewField(table, "disposal_at")
+	r.DisposalOpinion = field.NewString(table, "disposal_opinion")
 	r.OccurAt = field.NewTime(table, "occur_at")
 	r.CreatedAt = field.NewTime(table, "created_at")
 
@@ -140,7 +149,7 @@ func (r *risk) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (r *risk) fillFieldMap() {
-	r.fieldMap = make(map[string]field.Expr, 21)
+	r.fieldMap = make(map[string]field.Expr, 24)
 	r.fieldMap["id"] = r.ID
 	r.fieldMap["minion_id"] = r.MinionID
 	r.fieldMap["inet"] = r.Inet
@@ -160,6 +169,9 @@ func (r *risk) fillFieldMap() {
 	r.fieldMap["status"] = r.Status
 	r.fieldMap["template"] = r.Template
 	r.fieldMap["metadata"] = r.Metadata
+	r.fieldMap["disposal_by"] = r.DisposalBy
+	r.fieldMap["disposal_at"] = r.DisposalAt
+	r.fieldMap["disposal_opinion"] = r.DisposalOpinion
 	r.fieldMap["occur_at"] = r.OccurAt
 	r.fieldMap["created_at"] = r.CreatedAt
 }
