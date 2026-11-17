@@ -1,6 +1,6 @@
 module github.com/vela-ssoc/ssoc-common-mb
 
-go 1.26.0
+go 1.26.3
 
 require (
 	github.com/NVIDIA/gontainer/v2 v2.5.1
@@ -16,6 +16,7 @@ require (
 	github.com/lmittmann/tint v1.2.1
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/shirou/gopsutil/v4 v4.26.10
+	github.com/tmc/a2ui v0.5.0
 	github.com/vela-ssoc/vela-common-mba v0.0.0-20251210091356-7c0c9896a277
 	github.com/vela-ssoc/vela-tunnel v0.0.0-20261111054436-3f39d8185b75
 	github.com/xgfone/ship/v5 v5.3.2
