@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/vela-ssoc/ssoc-common-mb/dal/model"
-	"github.com/vela-ssoc/vela-common-mba/netutil"
+	"github.com/vela-ssoc/vela-tunnel/legacy/netutil"
 )
 
 type Client interface {

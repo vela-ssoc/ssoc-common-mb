@@ -6,7 +6,7 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/vela-ssoc/vela-common-mba/netutil"
+	"github.com/vela-ssoc/vela-tunnel/legacy/netutil"
 )
 
 type Searcher interface {

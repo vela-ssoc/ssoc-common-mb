@@ -17,8 +17,7 @@ require (
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/shirou/gopsutil/v4 v4.26.10
 	github.com/tmc/a2ui v0.5.0
-	github.com/vela-ssoc/vela-common-mba v0.0.0-20251210091356-7c0c9896a277
-	github.com/vela-ssoc/vela-tunnel v0.0.0-20261111054436-3f39d8185b75
+	github.com/vela-ssoc/vela-tunnel v0.0.0-20261117070154-465754a5544b
 	github.com/xgfone/ship/v5 v5.3.2
 	github.com/xmx/opengauss v0.0.0-20260824065417-bdbc272b64b5
 	github.com/yeka/zip v0.0.0-20231116150916-03d6312748a9
