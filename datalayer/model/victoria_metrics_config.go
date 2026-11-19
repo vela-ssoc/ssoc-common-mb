@@ -4,25 +4,40 @@ import (
 	"encoding/base64"
 	"net/url"
 	"path"
+	"strconv"
 	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 type VictoriaMetricsConfig struct {
-	ID        bson.ObjectID `bson:"_id,omitempty"        json:"id"`
-	Enabled   bool          `bson:"enabled"              json:"enabled"`
-	Address   string        `bson:"address"              json:"address"`
-	TenantID  string        `bson:"tenant_id"            json:"tenant_id"`
-	Username  string        `bson:"username"             json:"username"`
-	Password  string        `bson:"password"             json:"password"`
-	Headers   HTTPHeader    `bson:"headers,omitempty"    json:"headers"`
-	CreatedAt time.Time     `bson:"created_at,omitempty" json:"created_at"`
-	UpdatedAt time.Time     `bson:"updated_at,omitempty" json:"updated_at"`
+	ID        bson.ObjectID          `bson:"_id,omitempty"        json:"id"`
+	Enabled   bool                   `bson:"enabled"              json:"enabled"`
+	Address   string                 `bson:"address"              json:"address"`
+	Tenant    *VictoriaMetricsTenant `bson:"tenant"               json:"tenant,omitempty"`
+	Username  string                 `bson:"username"             json:"username"`
+	Password  string                 `bson:"password"             json:"password"`
+	Headers   HTTPHeader             `bson:"headers,omitempty"    json:"headers"`
+	CreatedAt time.Time              `bson:"created_at,omitempty" json:"created_at"`
+	UpdatedAt time.Time              `bson:"updated_at,omitempty" json:"updated_at"`
 }
 
 func (VictoriaMetricsConfig) CollectionInfo() (string, string) {
 	return "victoria_metrics_config", "VictoriaMetrics 数据库配置"
+}
+
+type VictoriaMetricsTenant struct {
+	AccountID uint32  `bson:"account_id" json:"account_id"`
+	ProjectID *uint32 `bson:"project_id" json:"project_id"`
+}
+
+func (v VictoriaMetricsTenant) TenantID() string {
+	id := strconv.FormatUint(uint64(v.AccountID), 10)
+	if pid := v.ProjectID; pid != nil {
+		id = id + ":" + strconv.FormatUint(uint64(*pid), 10)
+	}
+
+	return id
 }
 
 func (c VictoriaMetricsConfig) BasicAuth() string {
@@ -44,10 +59,6 @@ func (c VictoriaMetricsConfig) Target() (*url.URL, HTTPHeader, error) {
 	if basic := c.BasicAuth(); basic != "" {
 		header["Authorization"] = basic
 	}
-	if tid := c.TenantID; tid != "" {
-		// https://docs.victoriametrics.com/victoriametrics/vmauth/#auth-config
-		header["X-Scope-OrgID"] = tid
-	}
 
 	return addr, header, nil
 }
@@ -61,9 +72,11 @@ func (c VictoriaMetricsConfig) InsertPrefixPath() string {
 }
 
 func (c VictoriaMetricsConfig) prefixPath(typ string) string {
-	if c.TenantID == "" {
+	if c.Tenant == nil { // 非租户模式没有前缀
 		return ""
 	}
+	tid := c.Tenant.TenantID()
 
-	return path.Join(typ, c.TenantID, "prometheus")
+	// /insert/1/prometheus OR /select/1/prometheus
+	return path.Join(typ, tid, "prometheus")
 }

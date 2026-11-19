@@ -18,6 +18,14 @@ import (
 	"gorm.io/gorm"
 )
 
+func Modify401Response(w *http.Response) error {
+	if w.StatusCode == http.StatusUnauthorized {
+		w.StatusCode = http.StatusBadRequest
+	}
+
+	return nil
+}
+
 func ErrorHandle(w http.ResponseWriter, r *http.Request, e error) {
 	v := &httpclient.ProblemDetails{
 		Type:     "about:blank",

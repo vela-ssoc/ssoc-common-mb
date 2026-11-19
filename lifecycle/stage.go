@@ -38,7 +38,7 @@ func (m *Manager) Append(ss gontainer.Multiple[Stage]) {
 
 func (m *Manager) OnStart(ctx context.Context) error {
 	for _, st := range m.stages {
-		if err := m.call(ctx, st.OnClose); err != nil {
+		if err := m.call(ctx, st.OnStart); err != nil {
 			return err
 		}
 	}

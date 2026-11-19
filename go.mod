@@ -11,7 +11,7 @@ require (
 	github.com/go-playground/locales v0.14.2
 	github.com/go-playground/universal-translator v0.18.2
 	github.com/go-playground/validator/v10 v10.30.6
-	github.com/go-sql-driver/mysql v1.10.1
+	github.com/go-sql-driver/mysql v1.10.2
 	github.com/gorilla/websocket v1.5.3
 	github.com/lmittmann/tint v1.2.1
 	github.com/robfig/cron/v3 v3.0.1
@@ -57,11 +57,11 @@ require (
 	github.com/youmark/pkcs8 v0.0.0-20240726163527-a2c0da244d78 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
 	golang.org/x/crypto v0.59.0 // indirect
-	golang.org/x/exp v0.0.0-20261113113407-e3970619a1a4 // indirect
+	golang.org/x/exp v0.0.0-20261118215729-2791e4028fd4 // indirect
 	golang.org/x/mod v0.43.0 // indirect
 	golang.org/x/sys v0.50.0 // indirect
 	golang.org/x/time v0.16.0 // indirect
-	golang.org/x/tools v0.52.1-0.20261106145633-d407941a339a // indirect
+	golang.org/x/tools v0.53.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect
 	gorm.io/datatypes v1.2.7 // indirect
 	gorm.io/hints v1.1.2 // indirect
