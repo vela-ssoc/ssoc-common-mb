@@ -1,6 +1,9 @@
 package model
 
-import "time"
+import (
+	"strconv"
+	"time"
+)
 
 // Third 3rd 文件表
 type Third struct {
@@ -21,4 +24,15 @@ type Third struct {
 // TableName implement gorm schema.Tabler
 func (Third) TableName() string {
 	return "third"
+}
+
+func (t Third) MediaTypeParam() map[string]string {
+	return map[string]string{
+		"filename":   t.Name,
+		"hash":       t.Hash,
+		"customized": t.Customized,
+		"extension":  t.Extension,
+		"desc":       t.Desc,
+		"id":         strconv.FormatInt(t.ID, 10),
+	}
 }
